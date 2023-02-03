@@ -22,7 +22,6 @@ book:
     - simsynth.qmd
     - larochelle.qmd
     - references.qmd
-    - tables.qmd
 
 bibliography: references.bib
 
