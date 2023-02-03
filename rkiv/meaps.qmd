@@ -75,7 +75,7 @@ bibliography: references.bib
 library(tidyverse) library(ofce) library(showtext) library(markdown) library(gt) sysfonts::font_add_google('Nunito') showtext_opts(dpi = 600) showtext_auto() options(ofce.background_color = "grey97") options(ofce.base_family = "Roboto") options(ofce.base_size = 9)
 ```
 
-Introduction
+## Introduction
 
 Nous nous intéressons à la mobilité de la vie quotidienne et les facteurs qui la détermine.
 Pour cela nous voulons à la fois connaître le nombre de trajets qu'un individu effectue chaque jour ou chaque semaine, mais aussi quelles sont les destinations probables de ces trajets, les modes de transport employés et les temps passés à les effectuer.
@@ -465,7 +465,7 @@ Il est cependant possible de complexifier le modèle en levant ces hypothèses e
 
 Tout d'abord, le paramètre de fuite peut être spécifique à chaque individu.
 Par exemple, le recensement nous permet de mesurer la proportion d'individu, par commune, qui ont un emploi à plus de 100km de leur domicile.
-Cette proportion est faible ($<5\%$ pour une région comme celle étudiée dans l'application à la Rochelle @sec-rochelle) mais peut varier d'une commune à l'autre.
+Cette proportion est faible ($<10\%$ pour une région comme celle étudiée dans l'application à la Rochelle @sec-rochelle) mais peut varier d'une commune à l'autre.
 Ces variations peuvent s'expliquer par une géographie particulière ou par des caractéristiques des individus.
 On peut alors définir une probabilité de fuite $p_{f,i}$ pour chaque individu.
 
@@ -485,7 +485,7 @@ Mais le modèle de base rendant compte d'une baisse de l'absorption au-delà du 
 On peut ainsi modifier les probabilités d'absorption en donnant à un groupe particulier de paires individus emplois plus ou moins de chances d'être absorbé.
 En jouant sur les groupes qui partionnent les paires individus $\times$ emplois on peut augmenter ou réduire le nombre de degré de liberté du système.
 Lorsque seule la probabilité d'absorption est un paramètre, le nombre de dégré de liberté est 1 et le paramètre $p$ est déterminé par la condition d'égalité entre le nombre d'emplois pourvus et d'individus.
-Si on dispose d'une information sur la probabilité de fuite par indidividu ou par groupe d'individus, le nombre de degré de liberté peut être accru par une probabilité de fuite différenciée selon ces groupes.
+Si on dispose d'une information sur la probabilité de fuite par individu ou par groupe d'individus, le nombre de degré de liberté peut être accru par une probabilité de fuite différenciée selon ces groupes.
 On peut encore accroître le nombre de degré de liberté en croisant une probabilité d'absorption par groupes d'emplois et groupes d'individus.
 Le choix de la spécification dépendra de ce que l'on souhaite réaliser et du problème considéré.
 On verra dans la @sec-rochelle une application en recourant à un grand nombre de degré de liberté afin d'ajuster le modèle sur des données détaillées (donnant pour des paires commune de résidence $\times$ commune d'emploi une observation des flux de mobilité professionnels) et de pouv oir procéder à des intrapolations, en projetant les flux à une échelle infra communale tout en respectant les observations, et de pouvoir simuler des scénarios alternatifs en considérant que les $\lambda_{i,j}$ sont constants.

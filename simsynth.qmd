@@ -298,13 +298,13 @@ flux3x3 |>
 )
 ```
 
-Une propriété intéressante des matrices de la @tbl-fluxpond est que les 9 matrices $3 \times 3$ forment un espace vectoriel de dimension 4[^8].
+Une propriété intéressante des matrices de la @tbl-fluxpond est que les 9 matrices $3 \times 3$ forment un espace vectoriel de dimension 4[^simsynth-1].
 Ceci est attendu, puisque les contraintes réduisent la dimension de 9 ($=3\times 3$) à 4, puisqu'il y a 3 contraintes dans chaque dimension (lignes et colonnes) et qu'une est redondante (si les somme sur chaque ligne sont nulles, alors la somme de tous les coefficients est nulle et donc si les sommes sur deux colonnes sont nulles, la troisième l'est nécessairement).
 Cela indique que, au moins localement (au voisinage de la matrice de flux calculée en @tbl-fluxpoles), il est possible de modifier les probabilités d'absorption pour atteindre n'importe quelle matrice de flux.
 A l'approximation linéaire près, il est donc possible de reproduire n'importe quelle structure de flux agrégés par un jeu de paramètres saturant exactement la dimension de cette structure de flux.
 Cette propriété permet d'envisager différentes approches d'estimations, suivant les données dont on dispose et du nombre de degrés de liberté que l'on est prêt à consacrer à la reproduction des données.
 
-[^8]: Les valeurs propres de la matrice $9 \times 9$ constituée des 9 vecteurs colonnes des 9 matrices "dérivées" sont (133.3, 97.3, -28.6, 22.0, 0, 0, 0, 0, 0).
+[^simsynth-1]: Les valeurs propres de la matrice $9 \times 9$ constituée des 9 vecteurs colonnes des 9 matrices "dérivées" sont (133.3, 97.3, -28.6, 22.0, 0, 0, 0, 0, 0).
     Les 5 valeurs propres nulles et les 4 non nulles permettent de conclure que la dimension de l'espace vectoriel engendré par les 9 matrices est 4.
 
 Le temps de calcul peut être assez long du fait de la nécessité de répéter un grand nombre de tirages, mais la section suivante ( @sec-ergemp) montre que ce nombre peut rester raisonnable.
@@ -314,9 +314,9 @@ Une estimation de ce type est mise en oeuvre par une procédure itérative dans 
 
 L'utilisation de données synthétiques permet de tester simplement l'hypothèse d'ergodicité.
 On a conjecturé que les différentes grandeurs moyennes sur les permutations $u$ étaient assimilables à des observations, éventuellement répétées.
-A ce stade de simulations synthétiques nous ne confrontons pas le modèle à des observations (voir @sec-rochelle), mais nous allons montrer que l'estimation des valeurs moyennes ne demande pas l'examen des $I!$ permutations possibles[^9] et peut se contenter d'une agrégation spatiale et de quelques tirages de permutations.
+A ce stade de simulations synthétiques nous ne confrontons pas le modèle à des observations (voir @sec-rochelle), mais nous allons montrer que l'estimation des valeurs moyennes ne demande pas l'examen des $I!$ permutations possibles[^simsynth-2] et peut se contenter d'une agrégation spatiale et de quelques tirages de permutations.
 
-[^9]: Par la formule de Stirling $log_{10}(I!) \approx (n +1/2)log_{10} n +log_{10}\sqrt{2} - n log_{10}e \approx 5\times10^5$ pour $I=10^5$, ce qui fait un nombre de grande taille.
+[^simsynth-2]: Par la formule de Stirling $log_{10}(I!) \approx (n +1/2)log_{10} n +log_{10}\sqrt{2} - n log_{10}e \approx 5\times10^5$ pour $I=10^5$, ce qui fait un nombre de grande taille.
 
 Pour illustrer cette propriété, nous répétons les simulations du modèle pour plusieurs tirages de priorités (notés $u$ dans la section @sec-erg).
 En prenant la moyenne sur un échantillon de $u$, on peut construire un estimateur des grandeurs moyennes et montrer qu'avec un échantillon petit par rapport à $I!$, on peut les estimer avec fiabilité et dans un temps raisonnable.

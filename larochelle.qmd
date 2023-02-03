@@ -52,13 +52,13 @@ La conversion des kilomètres ou des minutes en émissions de CO~2~ pour la voit
 
 La carte de la zone considéré est représentée sur la @fig-zoneslr.
 L'analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour de lieux de résidence.
-Cette carte est construite à partir des données carroyées de l'INSEE @C200 à la résolution du carreau 200m Inspire[^10].
+Cette carte est construite à partir des données carroyées de l'INSEE @C200 à la résolution du carreau 200m Inspire[^larochelle-1].
 Nous ajoutons à ces données la localisation de l'emploi sur la même grille en utilisant les fichiers fonciers et les données d'emplois localisés de @MOBPRO. La méthode consiste à imputer par code NAF les emplois de chaque commune selon @MOBPRO aux surfaces professionnelles à la parcelle issues des fichiers fonciers.
 Cela permet ensuite de localiser au carreau 200m les emplois.
 Cette méthode est assez grossière, puisqu'en particulier la ratio personne/surface n'est pas constant d'une entreprise à l'autre, mais elle fournit une bonne première approximation d'autant que l'extrapolation ne dépasse pas l'échelle de la commune.
 Elle est en tout cas très supérieure à une imputation uniforme.
 
-[^10]: INfrastructure for SPatial InfoRmation in Europe est depuis 2007 une directive pour la production de données spatialisées.
+[^larochelle-1]: INfrastructure for SPatial InfoRmation in Europe est depuis 2007 une directive pour la production de données spatialisées.
     Inspire définit une grille de carroyage et son système de projection harmonisée.
     C'est ce qui suit l'INSEE dans la diffusion des données carroyées.
     Voir https://inspire-geoportal.ec.europa.eu pour la définition de la grille et des jeux de données.
@@ -251,9 +251,9 @@ La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement 
 Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls.
 Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
 
-Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (15 120 $\times$ 15 120 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend quelques dizaine de secondes[^11].
+Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (15 120 $\times$ 15 120 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend quelques dizaine de secondes[^larochelle-2].
 
-[^11]: Autour de mille années de vCPU...
+[^larochelle-2]: Autour de mille années de vCPU...
 
 ```{r actvsfit}
 #| label: fig-actvsfit
@@ -264,11 +264,11 @@ knitr::include_graphics("output/estmeaps.png")
 
 ```
 
-Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les *odd-ratios,* construits comme le ratio des chances ($p_{a,i,j}/(1-p_{a,i,j}$)) estimées dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{i,j}$ sont égaux à 1, en fonction de la distance de la commune de destination à la commune de résidence[^12].
+Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les *odd-ratios,* construits comme le ratio des chances ($p_{a,i,j}/(1-p_{a,i,j}$)) estimées dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{i,j}$ sont égaux à 1, en fonction de la distance de la commune de destination à la commune de résidence[^larochelle-3].
 Ce diagramme, analogue à un spectre, peut aussi être constuit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odd-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle.
 Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odd-ratios* élevés pour des distances importantes
 
-[^12]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée.
+[^larochelle-3]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée.
     La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
 
 ```{r spectreR, results="asis"}
@@ -323,16 +323,16 @@ Nous évaluons ici des scénarios comptatible avec le SCoT sans pour autant nous
 Ainsi, nous analysons les localisations proposées à emploi total constant, c'est-à-dire vues comme des relocalisations de l'emploi vers les zones d'activités depuis leur localisation actuelle.
 
 La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune.
-Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^13] et publiées par l'INSEE.
+Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-4] et publiées par l'INSEE.
 Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
 
-[^13]: https://www.insee.fr/fr/information/2383243
+[^larochelle-4]: https://www.insee.fr/fr/information/2383243
 
 La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune.
-Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^14] et publiées par l'INSEE.
+Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-5] et publiées par l'INSEE.
 Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
 
-[^14]: Autour de mille années de vCPU...
+[^larochelle-5]: Autour de mille années de vCPU...
 
 -   Une fois MEAPS calé sur ces données, nous pouvons analyser des scénarios de déplacement des emplois et en déduire les conséquences en trajets, mode de transport et donc émissions de CO~2~ associé
 
