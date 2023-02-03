@@ -1,0 +1,11 @@
+---
+title: "Tableaux et graphiques"
+---
+
+## Tableaux {.unnumbered}
+
+\listoftables
+
+## Graphiques {.unnumbered}
+
+\listoffigures

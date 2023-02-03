@@ -1,0 +1,24 @@
+/*-- scss:defaults --*/
+/// $body-text-align:           justify !important;
+
+
+/*-- scss:rules --*/
+h1, h2, h3, h4, h5, h6, 
+.no-row-height.column-margin.column-container,
+.quarto-table-caption.margin-caption,
+.figure-caption.margin-caption {
+  text-align: start;
+}
+
+.page-columns.page-full {
+  text-align: justify;
+}
+
+.gt_sourcenotes {
+  text-align: start;
+  color: #6d7a86;
+  font-size: .825rem;
+}
+
+.katex 
+{ font-size: 1.1em !important; } 

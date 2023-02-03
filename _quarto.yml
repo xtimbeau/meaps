@@ -1,0 +1,86 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "MEAPS : Distribution statistique des trajets entre le domicile et le travail"
+  subtitle: "*version provisoire, ne pas citer, ne pas diffuser*"
+  author:
+    - name : Maxime Parodi
+      email: "maxime.parodi@sciencespo.fr"
+      affiliation: OFCE, Sciences po Paris
+    - name: Xavier Timbeau 
+      email: "xavier.timbeau@sciencespo.fr"
+      affiliation: OFCE, Ecole Urbaine, Sciences po Paris
+  date: 02/01/2023
+  output-file: "meaps"
+  cover-image: www/cover.png
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - theorie.qmd
+    - simsynth.qmd
+    - larochelle.qmd
+    - references.qmd
+    - tables.qmd
+
+bibliography: references.bib
+
+author-title: Auteurs
+
+citation:
+  type: article
+  container-title: "Document de travail de l'OFCE"
+  url: https://xtimbeau.github.io/larochelle/radiation/radiation.html
+
+keywords: [ modèle gravitaire, modèle radiatif, mobilités ]
+lang: fr
+crossref:
+  fig-prefix: figure   
+  tbl-prefix: tableau
+  eq-prefix: équation
+  sec-prefix: section
+  fig-title: figure
+  tbl-title: tableau
+  lof-title: Figures
+  lot-title: Tableaux
+comments:
+  hypothesis: true
+logo: www/ofce.png
+format: 
+  html:
+    theme:
+      - litera
+      - www/custom.scss
+    date-modified: today
+    toc: true
+    toc-location: left 
+    number-sections: true
+    number-depth: 3 
+    html-math-method: katex
+    fig-dpi: 600
+    fig-format: png
+    fig-width: 5
+    cap-location: margin
+    reference-location: margin
+    code-tools: true
+  pdf:
+    toc: true
+    toc-depth: 1
+    number-sections: true
+    number-depth: 3 
+    documentclass: scrreprt
+    classoption: 
+    - DIV=9
+    papersize: a4
+    fontsize: 10pt
+    fig-cap-location: bottom
+    include-in-header: 'preamble.tex'
+    extra_dependencies: ["float"]
+    fig-dpi: 600
+    fig-format: png
+  epub:
+    toc: true
+    epub-cover-image: www/cover.png
+
+editor: visual

@@ -1,0 +1,913 @@
+---
+title: "MEAPS : Distribution statistique des trajets entre le domicile et le travail"
+subtitle: "*version provisoire, ne pas citer, ne pas diffuser*"
+author:
+  - name : Maxime Parodi
+    email: "maxime.parodi@sciencespo.fr"
+    affiliation: OFCE, Sciences po Paris
+  - name: Xavier Timbeau 
+    email: "xavier.timbeau@sciencespo.fr"
+    affiliation: OFCE, Sciences po Paris
+author-title: Auteurs
+citation:
+  type: article
+  container-title: "Document de travail de l'OFCE"
+  url: https://xtimbeau.github.io/larochelle/radiation/radiation.html
+date: 01/03/2023
+thanks: |
+  Nous remercions Francesco Pirri et Pablo Vallier pour leur travail durant un stage à l'été 2022. Les discussions et les travaux conduits avec Lucas Pouvrerau, David Miet et Valentin Stuhfault de Villes Vivantes ont été particulièrement fructueuses. L'application à la Rochelle a été en partie financée par l'agglomération de la Rochelle et nous remercions particulièrement Florence Nassiet et Bernard Habbouche et leurs collègues des services de l'aglomération de la Rochelle. L'ensemble des calculs a été réalisé sur la plateforme Nuvolos dont le support technique s'est avéré insdispensable.
+abstract: |
+  Nous proposons un modèle spatial de distribution des trajets entre emploi et résidence. En s'inspirant du modèle "intervening opportunities" de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet d'expliciter complètement des contraintes traitées de façon ad hoc dans la littérature. Le modèle s'accomode de différentes formulations des processus stochastiques fondamentaux qui permettent d'en déduire une procédure d'estimation, tout en conservant un fondement microscopique solide. Une conjecture d'ergodicité, validée sur des simulations numériques, permet de réduire les coûts en temps de calcul, autorisant des applications empiriques.
+keyword: 
+  - "modèle gravitaire"
+  - "modèle radiatif"
+  - "modèle à 4 étapes"
+  - "distribution des trajets"
+lang: fr
+crossref:
+  fig-prefix: figure   
+  tbl-prefix: tableau
+  eq-prefix: équation
+  fig-title: figure
+  tbl-title: tableau
+  lof-title: Figures
+  lot-title: Tableaux
+logo: www/ofce.png
+comments:
+  hypothesis: true
+format: 
+  html:
+    css: www/styles.css
+    date-modified: today
+    toc: true
+    toc-location: left 
+    number-sections: true
+    number-depth: 3 
+    html-math-method: katex
+    fig-dpi: 600
+    fig-format: png
+    fig-width: 5
+    cap-location: margin
+    reference-location: margin
+    code-tools:
+      source: https://github.com/xtimbeau/meaps
+  pdf:
+    toc: true
+    toc-depth: 1
+    number-sections: true
+    number-depth: 3 
+    documentclass: scrartcl
+    classoption: 
+    - DIV=12
+    papersize: a4
+    fontsize: 10pt
+    fig-cap-location: bottom
+    include-in-header: 'preamble.tex'
+    extra_dependencies: ["float"]
+    fig-dpi: 600
+    fig-format: png
+editor: visual
+bibliography: references.bib
+---
+
+```{r init, include = FALSE} knitr::opts_chunk$set( echo = FALSE, warning = FALSE, message = FALSE, fig.pos="htb", out.extra="", dev="ragg_png", out.width="100%", fig.showtext=TRUE, cache=FALSE)}
+
+library(tidyverse) library(ofce) library(showtext) library(markdown) library(gt) sysfonts::font_add_google('Nunito') showtext_opts(dpi = 600) showtext_auto() options(ofce.background_color = "grey97") options(ofce.base_family = "Roboto") options(ofce.base_size = 9)
+```
+
+Introduction
+
+Nous nous intéressons à la mobilité de la vie quotidienne et les facteurs qui la détermine.
+Pour cela nous voulons à la fois connaître le nombre de trajets qu'un individu effectue chaque jour ou chaque semaine, mais aussi quelles sont les destinations probables de ces trajets, les modes de transport employés et les temps passés à les effectuer.
+Cette connaissance suppose une modélisation qui fournit un certain nombre de prédictions que l'on peut confronter à l'information dont on dispose.
+En particulier, on ne dispose pas en général d'une information complète, même sur un échantillon, des trajets effectués pour chaque individu vers chacune des destinations possibles, pour chacun des motifs envisageables.
+On mesure donc soit des distributions de trajets dans la population, par motif et par mode, issues d'enquêtes de déplacement soit des nombre de trajets reliant telle commune de résidence à telle commune d'activité.
+L'information, quoique riche, ne couvre pas toute la complexité du phénomène considéré et la modélisation doit aider à comprendre et à quantifier le lien entre quelques paramètres fondamentaux et les observations.
+
+Intuitivement, l'analyse des trajets doit permettre de relier différentes dimensions de la géographie, de l'endroit où les gens habitent, à celui où ils s'affairent, en intégrant le réseau de transport qui leur permet de se déplacer, plus ou moins rapidement, plus ou moins en sécurité, pour un coût plus ou moins important.
+Puisque l'espace est partagé, on s'attend à ce que la congestion ou la densité des emplois ou des résidences jouent des rôles à un moment ou un autre.
+La modélisation doit permettre, autant que possible, d'intégrer ces couches disparates dans un objet que l'on peut confronter aux données dont on dispose.
+Sur la base de cette modélisation, on doit pouvoir ensuite analyser des changements, que ce soit dans les comportements individuels, dans les masses d'emplois disponibles ou le nombre d'habitants, leur répartition spatiale, ou encore dans la structure du réseau de transport afin de construire des scénarios représentant ce qui pourrait se passer si (on changeait quelque chose).
+La confrontation aux données est alors une étape importante, puisqu'on veut en tirer un diagnostic sur la modélisation et apprécier le potentiel prédictif.
+
+Pour modéliser les trajets entre des lieux de résidence et des lieux d'emploi, on procède usuellement par la méthode à 4 étapes [@patrickbonnel2001; @de2011modelling].
+Cette méthode consiste dans un premier temps à déterminer le nombre de trajets en partance d'un lieu de résidence ainsi que ceux arrivant au total dans un lieu d'activité.
+C'est l'étape 1 de génération des trajets.
+La seconde étape consiste à distribuer les trajets de l'étape 1 entre chaque paire de départ et de destination.
+C'est l'étape de distribution.
+La troisième étape est celle du choix modal, où pour chaque trajet (entre chaque origine et chaque destination) considéré se voit affecté un mode de transport.
+Enfin la quatrième étape du modèle à 4 étapes est celle qui spécifie le trajet et permet d'en connaître les caractéristiques précises, comme la distance parcourue, les axes employées ou les dénivelés effectués.
+Cette décomposition est un peu arbitraire.
+Le nombre de trajets effectué dépend en effet des possibilités ouvertes par la géographie qui sont définies par les caractéristiques précises des trajets.
+L'étape 4 est donc nécessaire pour comprendre l'étape 1, et l'étape 4 demande de connaître les choix modaux pour être utile aux choix fait en 1.
+L'étape 2 est nécessaire pour explorer les possibilités de trajets.
+Les imbrications sont nombreuses entre les étapes et la décomposition n'implique pas l'indépendance.
+
+Nous développons ici un modèle qui permet de distribuer les trajets qui ont été assignés en première étape.
+Le modèle gravitaire est employé généralement dans cette deuxième étape pour prendre en compte le rôle de la distance.
+Plus un emploi est loin, moins il doit être attractif.
+Un individu doit donc préférer les emplois près de lui à ceux qui sont éloignés.
+
+Nous discutons dans une première partie des insuffisances du modèle gravitaire (@sec-grav), puis nous comparons le modèle gravitaire à celui de @stouffer1940 et de @simini2012 qui font intervenir le rang de classement des emplois plutôt que la distance (@sec-rad).
+Nous présentons alors une version étendue de ce modèle "radiatif" qui permet deux résultats principaux : 1.
+au lieu de la distance, c'est le nombre d'emplois accessibles dans un cercle de rayon donné qui détermine le choix individuel.
+2.
+nous explicitons la saturation et nous donnons un fondement microscopique au respect des contraintes aux marges (tout individu a un emploi, tout emploi est occupé par un individu) (@sec-meaps).
+La formulation est probabiliste et nous en analysons quelques propriétés par des simulations synthétiques (@sec-synt).
+Nous proposons ensuite une application à l'agglomération de la Rochelle (@sec-rochelle).
+
+Les insuffisances du modèle gravitaire
+
+Le modèle gravitaire est employé très fréquemment en économie spatiale [@handbook2007, chapitre 2].
+Il semble en effet répondre de façon satisfaisante au premier principe de Tobler (Tout est relié mais les choses proches sont plus reliées que les choses éloignées).
+Il s'appuie également sur une analogie avec le modèle de la gravitation dont les succès en physique et en mécanique sont immenses.
+Ce modèle est généralement la pierre angulaire de l'étape de distribution des trajets dans la décomposition à 4 étapes des modèles de transport [@de2011modelling; @patrickbonnel2001 p.160].
+Il est également utilisé dans d'autres domaines, comme le commerce international ou l'analyse des épidémies, domaines que nous ne discuterons pas ici.
+
+Les (mauvaises) raisons du succès du modèle gravitaire
+
+Formellement, le modèle gravitaire décrit la force d'une relation entre deux objets en fonction de leur distance et de leur masse respective.
+Par analogie, le modèle gravitaire consiste ici à évaluer le nombre de trajets professionnels entre deux localisations en prenant pour masses le nombre d'habitants au point de départ et le nombre d'emplois au point d'arrivée et, pour distance, une fonction $f$ croissante de la distance.
+On a ainsi, en indiçant les points de départ par $i$ et les points d'arrivée par $j$ :
+
+$$
+T_{i,j} = \frac {N_{hab, i}\times N_{emp, j}} {f(d_{i,j})}
+$$
+
+Les premiers modèles gravitaires ont emprunté la fonction $f$ à la physique newtonienne ($f=1/d^2$), mais d'autres formulations ont depuis été proposées.
+Par exemple, la fonction $f=e^{-d/\delta}$ intervient dans les modèles de choix discrets proposés par McFadden [@ben-akiva2018].
+En remplaçant la distance par la notion de coût généralisé du transport, on peut relier cette forme fonctionnelle à un modèle de choix avec une fonction d'utilité aléatoire (random utility model).
+Il est également possible d'ajuster des formes fonctionnelles plus complexes en ajoutant des paramètres.
+Le modèle gravitaire arrive alors à reproduire des distributions de distances observées dans des enquêtes de transport menées de par le monde.
+Un raisonnement par minimisation de l'entropie a été proposé par @wilson1967 pour donner un fondement théorique à l'@eq-gravity.
+Le raisonnement est de considérer l'état de référence comme étant celui qui est le plus fréquent dans une distribution aléatoire des choix.
+@wilson1967 montre alors que, si la fonction $f$ est donnée, l'@eq-gravity a bien la forme proposée et que c'est le produit des habitants et des emplois qui doit se trouver au numérateur (et non une puissance de l'un ou l'autre par exemple).
+Mais rien ne permet de trouver un fondement à la forme fonctionnelle de $f$.
+Le parallèle avec la physique est simple à faire : l'interaction définit le rôle de la distance, la maximisation de l'entropie permet d'en déduire que l'équation macroscopique dépend des masses agrégées, mais ne permet de dire quoique ce soit de plus sur la nature de l'interaction.
+
+Comme le notent @simini2012, les fondations théoriques et empiriques de la fonction $f$ sont donc faibles.
+La multiplication des paramètres pour améliorer l'ajustement n'ont le plus souvent aucune justification théorique.
+De fait, on est parfois plus proche d'un exercice d'interpolation des données que d'un exercice de modélisation où les paramètres ont une signification explicite.
+Les comportements asymptotiques soulignent également des incohérences : par exemple, en faisant tendre vers l'infini les emplois à l'arrivée, le modèle prédit un nombre infini de trajets, même si le nombre de résidents au départ est limité !
+Il est également insatisfaisant que le modèle gravitaire soit déterministe et ne permette ni d'expliquer les fluctuations statistiques du nombre de trajets prédits, ni d'évaluer la vraisemblance de différents cas empirique.
+
+Mais la critique la plus forte du modèle gravitaire vient de ses propriétés fondamentales et des conclusions que l'on peut en tirer.
+Le nombre de trajets entre une origine (la résidence) et une destination (l'emploi) repose sur un simple arbitrage entre distance et quantité de résidents ou d'emplois.
+Le comportement du modèle aux limites, à nouveau, suscite la perplexité : un seul emploi à l'origine devrait être infiniment préféré un très grand nombre d'emplois un peu plus loin.
+C'est tout à fait irréaliste et l'on devine déjà que la distance ne joue pas un rôle si direct dans les comportements de mobilité.
+On voit également que le poids relatif de cet emploi quasi central par rapport aux "masses" d'emplois éloignés va varier de manière irréaliste selon qu'il est plus ou moins proche de l'origine.
+
+Comme le soulignait déjà @stouffer1940, ce n'est peut-être pas tant la distance aux emplois qui est décisive que le rang de ces emplois selon l'ordre des distances.
+Dans le modèle gravitaire, il faut faire une grande différence entre le cas où le deuxième emploi le plus proche est à 500 m et le cas où il est à 1 km.
+Si l'on applique le modèle newtonien, il faudrait croire, par exemple, que l'attractivité de ce dernier emploi est divisée par 4.
+Qui peut croire que les 500 m de différence pèsent d'un si grand poids dans une recherche d'emploi ?
+L'attractivité de l'emploi dépend avant tout du fait qu'il s'agit du deuxième emploi disponible près de chez soi.
+Empiriquement, il y a peu de doutes que le modèle gravitaire a de piètres performances : il ne parvient pas à expliquer pourquoi, lorsque la densité des emplois est faible autour d'un résident, celui-ci va envisager des trajets plus long pour atteindre des zones denses en emplois ; c'est pourtant une observation très commune qui devrait se retrouver dans une modélisation adéquate.
+
+Assez peu de publications se risquent à une comparaison systématique du modèle gravitaire avec d'autres formulations qui respecteraient la première loi de Tobler.
+On peut citer @heanue1966 comme une des rares tentatives de ce genre.
+Le modèle gravitaire semblait moins bon que le modèle des intervening opportunities (voir plus loin) s'il n'était pas ajusté de manière ad hoc, comme il est devenu usuel.
+
+@simini2012 donnent quelques exemples pour les Etats-Unis de la difficulté du modèle gravitaire à reproduire les comportements habituels.
+A l'évidence, le modèle gravitaire ne prédit que des destinations proches et néglige complètement les destinations lointaines.
+Il semble impossible à la forme fonctionnelle $f(d_{ij})$ de rendre compte empiriquement à la fois du nombre de trajets courts et du nombre de trajets distants au travers d'un modèle susceptible de rendre compte des trajets dans différentes régions, dès lors que les densités y sont distribuées différemment.
+
+Le voile de la contrainte aux marges
+
+Le modèle gravitaire peut être complexifié pour mieux coller aux données qu'il ne le fait spontanément.
+Il perd alors tout lien avec les réflexions théoriques le reliant à la maximisation de l'entropie [@wilson1967] ou au modèle de choix discrets.
+L'ajustement du modèle devient un exercice d'interpolation, en s'efforçant de coller autant que possible aux données, sans plus tester réellement un modèle à l'aide de tests de vraisemblance.
+L'exercice consiste ainsi à ajouter une étape de "normalisation" au modèle en incorporant dans le modèle des coefficients correctifs en ligne et en colonne dans la matrice origine-destination, ce qui revient à ajouter des effets fixes à chacun des points de départ et d'arrivée.
+La formulation du modèle gravitaire est alors modifiée comme suit :
+
+$$
+T_{i,j} = a_i \times b_j \times \frac {N_{hab, i}\times N_{emp, j}} {f(d_{i,j})}
+$$
+
+La détermination des coefficients $a_i$ et $b_j$ pose de nombreux problèmes.
+Ces coefficients doivent permettre de respecter les contraintes aux marges (la somme des emplois pour une ligne de résidents doit être égale au nombre des résidents employés dans la zone et la somme des résidents employés sur un lieu d'emploi doit, en colonne donc, être égale au nombre d'emplois en ce lieu) sur les déplacements.
+On a pour $a_i$ :
+
+$$
+a_i = \frac {\Sigma_j T_{i,j}} {\Sigma_j \frac {b_j \times N_{hab, i} \times N_{emp, j}}{f(d_{i,j})}} 
+$$
+
+$\Sigma_j T_{i,j}$ est généralement directement observé ou estimé lors de l'étape de génération dans les approches dites à 4 étapes.
+C'est le nombre de départs depuis le point $i$ et il est proportionnel aux nombre d'actifs résidant en $i$.
+De la même façon on peut écrire pour $b_j$ une expression symétrique de celle de $a_i$, qui fait intervenir $\Sigma_i T_{i,j}$ qui est également observée ou estimé auparavant.
+C'est le nombre de trajets convergeant vers le point d'arrivée $j$, qui est proportionnel au nombre d'emplois en $j$.
+
+$$
+b_j = \frac {\Sigma_i T_{i,j}} {\Sigma_i \frac {a_i \times N_{hab, i} \times N_{emp, j}}{f(d_{i,j})}} 
+$$
+
+La valeur de $a_i$, pour un $i$ donné, dépend de l'évaluation de tous les $b_j$ et réciproquement l'évaluation de chaque $b_j$ dépend de celle de tous les $a_i$.
+On peut estimer ces coefficients par itérations successives et espérer atteindre de cette manière un point fixe, éventuellement unique à une constante multiplicative près.
+Des algorithmes de résolution ont donc été proposés dans les principaux manuels (voir par exemple @de2011modelling, chapitre 5).
+L'application de tels algorithmes (comme celui de Furness, @de2011modelling, p. 192) peut toutefois modifier considérablement le résultat initial proposé par le modèle gravitaire, au risque d'en trahir la logique et les justifications initiales.
+En outre, la multiplicité des solutions et le choix retenu par l'algorithme demeure un angle mort de ces méthodes.
+
+Mais surtout, cette procédure itérative se contente de multiplier par des facteurs arbitraires des lignes et des colonnes de la matrice origine-destination.
+Ceci ne change donc pas les poids relatifs des nombres de déplacements depuis une origine ou vers une destination.
+Or, si l'on pense que le modèle gravitaire estime mal ces poids relatifs, comme nous l'avons affirmé ci-dessus, alors cette normalisation ne change rien sur le fond : une destination éloignée est si fortement pénalisée dans le modèle gravitaire qu'aucun facteur multiplicatif ne peut faire remonter le nombre de trajets vers cette destination, sans faire crever le plafond au nombre de trajets plus proches.
+La procédure de respect des marges aurait pu être formulée différemment, par exemple en utilisant des corrections additives au lieu de corrections multiplicatives ou une combinaison d'additivité et de multiplicativité.
+Chacune de ces procédures manque toutefois de fondement théorique et, en toute généralité, peuvent conduire à des équilibres multiples que l'algorithme de résolution va sélectionner sans que l'on puisse justifier quoi que ce soit.
+
+Le succès du modèle gravitaire découle en partie de cette "plasticité" opérationnelle qui permet de l'appliquer à des observations en respectant certaines contraintes observées tout en laissant croire qu'un fondement théorique continue de justifier les opérations.
+Aussi l'approche gravitaire est-elle largement reprise dans des modèles appliquées (notamment les modèles LUTI) en dépit de ses défauts, peut-être faute de mieux.
+Mais le décalage avec les données rend urgent de dépasser cette approche qui "survit" en se transformant en boîte noire.
+
+Une première alternative : le modèle radiatif
+
+Le modèle radiatif est l'une des rares alternatives au modèle gravitaire [@de2011modelling].
+Il reprend les intuitions de @stouffer1940 avec son modèle des "intervening opportunities", dont la logique est la suivante : un migrant prévoit d'aller dans un endroit distant mais trouve en chemin des opportunités ; il s'interrompt alors en chemin.
+Cette distraction de son objectif initial est le résultat des opportunités rencontrées en chemins, "intervenantes".
+La différence avec le modèle gravitaire est que ce n'est pas la distance qui détermine la destination, mais le nombre de rencontres.
+La distance et la structure géographique continuent de peser indirectement sur le choix des destinations puisque plus le migrant parcourt une grande distance, plus il a de chances de rencontrer des opportunités.
+La modélisation initiale de Stouffer souffre toutefois de quelques défauts et ne résout pas les questions de capacité ou de respect des contraintes sur les marges.
+Mais elle ouvre une autre perspective, où le rôle de la distance est médiatisé par le nombre d'opportunités rencontré.
+
+Avec Stouffer, c'est ainsi une autre métrique qui est proposée en lieu et place de la simple distance spatiale.
+Elle est liée à la notion d'accessibilité, c'est-à-dire au nombre d'emplois (et plus généralement d'opportunités) auxquels à accès un individu pour un temps de trajet ou une distance maximaux fixés.
+Un emploi apparaît ainsi d'autant plus "éloigné" d'un individu qu'il y a d'emplois plus proches de lui.
+Le modèle gravitaire posait que les individus font une grande différence entre le cas où le deuxième emploi disponible est à 500 m et celui où cet emploi est à 1 km.
+Dans la nouvelle perspective, il n'y a pas de différence car il s'agit toujours du second emploi rencontré.
+Autrement dit, la distance est relativisée par la prise en compte du milieu qui est traversé.
+Plus le milieu est riche en opportunités, moins il est nécessaire d'aller loin et, inversement, plus le milieu est désert, plus il faut accepter d'aller loin.
+
+La proposition de @simini2012 répond à certaines failles de @stouffer1940 en proposant un modèle déduit par analogie avec la physique qui explicite le processus sous-jacent.
+L'appellation vient du modèle radiatif qui décrit l'émission de particules et leur absorption par le milieu qu'elle traverse.
+L'intuition est la même que celle de @stouffer1940 : tant qu'une particule ne rencontre pas d'obstacle, elle poursuit son chemin.
+Elle ne s'arrête qu'en rencontrant un site qui peut l'absorber.
+Plus le milieu est dense en obstacles, plus la particule a des chances de s'arrêter.
+Dans ce modèle, la distribution des distances parcourues dépend du milieu et de la quantité de sites d'absorption rencontrés.
+
+Plus précisément, dans le modèle de radiation, chaque particule est tirée aléatoirement d'une distribution de probabilité avec une caractéristique $z$.
+Chaque point d'absorption, qui représente un lieu possible de travail, possède une masse d'emploi $n_i$ et se voit attribuer une caractéristique $z_i$ qui est aléatoire.
+Les lieux possibles sont classés par ordre de distance, comme dans le modèle de @stouffer1940 et la particule les rencontre dans cet ordre.
+Le tirage de $z_i$ est construit en tirant $n_i$ fois des $z$ dans la distribution de probabilité et en prenant le maximum de ces $z$.
+Plus la masse est grande en $i$, plus le $z_{max}$ sera grand.
+La particule émise est absorbée si son $z$ est plus petit que $z_i$.
+Pour représenter que la particule sera émise si elle n'est pas absorbée par son point de départ, son propre $z$ est tiré par la même méthode, c'est-à-dire le maximum de $m_i$ tirages où $m_i$ est la masse d'opportunités en $i$.
+
+Le résultat principal de @simini2012 est particulièrement élégant.
+La valeur moyenne (notée $\langle T_{i,j}\rangle$ ) des trajets partant de $i$ et allant en $j$ a une expression qui ne dépend pas de la distribution de probabilité des $z$.
+Elle prend l'expression suivante, où $s_{i,j}=\Sigma_{k \in (i \rightarrow j)^*} n_k$, la somme des opportunités entre $i$ (non inclus) et $j$ (non inclus) :
+
+$$
+\langle T_{i,j}\rangle = T_i \times \frac {m_i \times n_j}{(m_i + s_{i,j}) \times (m_i + n_i +s_{i,j})}
+$$
+
+A partir d'hypothèses générales assez simples, on obtient une formulation qui s'apparente au modèle gravitaire en remplaçant la distance par l'accumulation des opportunités entre deux points, dès lors que les opportunités sont classées dans l'ordre des distances.
+Cette formulation respecte autant que le modèle gravitaire le premier principe de Tobler, mais elle repose sur des hypothèses explicites et permet de mieux représenter les phénomènes déjà évoqués.
+Un départ dans une zone peu dense produira des trajets plus longs pour trouver un nombre équivalent d'opportunités à des trajets plus courts dans une zone dense.
+De plus, aucune étape de "normalisation" ad hoc n'est requise et le modèle est probabiliste, ce qui permet de produire des marges d'erreurs et des tests empiriques.
+
+Les applications du modèle radiatif à des données diverses (mouvements pendulaires travail-domicile, appels téléphoniques, migrations, logistique) produisent des distributions de trajets plus proches des données que le modèle gravitaire, mettant à mal l'adage selon lequel le modèle gravitaire serait un "bon" modèle, validé par les données.
+
+On notera que le modèle de @simini2012 admet comme cas limite le modèle gravitaire.
+En effet, lorsque la densité d'emplois est uniforme dans le plan, alors l'accumulation des opportunités est proportionnelle à la surface et la moyenne de trajets entre $i$ et $j$ est une fonction en $1/r^4$.
+Ce cas limite montre sous quelle condition (très particulière) le modèle gravitaire peut être valide.
+
+Il subsiste deux défauts au modèle radiatif de @simini2012.
+Le premier est le pendant de son élégance : il n'y a pas de paramètres pour l'ajuster, ce qui limite les capacités du modèle à rendre compte de la richesses des données.
+Si l'on veut un modèle de base simple et clair sur le plan conceptuel, on veut aussi pouvoir enrichir le modèle avec des paramètres qui auraient du sens. Or la seule proposition qu'ils font dans ce sens, en introduisant un $\varepsilon$ pour modifier le poids du point de départ dans le choix des trajets n'y répond que très partiellement.
+
+Le second défaut est que le modèle ne traite pas le respect des contraintes aux marges, en particulier en colonne.
+Dans l'@eq-rad le terme $T_i$ représente le nombre de départs de $i$.
+Il joue le rôle des coefficients $a_i$ dans le modèle gravitaire sous une forme multiplicative simple.
+Son interprétation est directe et simple.
+En revanche, il n'existe pas de pendant aux coefficients $b_j$ et il n'est donc pas possible au modèle de tenir compte d'une contrainte capacitaire : un nombre de particules supérieur au nombre d'emplois peuvent être absorbées en $j$.
+
+Un modèle ergodique d'absorption avec priorité et saturation (MEAPS)
+
+Nous proposons maintenant une version étendue et remaniée de l'approche de @stouffer1940 qui répond aux critiques que nous faisons au modèle de @simini2012.
+Dans cette section, nous présentons le modèle dans sa forme plus simple avant d'en exposer les extensions les plus directes.
+Des simulations synthétiques permettent alors d'apprécier les grandes lignes du fonctionnement de ce modèle.
+Nous discutons ensuite des procédures d'estimation envisageables ainsi que du développement de mesures issues de ce modèle.
+
+Rang, choix des destinations et absorption
+
+On considère $I$ individus et $J$ emplois localisés sur un territoire.
+Ces localisations sont fixes et exogènes, ce qui signifie que l'on ne s'intéresse pas au problème de choix de localisation.
+Non que ce choix ne soit pas important, mais nous nous intéressons à la distribution des trajets, une fois fixées les localisations.
+L'idée est que pour déterminer le choix de localisation, il faudra prendre en compte ce que la distribution des trajets, leur longueur ou le coût généralisé qui leur est associé, nous apprend.
+
+On suppose que toutes les localisations sont séparées et qu'il n'y a donc qu'un individu ou qu'un emploi par localisation (les emplois et les individus peuvent être au même endroit, ça ne change rien).
+Chaque individu $i$ classe par ordre de distance croissante les $J$ emplois et les examine dans cet ordre.
+Il a à chaque fois une probabilité $p_a$ de prendre l'emploi.
+Tant qu'il n'est pas pris, il continue sa recherche en passant à l'emploi suivant le plus proche (de son point de départ).
+La probabilité d'occuper l'emploi $j$ est donc égale à la probabilité de ne pas occuper les emplois plus proches multipliée par la probabilité $p_a$ d'occuper le poste $j$.
+En notant $r_{i}(j)$ le rang de l'emploi $j$ dans le classement des distances depuis $i$, on peut écrire $\bar F(j)$ la probabilité de dépasser le $jème$ élément :
+
+$$
+\bar F(j)=(1-p_a)^{r_i(j)}
+$$
+
+On définit également la probabilité de fuite de la zone considérée.
+Cette probabilité est celle qu'un individu ne trouve pas parmi les $J$ emplois celui qui lui convient et donc qu'il renonce ou cherche plus loin.
+En supposant pour le moment que cette probabilité est la même pour tous les individus, $p_f$, on peut déterminer $p_a$ :
+
+$$
+p_a = 1-(p_f)^{1/J}
+$$
+
+La probabilité $P_i(j)$ de $i$ de s'arrêter en $j$ est :
+
+$$
+P_i(j) = (1-p_a)^{r_i(j)-1} \times p_a = {p_f}^{\frac {r_i(j)-1} {J}} \times (1-{p_f}^{1/J})
+$$
+
+Cette expression définit donc la probabilité pour un individu $i$ d'occuper l'emploi $j$ comme une fonction de la probabilité de fuite, le rang de l'emploi et le nombre total d'emploi.
+La rang de $j$ n'est autre que le nombre d'opportunités cumulées du point de départ de $i$ jusqu'à $j$ et remplace la distance, comme dans les expressions de @stouffer1940 ou de @simini2012.
+Ce nombre n'est autre que l'accessibilité aux emplois de l'individu $i$ dans un cercle de rayon $[ij]$.
+
+Chaque emploi a été supposé distinct spatialement des autres.
+Dans le cas où les emplois ne seraient pas séparés et pourraient s'accumuler en un point ou au sein d'un carreau, la formalisation ne change pas.
+
+La probabilité que l'on s'arrête dans le carreau $c_d$ situé à une distance $d$ de $i$ où se trouvent $k$ emplois se déduit de l'@eq-fbar puisque les $k$ emplois ont des rangs successifs.
+En notant $s_i(d)=\sum _{j/d_{i,j}<d}1$ le cumul de tous les emplois qui sont à une distance strictement inférieure à celle du carreau considéré pour $i$ (et donc à l'exclusion des $k$ emplois du le carreau $c_d$), on a :
+
+$$
+P_i(i\in c_d) = {p_f}^{s_i(d)/J}\times(1-{p_f}^{ k/J})
+$$
+
+En prenant un développement limité au 1er ordre de cette expression (sous l'hypothèse que $k$ est petit devant le nombre total d'opportunités $J$) , on obtient, en notant $\mu=\frac{-log(p_f)}{J}$ :
+
+$$
+P_i(i\in c_d) \approx k\times \mu \times e^{-\mu \times s_i(d)}
+$$
+
+Cette expression fait apparaître clairement le cœur du modèle.
+La proportion d'emplois venant de $i$ dans le carreau est une fonction des emplois dans le carreau multiplié par l'accessibilité jusqu'à ce carreau de $i$.
+
+Lorsque la densité des emplois est constante sur un plan, $s_i(d)$ est proportionnel à la surface et le modèle devient une fonction de la distance avec un terme en $e^{-r^2/\rho^2}$.
+Ici aussi, le comportement de notre modèle rejoint, sous cette condition très particulière d'une répartition homogène des opportunités, celui proposé pour un modèle gravitaire, lorsque celui-ci est spécifié avec une fonction de distance en $e^{-r/\rho}$.
+La forme favorite du modèle gravitaire se justifierait pour une répartition homogène des opportunités le long d'une droite.
+Ce résultat diffère de celui de @simini2012, qui trouvaient un comportement asymptotique en $1/r^4$.
+
+Tout comme dans le modèle de @simini2012, le résultat est sans paramètre, parce que la probabilité de fuite est entièrement déterminée par la contrainte en ligne (l'individu $i$ a une espérance égale à 1 - $p_f$ de trouver un emploi dans la zone considérée).
+
+Saturation et priorité
+
+Il reste encore à prendre en compte la contrainte en colonne, c'est-à-dire le fait que chaque emploi peut être pourvu une fois et une seule.
+Au lieu d'un ajustement ad hoc qui tombe de nulle part, nous proposons le mécanisme suivant de remplissage des emplois : chaque individu $i$ est classé selon un ordre de priorité.
+L'individu au premier rang est confronté à l'ensemble des emplois et nous calculons ses probabilités de prendre un emploi $j$ par la formule précédente (@eq-pij).
+Les emplois sont alors partiellement remplis à proportion de ces probabilités.
+Le deuxième individu est traité de la même manière, et ainsi de suite, jusqu'à ce qu'un ou plusieurs emplois soient totalement pourvu (lorsque la somme des probabilités dépasse tout juste 1).
+On retire alors ces emplois de la liste des choix possibles et on continue l'affectation pour les individus suivants sur la liste réduite.
+A chaque individu ajouté, on peut être amené à retirer d'autres emplois de la liste de recherche.
+
+A la fin de ce processus, tous les individus ont des emplois (à $p_f$ près) et tous les emplois sont pourvus dès lors que l'on pose $I \times p_f = J$.
+Cette attribution avec priorité est Pareto-optimale.
+Il n'est pas possible d'augmenter la satisfaction d'un individu sans dégrader celle d'un autre.
+A chaque étape, chaque individu réalise ses choix sans contrainte autre que l'éventuelle saturation provoquée par ses prédécesseurs.
+Pour augmenter sa satisfaction, c'est-à-dire lui permettre d'occuper en probabilité un emploi mieux classé pour lui, il faudrait dégrader la situation d'un prédécesseur en lui attribuant un emploi plus éloigné pour lui.
+Cette procédure d'affection avantage les premiers du classement, mais tient compte des choix de chacun.
+
+Formellement, on note $\phi_u(i,j)$ la probabilité de disponibilité ($\phi$ vaut 0 si l'emploi est complètement pris) de l'emploi $j$ pour un ordre de priorité donné $u$ au moment où l'individu $i$ doit choisir.
+La probabilité de cet individu $i$ de prendre l'emploi $j$ s'écrit alors :
+
+$$
+P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i^{-1}(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
+$$
+
+Cette expression est rendue complexe par la nécessité de parcourir les emplois dans l'ordre qui correspond à chaque individu.
+La probabilité $p_a$ doit alors être calculée pour que le taux de fuite de $i$ soit inchangé.
+On suppose que les emplois restants demeurent homogènes tout au long du processus d'affectation.
+La probabilité de chacun est donc identique et ajustée d'un facteur multiplicatif $\lambda_{u,i}$.
+Le terme $\lambda_{u,i}$ découle ainsi de l'indisponibilité potentielle des emplois.
+Lorsqu'un emploi est indisponible, l'individu $i$, lorsque c'est son tour de choisir, connait ses cibles potentielles.
+Il ajuste donc sa probabilité d'absorption de façon à respecter la probabilité de fuite.
+Nous choisissons cette option afin de continuer à respecter la contrainte en ligne, qui s'exprime par l'@eq-lambda ci-dessous.
+Ceci signifie qu'un individu a d'autant plus de chances d'accepter un emploi qu'il reste peu de choix.
+
+Une autre solution serait de considérer que la probabilité de fuite n'est pas conservée et que les indisponibilités se traduisent par une fuite plus élevée.
+On peut tout à fait envisager des solutions plus complexes.
+Nous nous en tenons pour l'instant au cas simple où tous les individus ont la même chance de travailler dans la zone considérée.
+Sous cette hypothèse de conservation de la probabilité de fuite, on a :
+
+$$
+\prod_{j=i} ^{J} (1-\lambda_{u,i} \times \phi_u(i,j) \times p_{a})= p_f
+$$
+
+La solution de cette équation est celle d'un polynôme en $\lambda_{u,i}$ d'un ordre élevé.
+Il y a possiblement plusieurs solutions, mais il est nécessaire que $0<\lambda_{u,i}\times p_a<1$, ce qui réduit le nombre de solutions admissibles.
+On peut en produire une solution approchée par un développement limité à l'ordre 1 en prenant le $log$ de l'@eq-lambda :
+
+$$
+p_{a} \times \lambda_{u,i} = \frac {-log(p_f)}{\sum_{j=1} ^{J} \phi_u(i,j)}
+$$
+
+On peut vérifier que $0<\lambda_{u,i}\times p_a<1$ lorsque $J$ est assez grand et que le nombre d'emplois restant demeure élevé (en probabilité) par rapport à $-log(p_f)$.
+
+Ergodicité
+
+Chaque ordre de priorité $u$ définit une trajectoire possible d'affectation des emplois aux résidents (ou l'inverse).
+On aboutit à chaque fois à un état possible de l'appariement résidents-emplois d'où l'on déduit les trajets professionnels.
+Bien entendu, le résultat final dépend de l'ordre de priorité choisi.
+Pour s'en affranchir, la stratégie usuelle en physique statistique consiste à réitérer la procédure pour tous les ordres possibles de priorité et à considérer la moyenne des résultats obtenus sur les $I!$ ordres de priorité possibles.
+
+L'hypothèse ergodique consiste ici à soutenir que cette moyenne sur tous ces ordres de priorité est proche du régime permanent des trajets professionnels sur la zone considérée.
+
+La première grandeur que nous moyennons sur les ordres $u$ est la variable de disponibilités $\phi_u(i,j)$ de l'emploi $j$ pour le résident $i$.
+Cette moyenne $\langle\phi\rangle_u(n,j)$ correspond à la probabilité de disponibilité de l'emploi $j$ pour n'importe quel résident après que $n$ résidents occupent d'ores et déjà un emploi ou ont fuit la zone.
+Cette grandeur ne dépend pas de $i$, mais uniquement du nombre de résidents déjà positionnés.
+
+Un deuxième grandeur nous sera utile.
+Il s'agit de l'accessibilité moyenne aux emplois disponibles.
+On peut noter $A_u(i,k)$ le cumul des emplois qui restent disponibles pour $i$ lorsque $n$ résidents se sont d'ores et déjà positionnés, en comptant les emplois depuis le plus proche de $i$ jusqu'au $k^{ième}$ le plus proche.
+La grandeur qui nous intéresse est la moyenne sur tous les $n$ possibles, soit :
+
+$$
+\langle A \rangle_n(i,k) = \langle\sum_{l=1}^k \langle \phi \rangle_u(n, r_i(k)) \rangle _n
+$$
+
+La particularité de cette accessibilité est qu'à mesure que les emplois sont pris (lorsque $n$ s'accroît), l'accessibilité se restreint puisqu'elle ne retient que la part encore disponible des emplois proches.
+
+Comme précédemment, nous considérons que la probabilité de fuite d'un individu est une constante.
+Dans ce cas, la probabilité d'absorption va augmenter au fur et à mesure que les emplois sont pris : moins il reste d'emplois disponibles, plus un résident est prêt à accepter ceux qui restent.
+La probabilité $P_a$ va donc dépendre de $n$ et s'écrire ici $P_{a,n}$.
+
+Pour un $n$ donné, on a :
+
+$$
+P_f=\prod_{k=1}^J(1-P_{a,n}\times \langle \phi \rangle_u(n, r_i(k))
+$$
+
+En passant en $log$ et en effectuant un développement limité, on obtient :
+
+$$
+log(P_f)=-P_{a,n}\times\sum_{k=1}^J \langle \phi \rangle_u(n,r_i(k))=-P_{a,n}\times(J-(1-P_f)\times n)
+$$
+
+Nous avons alors tous les éléments pour calculer la probabilité $P_n(i,j)$ que le résident $i$ prenne l'emploi $j$ après que $n$ résidents se sont déjà positionnés (cf. @eq-pij).
+En passant alors en $log$, on a :
+
+$$
+log(P_{ij})=log(P_{a,n})+log(\langle\phi \rangle_u(n,j))+\sum_{k=1}^{r_i^{-1}(j)}log(1-P_{a,n}\times \langle \phi \rangle_u(n,r_i(k))
+$$
+
+En faisant un développement limité du dernier terme puis la moyenne sur les $n$, il en découle :
+
+$$
+log(P_{ij})\approx\langle log(P_{a,n})\rangle _n+\langle\langle\phi\rangle_u(n,j)\rangle_n + \langle A\rangle_n(i, r_i^{-1}(j))
+$$
+
+La probabilité $P_{ij}$ s'écrit donc à partir de la probabilité moyenne d'absorption, de l'espérance que l'emploi $j$ est disponible et de l'accessibilité moyenne.
+Sur le plan conceptuel, c'est tout à fait satisfaisant et compréhensible.
+
+Hétérogénéité de la fuite et de l'absorption
+
+Nous avons considéré jusqu'à présent le cas où les individus et les emplois étaient homogènes et indiscernables.
+Cela simplifie le modèle et permet une résolution explicite.
+Il est cependant possible de complexifier le modèle en levant ces hypothèses en introduisant des paramètres interprétables qui permettent une meilleure prédiction et l'extraction d'informations des données.
+
+Tout d'abord, le paramètre de fuite peut être spécifique à chaque individu.
+Par exemple, le recensement nous permet de mesurer la proportion d'individu, par commune, qui ont un emploi à plus de 100km de leur domicile.
+Cette proportion est faible ($<5\%$ pour une région comme celle étudiée dans l'application à la Rochelle @sec-rochelle) mais peut varier d'une commune à l'autre.
+Ces variations peuvent s'expliquer par une géographie particulière ou par des caractéristiques des individus.
+On peut alors définir une probabilité de fuite $p_{f,i}$ pour chaque individu.
+
+Ensuite, le paramètre d'absorption était jusqu'à maintenant identique pour tous les emplois et tous les individus.
+On peut le rendre dépendant des emplois, $p_{a,j}$, pour marquer un effet fixe spécifique à des emplois.
+Le recensement nous donne quelques informations sur les trajets professionnels de commune à commune et, donc, sur l'attractivité différentielle entre communes.
+D'autres données pourraient nous informer à un niveau infra-communal.
+On pourrait aussi vouloir faire dépendre la probabilité d'absorption de caractéristiques observables des emplois.
+Des emplois dans une zone dense en emploi peuvent, au-delà de l'effet masse déjà pris en compte, être plus attractifs que des emplois isolés.
+Dans ce cas, l'absorption dépend de caractéristiques $X$ observées et en spécifiant la forme fonctionnelle de $p_a(X)$ on peut l'estimer de façon à mieux reproduire l'information sur la distribution des déplacements.
+
+Le modèle présenté est suffisamment flexible pour pouvoir rendre compte de phénomènes plus complexes afin de, à la fois, pouvoir exploiter des données riches et modéliser des comportements (de fuite, d'absorption) qui semblent avoir un sens. Si au lieu d'apparier les individus et les emplois, on s'intéresse au cas du choix des écoles, on peut imaginer que l'absorption de l'école la plus proche est élevée, mais que celles de rang supérieur s'effondrent.
+Si l'individu est indifférent aux caractéristiques des écoles, hors leur emplacement, il prend l'école la plus proche.
+Le refus de cette première école peut s'expliquer par une exigence parentale non observable, mais qui se traduit par une distance parcourue plus élevée.
+Mais le modèle de base rendant compte d'une baisse de l'absorption au-delà du premier rang est déjà assez bon.
+
+On peut ainsi modifier les probabilités d'absorption en donnant à un groupe particulier de paires individus emplois plus ou moins de chances d'être absorbé.
+En jouant sur les groupes qui partionnent les paires individus $\times$ emplois on peut augmenter ou réduire le nombre de degré de liberté du système.
+Lorsque seule la probabilité d'absorption est un paramètre, le nombre de dégré de liberté est 1 et le paramètre $p$ est déterminé par la condition d'égalité entre le nombre d'emplois pourvus et d'individus.
+Si on dispose d'une information sur la probabilité de fuite par indidividu ou par groupe d'individus, le nombre de degré de liberté peut être accru par une probabilité de fuite différenciée selon ces groupes.
+On peut encore accroître le nombre de degré de liberté en croisant une probabilité d'absorption par groupes d'emplois et groupes d'individus.
+Le choix de la spécification dépendra de ce que l'on souhaite réaliser et du problème considéré.
+On verra dans la @sec-rochelle une application en recourant à un grand nombre de degré de liberté afin d'ajuster le modèle sur des données détaillées (donnant pour des paires commune de résidence $\times$ commune d'emploi une observation des flux de mobilité professionnels) et de pouv oir procéder à des intrapolations, en projetant les flux à une échelle infra communale tout en respectant les observations, et de pouvoir simuler des scénarios alternatifs en considérant que les $\lambda_{i,j}$ sont constants.
+Dans une publication ultérieure, nous montrerons une détermination parcimonieuse des coefficients correcteurs afin de pouvoir extraire une information pertinente des données de flux entre communes et de pouvoir comparer le pouvoir prédictif de MEAPS à celui d'un modèle gravitaire, à degré de liberté égal.
+
+En indexant par $i$ les probabilités de fuite $p_{f,i}$ et par $i,j$ les coefficients correcteurs $\lambda_{i,j}$, les équations principales du modèle deviennent :
+
+$$
+P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i,r_{u(i)}(l)}. p_{a}.\phi_u(i,r_{u(i)}^{-1}(l))]}
+$$
+
+$$
+\prod _{l=1} ^{J} {[1-\lambda_{i,r_{u(i)}(l)}.p_{a}.\phi_u(i,r_{u(i)}^{-1}(l))]}= p_{f,i}
+$$
+
+Il n'est pas possible de donner une forme réduite de cette dernière expression.
+En revanche, elle est calculable numériquement pour chaque $u$, $i$ et $j$ en fonction des hypothèses du modèle ($p_{f,i}$, $p_{a,j}$, la structure spatiale des résidents et des emplois) et sert de base à l'algorithme de calcul employé dans les simulations présentées dans la section @sec-synt.
+
+Le modèle ainsi construit est flexible puisqu'on peut spécifier des processus de fuite (contrainte en ligne équivalente à la contrainte [-@eq-ai]) et des processus d'absorption qui respecte la contrainte de saturation des emplois (contrainte en ligne équivalente à la contrainte [-@eq-bj]) par le processus de priorité décrit en @sec-priorite.
+Le parcours de toutes les permutations possibles permet de s'affranchir d'un ordre de priorité particulier et de définir une solution moyenne au processus.
+Lorsqu'on analyse le problème avec une grille de taille finie (ou de taille inférieure au nombre $J$ d'opportunités), on peut conjecturer un comportement ergodique des quantités moyennes prédites par le modèle.
+On résout de cette façon explicitement le problème de contrainte aux marges du modèle gravitaire ou du modèle radiatif.
+
+Synthèse de MEAPS
+
+Avant de passer aux simulations, résumons le propos : nous proposons une formulation du problème de distribution des transports qui permet de traiter du respect de la contrainte aux marges avec un processus élémentaire explicite.
+Cela accroît la validité du modèle et sa possible utilisation dans des applications.
+Cela permet également d'utiliser l'information donnée par les contraintes de marge et d'en déduire une série d'indicateurs caractérisant la zone étudiée et les tensions entre l'offre et la demande.
+
+La formulation la plus simple du modèle, correspondant à l'hypothèse d'homogénéité des emplois, d'un processus binaire d'absorption et d'une valeur identique de fuite par individu permet de construire une calibration canonique, qui ne dépend que des paramètres de "masse" et de "distance".
+On peut alors proposer une version plus riche du modèle, en individualisant la probabilité de fuite, en pondérant les probabilités d'absorption ou encore en proposant un processus d'absorption non binaire et paramétrique.
+Ces versions peuvent alors être confrontées aux données disponibles, en contrôlant du risque de sur ajustement et en disposant pour chacun des paramètres d'une une référence canonique.
+
+Comme il est d'usage de le discuter en économie, cette approche est structurelle et donne aux paramètres un statut exogène.
+L'identification sur les données, conditionnellement à ce modèle, peut alors recevoir une interprétation causale.
+
+Simulations numériques synthétiques
+
+Pour étudier quelques unes des propriétés du modèle nous proposons ici d'explorer son comportement sur des données synthétiques.
+Les données synthétiques, générées de façon explicites, permettent de contrôler les variations de paramètres afin d'en isoler les conséquences.
+Ces simulations ne prétendent pas ni à l'exhaustivité ni à la démonstration, mais peuvent servir à appuyer l'intuition.
+L'ensemble de la partie sur les simulations synthétiques est exécutable au sens de [@lasser2020].
+Les codes nécessaires à la reproduction de ces simulations et des graphiques associés sont disponibles sur github.com/xtimbeau/meaps et exécutables librement.
+
+Trois pôles en centre et satellites
+
+Nous construisons un territoire abstrait composé d'un "centre ville" et de "deux périphéries" (@fig-territoire).
+Cette configuration arbitraire nous permet d'évaluer MEAPS en simulant les trajets et leur distribution.
+Chaque individu et chaque emploi sont localisés, distinctement les uns des autres, ce qui permet de calculer des distances euclidiennes entre chaque habitant et chaque emploi et d'en déduire un classement pour chaque habitant sans ambiguïté des emplois en fonction de leur éloignement de chaque résident.
+Tous les emplois sont considérés comme homogènes et on suppose une probabilité de fuite identique de 10% pour tous les individus.
+Les distances entre les pôles sont données dans le @tbl-distances (dans une unité sans intérêt).
+
+{r, echo=FALSE} #\| label: tbl-distances #\| tbl-scap: "Distances entre les pôles" #\| tbl-cap: "Distances entre les pôles"
+
+load("output/dds.rda")
+
+dds \|\> as_tibble(rownames = "gh") \|\> gt() \|\> cols_label(gh = "") \|\> fmt_number(columns = where(is.numeric), decimals =1)
+
+Pour assurer l'égalité entre demandes et offres d'emploi, on tire aléatoirement 4 500 emplois.
+Les trois pôles d'emplois ont les mêmes centres que les pôles d'habitation, mais ont une répartition plus resserrée que pour les habitants.
+Comme indiqué sur la @fig-territoire, les tâches d'emplois 1 à 3 sont respectivement localisés autour des mêmes centres que les zones d'habitation 1 à 3..
+Les pôles périphériques comportent moins d'emplois (5% chacun) que le pôle central (80% de l'emploi total) afin de représenter dans les pôles périphériques des emplois présentiels, liés aux services fournis aux résidents (comme des commerces ou des écoles) et d'une zone d'activité centrale.
+Nous ne faisons aucune distinction de productivité ou de qualification nécessaire pour les emplois.
+Cette hypothèse simplifie la simulation du modèle, mais rien n'empêche de distinguer des catégories d'emplois, des catégories d'habitants ni d'introduire des éléments de choix entre distance et nature de l'emploi.
+Nous ne considérons ici pas le choix de la localisation et considérons toutes les localisations comme exogènes.
+
+Dans l'analyse statistique qui suit, on procédera à une agrégation spatiale en pavant le plan où sont localisés emplois et habitants par des hexagones adjacents.
+Cela correspond à une analyse empirique où les données de localisation sont carroyées.
+
+{r, echo=FALSE} #\| label: fig-territoire #\| fig-scap: "Territoire synthétique (centre + 2 villages)" #\| fig-cap: "Territoire synthétique comportant un centre ville (h1) et deux villages (h2) et (h3). Dans chaque hexagone est indiqué la densité (5 000 habitants). 4 500 emplois avec des proportions d'emplois de 80% dans le centre et de 5% dans les 2 villages (les 10% restant sont la fuite). La dispersion est plus basse pour les emplois. Les densités d'emplois sont représentées dans le panneau de droite en orange."
+
+knitr::include_graphics("svg/gcarte_ss.png")
+
+La @fig-distances simule MEAPS à partir des données de @fig-territoire.
+On obtient pour chaque hexagone où résident des habitants une valeur moyenne de distance jusqu'à leur emploi.
+De la même façon, on calcule pour chaque emploi la distance accomplie en moyenne pour l'atteindre.
+
+{r, echo=FALSE} #\| label: fig-distances #\| fig-scap: "Distances moyenne par habitant et pour un emploi" #\| fig-cap: "On représente sur le panneau de **gauche** les distances moyennes parcourues par les habitants d'un héxagone. La vignette présente la densité des trajets en fonction de la distance(vert). Sur le panneau de **droite** on représente les distances moyennes pour atteindre chaque emploi, ainsi que la densité de ces trajets par distance dans la vignette (orange)"
+
+knitr::include_graphics("output/gdistances.png")
+
+Cette première représentation graphique permet de se représenter le fonctionnement du modèle MEAPS.
+On peut générer une distribution de trajets (dans les vignettes de la @fig-distances).
+Comme la majorité des emplois se trouvent dans le pôle central, les distances moyennes pour les habitants y sont plus faibles que dans les autres pôles.
+Le modèle génère un peu de variance à l'intérieur de chaque pôle.
+On retrouve l'idée que les hexagones d'habitations les plus excentrées génèrent des distances plus importantes.
+La distribution des distances moyennes pour atteindre un emploi est plus resserrée que celle des distances parcourues en moyenne par habitant.
+Les moyennes de ces deux distributions sont égales (par construction).
+
+On peut construire une table des flux entre chaque pôles (@tbl-fluxpoles).
+Le premier élément est de noter que les contraintes aux marges sont parfaitement respectées, ce qui est le principe de construction de MEAPS, les approximations faites dans l'algorithme de résolution restant ici inférieures à $10^{-5}$ au moins.
+Par ailleurs, la table de flux confirme le diagnostic précédent.
+La plupart des habitants de h1 (95%) se rendent dans g1 (le même pôle donc).
+Ce taux d'"auto-emploi" est de 10% à 20% pour les deux autres pôles.
+Cela tient au déséquilibre de localisation des emplois et est une propriété souhaitée du modèle.
+Cela explique en partie la distribution des distances pour les habitants et également le concept réciproque (distances moyenne vers un hexagone d'emplois).
+
+{r, echo=FALSE} #\| label: tbl-fluxpoles #\| tbl-scap: "flux entre pôles" #\| tbl-cap: "flux entre pôles"
+
+load("output/tblflux.rda") flux \|\> gt() \|\> cols_label(gh="")
+
+Pour apprécier le comportement du modèle on peut procéder à une expérience de pensée dans laquelle on éloigne le pôle 3 des deux autres pôles (la distance entre 1 et 3 passe de 0.7 à 1.2 dans cette expérience).
+Le @tbl-fluxpoles2 est obtenu en re-simulant le modèle sur la nouvelle géographie.
+Le résultat est très proche du modèle précédent.
+Les flux entre le pôle 1 et 3 sont marginalement modifiés (de 2 ou 3) alors que ceux entre h1 et e2 ou e3 le sont un peu plus, traduisant des changements de rangs possibles pour les habitants de h1 entre e2 ou e3 (qui est plus loin).
+Ce résultat est conforme à l'intuition et également une propriété souhaitée du modèle.
+Les distributions des distances (sortantes et arrivantes) sont plus largement modifiées, puisque 3 est plus loin de 1 et 2, comme l'indique la @fig-distances2.
+Les habitants de h1 préfèrent e2 à e3 et réduisent un peu leur trajets vers e3 mais augmentent leurs distances.
+L'accroissement de la saturation sur e2 conduit à des trajets vers e3 (de h1, h2 et h3) qui marque la distribution des distances.
+la @fig-denscomp éclaire ce qui se passe par pôle.
+
+{r, echo=FALSE} #\| label: tbl-fluxpoles2 #\| tbl-scap: "flux entre pôles (pôle 3 plus loin)" #\| tbl-cap: "flux entre pôles (pôle 3 plus loin)"
+
+load("output/tblflux.rda") flux2 \|\> gt() \|\> cols_label(gh="")
+
+{r, echo=FALSE} #\| label: fig-distances2 #\| fig-scap: "Distances moyenne par habitant et pour un emploi (3 éloigné)" #\| fig-cap: "Le graphique est construit comme le précédent, le pôle 3 est éloigné de 0.5 (70% plus loin) par rapport à 1."
+
+knitr::include_graphics("output/gdistances2.png")
+
+{r, echo=FALSE} #\| label: fig-denscomp #\| fig-scap: "Densités comparées" #\| fig-cap: "Densités comparées des distances parcourues par habitant entre le scénario de référence et le scénario 'pôle 3 plus loin'. Le trait pointillé est utilisé pour le scénario alternatif."
+
+knitr::include_graphics("output/gdenshabg.png")
+
+Procédure d'estimation
+
+Il est possible de modifier les pondérations des probabilités d'absorption de façon à modifier la table des flux.
+Ceci est illustré dans la table suivante où on a doublé pour chaque paire possible de zone d'habitation et de zone d'emploi la probabilité relative d'absorption.
+La configuration géographique est celle de la @fig-territoire, avec un centre et deux satellites.
+Le centre comporte plus d'emplois que de résidents, ce qui oblige à des flux entrants dans la zone 1 comme indiqués dans la @tbl-fluxpoles.
+On parle de doublement relatif de la probabilité, parce que les contraintes de constance de probabilité de fuite et de saturation des emplois imposent une réduction des probabilités d'absorption des autres emplois, ce qui est assuré dans l'algorithme qui implémente MEAPS.
+
+Le tableau @tbl-fluxpond décrit les variations de flux par rapport à une situation de référence (celle de @tbl-fluxpoles), arrondi à l'entier le plus proche.
+Il y a donc $3 \times 3$ matrices $3 \times 3$.
+Chacune des sous matrice indique les variations de flux pour chaque paire origine destination et il y a 9 possibilités de doublement de la probabilité d'absorption qui constitue les lignes et les colonnes de la matrice englobante.
+On notera que les sommes des colonnes de chaque sous matrice sont nulles, ce qui indique le respect des contraintes en ligne et en colonne.
+
+Conformément à l'intuition et malgré les effets induits par le respect des contraintes en ligne et en colonne, on observe bien que la paire zone d'habitation zone d'emploi qui se voit augmentée en probabilité relative connait des flux supérieurs.
+Pour compenser ces flux supérieurs, dans la même colonne, c'est-à-dire pour les flux en provenance des autres zones d'habitation, on constate systématiquement une diminution des flux en provenance des autres zones d'habitation.
+Symétriquement un accroissement des flux de la zone d'habitation $i$ vers la zone d'emploi $j$ induit toujours une diminution des flux de $i$ vers les autres zones d'emploi.
+
+{r fluxpond, echo=FALSE} #\| label: tbl-fluxpond #\| tbl-scap: "Modification de la probabilité d'absorption" #\| tbl-cap: "Modification de la probabilité d'absorption par groupe. Le tableau représente l'écart entre lesd flux obtenus pour une probabilité d'absorption doublée pour la zone i d'habitation et la zone j d'emploi, pour chaque paire de zones habitation/emploi. La première matrice en haut à gauche indique donc que le flux entre la zone 1 d'habitation et la zone 1 d'emploi est accru de 39 lorsque la probabilité d'absorption reletive est doublée. Pour compenser ce flux plus important entre 1 et 1, le flux en la zone d'habitation 2 et l'emploi 1 est réduit de 20, ce qui implique à son tour que ceux entre 2 et 2 et entre 2 et 3 s'accroissent."
+
+load("output/flux3x3.rda") flux3x3
+
+Une propriété intéressante des matrices de la @tbl-fluxpond est que les 9 matrices $3 \times 3$ forment un espace vectoriel de dimension 4.
+Ceci est attendu, puisque les contraintes réduisent la dimension de 9 ($=3\times 3$) à 4, puisqu'il y a 3 contraintes dans chaque dimension (lignes et colonnes) et qu'une est redondante (si les somme sur chaque ligne sont nulles, alors la somme de tous les coefficients est nulle et donc si les sommes sur deux colonnes sont nulles, la troisième l'est nécessairement).
+Cela indique que, au moins localement (au voisinage de la matrice de flux calculée en @tbl-fluxpoles), il est possible de modifier les probabilités d'absorption pour atteindre n'importe quelle matrice de flux.
+A l'approximation linéaire près, il est donc possible de reproduire n'importe quelle structure de flux agrégés par un jeu de paramètres saturant exactement la dimension de cette structure de flux.
+Cette propriété permet d'envisager différentes approches d'estimations, suivant les données dont on dispose et du nombre de degrés de liberté que l'on est prêt à consacrer à la reproduction des données.
+
+Le temps de calcul peut être assez long du fait de la nécessité de répéter un grand nombre de tirages, mais la section suivante ( @sec-ergemp) montre que ce nombre peut rester raisonnable.
+Une estimation de ce type est mise en oeuvre par une procédure itérative dans la section @sec-rochelle, permettant de reproduire à l'aide de MEAPS les données issues de l'enquête mobilités professionnelles @MOBPRO avec un schéma de calcul qui peut se mettre facilement en œuvre.
+
+Ergodicité en pratique
+
+L'utilisation de données synthétiques permet de tester simplement l'hypothèse d'ergodicité.
+On a conjecturé que les différentes grandeurs moyennes sur les permutations $u$ étaient assimilables à des observations, éventuellement répétées.
+A ce stade de simulations synthétiques nous ne confrontons pas le modèle à des observations (voir @sec-rochelle), mais nous allons montrer que l'estimation des valeurs moyennes ne demande pas l'examen des $I!$ permutations possibles et peut se contenter d'une agrégation spatiale et de quelques tirages de permutations.
+
+Pour illustrer cette propriété, nous répétons les simulations du modèle pour plusieurs tirages de priorités (notés $u$ dans la section @sec-erg).
+En prenant la moyenne sur un échantillon de $u$, on peut construire un estimateur des grandeurs moyennes et montrer qu'avec un échantillon petit par rapport à $I!$, on peut les estimer avec fiabilité et dans un temps raisonnable.
+Cette propriété sera montrée sur la structure géographique particulière que nous avons synthétisée, sans que cela permette de le généraliser avec certitude.
+Il existe sans doute des configurations spatiales pathologiques qui contredisent cette conjecture.
+
+La @fig-emperg illustre les processus stochastiques à l'œuvre dans le modèle et leur résolution par la moyennisation sur les tirages possibles.
+On applique le modèle en tirant aléatoirement des permutations de priorité de choix.
+On représente alors pour quelques hexagones d'habitation (tirés au sort) l'ensemble des choix de destination (carroyés dans les hexagones).
+Le carroyage opère déjà une moyennisation puisque chacun des individus de chaque hexagone a un ordre de priorité différent.
+On représente alors les quantités d'emplois (la probabilité de choisir comme emploi un emploi qui se trouve dans l'hexagone d'arrivée).
+Les lignes blanches illustrent la dépendance au tirage de priorité.
+Mais au bout de quelques tirages, ces probabilités convergent en moyenne.
+Pour simuler le modèle, il n'est pas nécessaire (en toute vraisemblance) de parcourir l'univers entier des permutations.
+
+{r, echo=FALSE} #\| label: fig-emperg #\| fig-scap: "Affectation de l'emploi pour des carreaux de départ" #\| fig-cap: "Chaque ligne blanche représente pour un carreau de départ et d'arrivée (tous les carreaux d'arrivée sont représenté par une ligne, pour une sélection aléatoire de 4 carreaux de départ) la probabilité de prendre l'emploi dans le carreau d'arrivée en fonction du tirage aléatoire. Les lignes vertes représentent cette même probabibilité prise en moyenne sur les tirages cumulés. L'échelle de l'axe des y est logarithmique." knitr::include_graphics("output/gemploi_erg.png")
+
+Le schéma de saturation et de priorité est illustré par la @fig-rangerg ci-dessous.
+Pour chaque carreau d'arrivée (un emploi), on représente le rang moyen (gauche) et son écart type (droite) au moment de la saturation.
+La caractère stochastique découle du tirage aléatoire de l'ordre de chaque individu (les carreaux de départ).
+Pour la plupart des emplois, le rang moyen de saturation ergodique est atteint très rapidement.
+Trois bandes blanches apparaissent sur le graphique.
+Pour beaucoup d'emplois le rang moyene est le même et relativement élevé.
+Pour quelques emplois le temps de convergence vers un état indépendant des tirages est plus long.
+Pour un grand nombre de destinations, l'écart type est faible.
+Ces graphiques confirment qu'à quelques exceptions, l'état du système est stable après quelques tirages et le calcul de la moyenne.
+
+{r, echo=FALSE} #\| label: fig-rangerg #\| fig-scap: "Rang au moment de la saturation" #\| fig-cap: "Chaque ligne blanche représente pour un carreau d'arrivée (tous les carreaux d'arrivée sont représenté par une ligne) le rang moyen (panneau gauche) et l'écart type du rang (panneau de droite)."
+
+knitr::include_graphics("output/g_rangns.png")
+
+La @fig-fluxerg est construite en simulant 500 tirages de priorité et en calculant les flux entre pôles.
+A ce niveau d'agrégation, plus aucune variance ne subsiste et un très faible nombre de tirages est nécessaire pour pouvoir quantifier les flux.
+On a la une illustration de la nature ergodique du modèle.
+L'estimation telle que présentée en @sec-estimation peut ainsi fonctionner y compris si on ne réalise que quelques tirages aléatoires des priorités.La @fig-fluxerg est construite en simulant 500 tirages de priorité et en calculant les flux entre pôles.
+A ce niveau d'agrégation, plus aucune variance ne subsiste et un très faible nombre de tirages est nécessaire pour pouvoir quantifier les flux.
+On a la une illustration de la nature ergodique du modèle.
+L'estimation telle que présentée en @sec-estimation peut ainsi fonctionner y compris si on ne réalise que quelques tirages aléatoires des priorités.
+
+Le rang moyen au moment de la saturation est un objet qui peut être utilisé pour construire un indicateur localisé de tension.
+
+{r, echo=FALSE} #\| label: tbl-fluxpoles_conf #\| tbl-scap: "flux entre pôles, intervalles de confiance" #\| tbl-cap: "flux entre pôles, intervalles de confiance"
+
+load("output/fluxsq.srda") fluxsq \|\> gt() \|\> cols_label(gh="") \|\> cols_align(columns = -gh, align ="center") \|\> tab_source_note(source = "Source: MEAPS, intervalle de confiance à 90%")
+
+Une application à l'agglomération de La Rochelle
+
+Nous proposons ici une première application de MEAPS à l'agglomération de la Rochelle.
+Cette application est issue d'un travail de quantification de scénarios de politiques publiques visant à réduire l'empreinte carbone associée aux mobilités quotidiennes et au secteur résidentiel.
+La quantification demande à la fois de produire une cartographie très fine des émissions, en procédant par interpolation à partir de données plus macroscopiques mesurées par ailleurs et d'être en mesure de produire des évaluations des différences d'émissions localement et à l'échelle du territoire selon les différents scénarios.
+Nous présentons ici deux familles de scénarios pour lesquelles MEAPS a été mobilisé :
+
+Des scénarios de localisation de l'emploi : nous projetons la distribution des trajets en utilisant MEAPS sur deux structures spatiales de l'emploi différentes, tout en conservant la même quantité d'emploi globale.
+La différence entre les kilomètres parcourus suivant les différents modes dans les deux scénarios permet d'évaluer l'impact de la localisation, en distinguant la contribution du changement modal, la contribution des changements de distance pure (à mode et flux carreaux à carreaux inchangés) et la contribution des changements de flux.
+
+Des scénarios de modification de la structure du réseau de transport.
+Le principe est identique à celui pour la localisation de l'emploi.
+C'est la matrice des distances et des temps qui est modifiée par une modification des infrastructures de transports (par exemple une ligne de bus en plus).
+Cette matrice de distance différente induit des temps de trajet plus petits mais uniquement pour le mode transport en commun.
+Elle induit un changement modal (plus de transport en commun, moins des autres modes) et enfin conduit à un changement des rangs des opportunités et donc une redistribution des flux de carreau à carreau.
+
+Dans les deux familles de scénarios, les simulations par MEAPS permettent de construire un contrefactuel et des alternatives à un niveau fin, croisant la localisation au carreau 200m pour les résidences (5 456 carreaux pour la Rochelle et le périmètre du SCOT) et les opportunités (6 326 carreaux dans le périmètre de 33km autour de l'agglomération de la Rochelle), soit 34,5 millions de flux et de modes.
+L'agrégation de ces informations est alors possible à des niveaux plus généraux pour analyser les impacts.
+La conversion des kilomètres ou des minutes en émissions de CO2 pour la voiture est faite en appliquant des coefficients de conversion conventionnels, ce qui permet d'étendre les indicateurs au champ des émissions de gaz à effet de serre.
+
+Emplois, résidents au carreau Inspire 200m
+
+La carte de la zone considéré est représentée sur la @fig-zoneslr.
+L'analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour de lieux de résidence.
+Cette carte est construite à partir des données carroyées de l'INSEE @C200 à la résolution du carreau 200m Inspire.
+Nous ajoutons à ces données la localisation de l'emploi sur la même grille en utilisant les fichiers fonciers et les données d'emplois localisés de @MOBPRO.
+La méthode consiste à imputer par code NAF les emplois de chaque commune selon @MOBPRO aux surfaces professionnelles à la parcelle issues des fichiers foncier s.
+Cela permet ensuite de localiser au carreau 200m les emploi s.
+Cette méthode est assez grossière, puisqu'en particulier la ratio personne/surface n'est pas constant d'une entreprise à l'autre, mais elle fournit une bonne première approximation d'autant que l'extrapolation ne dépasse pas l'échelle de la commun e.
+Elle est en tout cas très supérieure à une imputation uniform e.
+
+{r, echo=FALSE, fig.height= 8} #\| label: fig-zoneslr #\| fig-scap: "Localisation des résidents et des emplois" #\| fig-cap: "Localisation es emplois et des résidents, zones de la Rochelle. Le périmètre de du SCOT de la Rochelle est indiqué ainsi que les limites administratives des communes et des EPCI le composant. Sources : OSM, Mapbox, IGN, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+
+knitr::include_graphics("output/popemp.png")
+
+Calcul des distances par mode
+
+Un ingrédient important de l'analyse du territoire est la prise en compte des distances entre chaque paire possible résidence/emploi.
+Contrairement à l'analyse synthétique, nous ne nous contentons pas de la distance euclidienne.
+
+Pour ce faire nous calculons à partir d'un calculateur d'itinéraire les distances et surtout les temps de transport pour 4 modes (voiture, vélo, transport en commun, marche à pied).
+Les temps de transport calculés pour chaque paire de carreaux de résidence et d'emploi, en retenant le centre des carreaux, tiennent compte des différentes contraintes de circulation (vitesses limites pour la voiture, sens de circulation, pénalité pour changement de direction, accès autorisé ou restreint suivant le mode, stress à vélo) .
+Concernant les déplacements en voiture, nous ne prenons pas en compte à ce stade la congestion .
+Concernant les transports en commun, le niveau de détail est assez grand, puisque les fréquences de voyages ainsi que les correspondances sont prises en compte .
+Dans certaines villes, il est possible d'accéder à une information sur les temps de parcours effectifs (mesurant ainsi la congestion ou la disponibilité du réseau) en complément des horaires théoriques .
+Ces informations ne sont pas disponible pour l'agglomération de la Rochelle et donc cette possibilité n'est pas explorée .
+L'accès aux données GTFS impose quelques limites, comme par exemple la non prise en compte des réseaux scolaires ou d'autres réseaux locaux ou privés non publiés sous ce format .
+La modification du réseau de transport comme l'ouverture d'une ligne ou l'accroissement de fréquence est pris en compte en modifiant la matrice des distances et temps par mode entre chaque carreau de résidence et chaque carreau de destination .
+Dans le cas de l'agglomération de la Rochelle, le nombre de paires calculés est de l'ordre de 16 million s
+
+Pour ce faire nous calculons à partir d'un calculateur d'itinéraire les distances et surtout les temps de transport pour 4 modes (voiture, vélo, transport en commun, marche à pied).
+Les temps de transport calculés pour chaque paire de carreaux de résidence et d'emploi, en retenant le centre des carreaux, tiennent compte des différentes contraintes de circulation (vitesses limites pour la voiture, sens de circulation, pénalité pour changement de direction, accès autorisé ou restreint suivant le mode, stress à vélo) .
+Concernant les déplacements en voiture, nous ne prenons pas en compte à ce stade la congestion .
+Concernant les transports en commun, le niveau de détail est assez grand, puisque les fréquences de voyages ainsi que les correspondances sont prises en compte .
+Dans certaines villes, il est possible d'accéder à une information sur les temps de parcours effectifs (mesurant ainsi la congestion ou la disponibilité du réseau) en complément des horaires théoriques .
+Ces informations ne sont pas disponible pour l'agglomération de la Rochelle et donc cette possibilité n'est pas explorée .
+L'accès aux données GTFS impose quelques limites, comme par exemple la non prise en compte des réseaux scolaires ou d'autres réseaux locaux ou privés non publiés sous ce format .
+La modification du réseau de transport comme l'ouverture d'une ligne ou l'accroissement de fréquence est pris en compte en modifiant la matrice des distances et temps par mode entre chaque carreau de résidence et chaque carreau de destination .
+Dans le cas de l'agglomération de la Rochelle, le nombre de paires calculés est de l'ordre de 16 millions .
+
+A partir des temps de trajets par mode, nous appliquons un modèle de choix discret, à la McFadden, estimé sur l'enquête mobilité des personnes 2019 @MOBPERS en utilisant les données de mobilités professionnelles @MOBPRO pour caler les flux commune à commune.
+L'estimation de ce modèle est détaillée dans un autre document (référence à insérer).
+
+Les distances entre chaque paire de cases permettent de calculer un indicateur d'accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans MEAPS, en remplaçant la distance par la somme des opportunités en deçà d'un seuil de temps.
+La carte de la @fig-4access représente les temps pour accéder à 10 000 emplois en utilisant différents modes de transport.
+
+{r carte_access, echo = FALSE} #\| label: fig-4access #\| fig-scap: "Accessibilité à 10 000 emplois pour la Rochelle" #\| fig-cap: "Temps d'accès à 10 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. Sources : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+
+knitr::include_graphics("output/access_4modes.png")
+
+Les courbes d'accessibilité de la @fig-comaccess sont construite en prenant la moyenne par commune de résidence des temps d'accès pour les différents seuils d'emplois.
+C'est cette courbe qui découle du modèle théorique présenté plus haut (@sec-meaps) et qui détermine les choix individuels de déplacement comme de localisation.
+Ces courbes font apparaître une propriété propre aux villes littorales : si pour des temps courts ou des moyens de transport peu rapide, l'accès à l'emploi pour des temps courts est maximal à la Rochelle, en revanche, d'autres communes jouissent d'une position plus centrale lorsqu'on accepte des temps de trajets supérieurs à 30 minutes en voiture.
+
+{r courbe_access, echo= FALSE} #\| label: fig-comaccess #\| fig-scap: "Accessibilité par communes pour la Rochelle" #\| fig-cap: "Courbe du temps d'accès aux emplois. Pour chaque commune, on calcule la médianne, pondérée par le nombre d'habitants par carreau, du temps d'accès à différents seuils d'emplois. Cela permet de caractériser les communes par leur accessibilité à l'emploi, une mesure plus pertinente de la 'distance à l'emploi'. Calcul des auteurs. Sources : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+
+knitr::include_graphics("output/access_par_com.png")
+
+Ajustement de MEAPS sur MOBPRO
+
+La construction de la matrice de distance permet d'utiliser MEAPS pour déduire les flux carreau à carreau.
+Mais le fichier détail du recensement et son volet mobilités professionnelles nous donnent une information supplémentaire que nous pouvons utiliser pour calibrer au plus près des données MEAPS.
+Les mobilités professionnelles décrivent pour chaque paire de commune résidence-emploi les flux de mobilités professionnelles (de nombreuses paires de communes ont des flux nuls).
+Cette information est équivalente à celle produite par MEAPS mais agrégée au niveau communal.
+Une première stratégie de calage de MEAPS est d'affecter aux probabilités d'absorption un facteur correcteur pour reproduire le plus fidèlement possible les flux agrégés de @MOBPRO.
+Cette approche permet ensuite d'utiliser MEAPS sur les données @MOBPRO pour réaliser une interpolation infra-communale des déplacements, au carreau 200m.
+En accédant à ce niveau de détail, nous pouvons ensuite mobiliser la méthode de calcul des distances et des temps de trajets à une échelle fine pour produire des différences au carreau 200m.
+Dans une autre approche, plus parcimonieuse, on pourrait limiter le nombre de paramètres estimés pour MEAPS, afin d'une apprécier la qualité prédictive et le comparer à une autre approche.
+Nous détaillerons cette autre approche dans un futur document.
+
+La modification des probabilités d'absorption est faite par l'ajout d'un facteur correcteur exprimé en "chance", c'est-à-dire que la probabilité modifiée l'est par la formule suivante où $\omicron_{i,j}$ est un nombre entre $0$ et $+\infty$ et $i,j$ indexent les communes de départ et d'arrivée avec $c_a = p_a/(1-p_a)$:
+
+$$
+\tilde{p}_a = \frac{c_a \times \omicron_{i,j}} {1+c_a \times \omicron_{i,j}} 
+$$
+
+A ce stade nous utilisons un algorithme naïf pour trouver une solution au problème posé.
+Nous calculons l'odd-ratio entre le résultat d'une simulation associée à un ensemble d'$\omicron_{i,j}$ et celui défini par les données observées de @MOBPRO en utilisant la formule suivante où $\beta$ est un paramètre d'amortissement inférieur à 1 et positif et $k$ indexe les itérations :
+
+$$
+\omicron^k_{i,j} = (\frac{\tilde{p}^k_a/(1-\tilde{p}^k_a)}{
+p^{mobpro}_a/(1-p^{mobpro}_a)})^\beta \times \omicron^{k-1}_{i,j}
+$$
+
+Nous modifions alors les $\omicron_{i,j}$ en fonction des écarts observés.
+Cela conduit à chercher un point fixe.
+Nous calculons ensuite un critère d'ajustement à partir de l'entropie relative de Kullback-Leibler [@kullback1951].
+L'entropie relative est définie pour deux distributions de probabilités $p$ et $q$ comme suit (dans le cas discret, le cas continu se généralise aisément) :
+
+$$
+KL(p,q) = \sum_{i}p_i \times log(p_i/q_i)
+$$
+
+Cette mesure ressemble à une distance, mais n'est pas symétrique et ne vérifie pas l'inégalité triangulaire.
+Elle s'interprète dans le cadre de la théorie de l'information comme la quantité relative d'information supplémentaire nécessaire pour exprimer $q$ à partir de $p$.
+En suivant @colincameron1997 on peut construire un coefficient $R_{KL}^2$ de la façon suivante, où $\hat{q}$ et $q_0$ sont deux distributions respectivement estimée et de référence que l'on compare à $p$ :
+
+$$
+R_{KL}^2 = 1 - \frac{KL(p,\hat{q})}{KL(p, q_0)}
+$$
+
+La distribution de référence est choisie comme une distribution uniforme, par analogie avec le calcul de la variance dans un $R^2$ habituel où l'on régresse sur une constante.
+On écrit :
+
+$$
+\begin{aligned}
+KL(p,q_{ref}) &{}= \sum_{i}p_i \times log(p_i/unif) \\&{}= \sum_i p_i \times log(p_i) + log(N)
+\end{aligned}
+$$
+
+qui n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois).
+
+L'algorithme employé devra être affiné dans le futur afin de permettre une descente de gradient qui permet de minimiser l'entropie relative.
+L'algorithme naïf permet de réduire cette entropie relative sans assurer qu'elle est minimale.
+Nous utiliserons l'algorithme naïf pour explorer la possibilité d'ajuster MEAPS sur un jeu de données.
+Cet algorithme a été utilisé avec différentes contraintes sur les paramètres.
+Le @tbl-meapsR2 indique la qualité de l'ajustement obtenu dans ces différentes configurations.
+La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence.
+C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence.
+Le $R^2_{KL}$ vaut 89.1% ce qui est déjà un ajustement élevé.
+La seconde configuration est celle où l'on ajuste des $\omicron_{i,j}$ uniquement pour les termes diagonaux ($i=j$).
+Cette configuration ajuste donc un odd-ratio pour les résidents qui travaillent dans leur commune de résidence.
+Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité.
+Pour la commune la plus importante (la Rochelle), en revanche, l'odd-ratio $\omicron_{17300, 17300}$ est proche de 1.
+Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{i,j}$ librement.
+La première de ces deux configurations limite les $\omicron_{i,j}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 98% ce qui représente un peu moins de 2 000 $\omicron_{i,j}$.
+La seconde configuration estime tous les $\omicron_{i,j}$ sans limite (soit 15 120 paramètres pour 72 communes de résidence et 210 communes d'activité).
+
+{r meapsR2, echo=FALSE} #\| label: tbl-meapsR2 #\| tbl-cap: Ajustement de MEAPS
+
+load("output/alg3.srda") tr2 \<- tibble(config = "Fuite par commune de résidence", n_fuite = 72, n_params = 0, r2kl = stats \|\> filter(model==1) \|\> pull(r2kl)) tr2 \<-tr2 \|\> bind_rows(tibble(config = "Fuite et diagonale", n_fuite = 72, n_params = 72, r2kl = stats \|\> filter(model\>10) \|\> filter(r2kl==max(r2kl)) \|\> pull(r2kl) \|\> pluck(1)))
+
+load("output/alg2p.srda") tr2 \<- tr2 \|\> bind_rows(tibble(config = "Fuite et 90% des flux", n_fuite = 72, n_params = 729, r2kl = stats \|\> filter(model\>10) \|\> filter(r2kl==max(r2kl)) \|\> pull(r2kl) \|\> pluck(1))) load("output/alg2.srda") tr2 \<- tr2 \|\> bind_rows(tibble(config = "Fuite et 99% des flux", n_fuite = 72, n_params = 1928, r2kl = stats \|\> filter(model\>10) \|\> filter(r2kl==max(r2kl)) \|\> pull(r2kl) \|\> pluck(1)))
+
+load("output/alg4.srda") tr2 \<- tr2 \|\> bind_rows(tibble(config = "Fuite et 100% des flux", n_fuite = 72, n_params = 15120, r2kl = stats \|\> filter(model\>10) \|\> filter(r2kl==max(r2kl)) \|\> pull(r2kl))) tr2 \|\> gt() \|\> cols_label(config = "", n_fuite = md("N(p<sub>f,i</sub>)"), n_params = md("N(o<sub>i,j</sub>)"), r2kl = md("R<sub>KL</sub><sup>2</sup>")) \|\> fmt_percent(columns = r2kl, decimals=1) \|\> fmt_integer(columns = c(n_fuite, n_params), sep_mark=" ") \|\> gt::tab_footnote(md("L'ajustement de MEAPS est réalisé par l'algorithme décrit dans le texte.
+Le nombre de paramètres estimés est égal à la somme de la colonne N(p<sub>f,i</sub>) et de la colonne N(o<sub>i,j</sub>)."))
+
+la @fig-actvsfit représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2.
+Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 89.1% à 94.3% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit.
+L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça.
+La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution.
+Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des odd-ratio trop faibles (\<0.001) ou trop importants (\>1000).
+Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
+
+Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (15 120 $\times$ 15 120 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend quelques dizaine de secondes.
+
+{r actvsfit} #\| label: fig-actvsfit #\| fig-scap: MEAPS observés versus estimés #\| fig-cap: "La figure présente pour chaque configuration d'estimation le flux observé (axe des x) et le flux estimé (axe des y) en bleu lorsque o<sub>i,j</sub> est estimé et en vert lorsqu'il n'est pas estimé. La valeur de référence est répétée dans chaque panneau en gris clair."
+
+knitr::include_graphics("output/estmeaps.png")
+
+Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les odd-ratios estimés (dans la configuration 100% des flux) en fonction de la distance de la commune de destination à la commune de résidence.
+L'élément le plus frappant est que les odd-ratios de $i$ à $i$ sont généralement supérieur à 1, à l'exception de la commune de la Rochelle.
+Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des odd-ratios élevés pour des distances importantes.
+
+{r spectre} #\| label: fig-spectre #\| fig-scap: "Odd-ratio en fonction de la distance (spectre)" #\| fig-cap: "La figure représente pour les 20 plus grandes communes de l'agglomération de la Rochelle les odd-ratios estimés (100% des flux) en fonction de la distance entre commune. La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chqeu paire, normalisé à 1."
+
+knitr::include_graphics("output/spectre100.png")
+
+La carte de la @fig-carteodd permet de préciser la valeur élevée des odd-ratio pour les flux internes.
+Les communes où sont localisés de nombreux emplois ont un odd-ratio plutôt plus faible alors qu'ils sont estimés plus élevés dans les communes plus petites et moins desservies.
+Un odd-ratio élevé indique que les flux internes sont plus élevés que dans le scénario de référence \[\[ce serait bien de calculer les probabilités d'absorption (qui dépendent des fuites et de tous les odds plutôt que de discuter des odds)\]\].
+Cela indique probablement un choix de résidence en lien avec l'emploi occupé en privilégiant la commune d'activité pour la résidence (ou l'inverse).
+Le spectre en fonction de la distance indique que ce phénomène, s'il est un hypothèse à très faible distance, ne persiste pas en dehors de la commune de résidence.
+
+{r carteodd} #\| label: fig-carteodd #\| fig-scap: "Odd-ratio dans la diagonale" #\| fig-cap: "Chaque cercle indique les odd-ratio estimés dans la diagonale (100% des flux). Les diamètres des cercles sont proportionels aux flux internes (de i à i)."
+
+knitr::include_graphics("output/diagonale.png")
+
+Scénarios "localisation de l'emploi"
+
+Le Schéma de Cohérence Territorial (SCoT) est un document de planification, établi et voté par les élus des communes composant le territoire et soumis à validation de l'État.
+Il défini, entre autres, des zones de développement économique, urbaines et des espaces naturels.
+C'est la loi SRU relative à la Solidarité et au Renouvellement Urbains du 13 décembre 2000 qui l'a défini et les contours en ont été modifiés au cours des dernières années.
+
+Le schéma n'est pas qu'indicatif puisqu'il est opposable.
+En ce qui concerne le développement de l'emploi, la création de zones d'activité est rendue possible par le SCoT, mais la réalisation effective des créations d'emploi et surtout leur localisation nette des déplacements d'autres emplois découle des décisions de l'ensemble des acteurs et donc et donc de causalités diverses et variées.
+Nous évaluons ici des scénarios comptatible avec le SCoT sans pour autant nous prononcer quant à leur réalisme ou leur probabilité d'occurrence.
+Ainsi, nous analysons les localisations proposées à emploi total constant, c'est-à-dire vues comme des relocalisations de l'emploi vers les zones d'activités depuis leur localisation actuelle.
+
+La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune\[\^16\].
+Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement et publiées par l'INSEE.
+Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
+
+La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune.
+Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement et publiées par l'INSEE.
+Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
+
+Une fois MEAPS calé sur ces données, nous pouvons analyser des scénarios de déplacement des emplois et en déduire les conséquences en trajets, mode de transport et donc émissions de CO2 associé
+
+Scénarios "transport en commun"
+
+L'analyse du territoire ne repose pas seulement sur la localisation de l'emploi, mais aussi sur une prise en compte détaillée des possibilités de transport.
+
+{{< pagebreak >}}
+
+Bibliographie
+
+{{< pagebreak >}}
+
+\listoffigures
+
+\listoftables

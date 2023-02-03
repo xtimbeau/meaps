@@ -1,0 +1,14 @@
+## Résumé {.unnumbered}
+
+Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix.
+En s'inspirant du modèle des "*intervening opportunities*" de \@stouffer1940 et du modèle radiatif de \@simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles.
+Le modèle s'accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation.
+Nous validons le modèle théorique sur des données synthétiques et nous proposons une application à la Rochelle pour la modélisation des trajets quotidiens domicile travail.
+La modélisation et son ajustement sur des données riches permet d'analyser des scénarios variantiels.
+
+## Remerciements {.unnumbered}
+
+Nous remercions Francesco Pirri et Pablo Vallier pour leur travail durant un stage à l'été 2022 et une trop courte période d'assistant de recherche.
+Les discussions et les travaux conduits avec Lucas Pouvreau, David Miet et Valentin Stuhfault de Villes Vivantes ont été particulièrement fructueuses pour l'application à la Rochelle, en partie financée par l'agglomération de la Rochelle.
+Nous remercions également Florence Nassiet et Bernard Habbouche ainsi que leurs collègues des services de l'agglomération de la Rochelle dont les encouragements et les questionnements nous aurons guidé dans ce travail.
+L'ensemble des calculs a été réalisé sur nuvolos.cloud dont le support technique s'est avéré indispensable.
