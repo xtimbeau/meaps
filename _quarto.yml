@@ -15,6 +15,11 @@ book:
   date: 02/01/2023
   output-file: "meaps"
   cover-image: www/cover.png
+  search: true
+  repo-url: https://github.com/xtimbeau/meaps/
+  repo-actions: [edit]
+  downloads: [pdf, epub]
+  sharing: [twitter]
   chapters:
     - index.qmd
     - intro.qmd
