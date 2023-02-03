@@ -16,6 +16,7 @@ book:
   output-file: "meaps"
   cover-image: www/cover.png
   search: true
+  site-url: https://xtimbeau.github.io/meaps/
   repo-url: https://github.com/xtimbeau/meaps/
   repo-actions: [edit]
   downloads: [pdf, epub]
