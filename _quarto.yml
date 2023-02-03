@@ -18,6 +18,9 @@ book:
   search: true
   site-url: https://xtimbeau.github.io/meaps/
   repo-url: https://github.com/xtimbeau/meaps/
+  open-graph: true
+  twitter-card:
+    creator: "@xtimbeau"
   repo-actions: [edit]
   downloads: [pdf, epub]
   sharing: [twitter]
@@ -55,8 +58,12 @@ logo: www/ofce.png
 format: 
   html:
     theme:
-      - litera
-      - www/custom.scss
+      light:
+        - litera
+        - www/custom.scss
+      dark:
+        - darkly
+        - www/custom.scss
     date-modified: today
     toc: true
     toc-location: left 
