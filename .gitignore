@@ -7,5 +7,4 @@
 /docs/
 /_book/
 /_site/
-*.rda
-*.qs
+libres.raw.qs
