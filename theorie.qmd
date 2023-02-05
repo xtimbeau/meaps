@@ -1,4 +1,4 @@
-# Aspects théorique de MEAPS
+# Un modèle radiatif
 
 Nous développons ici les principaux éléments théoriques de MEAPS. L'utilisation du modèle gravitaire pour quantifier le nombre de déplacements entre une orgine et une destination souffre de plusieurs problèmes. L'analogie avec la gravitation est intuitive, mais permet mal de comprendre le phénimène microscopique à l'œuvre. Il en découle que le respect de contraintes en ligne est surtout en colonne est réalisé de façon *ad hoc* sans réelle maitrise des hypothèses sous-jacentes. Par ailleurs, en donnant une même importance à la distance quelque soit la densité du milieu en opportunité, le modèle gravitaire tend à prédire des motifs de déplacements très limités lorsque les opportunités sont spatialement rares.
 

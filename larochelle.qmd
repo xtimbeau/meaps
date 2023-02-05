@@ -24,7 +24,7 @@ options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
 ```
 
-# Une application à l'agglomération de La Rochelle {#sec-rochelle}
+# Application à La Rochelle {#sec-rochelle}
 
 Nous proposons ici une première application de MEAPS à l'agglomération de la Rochelle. Cette application est issue d'un travail de quantification de scénarios de politiques publiques visant à réduire l'empreinte carbone associée aux mobilités quotidiennes et au secteur résidentiel. La quantification demande à la fois de produire une cartographie très fine des émissions, en procédant par interpolation à partir de données plus macroscopiques mesurées par ailleurs et d'être en mesure de produire des évaluations des différences d'émissions localement et à l'échelle du territoire selon les différents scénarios. Nous présentons ici deux familles de scénarios pour lesquelles MEAPS a été mobilisé :
 
@@ -78,7 +78,7 @@ knitr::include_graphics("output/access_par_com.png")
 
 ## Ajustement de MEAPS sur MOBPRO {#sec-ajust}
 
-### Stratégie non paramétrique et paramétrique 
+### Stratégie non paramétrique et paramétrique
 
 La construction de la matrice de distance permet d'utiliser MEAPS pour déduire les flux carreau à carreau. Mais le fichier détail du recensement et son volet mobilités professionnelles nous donnent une information supplémentaire que nous pouvons utiliser pour calibrer au plus près des données MEAPS. Les mobilités professionnelles décrivent pour chaque paire de commune résidence-emploi les flux de mobilités professionnelles (de nombreuses paires de communes ont des flux nuls). Cette information est équivalente à celle produite par MEAPS mais agrégée au niveau communal. Une première stratégie de calage de MEAPS est d'affecter aux probabilités d'absorption un facteur correcteur pour reproduire le plus fidèlement possible les flux agrégés de @MOBPRO.
 
@@ -86,13 +86,13 @@ Cette méthode conduit à saturer le modèle, d'autant plus que l'on estime un n
 
 Les paramètres issues de cette approche non paramétrique contiennent une information qui peut ensuite être exploitée. Ils s'interprètent les déviations par rapport à un modèle construit à partir d'une hypothèse explicite. Dans notre cas, cette hypothèse explicite découle du modèle de référence où les *odd-ratios* tous égaux à 1, c'est-à-dire que les emplois sont équivalents pou les individus et qu'ils ne les distinguent que par leur ordre de classement en fonction de leur distance de trajet pour chaque individu.
 
-L\'approche non paramétrique pose généralement un problème difficile d'algorithme. Une approche brutale qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les les flux observés se heurte à la grande dimension de l'espace des paramètres. En revanche, on peut utiliser des algorithmes approchés qui, s'ils ne garantissent pas de trouver un minimum, permettent rapidement d'en approcher un. Dans ce cas, la stratégie non paramétrique non brutale peut être efficace du point de vue du temps de calcul au prix de quelques approximations dont par exemple la fonction de perte.
+L'approche non paramétrique pose généralement un problème difficile d'algorithme. Une approche brutale qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les les flux observés se heurte à la grande dimension de l'espace des paramètres. En revanche, on peut utiliser des algorithmes approchés qui, s'ils ne garantissent pas de trouver un minimum, permettent rapidement d'en approcher un. Dans ce cas, la stratégie non paramétrique non brutale peut être efficace du point de vue du temps de calcul au prix de quelques approximations dont par exemple la fonction de perte.
 
 Une seconde approche, beaucoup plus parcimonieuse en paramètres estimés, consiste à définir une forme fonctionnelle pour les *odd-ratios*. Cette forme fonctionnelle réduit alors le nombre de paramètres drastiquement à quelques uns, voire un seul, et rend possible l'utilisation des algorithmes habituels de minimisation d'une fonction objectif. La connaissance de la matrice hessienne permet d'améliorer la performance de l'algorithme, mais elle est n'est pas toujours calculable et doit être approchée numériquement par itérations successives. Pour quelques paramètres à estimer, les algorithmes peuvent donner en un temps raisonnable une bonne solution au problème de minimisation de la fonction de perte.
 
-### Stratégie non paramétrique
+### Estimations non paramétriques {#sec-estnp}
 
-La stratégie non paramétrique consiste à définir pour chaque paire origine destination, à la résolution spatiale nécessaire, un paramètre qui permettra de modifier le flux simulé afin de générer le flux souhaité. La modification des probabilités d'absorption est faite par l'ajout d'un facteur correcteur exprimé en "chance", c'est-à-dire que la probabilité modifiée l'est par la formule suivante où $\omicron_{i,j}$ est un nombre entre $0$ et $+\infty$ et $i,j$ indexent les communes de départ et d'arrivée avec $c_a = p_a/(1-p_a)$ :
+La stratégie d'estimation non paramétrique consiste à définir pour chaque paire origine destination, à la résolution spatiale nécessaire, un paramètre qui permettra de modifier le flux simulé afin de générer le flux souhaité. La modification des probabilités d'absorption est faite par l'ajout d'un facteur correcteur exprimé en "chance", c'est-à-dire que la probabilité modifiée l'est par la formule suivante où $\omicron_{i,j}$ est un nombre entre $0$ et $+\infty$ et $i,j$ indexent les communes de départ et d'arrivée avec $c_a = p_a/(1-p_a)$ :
 
 $$
 \tilde{p}_a = \frac{c_a \times \omicron_{i,j}} {1+c_a \times \omicron_{i,j}} 
@@ -131,9 +131,9 @@ L'algorithme naïf est relativement efficace. Il converge en quelques dizaines d
 
 Cet algorithme naïf a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2-np indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 89.1% ce qui est déjà un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{i,j}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un *odd-ratio* pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (la Rochelle), en revanche, l'*odd-ratio* $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{i,j}$ librement. La première de ces deux configurations limite les $\omicron_{i,j}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 98% ce qui représente un peu moins de 2 000 $\omicron_{i,j}$. La seconde configuration estime tous les $\omicron_{i,j}$ sans limite (soit 15 120 paramètres pour 72 communes de résidence et 210 communes d'activité).
 
-```{r meapsR2-np, echo=FALSE}
+```{r meapsR2-np}
 #| label: tbl-meapsR2-np
-#| tbl-cap: Ajustement non paramètrique, mobilités professionelles la Rochelle
+#| tbl-cap: Ajustements non paramètriques, mobilités professionelles la Rochelle
 
 meaps_stats <- qs::qread("output/meaps_stats.sqs") |> 
   arrange(r2kl)
@@ -162,11 +162,11 @@ meaps_stats |>
 
 la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 89.1% à 94.3% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
 
-Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (15 120 $\times$ 15 120 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend quelques dizaine de secondes[^larochelle-2].
+Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une minute[^larochelle-2].
 
-[^larochelle-2]: Autour de mille années de vCPU...
+[^larochelle-2]: Autour de 6 années de vCPU...
 
-```{r actvsfit-np}
+```{r actvsfit-np, fig.asp=1}
 #| label: fig-actvsfit-np
 #| fig-scap: MEAPS observés versus estimés
 #| fig-cap: "La figure présente pour chaque configuration d'estimation le flux observé (axe des x) et le flux estimé (axe des y) en bleu lorsque o<sub>i,j</sub> est estimé et en rouge lorsque o<sub>i,j</sub> n'est pas estimé (les fuites sont toujours utilisées). La valeur de référence est répétée dans chaque panneau en gris clair."
@@ -257,19 +257,228 @@ Une autre approche empirique serait de définir une forme fonctionnelle pour les
 knitr::include_graphics("output/toutes configs odds effectifs.png")
 ```
 
+### Estimations paramétriques
+
+En donnant une forme fonctionnelle paramétrisée aux *odd-ratios* correctifs $\{o_{i,j}\}$ on peut ensuite déterminer les paramètres par un algorithme standard de minimisation de l'entropie relative, qui est le critère que nous avons choisi pour comparer les distributions. De plus, il est également possible de procéder à une telle estimation paramétrique pour le modèle gravitaire.
+
+Nous explorons ici trois formes paramétriques pour MEAPS :
+
+1.  un paramètre pour les termes diagonaux, c'est-à-dire les flux allant d'une commune de résidence vers cette même commune pour l'emploi. Cette forme est proche de la forme "diagonale" estimé dans la @sec-estnp, mais un seul paramètre est estimé -- par une minimisation de l'entropie relative -- au lieu de 72 par l'algorithme itératif. Formellement, $\omicron_{i \neq j}=1$ et $\omicron_{i,i} = o$.
+
+2.  un paramètre pour les termes diagonaux, comme pour 1, et un paramètre pour les communes voisines d'emploi, c'est-à-dire un terme correctif reliant une commune de résidence aux communes qui en sont voisines, hormis la commune elle-même. Le même paramètre est estimé pour toutes les correspondance une commune et ses voisines. Une commune est voisine d'une autre si au moins 5% des trajets pondérés par les emplois et les résidents sont inférieurs à 3km. Cette définition permet d'exclure des communes limitrophes mais dont les pôles sont distants. Formellement, $\omicron_{i,i} = o_d$; $\omicron_{i,j\in Voisins(i)} = o_v$ et $\omicron_{i, j \notin Voisins(i)} = 1$.
+
+3.  deux paramètres qui sont d'une part un paramètre de distance et d'autre part la distance de bascule. Formellement, en dessous d'une distance donnée $d_c$ on définit un $\omicron_{i,j \in d_{i,j} \leq d_c} = o$ et $\omicron_{i,j \in d_{i,j} > d_c} = 1$. Cette forme s'approche de la 1, mais estime la notion de proximité au lieu de reposer sur le découpage administratif. La différence entre 1 et 3 illustre également la finesse de la modélisation proposée.
+
+Chacune de ces options vise à mesurer un biais intra-communal évoqué dans la section précédente qui peut s'expliquer par un choix de localisation de résidence et d'emploi joint. MEAPS offre ici la possibilité de mesurer l'intensité de cette déviation par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous homogènes. Il sera intéressant de comparer les territoires de ce point de vue et d'en déduire des régularités qui peuvent indiquer comment les spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite--, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-4].
+
+[^larochelle-4]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
+
+A ces formes fonctionnelles pour MEAPS, nous ajoutons deux formes fonctionnelles pour le modèle gravitaire :
+
+4.  un modèle gravitaire suivant la définition @eq-gravity où $f(d)= e^{-d/\delta}$. Un seul paramètre $\delta$ est estimé.
+5.  un modèle gravitaire "équilibré" en utilisant l'algorithme de Furness, tel que décrit dans @sec-compgravsynth et en estimant $\delta$ comme dans le point 4.
+
+On pourrait multiplier les modèles estimés. Le propos est ici d'illustrer les possibilités de notre modélisation et d'en comparer les performances à celle du modèle gravitaire. Le tableau @tbl-meapsR2-p résume les résultats des estimations. Le modèle de référence, dans lequel tous les emplois sont équivalents pour chaque individu, fait moins bien en termes d'ajustement que les autres modèles, à l'exception notable du modèle gravitaire non équilibré. Comme on avait pu le constater dans les estimations non paramétriques, le modèle de référence a, malgré son hypothèse simplificatrice, une bonne performance, ce qui est conformé ici par la comparaison au modèle gravitaire simple.
+
+```{r meapsR2-p}
+#| label: tbl-meapsR2-p
+#| tbl-cap: Ajustements paramètriques, mobilités professionelles la Rochelle
+
+meaps_stats_p <- qs::qread("output/meaps_stats.sqs") |> 
+  arrange(r2kl) |> 
+  select(-f_in, -f_out) |> 
+  filter(alg %in% c("référence", "gravitaire avec furness", "gravitaire sans furness",
+                    "un en diagonale", "2 en diagonale", "distance critique")) |> 
+  mutate(
+    labelp = case_match(alg,
+             c("gravitaire avec furness", "gravitaire sans furness") ~ 
+                 str_c("\u03B4\u2248", signif(p1, 2), "min"),
+             "référence" ~ "",
+             "un en diagonale" ~ str_c("o\u2248", signif(p1, 2)),
+             "2 en diagonale" ~ str_c("o<sub>d</sub>\u2248", signif(p1, 2),
+                                               " o<sub>v</sub>\u2248", signif(p2, 2)),
+             "distance critique" ~ 
+               str_c("d<sub>c</sub>\u2248 ", signif(p2, 2),"min",
+                                               " o\u2248", signif(p1, 2))),
+    label = case_match(alg,
+             "gravitaire avec furness" ~ "5. Gravitaire avec furness",
+             "gravitaire sans furness" ~ "4. Gravitaire sans furness",
+             "référence" ~ " Référence",
+             "un en diagonale" ~ "1. Commune vers commune",
+             "2 en diagonale" ~ "2. Commune vers commune et voisines",
+             "distance critique" ~ "3. Distance carreau 200m")) |> 
+  arrange(label) |> 
+  relocate(label) |> 
+  select(-p1,-p2, -alg)
+meaps_stats_p |> 
+  relocate(label) |> 
+  gt() |> 
+  fmt_percent(columns = r2kl, decimals = 1) |>
+  fmt_integer(columns = c(dl, n_est), sep_mark = " ") |>
+  fmt_markdown(columns = labelp) |> 
+  cols_label(label = "",
+             labelp = "Paramètres",
+             r2kl = md("R<sub>KL</sub><sup>2</sup>"),
+             dl = "Degrés de liberté",
+             n_est = "Nbre paramètres") |> 
+  tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les *odd-ratios*."))
+```
+
+Les estimations 1 à 3, dans lequelles on explore un terme diagonal sous différentes formes, renforcent le diagnostic de biais communal noté dans les estimations non paramétriques. Il y a en moyenne 4 fois plus de chance de choisir un emploi (@tbl-meapsR2-p, lignes 1 et 2) dans la commune de résidence. L'estimation 2. montre que les communes voisines ne connaissent pas un biais comparable, bien que la chance de choisir un emploi dans celles-ci soit supérieure à 1.
+
+L'estimation 3. délivre une information importante. C'est probablement plus la distance que le découpage administratif qui explique ce biais communal, qu'il convient plutôt d'appeler un bais de proximité. En effet, le coefficient d'ajustement est supérieur de plus d'un point à celui obtenu en 1., en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 8 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu'au lieu d'être approximativement de 4 elle est approximativement de 20, soit 5 fois plus.
+
+Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. L'utilisation de données de flux plus précisément localisées, par exemple calculées à partir de Fidéli[^larochelle-5] ou, au prix d'une lourdeur de données bien plus importante par des traces numériques.
+
+[^larochelle-5]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
+
+```{r actvsfit-p, fig.asp=1}
+#| label: fig-actvsfit-p
+#| fig-scap: MEAPS observés versus estimés, estimations paramétriques
+#| fig-cap: "La figure présente pour chaque configuration d'estimation le flux observé (axe des x) et le flux estimé (axe des y) en bleu lorsque o<sub>i,j</sub> est estimé et en rouge lorsque o<sub>i,j</sub> n'est pas estimé (les fuites sont toujours utilisées). La valeur de référence est répétée dans chaque panneau en gris clair."
+
+meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
+  mutate(alg = factor(
+    alg, c("référence", "diagonale", "90%", "99%", "100%",
+           "gravitaire sans furness", "gravitaire avec furness",
+           "un en diagonale", "2 en diagonale", 
+           "un fonction distance", "distance critique")),
+    grav = case_match(alg,
+                      c("gravitaire sans furness", "gravitaire avec furness") ~ TRUE, 
+                      .default = FALSE),
+    np = case_match(alg,
+                    c("diagonale", "90%", "99%", "100%") ~ TRUE,
+                    .default = FALSE))
+library(scales)
+ref <- meaps_estimations |>
+  filter(alg == "référence") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(flux!=0) |> 
+  select(-alg)
+param <- meaps_estimations |>
+  filter(!np&!grav) |> 
+  filter(alg != "un fonction distance") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(alg!="référence") |> 
+  filter(flux!=0) |> 
+  mutate(
+  label = case_match(alg,
+             "gravitaire avec furness" ~ "5. gravitaire avec furness",
+             "gravitaire sans furness" ~ "4. gravitaire sans furness",
+             "référence" ~ " Référence",
+             "un en diagonale" ~ "1. Commune vers commune",
+             "2 en diagonale" ~ "2. Commune vers commune et voisines",
+             "distance critique" ~ "3. Distance carreau 200m")) |> 
+  select(-alg)
+
+ggplot(param)+
+  geom_point(data=ref,
+             aes(x=mobpro, y=flux, shape = diag, alpha = diag, size = diag), 
+             col="gray80")+
+  scale_shape_manual(values=c(1, 18))+
+  scale_alpha_manual(values=c(0.1, 0.5))+
+  scale_size_manual(values=c(.5, 1.5))+
+  geom_point(data = ~.x |> filter(!estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag),
+             col="tomato")+
+  geom_point(data = ~.x |> filter(estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag), 
+             col="royalblue2")+
+  scale_x_log10(limits=c(0.1, 20000),
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  scale_y_log10(limits=c(0.1, 25000), 
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  xlab("Flux observés")+ ylab("Flux estimés") +
+  facet_wrap(vars(label), ncol = 2)+
+  geom_abline(slope=1, linewidth=0.25)+
+  coord_equal()+
+  ofce::theme_ofce(legend.position  = "none")
+```
+
+Les estimations paramétriques indiquent une moins bonne performance du modèle gravitaire. Sans respect des contraintes en colonne, le modèle gravitaire donne une image assez faussée des trajets. Il peine à reproduire le biais de proximité et l'influence de la distance. Le premier tend à produire un paramètre $\delta$ très élevé alors que le second devrait au contraire imposer un $\delta$ plus faible pour rendre compte de trajets assez longs. L'application d'une même valeur de la distance suivant des milieux plus ou moins denses handicape cette représentation. La procédure de Furness améliore largement la capacité du modèle
+
+```{r actvsfit-grav, fig.asp=0.55}
+#| label: fig-actvsfit-grav
+#| fig-scap: MEAPS observés versus estimés
+#| fig-cap: "La figure présente pour chaque configuration d'estimation le flux observé (axe des x) et le flux estimé (axe des y) en bleu lorsque o<sub>i,j</sub> est estimé et en rouge lorsque o<sub>i,j</sub> n'est pas estimé (les fuites sont toujours utilisées). La valeur de référence est répétée dans chaque panneau en gris clair."
+
+meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
+  mutate(alg = factor(
+    alg, c("référence", "diagonale", "90%", "99%", "100%",
+           "gravitaire sans furness", "gravitaire avec furness",
+           "un en diagonale", "2 en diagonale", 
+           "un fonction distance", "distance critique")),
+    grav = case_match(alg,
+                      c("gravitaire sans furness", "gravitaire avec furness") ~ TRUE, 
+                      .default = FALSE),
+    np = case_match(alg,
+                    c("diagonale", "90%", "99%", "100%") ~ TRUE,
+                    .default = FALSE))
+library(scales)
+ref <- meaps_estimations |>
+  filter(alg == "référence") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(flux!=0) |> 
+  select(-alg)
+param <- meaps_estimations |>
+  filter(grav) |> 
+  filter(alg != "un fonction distance") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(alg!="référence") |> 
+  filter(flux!=0) |> 
+  mutate(
+  label = case_match(alg,
+             "gravitaire avec furness" ~ "5. Gravitaire avec furness",
+             "gravitaire sans furness" ~ "4. Gravitaire sans furness",
+             "référence" ~ " Référence",
+             "un en diagonale" ~ "1. Un paramètre commune vers commune",
+             "2 en diagonale" ~ "2. commune vers commune et voisines",
+             "distance critique" ~ "3. Distance (odds et distance critique)")) |> 
+  select(-alg)
+
+ggplot(param)+
+  geom_point(data=ref,
+             aes(x=mobpro, y=flux, shape = diag, alpha = diag, size = diag), 
+             col="gray80")+
+  scale_shape_manual(values=c(1, 18))+
+  scale_alpha_manual(values=c(0.1, 0.5))+
+  scale_size_manual(values=c(.5, 1.5))+
+  geom_point(data = ~.x |> filter(!estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag),
+             col="tomato")+
+  geom_point(data = ~.x |> filter(estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag), 
+             col="royalblue2")+
+  scale_x_log10(limits=c(0.1, 20000),
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  scale_y_log10(limits=c(0.1, 25000), 
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  xlab("Flux observés")+ ylab("Flux estimés") +
+  facet_wrap(vars(label), ncol = 2)+
+  geom_abline(slope=1, linewidth=0.25)+
+  coord_equal()+
+  ofce::theme_ofce(legend.position  = "none")
+```
+
+## Scénarios variantiels
+
 ### Scénarios "localisation de l'emploi"
 
 Le Schéma de Cohérence Territorial (SCoT) est un document de planification, établi et voté par les élus des communes composant le territoire et soumis à validation de l'État. Il défini, entre autres, des zones de développement économique, urbaines et des espaces naturels. C'est la loi SRU relative à la Solidarité et au Renouvellement Urbains du 13 décembre 2000 qui l'a défini et les contours en ont été modifiés au cours des dernières années.
 
 Le schéma n'est pas qu'indicatif puisqu'il est opposable. En ce qui concerne le développement de l'emploi, la création de zones d'activité est rendue possible par le SCoT, mais la réalisation effective des créations d'emploi et surtout leur localisation nette des déplacements d'autres emplois découle des décisions de l'ensemble des acteurs et donc et donc de causalités diverses et variées. Nous évaluons ici des scénarios comptatible avec le SCoT sans pour autant nous prononcer quant à leur réalisme ou leur probabilité d'occurrence. Ainsi, nous analysons les localisations proposées à emploi total constant, c'est-à-dire vues comme des relocalisations de l'emploi vers les zones d'activités depuis leur localisation actuelle.
 
-La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune. Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-4] et publiées par l'INSEE. Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
+La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune. Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-6] et publiées par l'INSEE. Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
 
-[^larochelle-4]: https://www.insee.fr/fr/information/2383243
+[^larochelle-6]: https://www.insee.fr/fr/information/2383243
 
-La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune. Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-5] et publiées par l'INSEE. Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
+La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune. Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-7] et publiées par l'INSEE. Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
 
-[^larochelle-5]: Autour de mille années de vCPU...
+[^larochelle-7]: Autour de mille années de vCPU...
 
 -   Une fois MEAPS calé sur ces données, nous pouvons analyser des scénarios de déplacement des emplois et en déduire les conséquences en trajets, mode de transport et donc émissions de CO~2~ associé
 

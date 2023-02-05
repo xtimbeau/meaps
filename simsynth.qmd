@@ -17,14 +17,13 @@ library(showtext)
 library(markdown)
 library(gt)
 sysfonts::font_add_google('Nunito')
-showtext_opts(dpi = 600)
 showtext_auto()
 options(ofce.background_color = "grey97")
 options(ofce.base_family = "Roboto")
 options(ofce.base_size = 9)
 ```
 
-# Simulations numériques synthétiques {#sec-synt}
+# Simulations synthétiques {#sec-synt}
 
 Pour étudier quelques unes des propriétés du modèle nous proposons ici d'explorer son comportement sur des données synthétiques. Les données synthétiques, générées de façon explicites, permettent de contrôler les variations de paramètres afin d'en isoler les conséquences. Ces simulations ne prétendent pas ni à l'exhaustivité ni à la démonstration, mais peuvent servir à appuyer l'intuition. L'ensemble de la partie sur les simulations synthétiques est exécutable au sens de @lasser2020. Les codes nécessaires à la reproduction de ces simulations et des graphiques associés sont disponibles sur `github.com/xtimbeau/meaps` et exécutables librement.
 
@@ -108,7 +107,7 @@ knitr::include_graphics("output/gdistances2.png")
 knitr::include_graphics("output/gdenshabg.png")
 ```
 
-## Comparaison avec le modèle gravitaire
+## Comparaison avec le modèle gravitaire {#sec-compgravsynth}
 
 Comparer MEAPS au modèle gravitaire permet d'en comprendre les avantages. Pour ce faire, nous simulons un modèle gravitaire suivant l'@eq-gravmod, c'est-à-dire permettant le calage sur les lignes (chaque individu a un emploi) et sur les colonnes (chaque emploi est pourvu). Ce modèle est simulé au niveau désagrégé, c'est-à-dire dans ces simulations synthétiques au niveau de chaque individu et de chaque emploi à partir de la configuration géographique décrite plus haut en @sec-3p2s. La spécification du modèle gravitaire est faite en utilisant comme fonction $f$ l'expression suivante où $\delta$ est un paramètre positif :
 

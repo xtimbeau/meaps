@@ -23,8 +23,9 @@ book:
   twitter-card:
     creator: "@xtimbeau"
   repo-actions: [edit]
+  reader-mode: true
   downloads: [pdf, epub]
-  sharing: [twitter]
+  sharing: [twitter, linkedin, facebook]
   chapters:
     - index.qmd
     - intro.qmd
@@ -54,7 +55,9 @@ crossref:
   lof-title: Figures
   lot-title: Tableaux
 comments:
-  hypothesis: true
+  hypothesis: 
+    theme: clean
+    openSidebar: false
 logo: www/ofce.png
 format: 
   html:
@@ -93,8 +96,5 @@ format:
     extra_dependencies: ["float"]
     fig-dpi: 600
     fig-format: png
-  epub:
-    toc: true
-    epub-cover-image: www/cover.png
 
 editor: visual
