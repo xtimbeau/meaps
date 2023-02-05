@@ -1,7 +1,3 @@
----
-title: "MEAPS : Simulations synthétiques"
----
-
 ```{r init, include = FALSE}
 library(knitr)
 opts_chunk$set(
@@ -28,11 +24,11 @@ options(ofce.base_family = "Roboto")
 options(ofce.base_size = 9)
 ```
 
-## Simulations numériques synthétiques {#sec-synt}
+# Simulations numériques synthétiques {#sec-synt}
 
 Pour étudier quelques unes des propriétés du modèle nous proposons ici d'explorer son comportement sur des données synthétiques. Les données synthétiques, générées de façon explicites, permettent de contrôler les variations de paramètres afin d'en isoler les conséquences. Ces simulations ne prétendent pas ni à l'exhaustivité ni à la démonstration, mais peuvent servir à appuyer l'intuition. L'ensemble de la partie sur les simulations synthétiques est exécutable au sens de @lasser2020. Les codes nécessaires à la reproduction de ces simulations et des graphiques associés sont disponibles sur `github.com/xtimbeau/meaps` et exécutables librement.
 
-### Trois pôles en centre et satellites {#sec-3p2s}
+## Trois pôles en centre et satellites {#sec-3p2s}
 
 Nous construisons un territoire abstrait composé d'un "centre ville" et de "deux périphéries" (@fig-territoire). Cette configuration arbitraire nous permet d'évaluer MEAPS en simulant les trajets et leur distribution. Chaque individu et chaque emploi sont localisés, distinctement les uns des autres, ce qui permet de calculer des distances euclidiennes entre chaque habitant et chaque emploi et d'en déduire un classement pour chaque habitant sans ambiguïté des emplois en fonction de leur éloignement de chaque résident. Tous les emplois sont considérés comme homogènes et on suppose une probabilité de fuite identique de 10% pour tous les individus. Les distances entre les pôles sont données dans le @tbl-distances (dans une unité sans intérêt).
 
@@ -112,7 +108,7 @@ knitr::include_graphics("output/gdistances2.png")
 knitr::include_graphics("output/gdenshabg.png")
 ```
 
-### Comparaison avec le modèle gravitaire
+## Comparaison avec le modèle gravitaire
 
 Comparer MEAPS au modèle gravitaire permet d'en comprendre les avantages. Pour ce faire, nous simulons un modèle gravitaire suivant l'@eq-gravmod, c'est-à-dire permettant le calage sur les lignes (chaque individu a un emploi) et sur les colonnes (chaque emploi est pourvu). Ce modèle est simulé au niveau désagrégé, c'est-à-dire dans ces simulations synthétiques au niveau de chaque individu et de chaque emploi à partir de la configuration géographique décrite plus haut en @sec-3p2s. La spécification du modèle gravitaire est faite en utilisant comme fonction $f$ l'expression suivante où $\delta$ est un paramètre positif :
 
@@ -206,7 +202,7 @@ data.frame(meaps = tm2, gravitaire = tg22) |>
   )
 ```
 
-### Procédure d'estimation {#sec-estimation}
+## Procédure d'estimation {#sec-estimation}
 
 Il est possible de modifier les pondérations des probabilités d'absorption de façon à modifier la table des flux. Ceci est illustré dans la table suivante où on a doublé pour chacune des 9 paires possibles de zone d'habitation (3) et de zone d'emploi (3) la probabilité relative d'absorption successivement. La configuration géographique est celle de la @fig-territoire, avec un centre et deux satellites. Le centre comporte plus d'emplois que de résidents, ce qui oblige à des flux entrants dans la zone 1 comme indiqués dans la @tbl-fluxpoles. On parle de doublement relatif de la probabilité, parce que les contraintes de constance de probabilité de fuite et de saturation des emplois imposent une réduction des probabilités d'absorption des autres emplois, ce qui est assuré dans l'algorithme qui implémente MEAPS.
 
@@ -236,7 +232,7 @@ Une propriété intéressante des matrices de la @tbl-fluxpond est que les 9 mat
 
 Le temps de calcul peut être assez long du fait de la nécessité de répéter un grand nombre de tirages, mais la section suivante ( @sec-ergemp) montre que ce nombre peut rester raisonnable. Une estimation de ce type est mise en oeuvre par une procédure itérative dans la section @sec-rochelle, permettant de reproduire à l'aide de MEAPS les données issues de l'enquête mobilités professionnelles @MOBPRO avec un schéma de calcul qui peut se mettre facilement en œuvre.
 
-### Ergodicité en pratique {#sec-ergemp}
+## Ergodicité en pratique {#sec-ergemp}
 
 L'utilisation de données synthétiques permet de tester simplement l'hypothèse d'ergodicité. On a conjecturé que les différentes grandeurs moyennes sur les permutations $u$ étaient assimilables à des observations, éventuellement répétées. A ce stade de simulations synthétiques nous ne confrontons pas le modèle à des observations (voir @sec-rochelle), mais nous allons montrer que l'estimation des valeurs moyennes ne demande pas l'examen des $I!$ permutations possibles[^simsynth-2] et peut se contenter d'une agrégation spatiale et de quelques tirages de permutations.
 

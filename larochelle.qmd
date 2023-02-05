@@ -18,10 +18,9 @@ library(markdown)
 library(gt)
 library(qs)
 sysfonts::font_add_google('Nunito')
-showtext_opts(dpi = 600)
 showtext_auto()
 options(ofce.background_color = "grey97")
-options(ofce.base_family = "Roboto")
+options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
 ```
 
@@ -128,86 +127,101 @@ $$ {#eq-klent}
 
 qui n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois).
 
-L'agorithme naïf est relativement efficace. Il converge en quelques dizaines d'itérations et s'avère stable. il devra être affiné dans le futur afin de permettre une descente de gradient qui permet de minimiser l'entropie relative. L'algorithme naïf permet de réduire cette entropie relative sans assurer qu'elle est minimale. Nous utiliserons l'algorithme naïf pour explorer la possibilité d'ajuster MEAPS sur un jeu de données. Cet algorithme a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2 indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 89.1% ce qui est déjà un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{i,j}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un *odd-ratio* pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (la Rochelle), en revanche, l'*odd-ratio* $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{i,j}$ librement. La première de ces deux configurations limite les $\omicron_{i,j}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 98% ce qui représente un peu moins de 2 000 $\omicron_{i,j}$. La seconde configuration estime tous les $\omicron_{i,j}$ sans limite (soit 15 120 paramètres pour 72 communes de résidence et 210 communes d'activité).
+L'algorithme naïf est relativement efficace. Il converge en quelques dizaines d'itérations, s'avère stable et fait diminuer l'entropie relative. Il devra être affiné dans le futur afin de permettre une descente de gradient qui permet de minimiser explicitement l'entropie relative. L'algorithme naïf permet de réduire cette entropie relative sans assurer qu'elle est minimale.
 
-```{r meapsR2, echo=FALSE}
-#| label: tbl-meapsR2
-#| tbl-cap: Ajustement de MEAPS
-  
-load("output/alg3.srda")
-tr2 <- tibble(config = "Fuite par commune de résidence",
-               n_fuite = 72,
-               n_params = 0,
-               r2kl = stats |> 
-                 filter(model==1) |> 
-                 pull(r2kl))
-tr2 <-tr2 |> 
-  bind_rows(tibble(config = "Fuite et diagonale",
-                   n_fuite = 72, 
-                   n_params = 72,
-                   r2kl = stats |> 
-                     filter(model>10) |>
-                     filter(r2kl==max(r2kl)) |> 
-                     pull(r2kl) |> 
-                     pluck(1)))
+Cet algorithme naïf a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2-np indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 89.1% ce qui est déjà un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{i,j}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un *odd-ratio* pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (la Rochelle), en revanche, l'*odd-ratio* $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{i,j}$ librement. La première de ces deux configurations limite les $\omicron_{i,j}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 98% ce qui représente un peu moins de 2 000 $\omicron_{i,j}$. La seconde configuration estime tous les $\omicron_{i,j}$ sans limite (soit 15 120 paramètres pour 72 communes de résidence et 210 communes d'activité).
 
-load("output/alg2p.srda")
-tr2 <- tr2 |> 
-  bind_rows(tibble(config = "Fuite et 90% des flux",
-                   n_fuite = 72,
-                   n_params = 729,
-                   r2kl = stats |> 
-                     filter(model>10) |>
-                     filter(r2kl==max(r2kl)) |>
-                     pull(r2kl) |> 
-                     pluck(1)))
-load("output/alg2.srda")
-tr2 <- tr2 |> 
-  bind_rows(tibble(config = "Fuite et 99% des flux",
-                   n_fuite = 72,
-                   n_params = 1928,
-                   r2kl = stats |> 
-                     filter(model>10) |>
-                     filter(r2kl==max(r2kl)) |>
-                     pull(r2kl) |> 
-                     pluck(1)))
+```{r meapsR2-np, echo=FALSE}
+#| label: tbl-meapsR2-np
+#| tbl-cap: Ajustement non paramètrique, mobilités professionelles la Rochelle
 
-load("output/alg4.srda")
-tr2 <- tr2 |> 
-  bind_rows(tibble(config = "Fuite et 100% des flux",
-                   n_fuite = 72,
-                   n_params = 15120,
-                   r2kl = stats |> 
-                     filter(model>10) |>
-                     filter(r2kl==max(r2kl)) |>
-                     pull(r2kl)))
-tr2 |> 
+meaps_stats <- qs::qread("output/meaps_stats.sqs") |> 
+  arrange(r2kl)
+meaps_stats |> 
+  select(-f_in, -f_out, -p1, -p2) |> 
+  filter(alg %in% c("référence", "diagonale", "90%", "99%", "100%")) |> 
+  mutate( 
+    alg = factor(alg, c("référence", "diagonale", "90%", "99%", "100%")),
+    label = case_match(alg,
+             "100%" ~ "100% des flux cumulés",
+             "99%" ~ "99% des flux cumulés ",
+             "90%" ~ "90% des flux cumulés",
+             "diagonale" ~ "Diagonale (résidence égale emploi)",
+             "référence" ~ "Référence (odds unitiaires)" )) |> 
+  relocate(label) |> 
   gt() |> 
-  cols_label(config = "",
-             n_fuite = md("N(p<sub>f,i</sub>)"),
-             n_params = md("N(o<sub>i,j</sub>)"),
-             r2kl = md("R<sub>KL</sub><sup>2</sup>")) |> 
-  fmt_percent(columns = r2kl, decimals=1) |> 
-  fmt_integer(columns = c(n_fuite, n_params), sep_mark=" ") |> 
-  gt::tab_footnote(md("L'ajustement de MEAPS est réalisé par l'algorithme décrit dans le texte. Le nombre de paramètres estimés est égal à la somme de la colonne N(p<sub>f,i</sub>) et de la colonne N(o<sub>i,j</sub>)."))
+  fmt_percent(columns = r2kl, decimals = 1) |>
+  fmt_integer(columns = c(dl, n_est), sep_mark = " ") |>
+  cols_hide(alg) |> 
+  cols_label(label = "",
+             r2kl = md("R<sub>KL</sub><sup>2</sup>"),
+             dl = "Degrés de liberté",
+             n_est = "odds estimés") |> 
+  tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés."))
 ```
 
-la @fig-actvsfit représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 89.1% à 94.3% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
+la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 89.1% à 94.3% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
 
 Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (15 120 $\times$ 15 120 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend quelques dizaine de secondes[^larochelle-2].
 
 [^larochelle-2]: Autour de mille années de vCPU...
 
-```{r actvsfit}
-#| label: fig-actvsfit
+```{r actvsfit-np}
+#| label: fig-actvsfit-np
 #| fig-scap: MEAPS observés versus estimés
 #| fig-cap: "La figure présente pour chaque configuration d'estimation le flux observé (axe des x) et le flux estimé (axe des y) en bleu lorsque o<sub>i,j</sub> est estimé et en rouge lorsque o<sub>i,j</sub> n'est pas estimé (les fuites sont toujours utilisées). La valeur de référence est répétée dans chaque panneau en gris clair."
 
-knitr::include_graphics("output/estmeaps.png")
+meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
+  mutate(alg = factor(
+    alg, c("référence", "diagonale", "90%", "99%", "100%",
+           "gravitaire sans furness", "gravitaire avec furness",
+           "un en diagonale", "2 en diagonale", 
+           "un fonction distance", "distance critique")),
+    grav = case_match(alg,
+                      c("gravitaire sans furness", "gravitaire avec furness") ~ TRUE, 
+                      .default = FALSE),
+    np = case_match(alg,
+                    c("diagonale", "90%", "99%", "100%") ~ TRUE,
+                    .default = FALSE))
 
+library(scales)
+ref <- meaps_estimations |>
+  filter(alg == "référence") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(flux!=0) |> 
+  select(-alg)
+non_param <- meaps_estimations |>
+  filter(np) |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(alg!="référence") |> 
+  filter(flux!=0)
+ggplot(non_param)+
+  geom_point(data=ref,
+             aes(x=mobpro, y=flux, shape = diag, alpha = diag, size = diag), 
+             col="gray80")+
+  scale_shape_manual(values=c(1, 18))+
+  scale_alpha_manual(values=c(0.1, 0.5))+
+  scale_size_manual(values=c(.5, 1.5))+
+  geom_point(data = ~.x |> filter(!estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag),
+             col="tomato")+
+  geom_point(data = ~.x |> filter(estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag), 
+             col="royalblue2")+
+  scale_x_log10(limits=c(0.1, 20000),
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  scale_y_log10(limits=c(0.1, 25000), 
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  xlab("Flux observés")+ ylab("Flux estimés") +
+  facet_wrap(vars(alg), ncol = 2)+
+  geom_abline(slope=1, linewidth=0.25)+
+  coord_equal()+
+  ofce::theme_ofce(legend.position  = "none")
 ```
 
-Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les *odd-ratios,* construits comme le ratio des chances ($p_{a,i,j}/(1-p_{a,i,j}$)) estimées dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{i,j}$ sont égaux à 1, en fonction de la distance de la commune de destination à la commune de résidence[^larochelle-3]. Ce diagramme, analogue à un spectre, peut aussi être constuit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odd-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odd-ratios* élevés pour des distances importantes
+Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les *odd-ratios* estimées dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{i,j}$ sont égaux à 1 (des *odd-ratios* effectifs), en fonction de la distance de la commune de destination à la commune de résidence[^larochelle-3]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odd-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odd-ratios* élevés pour des distances importantes
 
 [^larochelle-3]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
 
