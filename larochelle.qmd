@@ -604,7 +604,7 @@ qui retient la distance au carreau 200m comme forme fonctionnelle.
 
 ```{r distribdist}
 #| label: fig-distrdist
-#| fig-scap: Distribution empirique cumulée des distances
+#| fig-scap: Distributions empiriques cumulées des distances
 #| fig-cap: Distribution empirique cumulée des distances. MOBPRO est indiqué en trait pointillé noir.
 
 meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
