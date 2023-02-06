@@ -297,7 +297,7 @@ ggplot(non_param)+
 
 Notons que l'échantillon des mobilités donné par @MOBPRO pour l'agglomération de la Rochelle est trsè particulier.
 Une commune (la Rochelle, dont le code géographique est 17300) représente presque 29% des flux de mobilité (de la Rochelle lieu de résidence vers la Rochelle lieu d'emploi).
-C'est donc un schéma monocentrique assez fort, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit.
+C'est donc un schéma monocentrique, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit.
 La résolution spatiale de @MOBPRO ne nous permet pas d'en détailler la structure plus fine.
 
 Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les *odd-ratios* estimées dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{i,j}$ sont égaux à 1 (des *odd-ratios* effectifs), en fonction de la distance de la commune de destination à la commune de résidence[^larochelle-3].
@@ -525,8 +525,8 @@ L'application d'une même valeur de la distance suivant des milieux plus ou moin
 La procédure de Furness améliore largement la capacité du modèle gravitaire à rendre compte des données.
 C'est au prix de la perte du lien avec la distance telle qu'elle est formulée dans le modèle gravitaire, à savoir homogène pour tous.
 
-La @fig-actvsfit-grav illustre ce qui est à l\'œuvre dans le modèle gravitaire.
-La minimisation de l'entropie relative dépend beaucoup du flux entre la Rochelle et la Rochelle qui pèse 20% de l'échantillon.
+La @fig-actvsfit-grav illustre ce qui est à l'œuvre dans le modèle gravitaire.
+La minimisation de l'entropie relative dépend beaucoup du flux entre la Rochelle et la Rochelle qui pèse 29% de l'échantillon.
 La prise en compte des autres communes diagonales n'est pas bonne, ce qui conduit à un $R^2_{KL}$ moins bons que la référence de MEAPS (tous les emplois sont identiques pour chaque individu et ne diffèrent que par leur localisation).
 Le respect de la contrainte en colonne par la procédure de Furness permet une meilleure prise en compte des communes diagonales (dont le poids est de 35% dans l'échantillon la Rochelle), mais moins bonne que les modèles MEAPS paramétriques ou non.
 

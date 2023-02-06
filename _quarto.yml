@@ -21,7 +21,7 @@ book:
   repo-url: https://github.com/xtimbeau/meaps/
   open-graph: true
   twitter-card:
-    creator: "@xtimbeau"
+    creator: "XTimbeau"
   repo-actions: [edit]
   reader-mode: true
   downloads: [pdf, epub]
@@ -41,7 +41,7 @@ author-title: Auteurs
 citation:
   type: article
   container-title: "Document de travail de l'OFCE"
-  url: https://xtimbeau.github.io/larochelle/radiation/radiation.html
+  url: https://xtimbeau.github.io/meaps
 
 keywords: [ modèle gravitaire, modèle radiatif, mobilités ]
 lang: fr
@@ -55,9 +55,7 @@ crossref:
   lof-title: Figures
   lot-title: Tableaux
 comments:
-  hypothesis: 
-    theme: clean
-    openSidebar: false
+  hypothesis: true
 logo: www/ofce.png
 format: 
   html:

@@ -10,7 +10,16 @@ h1, h2, h3, h4, h5, h6,
   text-align: start;
 }
 
-.page-columns.page-full {
+.page-columns.page-full,
+.content {
+  text-align: justify;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-justify {
   text-align: justify;
 }
 
