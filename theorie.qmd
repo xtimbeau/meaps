@@ -431,8 +431,10 @@ Lorsque seule la probabilité d'absorption est un paramètre, le nombre de degr�
 Si on dispose d'une information sur la probabilité de fuite par individu ou par groupe d'individus, le nombre de degré de liberté peut être accru par une probabilité de fuite différenciée selon ces groupes.
 On peut encore accroître le nombre de degré de liberté en croisant une probabilité d'absorption par groupes d'emplois et groupes d'individus.
 Le choix de la spécification dépendra de ce que l'on souhaite réaliser et du problème considéré.
+
 On verra dans la @sec-rochelle une application en recourant à un grand nombre de degré de liberté afin d'ajuster le modèle sur des données détaillées (donnant pour des paires commune de résidence $\times$ commune d'emploi une observation des flux de mobilité professionnels) et de pouvoir procéder à des intrapolations, en projetant les flux à une échelle infra communale tout en respectant les observations, et de pouvoir simuler des scénarios alternatifs en considérant que les $\lambda_{i,j}$ sont constants.
-Dans une publication ultérieure, nous montrerons une détermination parcimonieuse des coefficients correcteurs afin de pouvoir extraire une information pertinente des données de flux entre communes et de pouvoir comparer le pouvoir prédictif de MEAPS à celui d'un modèle gravitaire, à degré de liberté égal.
+L'estimation ainsi conduite est non paramétrique et permet de construire une transformation des observations comme la déviation par rapport à un schéma de référence.
+Nous explorons également une détermination parcimonieuse des coefficients correcteurs afin de pouvoir extraire une information pertinente des données de flux entre communes et de pouvoir comparer le pouvoir prédictif de MEAPS à celui d'un modèle gravitaire, à degré de liberté égal.
 
 En indexant par $i$ les probabilités de fuite $p_{f,i}$ et par $i,j$ les coefficients correcteurs $\lambda_{i,j}$, les équations principales du modèle deviennent :
 
@@ -454,7 +456,7 @@ Le parcours de toutes les permutations possibles permet de s'affranchir d'un ord
 Lorsqu'on analyse le problème avec une grille de taille finie (ou de taille inférieure au nombre $J$ d'opportunités), on peut conjecturer un comportement ergodique des quantités moyennes prédites par le modèle.
 On résout de cette façon explicitement le problème de contrainte aux marges du modèle gravitaire ou du modèle radiatif.
 
-### Synthèse de MEAPS
+### Synthèse des aspects théoriques de MEAPS
 
 Avant de passer aux simulations, résumons le propos : nous proposons une formulation du problème de distribution des transports qui permet de traiter du respect de la contrainte aux marges avec un processus élémentaire explicite.
 Cela accroît la validité du modèle et sa possible utilisation dans des applications.
