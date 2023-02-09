@@ -3,9 +3,8 @@ project:
   output-dir: docs
 
 book:
-  title: "MEAPS"
-  subtitle: "Distribution statistique des trajets entre le domicile et des opportunités"
-  page-footer: "version provisoire, merci de ne pas citer ou diffuser"
+  title: "MEAPS : Distribution statistique des trajets entre le domicile et le travail"
+  subtitle: "*version provisoire, ne pas citer, ne pas diffuser*"
   author:
     - name : Maxime Parodi
       email: "maxime.parodi@sciencespo.fr"
@@ -21,11 +20,10 @@ book:
   repo-url: https://github.com/xtimbeau/meaps/
   open-graph: true
   twitter-card:
-    creator: "XTimbeau"
+    creator: "@xtimbeau"
   repo-actions: [edit]
-  reader-mode: true
   downloads: [pdf, epub]
-  sharing: [twitter, linkedin, facebook]
+  sharing: [twitter]
   chapters:
     - index.qmd
     - intro.qmd
@@ -41,7 +39,7 @@ author-title: Auteurs
 citation:
   type: article
   container-title: "Document de travail de l'OFCE"
-  url: https://xtimbeau.github.io/meaps
+  url: https://xtimbeau.github.io/larochelle/radiation/radiation.html
 
 keywords: [ modèle gravitaire, modèle radiatif, mobilités ]
 lang: fr
@@ -68,7 +66,6 @@ format:
         - www/custom.scss
     date-modified: today
     toc: true
-    toc-title: Dans cette partie
     toc-location: left 
     number-sections: true
     number-depth: 3 
@@ -94,5 +91,8 @@ format:
     extra_dependencies: ["float"]
     fig-dpi: 600
     fig-format: png
+  epub:
+    toc: true
+    epub-cover-image: www/cover.png
 
 editor: visual
