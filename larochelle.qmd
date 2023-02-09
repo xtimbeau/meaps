@@ -229,12 +229,7 @@ meaps_stats |>
   tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100%  que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent."))
 ```
 
-la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np.
-Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 89.1% à 94.3% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np.
-L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça.
-La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution.
-Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls.
-Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
+la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 88% à 95% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
 
 Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une minute[^larochelle-2].
 
@@ -562,8 +557,8 @@ param <- meaps_estimations |>
   filter(flux!=0) |> 
   mutate(
   label = case_match(alg,
-             "gravitaire avec furness" ~ "5. Gravitaire avec furness",
-             "gravitaire sans furness" ~ "4. Gravitaire sans furness",
+             "gravitaire avec furness" ~ "5. Gravitaire avec Furness",
+             "gravitaire sans furness" ~ "4. Gravitaire sans Furness",
              "référence" ~ " Référence",
              "un en diagonale" ~ "1. Un paramètre commune vers commune",
              "2 en diagonale" ~ "2. commune vers commune et voisines",
@@ -654,9 +649,9 @@ ggplot(meaps_estimations |>
   xlab(NULL)+ylab(NULL)
 ```
 
-## Scénarios variantiels
+## Analyse de scénarios
 
-### Scénarios "localisation de l'emploi"
+### Re-localisation de l'emploi
 
 Le Schéma de Cohérence Territorial (SCoT) est un document de planification, établi et voté par les élus des communes composant le territoire et soumis à validation de l'État.
 Il défini, entre autres, des zones de développement économique, urbaines et des espaces naturels.
@@ -667,20 +662,6 @@ En ce qui concerne le développement de l'emploi, la création de zones d'activi
 Nous évaluons ici des scénarios comptatibles avec le SCoT sans pour autant nous prononcer quant à leur réalisme ou leur probabilité d'occurrence.
 Ainsi, nous analysons les localisations proposées à emploi total constant, c'est-à-dire vues comme des relocalisations de l'emploi vers les zones d'activités depuis leur localisation actuelle.
 
-La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune.
-Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-6] et publiées par l'INSEE.
-Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
-
-[^larochelle-6]: https://www.insee.fr/fr/information/2383243
-
-La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune.
-Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-7] et publiées par l'INSEE.
-Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
-
-[^larochelle-7]: Autour de mille années de vCPU...
-
--   Une fois MEAPS calé sur ces données, nous pouvons analyser des scénarios de déplacement des emplois et en déduire les conséquences en trajets, mode de transport et donc émissions de CO~2~ associé
-
-### Scénarios "transport en commun"
+### Reconfiguration du réseau de transport en commun
 
 L'analyse du territoire ne repose pas seulement sur la localisation de l'emploi, mais aussi sur une prise en compte détaillée des possibilités de transport.
