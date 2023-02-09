@@ -52,7 +52,7 @@ knitr::include_graphics("output/popemp.png")
 
 Un ingrédient important de l'analyse du territoire est la prise en compte des distances entre chaque paire possible résidence/emploi. Contrairement à l'analyse synthétique, nous ne nous contentons pas de la distance euclidienne.
 
-Pour ce faire nous calculons à partir d'un calculateur d'itinéraire (R^5^ de Conveyal [@conway2017; @conway2018; @conway2019] en utilisant le package {`r5r}` [@r5r] les distances et surtout les temps de transport pour quatre modes (voiture, vélo, transport en commun, marche à pied). Les temps de transport calculés pour chaque paire de carreaux de résidence et d'emploi, en retenant le centre des carreaux, tiennent compte des différentes contraintes de circulation (vitesses limites pour la voiture, sens de circulation, pénalité pour changement de direction, accès autorisé ou restreint suivant le mode, stress à vélo). Concernant les déplacements en voiture, nous ne prenons pas en compte à ce stade la congestion. Concernant les transports en commun, le niveau de détail est assez grand, puisque les fréquences de voyages ainsi que les correspondances sont prises en compte. Dans certaines villes, il est possible d'accéder à une information sur les temps de parcours effectifs (mesurant ainsi la congestion ou la disponibilité du réseau) en complément des horaires théoriques. Ces informations ne sont pas disponible pour l'agglomération de la Rochelle et donc cette possibilité n'est pas explorée. L'accès aux données GTFS impose quelques limites, comme par exemple la non prise en compte des réseaux scolaires ou d'autres réseaux locaux ou privés non publiés sous ce format. La modification du réseau de transport comme l'ouverture d'une ligne ou l'accroissement de fréquence est pris en compte en modifiant la matrice des distances et temps par mode entre chaque carreau de résidence et chaque carreau de destination. Dans le cas de l'agglomération de la Rochelle, le nombre de paires calculés est de l'ordre de 16 millions.
+Pour ce faire nous calculons à partir d'un calculateur d'itinéraire (R^5^ de Conveyal [@conway2017; @conway2018; @conway2019] en utilisant le package `{r5r}` [@r5r] les distances et surtout les temps de transport pour quatre modes (voiture, vélo, transport en commun, marche à pied). Les temps de transport calculés pour chaque paire de carreaux de résidence et d'emploi, en retenant le centre des carreaux, tiennent compte des différentes contraintes de circulation (vitesses limites pour la voiture, sens de circulation, pénalité pour changement de direction, accès autorisé ou restreint suivant le mode, stress à vélo). Concernant les déplacements en voiture, nous ne prenons pas en compte à ce stade la congestion. Concernant les transports en commun, le niveau de détail est assez grand, puisque les fréquences de voyages ainsi que les correspondances sont prises en compte. Dans certaines villes, il est possible d'accéder à une information sur les temps de parcours effectifs (mesurant ainsi la congestion ou la disponibilité du réseau) en complément des horaires théoriques. Ces informations ne sont pas disponible pour l'agglomération de la Rochelle et donc cette possibilité n'est pas explorée. L'accès aux données GTFS impose quelques limites, comme par exemple la non prise en compte des réseaux scolaires ou d'autres réseaux locaux ou privés non publiés sous ce format. La modification du réseau de transport comme l'ouverture d'une ligne ou l'accroissement de fréquence est pris en compte en modifiant la matrice des distances et temps par mode entre chaque carreau de résidence et chaque carreau de destination. Dans le cas de l'agglomération de la Rochelle, le nombre de paires calculés est de l'ordre de 16 millions.
 
 A partir des temps de trajets par mode, nous appliquons un modèle de choix discret, *Random Utility Model* (RUM) à la McFadden, estimé sur l'enquête mobilité des personnes 2019 @MOBPERS en utilisant les données de mobilités professionnelles @MOBPRO pour caler les flux commune à commune. L'estimation de ce modèle est détaillée dans un autre document (référence à insérer).
 
@@ -160,7 +160,7 @@ meaps_stats |>
   tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100%  que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent."))
 ```
 
-la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 89.1% à 94.3% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
+la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 88% à 95% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
 
 Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une minute[^larochelle-2].
 
@@ -434,8 +434,8 @@ param <- meaps_estimations |>
   filter(flux!=0) |> 
   mutate(
   label = case_match(alg,
-             "gravitaire avec furness" ~ "5. Gravitaire avec furness",
-             "gravitaire sans furness" ~ "4. Gravitaire sans furness",
+             "gravitaire avec furness" ~ "5. Gravitaire avec Furness",
+             "gravitaire sans furness" ~ "4. Gravitaire sans Furness",
              "référence" ~ " Référence",
              "un en diagonale" ~ "1. Un paramètre commune vers commune",
              "2 en diagonale" ~ "2. commune vers commune et voisines",
@@ -521,24 +521,14 @@ ggplot(meaps_estimations |>
   xlab(NULL)+ylab(NULL)
 ```
 
-## Scénarios variantiels
+## Analyse de scénarios
 
-### Scénarios "localisation de l'emploi"
+### Re-localisation de l'emploi
 
 Le Schéma de Cohérence Territorial (SCoT) est un document de planification, établi et voté par les élus des communes composant le territoire et soumis à validation de l'État. Il défini, entre autres, des zones de développement économique, urbaines et des espaces naturels. C'est la loi SRU relative à la Solidarité et au Renouvellement Urbains du 13 décembre 2000 qui l'a défini et les contours en ont été modifiés au cours des dernières années.
 
 Le schéma n'est pas qu'indicatif puisqu'il est opposable. En ce qui concerne le développement de l'emploi, la création de zones d'activité est rendue possible par le SCoT, mais la réalisation effective des créations d'emploi et surtout leur localisation nette des déplacements d'autres emplois découle des décisions de l'ensemble des acteurs et donc et donc de causalités diverses et variées. Nous évaluons ici des scénarios comptatibles avec le SCoT sans pour autant nous prononcer quant à leur réalisme ou leur probabilité d'occurrence. Ainsi, nous analysons les localisations proposées à emploi total constant, c'est-à-dire vues comme des relocalisations de l'emploi vers les zones d'activités depuis leur localisation actuelle.
 
-La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune. Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-6] et publiées par l'INSEE. Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
-
-[^larochelle-6]: https://www.insee.fr/fr/information/2383243
-
-La construction de cette analyse impose donc de connaître précisément la localisation de l'emploi, ce que nous réalisons par une imputation au carreau INSPIRE 200m à partir des données d'emploi par commune. Nous calons alors MEAPS sur ces données ainsi que sur les données de mobilité professionnelles issues du recensement[^larochelle-7] et publiées par l'INSEE. Ces données donnent les lieux habituels de travail (à la commune) pour les différents résidents (d'une commune) ainsi que les flux correspondant entre paires de communes.
-
-[^larochelle-7]: Autour de mille années de vCPU...
-
--   Une fois MEAPS calé sur ces données, nous pouvons analyser des scénarios de déplacement des emplois et en déduire les conséquences en trajets, mode de transport et donc émissions de CO~2~ associé
-
-### Scénarios "transport en commun"
+### Reconfiguration du réseau de transport en commun
 
 L'analyse du territoire ne repose pas seulement sur la localisation de l'emploi, mais aussi sur une prise en compte détaillée des possibilités de transport.
