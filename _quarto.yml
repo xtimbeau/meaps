@@ -20,7 +20,7 @@ book:
   repo-url: https://github.com/xtimbeau/meaps/
   open-graph: true
   twitter-card:
-    creator: "@xtimbeau"
+    creator: "XTimbeau"
   repo-actions: [edit]
   downloads: [pdf, epub]
   sharing: [twitter]

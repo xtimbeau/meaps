@@ -4,8 +4,9 @@ Nous nous intéressons à la mobilité de la vie quotidienne et aux facteurs qui
 Pour cela nous voulons à la fois connaître le nombre de trajets qu'un individu effectue chaque jour, mais aussi quelles sont les destinations probables de ces trajets, les modes de transport et les temps passés à les effectuer.
 Cette connaissance suppose une modélisation qui produit un certain nombre de prédictions que l'on peut confronter à l'information dont on dispose.
 En particulier, on ne dispose pas, à ce jour, d'une information complète des trajets effectués pour chaque individu, même sur un échantillon réduit, vers chacune des destinations possibles, pour chacun des motifs envisageables.
-On mesure donc soit des distributions de trajets dans la population, par motif et par mode, issues d'enquêtes de mobilité, soit des nombre de trajets reliant telle commune de résidence à telle commune d'activité.
-L'information, quoique riche, ne couvre pas toute la complexité du phénomène considéré et la modélisation, par des hypothèses sur les comportements, permet de quantifier le lien entre quelques paramètres fondamentaux et les observations.
+On mesure donc soit des distributions de trajets dans la population, par motif et par mode, issues d'enquêtes de mobilité, soit le nombre de trajets reliant telle commune de résidence à telle commune d'activité.
+L'information, quoique riche, ne couvre pas toute la complexité du phénomène considéré et la modélisation, par des hypothèses sur les comportements, est nécessaire pour quantifier le lien entre quelques paramètres fondamentaux et les observations.
+C'est ainsi qu'on peut résumer l'information contenue dans les données, la filtrer d'un bruit d'observation et imputer des causalités.
 
 Intuitivement, l'analyse des trajets doit permettre de relier différentes dimensions de la géographie, de l'endroit où les gens habitent, à celui où ils s'affairent, en intégrant le réseau de transport qui leur permet de se déplacer, plus ou moins rapidement, plus ou moins en sécurité, pour un coût plus ou moins élevé.
 Puisque l'espace est partagé entre les individus, on s'attend à ce que la congestion ou la compétition pour des emplois, des lieux de résidences ou d'autres ressources rares, jouent des rôles à un moment ou un autre.
@@ -31,13 +32,13 @@ Le modèle gravitaire est largement employé dans cette deuxième étape pour pr
 Plus un emploi est loin, moins il doit être attractif.
 Un individu doit donc préférer les emplois près de lui à ceux qui sont éloignés.
 
-Ce modèle gravitaire est loin d'être convainquant et nous discutons dans une première partie de ses insuffisances (@sec-grav).
+Ce modèle gravitaire est loin d'être convainquant et nous discutons dans une première partie de ses insuffisances (@sec-theorie).
 Le modèle des opportunités intervenantes de @stouffer1940 et le modèle radiatif de @simini2012 qui font intervenir le rang de classement des emplois plutôt que la distance (@sec-rad) et reposent sur une analogie plus adéquate aux échelles géographiques que nous considérons (commune, région) que celle de la gravitation.
 Nous présentons une version étendue du modèle radiatif qui produit deux résultats principaux :
 
 1.  au lieu de la distance, c'est le nombre d'emplois accessibles dans un cercle de rayon donné qui détermine le choix individuel.
 
-2.  nous explicitons la saturation et nous donnons un fondement microscopique au respect des contraintes aux marges (tout individu a un emploi, tout emploi est occupé par un individu) (@sec-meaps).
+2.  nous explicitons la saturation et nous donnons un fondement microscopique au respect des contraintes aux marges (tout individu a un emploi, tout emploi est occupé par un individu).
 
 La formulation est probabiliste et nous en analysons quelques propriétés par des simulations synthétiques (@sec-synt), en montrant qu'on peut arriver rapidement à simuler un état indépendant des conditions initiales.
 Nous proposons ensuite une application à l'agglomération de la Rochelle (@sec-rochelle), dans la quelle nous détaillons le processus de construction des données, proposons une procédure d'ajustement et exploitons le modèle ajusté pour des analyses de scénarios.
