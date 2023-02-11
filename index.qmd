@@ -16,5 +16,5 @@ La modélisation et son calibration sur des données permet d'analyser des scén
 ::: {.callout-tip .align-left}
 ## Quarto
 
-*Ce document a été produit avec [Quarto](https://quarto.org). La partie "Aspects théoriques" ne demande rien de plus pour être exécuté qu'un environnement supportant Quarto comme RStudio. La partie "Simulations synthétiques est exécutable complètement à partir des fichiers présent dans le dossier `R` du dépôt github [github.com/xtimbeau/meaps](https://github.com/xtimbeau/meaps). La partie "Application à la Rochelle" nécessite l'accès à des données spécifiques pour lesquelles nous étudions la possibilité de diffusion. N'hésitez pas à contacter les auteurs sur ce point.*
+*Ce document a été produit avec [Quarto](https://quarto.org). La partie "Aspects théoriques" ne demande rien de plus pour être exécuté qu'un environnement supportant Quarto comme RStudio. La partie "Simulations synthétiques est exécutable complètement à partir des fichiers présent dans le dossier `R` du dépôt github [github.com/xtimbeau/meaps](https://github.com/xtimbeau/meaps). La partie"Application à la Rochelle" nécessite l'accès à des données spécifiques pour lesquelles nous étudions la possibilité de diffusion. N'hésitez pas à contacter les auteurs sur ce point.*
 :::
