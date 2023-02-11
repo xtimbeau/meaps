@@ -3,8 +3,9 @@ project:
   output-dir: docs
 
 book:
-  title: "MEAPS : Distribution statistique des trajets entre le domicile et le travail"
-  subtitle: "*version provisoire, ne pas citer, ne pas diffuser*"
+  title: "MEAPS"
+  subtitle: "Distribution statistique des trajets entre le domicile et le travail"
+  page-footer: "*version provisoire, merci de ne pas diffuser ni de ne pas citer*" 
   author:
     - name : Maxime Parodi
       email: "maxime.parodi@sciencespo.fr"
@@ -59,7 +60,7 @@ format:
   html:
     theme:
       light:
-        - litera
+        - cosmo
         - www/custom.scss
       dark:
         - darkly

@@ -1,11 +1,6 @@
 ### Résumé {.unnumbered .unlisted}
 
-Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix.
-En s'inspirant du modèle des "*intervening opportunities*" de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles.
-Le modèle s'accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation.
-Nous validons le modèle théorique sur des données synthétiques et nous proposons une application à la Rochelle pour la modélisation des trajets quotidiens domicile travail.
-La comparaison systématique avec le modèle gravitaire montre que MEAPS est plus à même de décrire les flux de déplacements.
-La modélisation et son calibration sur des données permet d'analyser des scénarios variantiels pour la Rochelle.
+Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix. En s'inspirant du modèle des "*intervening opportunities*" de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s'accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques et nous proposons une application à la Rochelle pour la modélisation des trajets quotidiens domicile travail. La comparaison systématique avec le modèle gravitaire montre que MEAPS est plus à même de décrire les flux de déplacements. La modélisation et son calibration sur des données permet d'analyser des scénarios variantiels pour la Rochelle.
 
 ::: {.callout-note .align-left}
 ## *Remerciements*
