@@ -17,6 +17,11 @@ library(showtext)
 library(markdown)
 library(gt)
 library(qs)
+library(sf)
+library(ggspatial)
+library(stars)
+library(glue)
+
 sysfonts::font_add_google('Nunito')
 showtext_auto()
 options(ofce.background_color = "grey97")
@@ -54,26 +59,106 @@ Un ingrédient important de l'analyse du territoire est la prise en compte des d
 
 Pour ce faire nous calculons à partir d'un calculateur d'itinéraire (R^5^ de Conveyal [@conway2017; @conway2018; @conway2019] en utilisant le package `{r5r}` [@r5r] les distances et surtout les temps de transport pour quatre modes (voiture, vélo, transport en commun, marche à pied). Les temps de transport calculés pour chaque paire de carreaux de résidence et d'emploi, en retenant le centre des carreaux, tiennent compte des différentes contraintes de circulation (vitesses limites pour la voiture, sens de circulation, pénalité pour changement de direction, accès autorisé ou restreint suivant le mode, stress à vélo). Concernant les déplacements en voiture, nous ne prenons pas en compte à ce stade la congestion. Concernant les transports en commun, le niveau de détail est assez grand, puisque les fréquences de voyages ainsi que les correspondances sont prises en compte. Dans certaines villes, il est possible d'accéder à une information sur les temps de parcours effectifs (mesurant ainsi la congestion ou la disponibilité du réseau) en complément des horaires théoriques. Ces informations ne sont pas disponible pour l'agglomération de la Rochelle et donc cette possibilité n'est pas explorée. L'accès aux données GTFS impose quelques limites, comme par exemple la non prise en compte des réseaux scolaires ou d'autres réseaux locaux ou privés non publiés sous ce format. La modification du réseau de transport comme l'ouverture d'une ligne ou l'accroissement de fréquence est pris en compte en modifiant la matrice des distances et temps par mode entre chaque carreau de résidence et chaque carreau de destination. Dans le cas de l'agglomération de la Rochelle, le nombre de paires calculés est de l'ordre de 16 millions.
 
-A partir des temps de trajets par mode, nous appliquons un modèle de choix discret, *Random Utility Model* (RUM) à la McFadden, estimé sur l'enquête mobilité des personnes 2019 @MOBPERS en utilisant les données de mobilités professionnelles @MOBPRO pour caler les flux commune à commune. L'estimation de ce modèle est détaillée dans un autre document (référence à insérer).
+A partir des temps de trajets par mode, nous appliquons un modèle de choix discret, Random Utility Model (RUM) à la McFadden, estimé sur l'enquête mobilité des personnes 2019 @MOBPERS en utilisant les données de mobilités professionnelles @MOBPRO pour caler les flux commune à commune. L'estimation de ce modèle est détaillée dans un autre document (référence à insérer).
 
-Les distances entre chaque paire de cases permettent de calculer un indicateur d'accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans MEAPS, en remplaçant la distance par la somme des opportunités en deçà d'un seuil de temps. La carte de la @fig-4access représente les temps pour accéder à 10 000 emplois en utilisant différents modes de transport.
+Les distances entre chaque paire de cases permettent de calculer un indicateur d'accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans MEAPS, en remplaçant la distance par la somme des opportunités en deçà d'un seuil de temps. Les cartes des @fig-4access1k, @fig-4access5k, @fig-4access10k, @fig-4access20k représentent les temps pour accéder entre 1 000 et 20 000 d'emplois en utilisant différents modes de transport.
 
-```{r carte_access, echo = FALSE}
-#| label: fig-4access
-#| fig-scap: "Accessibilité à 10 000 emplois pour la Rochelle"
-#| fig-cap: "Temps d'accès à 10 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. Sources : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+```{r cartes accessibilité}
+access <- qs::qread("output/acces4modes.sqs")
+decor_carte <- qs::qread("output/decor_carte.sqs")
 
-knitr::include_graphics("output/access_4modes.png")
+access_4modes <- 
+  map(c("to1k", "to5k", "to10k", "to20k"), ~{ 
+    ggplot()+
+      decor_carte +
+      ofce::theme_ofce_void(base_family = "Nunito", axis.text = element_blank()) +
+      geom_sf(data=access, aes(fill=.data[[.x]]), col=NA)+
+      #scico::scale_fill_scico(palette="hawaii", na.value=NA, direction=-1, name = "mn")+
+      PrettyCols::scale_fill_pretty_c(
+        "Rainbow", 
+        limits = c(0,100),
+        breaks = c(15, 30, 45, 60, 75, 90),
+        na.value = "gray85",
+        direction=-1, 
+        legend_title = glue("temps pour \n{str_remove(.x, 'to')} emp."))+
+      annotation_scale(line_width = 0.2, height = unit(0.1, "cm"), 
+                       text_cex = 0.4, pad_y = unit(0.1, "cm"))+
+      facet_wrap(vars(mode))
+  })
+
 ```
 
-Les courbes d'accessibilité de la @fig-comaccess sont construite en prenant la moyenne par commune de résidence des temps d'accès pour les différents seuils d'emplois. C'est cette courbe qui découle du modèle théorique présenté plus haut (@sec-meaps) et qui détermine les choix individuels de déplacement comme de localisation. Ces courbes font apparaître une propriété propre aux villes littorales : si pour des temps courts ou des moyens de transport peu rapide, l'accès à l'emploi pour des temps courts est maximal à la Rochelle, en revanche, d'autres communes jouissent d'une position plus centrale lorsqu'on accepte des temps de trajets supérieurs à 30 minutes en voiture.
+::: panel-tabset
+## temps pour 1k
+
+```{r}
+#| label: fig-4access1k
+#| fig-scap: "Accessibilité à 1 000 emplois pour la Rochelle"
+#| fig-cap: "Temps d'accès à 1 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+#| fig-asp: 0.9
+access_4modes[[1]]
+```
+
+## temps pour 5k
+
+```{r}
+#| label: fig-4access5k
+#| fig-scap: "Accessibilité à 5 000 emplois pour la Rochelle"
+#| fig-cap: "Temps d'accès à 5 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+#| fig-asp: 0.9
+
+access_4modes[[2]]
+```
+
+## temps pour 10k
+
+```{r}
+#| label: fig-4access10k
+#| fig-scap: "Accessibilité à 10 000 emplois pour la Rochelle"
+#| fig-cap: "Temps d'accès à 10 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+#| fig-asp: 0.9
+
+access_4modes[[3]]
+```
+
+## temps pour 20k
+
+```{r}
+#| label: fig-4access20k
+#| fig-scap: "Accessibilité à 20 000 emplois pour la Rochelle"
+#| fig-cap: "Temps d'accès à 20 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+#| fig-asp: 0.9
+
+access_4modes[[4]]
+```
+:::
+
+Les courbes d'accessibilité de la @fig-comaccess sont construites en prenant la moyenne par commune de résidence des temps d'accès pour les différents seuils d'emplois. C'est cette courbe qui découle du modèle théorique présenté plus haut (@sec-meaps) et qui détermine les choix individuels de déplacement comme de localisation. Ces courbes font apparaître une propriété propre aux villes littorales : si pour des temps courts ou des moyens de transport peu rapide, l'accès à l'emploi pour des temps courts est maximal à la Rochelle, en revanche, d'autres communes jouissent d'une position plus centrale lorsqu'on accepte des temps de trajets supérieurs à 30 minutes en voiture.
 
 ```{r courbe_access, echo= FALSE}
 #| label: fig-comaccess
 #| fig-scap: "Accessibilité par communes pour la Rochelle"
 #| fig-cap: "Courbe du temps d'accès aux emplois. Pour chaque commune, on calcule la médianne, pondérée par le nombre d'habitants par carreau, du temps d'accès à différents seuils d'emplois. Cela permet de caractériser les communes par leur accessibilité à l'emploi, une mesure plus pertinente de la 'distance à l'emploi'. Calcul des auteurs. Sources : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
 
-knitr::include_graphics("output/access_par_com.png")
+mode_l <- qs::qread("output/model_l.sqs")
+library(scales)
+ggplot(mode_l) +
+  geom_line(aes(x=temps, y=emp, group=com21), col="gray80", linewidth=0.2) +
+  geom_line(data = ~filter(.x, !str_detect(label, "^n")),
+            aes(x=temps, y=emp, color=label)) +
+  scale_x_continuous(breaks  = c(0, 20,40,60,80,100,120))+
+  scale_y_continuous(labels = ofce::f2si2, breaks = c(25000, 50000, 75000, 100000))+
+  PrettyCols::scale_color_pretty_d("Bold")+
+  ofce::theme_ofce()+
+  xlab("temps en minutes") +
+  labs(color="Communes")+
+  theme(legend.position = c(0.01, 0.99),
+        legend.justification = c(0,1),
+        panel.spacing = unit(12, "pt"),
+        plot.margin = margin(l = 6, r= 6),
+        panel.grid.major.x = element_line(color="gray80", linewidth = 0.1))+
+  facet_wrap(vars(mode))
+
 ```
 
 ## Ajustement de MEAPS sur MOBPRO {#sec-ajust}
@@ -82,13 +167,13 @@ knitr::include_graphics("output/access_par_com.png")
 
 La construction de la matrice de distance permet d'utiliser MEAPS pour déduire les flux carreau à carreau. Mais le fichier détail du recensement et son volet mobilités professionnelles nous donnent une information supplémentaire que nous pouvons utiliser pour calibrer au plus près des données MEAPS. Les mobilités professionnelles décrivent pour chaque paire de commune résidence-emploi les flux de mobilités professionnelles (de nombreuses paires de communes ont des flux nuls). Cette information est équivalente à celle produite par MEAPS mais agrégée au niveau communal. Une première stratégie de calage de MEAPS est d'affecter aux probabilités d'absorption un facteur correcteur pour reproduire le plus fidèlement possible les flux agrégés de @MOBPRO.
 
-Cette méthode conduit à saturer le modèle, d'autant plus que l'on estime un nombre de paramètres proche du nombre de degrés de liberté imposé par @MOBPRO. Poussée au maximum, elle permet une intrapolation en calibrant des paramètres pour estimer ce que sont les valeurs des flux à un niveau infra-communal, par exemple au carreau 200m. Ce type d'approche s'apparente à une stratégie non paramétrique commue dans le domaine du *machine learning.* Une limite de cette approche est le sur-ajustement qu'elle induit et qui peut être limité en ajoutant une perte dans la fonction objectif liée à la complexité du modèle. Cela peut également se faire par *pruning*, c'est-à-dire en éliminant les paramètres dont la contribution à l'explication des données est inférieure à un seuil.
+Cette méthode conduit à saturer le modèle, d'autant plus que l'on estime un nombre de paramètres proche du nombre de degrés de liberté imposé par @MOBPRO. Poussée au maximum, elle permet une intrapolation en calibrant des paramètres pour estimer ce que sont les valeurs des flux à un niveau infra-communal, par exemple au carreau 200m. Ce type d'approche s'apparente à une stratégie non paramétrique commue dans le domaine du machine learning. Une limite de cette approche est le sur-ajustement qu'elle induit et qui peut être limité en ajoutant une perte dans la fonction objectif liée à la complexité du modèle. Cela peut également se faire par pruning, c'est-à-dire en éliminant les paramètres dont la contribution à l'explication des données est inférieure à un seuil.
 
-Les paramètres issues de cette approche non paramétrique contiennent une information qui peut ensuite être exploitée. Ils s'interprètent les déviations par rapport à un modèle construit à partir d'une hypothèse explicite. Dans notre cas, cette hypothèse explicite découle du modèle de référence où les *odd-ratios* tous égaux à 1, c'est-à-dire que les emplois sont équivalents pou les individus et qu'ils ne les distinguent que par leur ordre de classement en fonction de leur distance de trajet pour chaque individu.
+Les paramètres issues de cette approche non paramétrique contiennent une information qui peut ensuite être exploitée. Ils s'interprètent les déviations par rapport à un modèle construit à partir d'une hypothèse explicite. Dans notre cas, cette hypothèse explicite découle du modèle de référence où les odd-ratios tous égaux à 1, c'est-à-dire que les emplois sont équivalents pou les individus et qu'ils ne les distinguent que par leur ordre de classement en fonction de leur distance de trajet pour chaque individu.
 
 L'approche non paramétrique pose généralement un problème difficile d'algorithme. Une approche brutale qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les les flux observés se heurte à la grande dimension de l'espace des paramètres. En revanche, on peut utiliser des algorithmes approchés qui, s'ils ne garantissent pas de trouver un minimum, permettent rapidement d'en approcher un. Dans ce cas, la stratégie non paramétrique non brutale peut être efficace du point de vue du temps de calcul au prix de quelques approximations dont par exemple la fonction de perte.
 
-Une seconde approche, beaucoup plus parcimonieuse en paramètres estimés, consiste à définir une forme fonctionnelle pour les *odd-ratios*. Cette forme fonctionnelle réduit alors le nombre de paramètres drastiquement à quelques uns, voire un seul, et rend possible l'utilisation des algorithmes habituels de minimisation d'une fonction objectif. La connaissance de la matrice hessienne permet d'améliorer la performance de l'algorithme, mais elle est n'est pas toujours calculable et doit être approchée numériquement par itérations successives. Pour quelques paramètres à estimer, les algorithmes peuvent donner en un temps raisonnable une bonne solution au problème de minimisation de la fonction de perte.
+Une seconde approche, beaucoup plus parcimonieuse en paramètres estimés, consiste à définir une forme fonctionnelle pour les odd-ratios. Cette forme fonctionnelle réduit alors le nombre de paramètres drastiquement à quelques uns, voire un seul, et rend possible l'utilisation des algorithmes habituels de minimisation d'une fonction objectif. La connaissance de la matrice hessienne permet d'améliorer la performance de l'algorithme, mais elle est n'est pas toujours calculable et doit être approchée numériquement par itérations successives. Pour quelques paramètres à estimer, les algorithmes peuvent donner en un temps raisonnable une bonne solution au problème de minimisation de la fonction de perte.
 
 ### Estimations non paramétriques {#sec-estnp}
 
@@ -98,7 +183,7 @@ $$
 \tilde{p}_a = \frac{c_a \times \omicron_{i,j}} {1+c_a \times \omicron_{i,j}} 
 $$ {#eq-odd}
 
-A ce stade nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons l'*odd-ratio* entre le résultat d'une simulation associée à un ensemble d'$\omicron_{i,j}$ et celui défini par les données observées de @MOBPRO en utilisant la formule suivante où $\beta$ est un paramètre d'amortissement inférieur à 1 et positif et $k$ indexe les itérations :
+A ce stade nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons l'odd-ratio entre le résultat d'une simulation associée à un ensemble d'$\omicron_{i,j}$ et celui défini par les données observées de @MOBPRO en utilisant la formule suivante où $\beta$ est un paramètre d'amortissement inférieur à 1 et positif et $k$ indexe les itérations :
 
 $$
 \omicron^k_{i,j} = (\frac{\tilde{p}^k_a/(1-\tilde{p}^k_a)}{
@@ -129,7 +214,7 @@ qui n'est autre que l'entropie de la distribution $p$ à une constante près ($N
 
 L'algorithme naïf est relativement efficace. Il converge en quelques dizaines d'itérations, s'avère stable et fait diminuer l'entropie relative. Il devra être affiné dans le futur afin de permettre une descente de gradient qui permet de minimiser explicitement l'entropie relative. L'algorithme naïf permet de réduire cette entropie relative sans assurer qu'elle est minimale.
 
-Cet algorithme naïf a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2-np indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 89.1% ce qui est déjà un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{i,j}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un *odd-ratio* pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (la Rochelle), en revanche, l'*odd-ratio* $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{i,j}$ librement. La première de ces deux configurations limite les $\omicron_{i,j}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 98% ce qui représente un peu moins de 2 000 $\omicron_{i,j}$. La seconde configuration estime tous les $\omicron_{i,j}$ sans limite (soit 1 752 paramètres pour 72 communes de résidence et 210 communes d'activité).
+Cet algorithme naïf a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2-np indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 89.1% ce qui est déjà un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{i,j}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un odd-ratio pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (la Rochelle), en revanche, l'odd-ratio $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{i,j}$ librement. La première de ces deux configurations limite les $\omicron_{i,j}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 98% ce qui représente un peu moins de 2 000 $\omicron_{i,j}$. La seconde configuration estime tous les $\omicron_{i,j}$ sans limite (soit 1 752 paramètres pour 72 communes de résidence et 210 communes d'activité).
 
 ```{r meapsR2-np}
 #| label: tbl-meapsR2-np
@@ -160,7 +245,7 @@ meaps_stats |>
   tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100%  que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent."))
 ```
 
-la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 88% à 95% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
+la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le gain à estimer les $\omicron_{i,i}$ diagonaux, pondérant les flux allant d'une commune de résidence vers elle même est assez élevé, faisant passer le $R^2_{KL}$ de 88% à 95% et réduisant les écarts entre flux observé et flux estimé comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus d'autant que les écarts pour les flux marginaux ne sont pas tant réduit que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des odd-ratio trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{i,j}$.
 
 Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une minute[^larochelle-2].
 
@@ -223,7 +308,7 @@ ggplot(non_param)+
 
 Notons que l'échantillon des mobilités donné par @MOBPRO pour l'agglomération de la Rochelle est trsè particulier. Une commune (la Rochelle, dont le code géographique est 17300) représente presque 29% des flux de mobilité (de la Rochelle lieu de résidence vers la Rochelle lieu d'emploi). C'est donc un schéma monocentrique, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit. La résolution spatiale de @MOBPRO ne nous permet pas d'en détailler la structure plus fine.
 
-Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les *odd-ratios* estimées dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{i,j}$ sont égaux à 1 (des *odd-ratios* effectifs), en fonction de la distance de la commune de destination à la commune de résidence[^larochelle-3]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odd-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odd-ratios* élevés pour des distances importantes
+Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent plus de 1 000 résidents en activité -- on peut représenter les odd-ratios estimées dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{i,j}$ sont égaux à 1 (des odd-ratios effectifs), en fonction de la distance de la commune de destination à la commune de résidence[^larochelle-3]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les odd-ratios de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des odd-ratios élevés pour des distances importantes
 
 [^larochelle-3]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
 
@@ -243,13 +328,13 @@ knitr::include_graphics("output/spectre effectif par COMMUNE 100.png")
 knitr::include_graphics("output/spectre effectif par DCLT 100.png")
 ```
 
-La @fig-carteodd permet de préciser la valeur élevée des *odd-ratios* pour les flux internes. Les communes où sont localisés de nombreux emplois ont un *odd-ratio* plutôt plus faible alors qu'ils sont estimés plus élevés dans les communes plus petites et moins desservies. Pour les différentes procédure d'estimation et donc différents nombres de paramètres estimés, on observe une structure similaire dans la répartition géographique des *odd-ratio*, ce qui suggère que les *odd-ratios* estimés contiennent de l'information.
+La @fig-carteodd permet de préciser la valeur élevée des odd-ratios pour les flux internes. Les communes où sont localisés de nombreux emplois ont un odd-ratio plutôt plus faible alors qu'ils sont estimés plus élevés dans les communes plus petites et moins desservies. Pour les différentes procédure d'estimation et donc différents nombres de paramètres estimés, on observe une structure similaire dans la répartition géographique des odd-ratio, ce qui suggère que les odd-ratios estimés contiennent de l'information.
 
-Un *odd-ratio* élevé indique que les flux internes sont plus élevés que dans le scénario de référence. Cela indique probablement un choix de résidence en lien avec l'emploi occupé en privilégiant la commune d'activité pour la résidence (ou l'inverse). Le spectre résident en fonction de la distance indique que ce phénomène, s'il est une hypothèse à très faible distance, ne persiste pas en dehors de la commune de résidence. En revanche, la @fig-spectreE suggère que dans certaines communes, notamment Surgères, on observe des *odd-ratios* supérieurs à 1 pour les des distances faibles, ce qui tend à indiquer que les habitants des communes alentours privilégient Surgères comme lieu d'emploi.
+Un odd-ratio élevé indique que les flux internes sont plus élevés que dans le scénario de référence. Cela indique probablement un choix de résidence en lien avec l'emploi occupé en privilégiant la commune d'activité pour la résidence (ou l'inverse). Le spectre résident en fonction de la distance indique que ce phénomène, s'il est une hypothèse à très faible distance, ne persiste pas en dehors de la commune de résidence. En revanche, la @fig-spectreE suggère que dans certaines communes, notamment Surgères, on observe des odd-ratios supérieurs à 1 pour les des distances faibles, ce qui tend à indiquer que les habitants des communes alentours privilégient Surgères comme lieu d'emploi.
 
-A ce stade, les observations sont limitées par le faible nombre de communes modélisées, mais on peut espérer que l'analyse des *odd-ratios* estimés pourra servir à caractériser les communes en fonction des choix de résidence et d'emploi. En multipliant cette analyse pour d'autres territoires, l'information apportée par les *odd-ratio* pourra être inférée. Il sera aussi possible de confronter ces éléments à d'autres variables, comme le prix de l'immobilier, les loyers résidentiels ou commerciaux, la densité d'emploi.
+A ce stade, les observations sont limitées par le faible nombre de communes modélisées, mais on peut espérer que l'analyse des odd-ratios estimés pourra servir à caractériser les communes en fonction des choix de résidence et d'emploi. En multipliant cette analyse pour d'autres territoires, l'information apportée par les odd-ratio pourra être inférée. Il sera aussi possible de confronter ces éléments à d'autres variables, comme le prix de l'immobilier, les loyers résidentiels ou commerciaux, la densité d'emploi.
 
-Une autre approche empirique serait de définir une forme fonctionnelle pour les *odd-ratio* en paramétrant cette forme fonctionnelle de façon parcimonieuse. On pourra alors tester des hypothèses et tenter d'extraire une information de la structure des *odd-ratios.* Une autre approche est de procéder à une analyse de régression multivariée sur les *odd-ratios* estimés.\
+Une autre approche empirique serait de définir une forme fonctionnelle pour les odd-ratio en paramétrant cette forme fonctionnelle de façon parcimonieuse. On pourra alors tester des hypothèses et tenter d'extraire une information de la structure des odd-ratios. Une autre approche est de procéder à une analyse de régression multivariée sur les odd-ratios estimés.\
 
 ```{r carteodd}
 #| label: fig-carteodd
@@ -261,7 +346,7 @@ knitr::include_graphics("output/toutes configs odds effectifs.png")
 
 ### Estimations paramétriques et comparaison avec le modèle gravitaire
 
-En donnant une forme fonctionnelle paramétrisée aux *odd-ratios* correctifs $\{o_{i,j}\}$ on peut ensuite déterminer les paramètres par un algorithme standard de minimisation de l'entropie relative, qui est le critère que nous avons choisi pour comparer les distributions. De plus, il est également possible de procéder à une telle estimation paramétrique pour le modèle gravitaire.
+En donnant une forme fonctionnelle paramétrisée aux odd-ratios correctifs $\{o_{i,j}\}$ on peut ensuite déterminer les paramètres par un algorithme standard de minimisation de l'entropie relative, qui est le critère que nous avons choisi pour comparer les distributions. De plus, il est également possible de procéder à une telle estimation paramétrique pour le modèle gravitaire.
 
 Nous explorons ici trois formes paramétriques pour MEAPS :
 
