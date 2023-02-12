@@ -25,7 +25,7 @@ library(glue)
 library(PrettyCols)
 sysfonts::font_add_google('Nunito')
 showtext_auto()
-options(ofce.background_color = "grey97")
+options(ofce.background_color = "grey99")
 options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
 ```
@@ -560,8 +560,8 @@ La @fig-distrdist confirme ce diagnostic. On y compare la distrbution cumulée e
 ```{r}
 #| label: fig-distrdist
 #| fig-scap: Distributions empiriques cumulées des distances
-#| fig-cap: Distribution empirique cumulée des distances. MOBPRO est indiqué en trait pointillé noir.
-
+#| fig-cap: Distributions empiriques cumulées des flux selon la distance. MOBPRO est indiqué en trait pointillé noir. La figure du haut est la distribution cumulée, celle du bas la différence entre la distribution et celle de MOBPRO
+load("output/dist.com.srda")
 meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
   mutate(alg = factor(
     alg, c("référence", "diagonale", "90%", "99%", "100%",
@@ -574,39 +574,83 @@ meaps_estimations <- qs::qread("output/meaps_est.sqs") |>
     np = case_match(alg,
                     c("diagonale", "90%", "99%", "100%") ~ TRUE,
                     .default = FALSE)) |> 
-   mutate(
-  label = case_match(alg,
-             "gravitaire avec furness" ~ "5. gravitaire avec furness",
-             "gravitaire sans furness" ~ "4. gravitaire sans furness",
-             "référence" ~ " MEAPS odds=1",
-             "un en diagonale" ~ "1. Commune vers commune",
-             "2 en diagonale" ~ "2. Commune vers commune et voisines",
-             "distance critique" ~ "3. Distance carreau 200m"))
-distances <-meaps_estimations |>
-  filter(alg=="100%") |> 
-  select(COMMUNE, DCLT, d, d5, d95)
-meaps_estimations <- meaps_estimations |> 
-  select(-c(d,d5, d95)) |> 
-  left_join(distances, by=c("COMMUNE", "DCLT"))
+  filter(!is.na(alg)) |> 
+  filter(!np, alg != "référence") 
+distances <- qs::qread("output/meaps_est.sqs") |>
+  group_by(COMMUNE, DCLT) |>
+  summarize(d = first(d[!is.na(d)]),
+            mobpro = first(mobpro[!is.na(mobpro)])) |> 
+  ungroup() |> 
+  drop_na(d)
+algs <- distinct(meaps_estimations, alg) |> pull(alg)
+param <- map_dfr(algs, ~{
+  meaps_estimations |> 
+    filter(alg==.x) |> 
+    select(-c(d, d5, d95, mobpro)) |> 
+    right_join(distances, by=c("COMMUNE", "DCLT")) |> 
+    mutate(flux = replace_na(flux, 0),
+           alg = .x)
+}) |> 
+  mutate(
+    label = case_match(alg,
+                       "gravitaire avec furness" ~ "5. gravitaire avec furness",
+                       "gravitaire sans furness" ~ "4. gravitaire sans furness",
+                       "référence" ~ " MEAPS odds=1",
+                       "un en diagonale" ~ "1. Commune vers commune",
+                       "2 en diagonale" ~ "2. Commune vers commune et voisines",
+                       "distance critique" ~ "3. Distance carreau 200m"))
 
-ggplot(meaps_estimations |> 
-         filter(!np, !is.na(label), alg!= "référence") )+
-  StatCompLab::stat_ewcdf(
-    aes(x=d, weights=flux, col=factor(label), group=factor(label)),
-    position = "identity", na.rm=TRUE, alpha=1)+
-  StatCompLab::stat_ewcdf(
-    data=~filter(.x, alg=="gravitaire avec furness"),
-    aes(x=d, weights=mobpro), linetype="dashed", 
+param <- param |> 
+  filter(!np, !is.na(label)) |>
+  group_by(label) |> 
+  arrange(label, d) |> 
+  mutate(
+    cumflux = cumsum(flux)/sum(flux),
+    cumpro  = cumsum(mobpro)/sum(mobpro)) |>
+  ungroup()
+
+bas <- ggplot(param)+
+  geom_step(aes(x=d, y=cumflux-cumpro , col=label), linewidth = 0.25) +
+  geom_step(
+    data=~filter(.x, alg==algs[[1]]),
+    aes(x=d, y=0), linetype="dashed", 
+    position = "identity", na.rm=TRUE)+
+  PrettyCols::scale_color_pretty_d("Bright")+
+  theme_ofce(legend.position = "none",
+             plot.margin = margin())+
+  ylab("Ecart avec MOBPRO")+
+  xlab(NULL)+
+  scale_y_continuous(
+    labels = scales::label_percent(1))+
+  scale_x_continuous(
+    limits=c(0, 30000),
+    labels = scales::label_number(scale=1/1000, suffix=" km"),
+    n.breaks = 8)
+  
+haut <- ggplot(param)+
+  geom_step(
+    aes(x=d, y=cumflux, col=label),
+    position = "identity", na.rm=TRUE, alpha=1, linewidth = 0.25)+
+  geom_step(
+    data=~filter(.x, alg==algs[[1]]),
+    aes(x=d, y=cumpro), linetype="dashed", 
     position = "identity", na.rm=TRUE)+
   PrettyCols::scale_color_pretty_d("Bright")+
   theme_ofce(legend.position = c(0.75, 0.3))+
   scale_x_continuous(
-    limits=c(0, 30000),
-    labels = scales::label_number(scale=1/1000, suffix=" km"))+
+    limits=c(0, 30000))+
   scale_y_continuous(
-    labels = scales::label_percent(1))+
+    labels = scales::label_percent(1),
+    name = "Distribution cumulée le long de la distance")+
+  theme(axis.line.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.margin = margin(b=1))+
   guides(color=guide_legend("Estimation"))+
   xlab(NULL)+ylab(NULL)
+
+library(patchwork)
+haut / bas + plot_layout(heights = c(3,1))
 ```
 
 ## Analyse de scénarios
