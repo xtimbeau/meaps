@@ -31,6 +31,7 @@ book:
     - theorie.qmd
     - simsynth.qmd
     - larochelle.qmd
+    - scenarios.qmd
     - references.qmd
 
 bibliography: references.bib

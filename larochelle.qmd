@@ -25,12 +25,12 @@ library(glue)
 library(PrettyCols)
 sysfonts::font_add_google('Nunito')
 showtext_auto()
-options(ofce.background_color = "grey97")
+options(ofce.background_color = "grey99")
 options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
 ```
 
-# Application à La Rochelle {#sec-rochelle}
+# Estimation de MEAPS à La Rochelle {#sec-rochelle}
 
 Nous proposons ici une première application de MEAPS à l'agglomération de la Rochelle. Cette application est issue d'un travail de quantification de scénarios de politiques publiques visant à réduire l'empreinte carbone associée aux mobilités quotidiennes et au secteur résidentiel. La quantification demande à la fois de produire une cartographie très fine des émissions, en procédant par interpolation à partir de données plus macroscopiques mesurées par ailleurs et d'être en mesure de produire des évaluations des différences d'émissions localement et à l'échelle du territoire selon les différents scénarios. Nous présentons ici deux familles de scénarios pour lesquelles MEAPS a été mobilisé :
 
@@ -54,7 +54,7 @@ La carte de la zone considéré est représentée sur la @fig-zoneslr. L'analyse
 knitr::include_graphics("output/popemp.png")
 ```
 
-## Calcul des distances par mode
+## Calcul des distances par mode {#sec-distancesparmode}
 
 Un ingrédient important de l'analyse du territoire est la prise en compte des distances entre chaque paire possible résidence/emploi. Contrairement à l'analyse synthétique, nous ne nous contentons pas de la distance euclidienne.
 
@@ -364,7 +364,9 @@ A ces formes fonctionnelles pour MEAPS, nous ajoutons deux formes fonctionnelles
 4.  un modèle gravitaire suivant la définition @eq-gravity où $f(d)= e^{-d/\delta}$. Un seul paramètre $\delta$ est estimé.
 5.  un modèle gravitaire "équilibré" en utilisant l'algorithme de Furness, tel que décrit dans @sec-compgravsynth et en estimant $\delta$ comme dans le point 4.
 
-On pourrait multiplier les modèles estimés. Le propos est ici d'illustrer les possibilités de notre modélisation et d'en comparer les performances à celle du modèle gravitaire. Le tableau @tbl-meapsR2-p résume les résultats des estimations. Le modèle de référence, dans lequel tous les emplois sont équivalents pour chaque individu, fait moins bien en termes d'ajustement que les autres modèles, à l'exception notable du modèle gravitaire non équilibré. Comme on avait pu le constater dans les estimations non paramétriques, le modèle de référence a, malgré son hypothèse simplificatrice, une bonne performance, ce qui est conformé ici par la comparaison au modèle gravitaire simple.
+On pourrait multiplier les modèles estimés[^larochelle-5]. Le propos est ici d'illustrer les possibilités de notre modélisation et d'en comparer les performances à celle du modèle gravitaire. Le tableau @tbl-meapsR2-p résume les résultats des estimations. Le modèle de référence, dans lequel tous les emplois sont équivalents pour chaque individu, fait moins bien en termes d'ajustement que les autres modèles, à l'exception notable du modèle gravitaire non équilibré. Comme on avait pu le constater dans les estimations non paramétriques, le modèle de référence a, malgré son hypothèse simplificatrice, une bonne performance, ce qui est conformé ici par la comparaison au modèle gravitaire simple.
+
+[^larochelle-5]: Par exemple, en faisant dépendre les *odd-ratios* non pas de la distance mais du rang.
 
 ```{r meapsR2-p}
 #| label: tbl-meapsR2-p
@@ -417,9 +419,9 @@ Les estimations 1 à 3, dans lesquelles on explore un terme diagonal sous diffé
 
 L'estimation 3. délivre une information importante. C'est probablement plus la distance que le découpage administratif qui explique ce biais communal, qu'il convient plutôt d'appeler un bais de proximité. En effet, le coefficient d'ajustement est supérieur de plus d'un point à celui obtenu en 1., en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 8 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu'au lieu d'être approximativement de 4 elle est approximativement de 20, soit 5 fois plus.
 
-Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. L'utilisation de données de flux plus précisément localisées, par exemple calculées à partir de Fidéli[^larochelle-5] ou, au prix d'une lourdeur de données bien plus importante par des traces numériques.
+Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. L'utilisation de données de flux plus précisément localisées, par exemple calculées à partir de Fidéli[^larochelle-6] ou, au prix d'une lourdeur de données bien plus importante par des traces numériques.
 
-[^larochelle-5]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
+[^larochelle-6]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
 
 ```{r actvsfit-p, fig.asp=1}
 #| label: fig-actvsfit-p
@@ -560,8 +562,8 @@ La @fig-distrdist confirme ce diagnostic. On y compare la distrbution cumulée e
 ```{r}
 #| label: fig-distrdist
 #| fig-scap: Distributions empiriques cumulées des distances
-#| fig-cap: Distribution empirique cumulée des distances. MOBPRO est indiqué en trait pointillé noir.
-
+#| fig-cap: Distributions empiriques cumulées des flux selon la distance. MOBPRO est indiqué en trait pointillé noir. La figure du haut est la distribution cumulée, celle du bas la différence entre la distribution et celle de MOBPRO
+load("output/dist.com.srda")
 meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
   mutate(alg = factor(
     alg, c("référence", "diagonale", "90%", "99%", "100%",
@@ -574,49 +576,87 @@ meaps_estimations <- qs::qread("output/meaps_est.sqs") |>
     np = case_match(alg,
                     c("diagonale", "90%", "99%", "100%") ~ TRUE,
                     .default = FALSE)) |> 
-   mutate(
-  label = case_match(alg,
-             "gravitaire avec furness" ~ "5. gravitaire avec furness",
-             "gravitaire sans furness" ~ "4. gravitaire sans furness",
-             "référence" ~ " MEAPS odds=1",
-             "un en diagonale" ~ "1. Commune vers commune",
-             "2 en diagonale" ~ "2. Commune vers commune et voisines",
-             "distance critique" ~ "3. Distance carreau 200m"))
-distances <-meaps_estimations |>
-  filter(alg=="100%") |> 
-  select(COMMUNE, DCLT, d, d5, d95)
-meaps_estimations <- meaps_estimations |> 
-  select(-c(d,d5, d95)) |> 
-  left_join(distances, by=c("COMMUNE", "DCLT"))
+  filter(!is.na(alg)) |> 
+  filter(!np, alg != "référence") 
+distances <- qs::qread("output/meaps_est.sqs") |>
+  group_by(COMMUNE, DCLT) |>
+  summarize(d = first(d[!is.na(d)]),
+            mobpro = first(mobpro[!is.na(mobpro)])) |> 
+  ungroup() |> 
+  drop_na(d)
+algs <- distinct(meaps_estimations, alg) |> pull(alg)
+param <- map_dfr(algs, ~{
+  meaps_estimations |> 
+    filter(alg==.x) |> 
+    select(-c(d, d5, d95, mobpro)) |> 
+    right_join(distances, by=c("COMMUNE", "DCLT")) |> 
+    mutate(flux = replace_na(flux, 0),
+           alg = .x)
+}) |> 
+  mutate(
+    label = case_match(alg,
+                       "gravitaire avec furness" ~ "5. gravitaire avec furness",
+                       "gravitaire sans furness" ~ "4. gravitaire sans furness",
+                       "référence" ~ " MEAPS odds=1",
+                       "un en diagonale" ~ "1. Commune vers commune",
+                       "2 en diagonale" ~ "2. Commune vers commune et voisines",
+                       "distance critique" ~ "3. Distance carreau 200m"))
 
-ggplot(meaps_estimations |> 
-         filter(!np, !is.na(label), alg!= "référence") )+
-  StatCompLab::stat_ewcdf(
-    aes(x=d, weights=flux, col=factor(label), group=factor(label)),
-    position = "identity", na.rm=TRUE, alpha=1)+
-  StatCompLab::stat_ewcdf(
-    data=~filter(.x, alg=="gravitaire avec furness"),
-    aes(x=d, weights=mobpro), linetype="dashed", 
+param <- param |> 
+  filter(!np, !is.na(label)) |>
+  group_by(label) |> 
+  arrange(label, d) |> 
+  mutate(
+    cumflux = cumsum(flux)/sum(flux),
+    cumpro  = cumsum(mobpro)/sum(mobpro)) |>
+  ungroup()
+
+bas <- ggplot(param)+
+  geom_step(aes(x=d, y=cumflux-cumpro , col=label), linewidth = 0.25) +
+  geom_step(
+    data=~filter(.x, alg==algs[[1]]),
+    aes(x=d, y=0), linetype="dashed", 
+    position = "identity", na.rm=TRUE)+
+  PrettyCols::scale_color_pretty_d("Bright")+
+  theme_ofce(legend.position = "none",
+             plot.margin = margin())+
+  ylab("Ecart avec MOBPRO")+
+  xlab(NULL)+
+  scale_y_continuous(
+    labels = scales::label_percent(1))+
+  scale_x_continuous(
+    limits=c(0, 30000),
+    labels = scales::label_number(scale=1/1000, suffix=" km"),
+    n.breaks = 8)
+  
+haut <- ggplot(param)+
+  geom_step(
+    aes(x=d, y=cumflux, col=label),
+    position = "identity", na.rm=TRUE, alpha=1, linewidth = 0.25)+
+  geom_step(
+    data=~filter(.x, alg==algs[[1]]),
+    aes(x=d, y=cumpro), linetype="dashed", 
     position = "identity", na.rm=TRUE)+
   PrettyCols::scale_color_pretty_d("Bright")+
   theme_ofce(legend.position = c(0.75, 0.3))+
   scale_x_continuous(
-    limits=c(0, 30000),
-    labels = scales::label_number(scale=1/1000, suffix=" km"))+
+    limits=c(0, 30000))+
   scale_y_continuous(
-    labels = scales::label_percent(1))+
+    labels = scales::label_percent(1),
+    name = "Distribution cumulée le long de la distance")+
+  theme(axis.line.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.margin = margin(b=1))+
   guides(color=guide_legend("Estimation"))+
   xlab(NULL)+ylab(NULL)
+
+library(patchwork)
+haut / bas + plot_layout(heights = c(3,1))
 ```
 
-## Analyse de scénarios
+## Une cartographie des émissions de CO~2~
 
-### Re-localisation de l'emploi
+La construction d'un modèle et sa calibration et sa validation sur des données permet de projeter dans des dimensions non observées les prédictions du modèle. Nous utilisons ici MEAPS, calibré sur les données @MOBPRO sur l'agglomération de la Rochelle pour produire une carte au carreau 200m des émissions de CO~2~ liées à la mobilité professionnelle quotidienne.
 
-Le Schéma de Cohérence Territorial (SCoT) est un document de planification, établi et voté par les élus des communes composant le territoire et soumis à validation de l'État. Il défini, entre autres, des zones de développement économique, urbaines et des espaces naturels. C'est la loi SRU relative à la Solidarité et au Renouvellement Urbains du 13 décembre 2000 qui l'a défini et les contours en ont été modifiés au cours des dernières années.
-
-Le schéma n'est pas qu'indicatif puisqu'il est opposable. En ce qui concerne le développement de l'emploi, la création de zones d'activité est rendue possible par le SCoT, mais la réalisation effective des créations d'emploi et surtout leur localisation nette des déplacements d'autres emplois découle des décisions de l'ensemble des acteurs et donc et donc de causalités diverses et variées. Nous évaluons ici des scénarios comptatibles avec le SCoT sans pour autant nous prononcer quant à leur réalisme ou leur probabilité d'occurrence. Ainsi, nous analysons les localisations proposées à emploi total constant, c'est-à-dire vues comme des relocalisations de l'emploi vers les zones d'activités depuis leur localisation actuelle.
-
-### Reconfiguration du réseau de transport en commun
-
-L'analyse du territoire ne repose pas seulement sur la localisation de l'emploi, mais aussi sur une prise en compte détaillée des possibilités de transport.
+Le principe est assez simple : les seuls déplacements en voiture sont considérés comme étant émetteur de CO~2~, ce qui est une approximation raisonnable. Les émissions liées aux transports en commun, particulièrement les bus peu occupés pourraient être ajoutées, mais elles pèsent relativement peu dans le bilan des mobilités quotidiennes. Pour estimer les déplacements en voiture nous utilisons un modèle de choix discret évoqué dans la @sec-distancesparmode. Ce modèle estimé sur @MOBPERS ne pose à ce stade pas de difficulté particulière, si ce n'est un problème discuté à la fin de cette section.
