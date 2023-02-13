@@ -102,7 +102,7 @@ Pourtant, si l'on veut un modèle de base simple et clair sur le plan conceptuel
 
 Le second défaut est que le modèle ne traite pas le respect des contraintes aux marges, en particulier en colonne. Dans l'@eq-rad le terme $T_i$ représente le nombre de départs de $i$. Il joue le rôle des coefficients $a_i$ dans le modèle gravitaire sous une forme multiplicative simple. Son interprétation est directe et simple. En revanche, il n'existe pas de pendant aux coefficients $b_j$ et il n'est donc pas possible au modèle de tenir compte d'une contrainte capacitaire : un nombre de particules supérieur au nombre d'emplois peuvent être absorbées en $j$.
 
-## Un modèle ergodique d'absorption avec priorité et saturation (*MEAPS*)
+## Un modèle ergodique d'absorption avec priorité et saturation (*MEAPS*) {#sec-meaps}
 
 Nous proposons maintenant une version étendue et remaniée de l'approche de @stouffer1940 qui répond aux critiques que nous faisons au modèle de @simini2012. Dans cette section, nous présentons le modèle dans sa forme plus simple avant d'en exposer les extensions les plus directes. Des simulations synthétiques permettent alors d'apprécier les grandes lignes du fonctionnement de ce modèle. Nous discutons ensuite des procédures d'estimation envisageables ainsi que du développement de mesures issues de ce modèle.
 
