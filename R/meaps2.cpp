@@ -55,7 +55,7 @@ NumericMatrix meaps_rcpp(
     
     // on vérifie qu'on est pas trop long
     if(i%1000 == 1) {Rcpp::checkUserInterrupt();}
-    
+
     rki = rkdist(i, _);
     nna_rki = !is_na(rki);
     k = sum(!is_na(rki));
@@ -78,62 +78,62 @@ NumericMatrix meaps_rcpp(
     
     // on teste que la probabilité de rester avant odd est supérieure à 10^-15, ce qui évite des dépassements de capacité
     
-    
-    p_ref = 1  - pow(f[i ], 1 / tot);
-    c_ref = p_ref / (1 - p_ref);
-    for (int j = 0; j < k; j++) c_abs[j] = odds[arrangement[j]] * c_ref;
-    
-    // normalisation des odds via Newton
-    if (need_norm == TRUE) {
-      temp = 0;
-      for(int j = 0; j<k; j++) temp += dispo[j] * odds[arrangement[j]];
-      x_n = - log(f[i]) / temp / c_ref;
-      do {
-        x_np1 = x_n - ecart_fuite(x_n, dispo, c_abs, f[i]) / derivee_ef(x_n, dispo, c_abs, f[i]); 
-        eps = abs(x_np1 - x_n);
-        x_n = x_np1;
-      } while (eps > 1e-9);
-      c_abs = c_abs * x_np1;
-    }
-    
-    p_abs = c_abs / (1 + c_abs);
-    
-    passe[0] = pow(1 - p_abs[0], dispo[0]);
-    for(auto j = 1; j < k; j++) passe[j] = passe[j-1] * pow(1 - p_abs[j], dispo[j]);
-    
-    
-    reste[0] = 1 - passe[0];
-    for(auto j = 1; j < k; j++) {
-      reste[j] = passe[j - 1] - passe[j];
-    }
-    
-    reste = reste * actifs[i];
-    
-    for(auto j = 0; j < k-1 ; j++) {
-      // débordement des emplois disponibles
-      if (emp[arrangement[j]] < reste[j]) {
-        reste[j+1] = reste[j+1] + reste[j] - emp[arrangement[j]];
-        reste[j] = emp[arrangement[j]];
+    if (abs(log10(f[i]))/tot<15) {
+      p_ref = 1  - pow(f[i ], 1 / tot);
+      c_ref = p_ref / (1 - p_ref);
+      for (int j = 0; j < k; j++) c_abs[j] = odds[arrangement[j]] * c_ref;
+      
+      // normalisation des odds via Newton
+      if (need_norm == TRUE) {
+        temp = 0;
+        for(int j = 0; j<k; j++) temp += dispo[j] * odds[arrangement[j]];
+        x_n = - log(f[i]) / temp / c_ref;
+        do {
+          x_np1 = x_n - ecart_fuite(x_n, dispo, c_abs, f[i]) / derivee_ef(x_n, dispo, c_abs, f[i]); 
+          eps = abs(x_np1 - x_n);
+          x_n = x_np1;
+        } while (eps > 1e-9);
+        c_abs = c_abs * x_np1;
       }
-      emp[arrangement[j]] -= reste[j];
-      liaisons(i, arrangement[j]) = reste[j];
+      
+      p_abs = c_abs / (1 + c_abs);
+      
+      passe[0] = pow(1 - p_abs[0], dispo[0]);
+      for(auto j = 1; j < k; j++) passe[j] = passe[j-1] * pow(1 - p_abs[j], dispo[j]);
+      
+      
+      reste[0] = 1 - passe[0];
+      for(auto j = 1; j < k; j++) {
+        reste[j] = passe[j - 1] - passe[j];
+      }
+      
+      reste = reste * actifs[i];
+      
+      for(auto j = 0; j < k-1 ; j++) {
+        // débordement des emplois disponibles
+        if (emp[arrangement[j]] < reste[j]) {
+          reste[j+1] = reste[j+1] + reste[j] - emp[arrangement[j]];
+          reste[j] = emp[arrangement[j]];
+        }
+        emp[arrangement[j]] -= reste[j];
+        liaisons(i, arrangement[j]) = reste[j];
+      }
+      
+      if (emp[arrangement[k-1]] < reste[k-1]) {
+        reste[k-1] = emp[arrangement[k-1]];
+      } 
+      
+      emp[arrangement[k-1]] -= reste[k-1];
+      liaisons(i, arrangement[k-1]) = reste[k-1];
+      
+      // for(auto j=0; j<K; j++) {
+      //   
+      //   if(Rcpp::traits::is_nan<REALSXP>(liaisons(i,j))) {
+      //     cout << i << " " << arrangement[j] << " " << dispo[arrangement[j]] << " " << reste[j] << endl;
+      //     cout << " " << emp[arrangement[j]];
+      //   }
+      // }
     }
-    
-    if (emp[arrangement[k-1]] < reste[k-1]) {
-      reste[k-1] = emp[arrangement[k-1]];
-    } 
-    
-    emp[arrangement[k-1]] -= reste[k-1];
-    liaisons(i, arrangement[k-1]) = reste[k-1];
-    
-    // for(auto j=0; j<K; j++) {
-    //   
-    //   if(Rcpp::traits::is_nan<REALSXP>(liaisons(i,j))) {
-    //     cout << i << " " << arrangement[j] << " " << dispo[arrangement[j]] << " " << reste[j] << endl;
-    //     cout << " " << emp[arrangement[j]];
-    //   }
-    // }
-    
   }
   
   return liaisons;
