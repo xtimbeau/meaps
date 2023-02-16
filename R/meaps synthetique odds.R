@@ -170,18 +170,7 @@ tic(); mmnm2 <- rmeaps::meaps_bootstrap2(
 # save(mm, mm2, file = "radiation/graphs/mms.rda")
 
 ## matrice de flux ----------------
-flux <- emp_flux(s1, mmb$emps)$s |>
-  as_tibble() |>
-  rename_all(~str_c("e",.x)) |> 
-  mutate(gh = str_c("h", s1$hgroupes$g)) |>
-  relocate(gh) |> 
-  add_total() |> 
-  rowwise() |> 
-  mutate(total = sum(c_across(2:4))) |> 
-  ungroup() |> 
-  mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
-
-flux_new <- emp_flux(s1, mmnm)$s |>
+flux <- emp_flux(s1, mmnm)$s |>
   as_tibble() |>
   rename_all(~str_c("e",.x)) |> 
   mutate(gh = str_c("h", s1$hgroupes$g)) |>
@@ -193,7 +182,7 @@ flux_new <- emp_flux(s1, mmnm)$s |>
   mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
 
 ### flux2 ---------------
-flux2 <- emp_flux(s2, mmb2$emps)$s |>
+flux2 <- emp_flux(s2, mmnm2)$s |>
   as_tibble() |>
   rename_all(~str_c("e",.x)) |> 
   mutate(gh = str_c("h", s1$hgroupes$g)) |>
@@ -208,7 +197,7 @@ knitr::kable(flux2)
 
 save(flux, flux2, file = "output/tblflux.rda")
 
-(gdenshabg <- ggplot(mm$hab)+
+(gdenshabg <- ggplot(s1$hab)+
     geom_density(aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.5)+
     geom_density(data = mm2$hab, aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.25, linetype ="dashed")+
     scico::scale_color_scico_d(
