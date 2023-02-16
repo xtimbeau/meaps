@@ -11,8 +11,8 @@
 library(tidyverse)
 library(conflicted)
 library(furrr)
-source("radiation/radiation functions.r")
-Rcpp::sourceCpp("radiation/meaps_rcpp.cpp", echo=FALSE)
+source("R/radiation functions.r")
+Rcpp::sourceCpp("R/meaps_rcpp.cpp", echo=FALSE)
 future::plan("multisession", workers = 8)
 library(tictoc)
 library(ggnewscale)
@@ -30,12 +30,11 @@ sysfonts::font_add_google('Nunito')
 options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
 plan("multisession", workers = 8)
-Rcpp::sourceCpp("radiation/meaps2.cpp", echo=FALSE)
-source("radiation/meaps2.r")
+Rcpp::sourceCpp("R/meaps2.cpp", echo=FALSE)
+source("R/meaps2.r")
 
 handlers(global = TRUE)
 handlers("cli")
-
 
 n <- 5000
 k <- 5000
@@ -74,35 +73,35 @@ dds |>
   knitr::kable(digits = 1)
 dds2 |>
   knitr::kable(digits = 1)
-save(dds, dds2, file="meaps-doc/output/dds.rda")
+save(dds, dds2, file="output/dds.rda")
 meann <- function(n) function(x) ifelse(length(x)>n, mean(x), NA)
 ### cartes ----------------
 
 coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
 (gcarte_ss <- 
-   (ggplot()+
-      stat_binhex(data = as_tibble(s1$hab),
-                  aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
-      scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
-      coords +
-      geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.4,  size = 2) +
-      labs(title = "Habitants")+
-      theme_void(base_size = 8)+ 
-      theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
-            plot.margin = margin(6,6,6,6),
-            panel.background = element_rect(fill="grey97")))+
-   (ggplot()+
-      stat_binhex(data=as_tibble(s1$emp),
-                  aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
-      scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
-      coords +
-      geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.4) +
-      labs(title = "Emplois")+
-      theme_void(base_size = 8)+ 
-      theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
-            plot.margin = margin(6,6,6,6),
-            panel.background = element_rect(fill="grey97"))) + 
-   plot_layout(guides = 'collect'))
+    (ggplot()+
+       stat_binhex(data = as_tibble(s1$hab),
+                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
+       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
+       coords +
+       geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.4,  size = 2) +
+       labs(title = "Habitants")+
+       theme_void(base_size = 8)+ 
+       theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
+             plot.margin = margin(6,6,6,6),
+             panel.background = element_rect(fill="grey97")))+
+    (ggplot()+
+       stat_binhex(data=as_tibble(s1$emp),
+                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
+       scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
+       coords +
+       geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.4) +
+       labs(title = "Emplois")+
+       theme_void(base_size = 8)+ 
+       theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
+             plot.margin = margin(6,6,6,6),
+             panel.background = element_rect(fill="grey97"))) + 
+    plot_layout(guides = 'collect'))
 (gcarte_ss2 <- 
     (ggplot()+
        stat_binhex(data = as_tibble(s2$hab),
@@ -127,20 +126,45 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97"))) + 
     plot_layout(guides = 'collect'))
-graph2png(gcarte_ss, rep="meaps-doc/output", ratio = 2)
-graph2png(gcarte_ss2, rep="meaps-doc/output", ratio = 2)
-save(gcarte_ss, file = "meaps-doc/output/gcarte_ss.rda")
-save(gcarte_ss2, file = "meaps-doc/output/gcarte_ss2.rda")
+graph2png(gcarte_ss, rep="output", ratio = 2)
+graph2png(gcarte_ss2, rep="output", ratio = 2)
+save(gcarte_ss, file = "output/gcarte_ss.rda")
+save(gcarte_ss2, file = "output/gcarte_ss2.rda")
 
 # calculs ----------------------------
 
 # bench::mark(v1 = meaps_cpp(s1$rk,f = s1$f, p = s1$p, shuf = 1:k))
 # bench::mark(v2 = meaps_rcpp(s1$rk,emplois=rep(1, n), actifs = rep(1, k), odds = s1$p, f = s1$f, shuf = 1:k))
 shufs <- do.call(rbind, purrr::map(1:100, ~sample.int(n,n)))
-mm <- rmeaps(emp = emp, hab = hab, shuf = shufs, meaps_ver = 2)
-mmb <- rmeaps_bstp(s1, shufs, workers = 6)
-mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
+# la v2
+# mm <- rmeaps(emp = emp, hab = hab, shuf = shufs, meaps_ver = 2)
+tic();mmb <- rmeaps_bstp(s1, shufs, workers = 6); toc()
+# la v3
+tic();mmb2 <- rmeaps_bootmat(s1$rk, 
+                             emplois = rep(1, k*0.9), 
+                             actifs = rep(1, n), 
+                             f = rep(0.1, n),
+                             modds = matrix(1, nrow = n, ncol = k*0.9),
+                             shuf = shufs, workers = 8); toc()
+# la v4 qui doit être la finale
+library(rmeaps)
+tic(); mmnm <- rmeaps::meaps_bootstrap2(
+  s1$rk, 
+  emplois = rep(1, k*0.9), 
+  actifs = rep(1, n), 
+  f = rep(0.1, n),
+  modds = matrix(1, nrow = n, ncol = k*0.9),
+  shuf = shufs); toc()
+# Les variations
+#mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
 mmb2 <- rmeaps_bstp(s2, shufs, workers = 6)
+tic(); mmnm2 <- rmeaps::meaps_bootstrap2(
+  s2$rk, 
+  emplois = rep(1, k*0.9), 
+  actifs = rep(1, n), 
+  f = rep(0.1, n),
+  modds = matrix(1, nrow = n, ncol = k*0.9),
+  shuf = shufs); toc()
 
 
 # save(mm, mm2, file = "radiation/graphs/mms.rda")
@@ -156,6 +180,18 @@ flux <- emp_flux(s1, mmb$emps)$s |>
   mutate(total = sum(c_across(2:4))) |> 
   ungroup() |> 
   mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
+
+flux_new <- emp_flux(s1, mmnm)$s |>
+  as_tibble() |>
+  rename_all(~str_c("e",.x)) |> 
+  mutate(gh = str_c("h", s1$hgroupes$g)) |>
+  relocate(gh) |> 
+  add_total() |> 
+  rowwise() |> 
+  mutate(total = sum(c_across(2:4))) |> 
+  ungroup() |> 
+  mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
+
 ### flux2 ---------------
 flux2 <- emp_flux(s2, mmb2$emps)$s |>
   as_tibble() |>
@@ -170,7 +206,7 @@ flux2 <- emp_flux(s2, mmb2$emps)$s |>
 knitr::kable(flux)
 knitr::kable(flux2)
 
-save(flux, flux2, file = "meaps-doc/output/tblflux.rda")
+save(flux, flux2, file = "output/tblflux.rda")
 
 (gdenshabg <- ggplot(mm$hab)+
     geom_density(aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.5)+
@@ -183,8 +219,8 @@ save(flux, flux2, file = "meaps-doc/output/tblflux.rda")
       labels = c("h1", "h2", "h3"))+
     xlim(c(0,1.5))+ylim(c(0,5))+ylab(NULL)+xlab("distance")+
     theme_ofce(base_size=9, base_family = "Nunito") +theme(legend.position = "right"))
-graph2png(gdenshabg, rep="meaps-doc/output", ratio = 16/9)
-save(gdenshabg, file = "meaps-doc/output/gdenshabg.rda")
+graph2png(gdenshabg, rep="/output", ratio = 16/9)
+save(gdenshabg, file = "/output/gdenshabg.rda")
 
 # flux |> gt() |> 
 #   gt::fmt_integer(columns = 2:5,
@@ -245,8 +281,8 @@ gdensemp <- ggplot(mm$emp)+
     (gdemp+inset_element(gdensemp, 0.5, 0., 1, 0.33))+
     plot_layout(guides = "collect"))
 
-graph2png(gdistances, rep="meaps-doc/output", ratio = 2)
-save(gdistances, file = "meaps-doc/output/gdistances.rda")
+graph2png(gdistances, rep="output", ratio = 2)
+save(gdistances, file = "output/gdistances.rda")
 
 ### s2 ---------------------
 gdhab <- ggplot()+
@@ -588,6 +624,8 @@ gnmsd <- ggplot(rangns |> filter(draw==500))+
 graph2png(gnmsd, rep="radiation/svg")
 save(gnmsd, file="meaps-doc/output/gmsd_erg.rda")
 
+
+# martrice de dérivées -----------------------------
 sr <- s1
 n <- nrow(sr$habs)
 k <- nrow(sr$emps)
@@ -611,7 +649,7 @@ plan("multisession", workers =6)
 
 res <- future_imap(
   ms_odd, ~{
-    sourceCpp("v2/annexes/meaps_oddmatrix.cpp", showOutput = FALSE, echo = FALSE)
+    sourceCpp("R/meaps_oddmatrix.cpp", showOutput = FALSE, echo = FALSE)
     mm <- meaps_boot2(sr$rk,
                       emplois = rep(1, n), actifs = rep(1, n),
                       f = sr$f,

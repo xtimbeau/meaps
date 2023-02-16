@@ -81,12 +81,15 @@ rmeaps2_boot <- function(rkdist, emplois, actifs, odds = 1, f, shufs, workers=1,
   return(res)
 } 
 
-rmeaps_bootmat <- function(rkdist, emplois, actifs, modds = 1, f, shufs, workers=1) {
+rmeaps_bootmat <- function(
+    rkdist, emplois, actifs, 
+    modds = matrix(1, nrow=nrow(rkdist), ncol=ncol(rkdist)), 
+    f, shufs, workers=1) {
   pl <- future::plan()
   sp <- split(1:nrow(shufs), ceiling(1:nrow(shufs)/max(1,(nrow(shufs)/workers))))
   future::plan("multisession", workers=min(length(sp), workers))
   res <- furrr::future_map(sp,~{
-    Rcpp::sourceCpp("radiation/meaps_oddmatrix.cpp")
+    Rcpp::sourceCpp("R/meaps_oddmatrix.cpp")
     rr <- meaps_boot2(rkdist, emplois, actifs, modds = modds, f=f, shufs[.x, , drop=FALSE]) # attention c'est divisé par le nombre de tirages
     rr <- map(rr, function(rrr) rrr * length(.x))
   }, .options = furrr::furrr_options(seed = TRUE))
