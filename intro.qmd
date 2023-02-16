@@ -1,7 +1,7 @@
 # Tobler n'implique pas la gravité
 
 Dans l'analyse des phénomènes spatiaux, la distance joue un rôle nécessairement important.
-C'est ce qu'on appelle le principe de Tobler :
+Cette évidence est ce qu'on appelle parfois le principe de Tobler :
 
 > Tout est relié mais les choses proches sont plus reliées que les choses éloignées.
 
@@ -30,7 +30,7 @@ Jusqu'où la densité locale joue et comment la définir et la mesurer ?
 Comment prendre en compte un territoire très isolé d'une zone qui est comme le montre les schémas de déplacement une zone satellite d'un pôle important ?
 Ces questions nous amène à une critique plus profonde du modèle gravitaire, rappelons le utilisé très largement dans les applications.
 Le manque de fondements microscopiques ne permet pas de l'enrichir.
-L'analogie gravitaire ne fonctionne pas bine pour les particules élémentaires que sont les individus et leurs emplois.
+L'analogie gravitaire ne fonctionne pas aussi bien pour les individus et leurs emplois que pour des particules élémentaires ou des planètes .
 Cette force d'attraction entre deux masses qui dépend inversement de la distance -- d'une fonction de celle-ci -- ne rencontre pas l'intuition de ce qui gouverne le choix de prendre tel emploi plutôt qu'un autre ou de se rendre à un supermarché à proximité.
 
 Nous proposons de nous appuyer sur une autre analogie.
