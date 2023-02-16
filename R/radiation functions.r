@@ -111,15 +111,15 @@ rmeaps <- function(emp, hab, shuf = 1:nrow(hab), rcpp = TRUE, meaps_ver = 1) {
   rkdist <- matrixStats::rowRanks(dist)
   if(meaps_ver==1) {
     if(rcpp)
-    mm <- meaps_scpp(rkdist=rkdist, 
-                    f = hab[, "f"], 
-                    p = emp[, "p"], 
-                    shuf = as.integer(shuf))
-  else
-    mm <- meaps(rkdist,
-                f = hab[, "f"], 
-                p = emp[, "p"], 
-                shuf = shuf)
+      mm <- meaps_scpp(rkdist=rkdist, 
+                       f = hab[, "f"], 
+                       p = emp[, "p"], 
+                       shuf = as.integer(shuf))
+    else
+      mm <- meaps(rkdist,
+                  f = hab[, "f"], 
+                  p = emp[, "p"], 
+                  shuf = shuf)
   } 
   if(meaps_ver==2) {
     if(rcpp)
@@ -137,8 +137,19 @@ rmeaps <- function(emp, hab, shuf = 1:nrow(hab), rcpp = TRUE, meaps_ver = 1) {
                        f = hab[, "f"],
                        shuf = shuf)
   } 
-  mms <- meaps_summary(emp, hab, dist, mm)
-  return(mms)
+  if(meaps_ver==4) {
+    modds <- matrix(1, ncol=ncol(rkdist), nrow = nrow(rkdist))
+    for (j in 1:ncol(rkdist)) modds[,j] <- emp[, "p"]
+    mm <- rmeaps::meaps_oneshuf(
+      rkdist=rkdist, 
+      emplois = rep(1, n), 
+      actifs = rep(1, k),
+      modds =  modds,
+      f = hab[, "f"],
+      shuf = as.integer(shuf))
+    mms <- meaps_summary(emp, hab, dist, mm)
+    return(mms)
+  }
 }
 
 pos_cunif <- function(n=100, centre = c(0.5, 0.5), rayon = 0.25) {
@@ -229,6 +240,26 @@ rmeaps_bstp <- function(scn, shufs, workers=1) {
   res <- purrr::map(res, function(rr) reduce(rr, `+`)/nrow(shufs))
   return(res)
 } 
+
+rmeaps_multishuf <- function(scn, shufs, workers=1) {
+  k <- nrow(hab)
+  n <- nrow(emp)
+  ids <- rownames(hab)
+  dist <- rdist::cdist(hab[,1:2], emp[,1:2])
+  rkdist <- matrixStats::rowRanks(dist)
+  modds <- matrix(1, ncol=ncol(rkdist), nrow = nrow(rkdist))
+  for (j in 1:ncol(rkdist)) 
+    modds[,j] <- scn$p[[j]]
+  rr <- rmeaps::meaps_multishuf(
+    rkdist = scn$rk, 
+    emplois = rep(1,nrow(scn$emp)), 
+    actifs = rep(1,nrow(scn$hab)),
+    modds = modds,
+    f = scn$f,
+    shuf = shufs) # attention c'est divisé par le nombre de tirages
+  mms <- meaps_summary(emp, hab, dist, rr)
+  return(mms)
+}
 
 emp_flux <- function(s, emp, empec = NULL) {
   g_col <- unique(s$emps$g) |> sort()

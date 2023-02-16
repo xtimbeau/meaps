@@ -22,6 +22,7 @@ library(ofce)
 library(Rcpp)
 library(progressr)
 library(scales)
+library(rmeaps)
 options(ofce.background_color = "grey97")
 showtext::showtext_opts(dpi = 92)
 showtext::showtext_auto()
@@ -136,52 +137,18 @@ save(gcarte_ss2, file = "output/gcarte_ss2.rda")
 # bench::mark(v1 = meaps_cpp(s1$rk,f = s1$f, p = s1$p, shuf = 1:k))
 # bench::mark(v2 = meaps_rcpp(s1$rk,emplois=rep(1, n), actifs = rep(1, k), odds = s1$p, f = s1$f, shuf = 1:k))
 shufs <- do.call(rbind, purrr::map(1:100, ~sample.int(n,n)))
-# la v2
+# la v4
 # mm <- rmeaps(emp = emp, hab = hab, shuf = shufs, meaps_ver = 2)
-tic();mmb <- rmeaps_bstp(s1, shufs, workers = 6); toc()
-# la v3
-tic();mmb2 <- rmeaps_bootmat(s1$rk, 
-                             emplois = rep(1, k*0.9), 
-                             actifs = rep(1, n), 
-                             f = rep(0.1, n),
-                             modds = matrix(1, nrow = n, ncol = k*0.9),
-                             shuf = shufs, workers = 8); toc()
-# la v4 qui doit être la finale
-library(rmeaps)
-tic(); mmnm <- rmeaps::meaps_bootstrap2(
-  s1$rk, 
-  emplois = rep(1, k*0.9), 
-  actifs = rep(1, n), 
-  f = rep(0.1, n),
-  modds = matrix(1, nrow = n, ncol = k*0.9),
-  shuf = shufs); toc()
+tic();mmb <- rmeaps_multishuf(s1, shufs); toc()
+
 # Les variations
 #mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
-mmb2 <- rmeaps_bstp(s2, shufs, workers = 6)
-tic(); mmnm2 <- rmeaps::meaps_bootstrap2(
-  s2$rk, 
-  emplois = rep(1, k*0.9), 
-  actifs = rep(1, n), 
-  f = rep(0.1, n),
-  modds = matrix(1, nrow = n, ncol = k*0.9),
-  shuf = shufs); toc()
-
+tic();mmb2 <- rmeaps_multishuf(s2, shufs); toc()
 
 # save(mm, mm2, file = "radiation/graphs/mms.rda")
 
 ## matrice de flux ----------------
-flux <- emp_flux(s1, mmb$emps)$s |>
-  as_tibble() |>
-  rename_all(~str_c("e",.x)) |> 
-  mutate(gh = str_c("h", s1$hgroupes$g)) |>
-  relocate(gh) |> 
-  add_total() |> 
-  rowwise() |> 
-  mutate(total = sum(c_across(2:4))) |> 
-  ungroup() |> 
-  mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
-
-flux_new <- emp_flux(s1, mmnm)$s |>
+flux <- emp_flux(s1, mmb$meaps)$s |>
   as_tibble() |>
   rename_all(~str_c("e",.x)) |> 
   mutate(gh = str_c("h", s1$hgroupes$g)) |>
@@ -193,7 +160,7 @@ flux_new <- emp_flux(s1, mmnm)$s |>
   mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
 
 ### flux2 ---------------
-flux2 <- emp_flux(s2, mmb2$emps)$s |>
+flux2 <- emp_flux(s2, mmb2$meaps)$s |>
   as_tibble() |>
   rename_all(~str_c("e",.x)) |> 
   mutate(gh = str_c("h", s1$hgroupes$g)) |>
