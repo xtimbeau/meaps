@@ -139,7 +139,7 @@ save(gcarte_ss2, file = "output/gcarte_ss2.rda")
 shufs <- do.call(rbind, purrr::map(1:100, ~sample.int(n,n)))
 # la v4
 # mm <- rmeaps(emp = emp, hab = hab, shuf = shufs, meaps_ver = 2)
-tic();mmb <- rmeaps_multishuf(s1, shufs, threads = 4); toc()
+tic();mmb <- rmeaps_multishuf(s1, shufs, nthreads = 4); toc()
 
 # Les variations
 #mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
