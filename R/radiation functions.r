@@ -245,8 +245,8 @@ rmeaps_multishuf <- function(scn, shufs, threads=0) {
   k <- nrow(hab)
   n <- nrow(emp)
   ids <- rownames(hab)
-  dist <- rdist::cdist(hab[,1:2], emp[,1:2])
-  rkdist <- matrixStats::rowRanks(dist)
+  dist <- scn$dist
+  rkdist <- scn$rk
   modds <- matrix(1, ncol=ncol(rkdist), nrow = nrow(rkdist))
   for (j in 1:ncol(rkdist)) 
     modds[,j] <- scn$p[[j]]
