@@ -1,7 +1,6 @@
 # Tobler n'implique pas la gravité
 
-Dans l'analyse des phénomènes spatiaux, la distance joue un rôle nécessairement important.
-Cette évidence est ce qu'on appelle parfois le principe de Tobler :
+Dans l'analyse des phénomènes spatiaux, la distance joue un rôle nécessairement important. Cette évidence est ce qu'on appelle parfois le principe de Tobler :
 
 > Tout est relié mais les choses proches sont plus reliées que les choses éloignées.
 
@@ -24,14 +23,7 @@ Ce qui est vrai pour les emplois l'est pour d'autres aménités.
 Le modèle gravitaire, en supposant que la valeur de la distance -- la dés-utilité de l'éloignement -- est homogène sur le territoire et est substituable à la valeur des aménités.
 Un petit centre urbain éloigné de plus grand pôles devrait, puisque les individus donnent le même poids aux distances, être plutôt autonome : les individus restent dans leur zone pour leurs emplois ou leurs autres activités.
 
-On pourrait amender le modèle gravitaire pour qu'il prenne en compte la densité locale.
-Mais ce n'est pas si simple.
-Jusqu'où la densité locale joue et comment la définir et la mesurer ?
-Comment prendre en compte un territoire très isolé d'une zone qui est comme le montre les schémas de déplacement une zone satellite d'un pôle important ?
-Ces questions nous amène à une critique plus profonde du modèle gravitaire, rappelons le utilisé très largement dans les applications.
-Le manque de fondements microscopiques ne permet pas de l'enrichir.
-L'analogie gravitaire ne fonctionne pas aussi bien pour les individus et leurs emplois que pour des particules élémentaires ou des planètes .
-Cette force d'attraction entre deux masses qui dépend inversement de la distance -- d'une fonction de celle-ci -- ne rencontre pas l'intuition de ce qui gouverne le choix de prendre tel emploi plutôt qu'un autre ou de se rendre à un supermarché à proximité.
+On pourrait amender le modèle gravitaire pour qu'il prenne en compte la densité locale. Mais ce n'est pas si simple. Jusqu'où la densité locale joue et comment la définir et la mesurer ? Comment prendre en compte un territoire très isolé d'une zone qui est comme le montre les schémas de déplacement une zone satellite d'un pôle important ? Ces questions nous amène à une critique plus profonde du modèle gravitaire, rappelons le utilisé très largement dans les applications. Le manque de fondements microscopiques ne permet pas de l'enrichir. L'analogie gravitaire ne fonctionne pas aussi bien pour les individus et leurs emplois que pour des particules élémentaires ou des planètes . Cette force d'attraction entre deux masses qui dépend inversement de la distance -- d'une fonction de celle-ci -- ne rencontre pas l'intuition de ce qui gouverne le choix de prendre tel emploi plutôt qu'un autre ou de se rendre à un supermarché à proximité.
 
 Nous proposons de nous appuyer sur une autre analogie.
 Plutôt que la force d'attraction gravitaire, le trajet d'une particule dans un milieu plus ou moins dense qui peut l'absorber avec plus ou moins de probabilité suivant la densité est une alternative intéressante à l'échelle considérée.
