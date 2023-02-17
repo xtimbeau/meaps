@@ -30,7 +30,7 @@ options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
 ```
 
-# Estimation de *MEAPS* à La Rochelle {#sec-rochelle}
+# *MEAPS* : estimation à La Rochelle {#sec-rochelle}
 
 Nous proposons ici une première application de *MEAPS* à l'agglomération de la Rochelle.
 Cette application est issue d'un travail de quantification de scénarios de politiques publiques visant à réduire l'empreinte carbone associée aux mobilités quotidiennes et au secteur résidentiel.

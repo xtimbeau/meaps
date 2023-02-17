@@ -241,7 +241,7 @@ rmeaps_bstp <- function(scn, shufs, workers=1) {
   return(res)
 } 
 
-rmeaps_multishuf <- function(scn, shufs, workers=1) {
+rmeaps_multishuf <- function(scn, shufs, threads=0) {
   k <- nrow(hab)
   n <- nrow(emp)
   ids <- rownames(hab)
@@ -256,7 +256,8 @@ rmeaps_multishuf <- function(scn, shufs, workers=1) {
     actifs = rep(1,nrow(scn$hab)),
     modds = modds,
     f = scn$f,
-    shuf = shufs) # attention c'est divisé par le nombre de tirages
+    shuf = shufs,
+    threads = threads) 
   mms <- meaps_summary(emp, hab, dist, rr)
   return(mms)
 }

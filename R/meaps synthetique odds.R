@@ -139,7 +139,7 @@ save(gcarte_ss2, file = "output/gcarte_ss2.rda")
 shufs <- do.call(rbind, purrr::map(1:100, ~sample.int(n,n)))
 # la v4
 # mm <- rmeaps(emp = emp, hab = hab, shuf = shufs, meaps_ver = 2)
-tic();mmb <- rmeaps_multishuf(s1, shufs); toc()
+tic();mmb <- rmeaps_multishuf(s1, shufs, threads = 4); toc()
 
 # Les variations
 #mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
@@ -175,16 +175,15 @@ knitr::kable(flux2)
 
 save(flux, flux2, file = "output/tblflux.rda")
 
-(gdenshabg <- ggplot(mm$hab)+
+(gdenshabg <- ggplot(mmb$hab)+
     geom_density(aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.5)+
-    geom_density(data = mm2$hab, aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.25, linetype ="dashed")+
-    scico::scale_color_scico_d(
-      palette ="tofino",
-      begin=0.25,
+    geom_density(data = mmb2$hab, aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.2, linetype ="dashed")+
+    scale_color_brewer(
+      palette ="Dark2",
       name="pôle d'habitation",
       aesthetics = c('color','fill'), 
       labels = c("h1", "h2", "h3"))+
-    xlim(c(0,1.5))+ylim(c(0,5))+ylab(NULL)+xlab("distance")+
+    xlim(c(0,1.5))+ylim(c(0,7.5))+ylab(NULL)+xlab("distance")+
     theme_ofce(base_size=9, base_family = "Nunito") +theme(legend.position = "right"))
 graph2png(gdenshabg, rep="/output", ratio = 16/9)
 save(gdenshabg, file = "/output/gdenshabg.rda")
@@ -198,7 +197,7 @@ save(gdenshabg, file = "/output/gdenshabg.rda")
 ## graphes à densité/distances moyennes -------------
 ### s1 -----------------
 gdhab <- ggplot()+
-  stat_summary_hex(data = mm$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npar habitant"))+
   scale_fill_distiller(palette="Greens", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue par habitant")+
@@ -214,13 +213,13 @@ gdhab <- ggplot()+
         plot.title = element_text(hjust = 0.5, face = "bold",  margin = margin(b=4)),
         plot.margin = margin(2,2,2,2),
         panel.background = element_rect(fill="grey97"))
-gdenshab <- ggplot(mm$hab)+
+gdenshab <- ggplot(mmb$hab)+
   geom_density(aes(x=d), fill="green", col=NA, alpha = 0.5)+
   xlim(c(0,1.5))+ylim(c(0,5))+ylab(NULL)+xlab(NULL)+
   theme_minimal()+
   theme(text=element_text(size=6))
 gdemp <- ggplot()+
-  stat_summary_hex(data = mm$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npour un emploi"))+
   scale_fill_distiller(palette="Oranges", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue pour un emploi") +
@@ -236,7 +235,7 @@ gdemp <- ggplot()+
         plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
         plot.margin = margin(2,2,2,2),
         panel.background = element_rect(fill="grey97"))
-gdensemp <- ggplot(mm$emp)+
+gdensemp <- ggplot(mmb$emp)+
   geom_density(aes(x=d), fill="orange", col=NA, alpha = 0.5, position="stack")+
   xlim(c(0,1.5))+
   scale_y_continuous(limits = c(0,10), oob =squish)+ylab(NULL)+xlab(NULL)+
@@ -253,7 +252,7 @@ save(gdistances, file = "output/gdistances.rda")
 
 ### s2 ---------------------
 gdhab <- ggplot()+
-  stat_summary_hex(data = mm2$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb2$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npar habitant"))+
   scale_fill_distiller(palette="Greens", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue par habitant")+
@@ -269,13 +268,13 @@ gdhab <- ggplot()+
         plot.title = element_text(hjust = 0.5, face = "bold",  margin = margin(b=4)),
         plot.margin = margin(2,2,2,2),
         panel.background = element_rect(fill="grey97"))
-gdenshab <- ggplot(mm2$hab)+
+gdenshab <- ggplot(mmb2$hab)+
   geom_density(aes(x=d), fill="green", col=NA, alpha = 0.5)+
   xlim(c(0,1.5))+ylim(c(0,5))+ylab(NULL)+xlab(NULL)+
   theme_minimal()+
   theme(text=element_text(size=6))
 gdemp <- ggplot()+
-  stat_summary_hex(data = mm2$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb2$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npour un emploi"))+
   scale_fill_distiller(palette="Oranges", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue pour un emploi") +
@@ -291,7 +290,7 @@ gdemp <- ggplot()+
         plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
         plot.margin = margin(2,2,2,2),
         panel.background = element_rect(fill="grey97"))
-gdensemp <- ggplot(mm2$emp)+
+gdensemp <- ggplot(mmb2$emp)+
   geom_density(aes(x=d), fill="orange", col=NA, alpha = 0.5, position="stack")+
   xlim(c(0,1.5))+
   scale_y_continuous(limits = c(0,10), oob = squish)+ylab(NULL)+xlab(NULL)+

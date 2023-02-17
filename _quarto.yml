@@ -7,7 +7,7 @@ book:
   subtitle: "Distribution statistique des trajets entre le domicile et le travail"
   page-footer: 
     border: true
-    center: "**CC BY 4.0**   *version provisoire, merci de ne pas diffuser ni de ne pas citer*"
+    center: "**CC BY 4.0**"
   author:
     - name : Maxime Parodi
       email: "maxime.parodi@sciencespo.fr"
@@ -27,6 +27,8 @@ book:
   repo-actions: [edit]
   downloads: [pdf, epub]
   sharing: [twitter]
+  sidebar:
+    footer: "<em>version provisoire, merci de ne pas diffuser ni de ne pas citer</em>"
   chapters:
     - index.qmd
     - intro.qmd
@@ -71,6 +73,7 @@ format:
     date-modified: today
     toc: true
     toc-location: left 
+    toc-title: Sur cette page
     number-sections: true
     number-depth: 3 
     html-math-method: katex
