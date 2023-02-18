@@ -21,10 +21,9 @@ library(progressr)
 library(scales)
 library(rmeaps)
 options(ofce.background_color = "grey97")
-showtext::showtext_opts(dpi = 92)
+showtext::showtext_opts(dpi = 200)
 showtext::showtext_auto()
 conflict_prefer_all("dplyr", quiet = TRUE)
-sysfonts::font_add_google('Nunito')
 options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
 # les anciennes versions hors package
@@ -39,7 +38,7 @@ handlers(global = TRUE)
 handlers("cli")
 
 n <- 5000
-k <- 5000
+k <- 4500
 bins <- 1.2/0.05
 
 ## génération --------------
@@ -53,9 +52,9 @@ habv2 <- cbind(pos_cnorm(n=15*k/100, sigma = 0.1, centre = c(1.4, 1.4)), f=0.1, 
 hab <- rbind(habc, habv2, habv1)
 hab2 <- rbind(habc, habv2, habv12)
 empc <- cbind(pos_cnorm(n=80/100*k, sigma = 0.05, centre = c(1, 1)), p=1, g=1)
-empv1 <- cbind(pos_cnorm(n=5/100*k, sigma = 0.05, centre = c(0.6, 0.6)), p=1, g=3)
-empv12 <- cbind(pos_cnorm(n=5/100*k, sigma = 0.05, centre = c(.1, .1)), p=1, g=3)
-empv2 <- cbind(pos_cnorm(n=5/100*k, sigma = 0.05, centre = c(1.4, 1.4)), p=1, g=2)
+empv1 <- cbind(pos_cnorm(n=10/100*k, sigma = 0.05, centre = c(0.6, 0.6)), p=1, g=3)
+empv12 <- cbind(pos_cnorm(n=10/100*k, sigma = 0.05, centre = c(.1, .1)), p=1, g=3)
+empv2 <- cbind(pos_cnorm(n=10/100*k, sigma = 0.05, centre = c(1.4, 1.4)), p=1, g=2)
 emp <- rbind(empc, empv2, empv1)
 emp2<- rbind(empc, empv2, empv12)
 
@@ -86,9 +85,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
        scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
        coords +
-       geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.4,  size = 2) +
+       geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
        labs(title = "Habitants")+
-       theme_void(base_size = 8)+ 
+       theme_ofce_void(base_size = 8)+ 
        theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97")))+
@@ -97,9 +96,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
        scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
        coords +
-       geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.4) +
+       geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.2) +
        labs(title = "Emplois")+
-       theme_void(base_size = 8)+ 
+       theme_ofce_void(base_size = 8)+ 
        theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97"))) + 
@@ -110,9 +109,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
        scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
        coords +
-       geom_text(data = s2$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.4,  size = 2) +
+       geom_text(data = s2$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
        labs(title = "Habitants")+
-       theme_void(base_size = 8)+ 
+       theme_ofce_void(base_size = 8)+ 
        theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97")))+
@@ -121,9 +120,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
        scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
        coords +
-       geom_text(data = s2$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.4) +
+       geom_text(data = s2$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.2) +
        labs(title = "Emplois")+
-       theme_void(base_size = 8)+ 
+       theme_ofce_void(base_size = 8)+ 
        theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97"))) + 
