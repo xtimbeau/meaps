@@ -3,17 +3,14 @@
 # génération des graphiques et tableaux pour le .qmd         #
 #============================================================#
 
-# on utilise maintenant meaps (avec pl et odd ratio)
-# le c++ est dans meaps_rcpp
-# ggplot 3.4 fusille les binhex
-# devtools::install_version("ggplot2", version = "3.3.6")
+# on utilise maintenant rmeaps
+# dans un package à installer avec devtools::install_github("maxime2506/rmeaps")
+# Il faut é&galement installer devtools::install_github("OFCE/OFCE")
+
 # init -------------------------
 library(tidyverse)
 library(conflicted)
 library(furrr)
-source("R/radiation functions.r")
-Rcpp::sourceCpp("R/meaps_rcpp.cpp", echo=FALSE)
-future::plan("multisession", workers = 8)
 library(tictoc)
 library(ggnewscale)
 library(matrixStats)
@@ -30,10 +27,14 @@ conflict_prefer_all("dplyr", quiet = TRUE)
 sysfonts::font_add_google('Nunito')
 options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
-plan("multisession", workers = 8)
+# les anciennes versions hors package
+if(FALSE) {
+source("R/radiation functions.r")
+Rcpp::sourceCpp("R/meaps_rcpp.cpp", echo=FALSE)
+future::plan("multisession", workers = 8)
 Rcpp::sourceCpp("R/meaps2.cpp", echo=FALSE)
 source("R/meaps2.r")
-
+}
 handlers(global = TRUE)
 handlers("cli")
 
