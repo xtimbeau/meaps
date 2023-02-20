@@ -242,9 +242,9 @@ rmeaps_bstp <- function(scn, shufs, workers=1) {
 } 
 
 rmeaps_multishuf <- function(scn, shufs, nthreads=0) {
-  k <- nrow(hab)
-  n <- nrow(emp)
-  ids <- rownames(hab)
+  k <- nrow(scn$hab)
+  n <- nrow(scn$emp)
+  ids <- rownames(scn$hab)
   dist <- scn$dist
   rkdist <- scn$rk
   modds <- matrix(1, ncol=ncol(rkdist), nrow = nrow(rkdist))
@@ -258,7 +258,7 @@ rmeaps_multishuf <- function(scn, shufs, nthreads=0) {
     f = scn$f,
     shuf = shufs,
     nthreads = nthreads) 
-  mms <- meaps_summary(emp, hab, dist, rr)
+  mms <- meaps_summary(scn$emp, scn$hab, dist, rr)
   return(mms)
 }
 

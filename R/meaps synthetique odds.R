@@ -20,19 +20,22 @@ library(Rcpp)
 library(progressr)
 library(scales)
 library(rmeaps)
-options(ofce.background_color = "grey97")
+
+options(ofce.background_color = "grey99")
 showtext::showtext_opts(dpi = 200)
 showtext::showtext_auto()
 conflict_prefer_all("dplyr", quiet = TRUE)
 options(ofce.base_family = "Nunito")
 options(ofce.base_size = 9)
+
+source("R/radiation functions.r")
+
 # les anciennes versions hors package
 if(FALSE) {
-source("R/radiation functions.r")
-Rcpp::sourceCpp("R/meaps_rcpp.cpp", echo=FALSE)
-future::plan("multisession", workers = 8)
-Rcpp::sourceCpp("R/meaps2.cpp", echo=FALSE)
-source("R/meaps2.r")
+  Rcpp::sourceCpp("R/meaps_rcpp.cpp", echo=FALSE)
+  future::plan("multisession", workers = 8)
+  Rcpp::sourceCpp("R/meaps2.cpp", echo=FALSE)
+  source("R/meaps2.r")
 }
 handlers(global = TRUE)
 handlers("cli")
@@ -45,10 +48,10 @@ bins <- 1.2/0.05
 # on représente ici une agglomération centrale, plus des villages avec des emplois
 # mais pas en nombre suffisant dans les villages
 set.seed(1942) 
-habc <- cbind(pos_cnorm(n=70*k/100, sigma = 0.2, centre = c(1, 1)), f=0.1, g = 1)
-habv1 <- cbind(pos_cnorm(n=15*k/100, sigma = 0.1, centre = c(.6, .6)), f=0.1, g = 3)
-habv12 <- cbind(pos_cnorm(n=15*k/100, sigma = 0.1, centre = c(.1, 0.1)), f=0.1, g = 3)
-habv2 <- cbind(pos_cnorm(n=15*k/100, sigma = 0.1, centre = c(1.4, 1.4)), f=0.1, g = 2)
+habc <- cbind(pos_cnorm(n=70*n/100, sigma = 0.2, centre = c(1, 1)), f=0.1, g = 1)
+habv1 <- cbind(pos_cnorm(n=15*n/100, sigma = 0.1, centre = c(.6, .6)), f=0.1, g = 3)
+habv12 <- cbind(pos_cnorm(n=15*n/100, sigma = 0.1, centre = c(.1, .1)), f=0.1, g = 3)
+habv2 <- cbind(pos_cnorm(n=15*n/100, sigma = 0.1, centre = c(1.4, 1.4)), f=0.1, g = 2)
 hab <- rbind(habc, habv2, habv1)
 hab2 <- rbind(habc, habv2, habv12)
 empc <- cbind(pos_cnorm(n=80/100*k, sigma = 0.05, centre = c(1, 1)), p=1, g=1)
@@ -82,8 +85,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
 (gcarte_ss <- 
     (ggplot()+
        stat_binhex(data = as_tibble(s1$hab),
-                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
-       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
+                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.1)+
+       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants", 
+                            breaks = c( 1,  2,  3))+
        coords +
        geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
        labs(title = "Habitants")+
@@ -93,8 +97,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
              panel.background = element_rect(fill="grey97")))+
     (ggplot()+
        stat_binhex(data=as_tibble(s1$emp),
-                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
-       scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
+                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.1)+
+       scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois", 
+                            breaks = c( 1,  2,  3))+
        coords +
        geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.2) +
        labs(title = "Emplois")+
@@ -106,8 +111,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
 (gcarte_ss2 <- 
     (ggplot()+
        stat_binhex(data = as_tibble(s2$hab),
-                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
-       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
+                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.1)+
+       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants", 
+                            breaks = c( 1,  2,  3))+
        coords +
        geom_text(data = s2$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
        labs(title = "Habitants")+
@@ -117,8 +123,9 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
              panel.background = element_rect(fill="grey97")))+
     (ggplot()+
        stat_binhex(data=as_tibble(s2$emp),
-                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.05)+
-       scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
+                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.1)+
+       scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois",
+                            breaks = c( 1, 2,  3))+
        coords +
        geom_text(data = s2$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.2) +
        labs(title = "Emplois")+
@@ -136,16 +143,16 @@ save(gcarte_ss2, file = "output/gcarte_ss2.rda")
 
 # bench::mark(v1 = meaps_cpp(s1$rk,f = s1$f, p = s1$p, shuf = 1:k))
 # bench::mark(v2 = meaps_rcpp(s1$rk,emplois=rep(1, n), actifs = rep(1, k), odds = s1$p, f = s1$f, shuf = 1:k))
-shufs <- do.call(rbind, purrr::map(1:100, ~sample.int(n,n)))
-# la v4
+shufs <- do.call(rbind, purrr::map(1:256, ~sample.int(n,n)))
 # mm <- rmeaps(emp = emp, hab = hab, shuf = shufs, meaps_ver = 2)
-tic();mmb <- rmeaps_multishuf(s1, shufs, nthreads = 4); toc()
+tic();mmb <- rmeaps_multishuf(s1, shufs); toc()
 
 # Les variations
 #mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
 tic();mmb2 <- rmeaps_multishuf(s2, shufs); toc()
 
-# save(mm, mm2, file = "radiation/graphs/mms.rda")
+qs::qsave(mmb, file = "output/mmb1.qs", preset = "archive")
+qs::qsave(mmb2, file = "output/mmb2.qs")
 
 ## matrice de flux ----------------
 flux <- emp_flux(s1, mmb$meaps)$s |>
@@ -185,8 +192,7 @@ save(flux, flux2, file = "output/tblflux.rda")
       labels = c("h1", "h2", "h3"))+
     xlim(c(0,1.5))+ylim(c(0,7.5))+ylab(NULL)+xlab("distance")+
     theme_ofce(base_size=9, base_family = "Nunito") +theme(legend.position = "right"))
-graph2png(gdenshabg, rep="/output", ratio = 16/9)
-save(gdenshabg, file = "/output/gdenshabg.rda")
+graph2png(gdenshabg, rep="/output", ratio = 16/10)
 
 # flux |> gt() |> 
 #   gt::fmt_integer(columns = 2:5,
@@ -199,7 +205,8 @@ save(gdenshabg, file = "/output/gdenshabg.rda")
 gdhab <- ggplot()+
   stat_summary_hex(data = mmb$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npar habitant"))+
-  scale_fill_distiller(palette="Greens", direction=1)+
+  scale_fill_distiller(palette="Greens", direction=1,
+                       breaks = c(.2, .3, .4, .5))+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue par habitant")+
   geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = -0.2,  size = 2)+
   coords +
@@ -221,7 +228,8 @@ gdenshab <- ggplot(mmb$hab)+
 gdemp <- ggplot()+
   stat_summary_hex(data = mmb$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npour un emploi"))+
-  scale_fill_distiller(palette="Oranges", direction=1)+
+  scale_fill_distiller(palette="Oranges", direction=1,
+                       breaks = c(.2, .3, .4, .5))+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue pour un emploi") +
   geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = -0.2) +
   coords +
@@ -238,7 +246,7 @@ gdemp <- ggplot()+
 gdensemp <- ggplot(mmb$emp)+
   geom_density(aes(x=d), fill="orange", col=NA, alpha = 0.5, position="stack")+
   xlim(c(0,1.5))+
-  scale_y_continuous(limits = c(0,10), oob =squish)+ylab(NULL)+xlab(NULL)+
+  scale_y_continuous(limits = c(0,15), oob =squish)+ylab(NULL)+xlab(NULL)+
   theme_minimal()+
   theme(text=element_text(size=6))
 
@@ -251,12 +259,12 @@ graph2png(gdistances, rep="output", ratio = 2)
 save(gdistances, file = "output/gdistances.rda")
 
 ### s2 ---------------------
-gdhab <- ggplot()+
+gdhab2 <- ggplot()+
   stat_summary_hex(data = mmb2$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npar habitant"))+
   scale_fill_distiller(palette="Greens", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue par habitant")+
-  geom_text(data = s2$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = -0.2,  size = 2)+
+  geom_text(data = s2$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2)+
   coords +
   theme_void(base_size = 8) +
   theme(legend.position="right", 
@@ -268,17 +276,17 @@ gdhab <- ggplot()+
         plot.title = element_text(hjust = 0.5, face = "bold",  margin = margin(b=4)),
         plot.margin = margin(2,2,2,2),
         panel.background = element_rect(fill="grey97"))
-gdenshab <- ggplot(mmb2$hab)+
+gdenshab2 <- ggplot(mmb2$hab)+
   geom_density(aes(x=d), fill="green", col=NA, alpha = 0.5)+
   xlim(c(0,1.5))+ylim(c(0,5))+ylab(NULL)+xlab(NULL)+
   theme_minimal()+
   theme(text=element_text(size=6))
-gdemp <- ggplot()+
+gdemp2 <- ggplot()+
   stat_summary_hex(data = mmb2$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
   guides(fill=guide_colourbar("Distance\npour un emploi"))+
   scale_fill_distiller(palette="Oranges", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue pour un emploi") +
-  geom_text(data = s2$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = -0.2) +
+  geom_text(data = s2$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.3) +
   coords +
   theme_void(base_size = 8)+ 
   theme(legend.position="right", 
@@ -290,7 +298,7 @@ gdemp <- ggplot()+
         plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
         plot.margin = margin(2,2,2,2),
         panel.background = element_rect(fill="grey97"))
-gdensemp <- ggplot(mmb2$emp)+
+gdensemp2 <- ggplot(mmb2$emp)+
   geom_density(aes(x=d), fill="orange", col=NA, alpha = 0.5, position="stack")+
   xlim(c(0,1.5))+
   scale_y_continuous(limits = c(0,10), oob = squish)+ylab(NULL)+xlab(NULL)+
@@ -298,12 +306,12 @@ gdensemp <- ggplot(mmb2$emp)+
   theme(text=element_text(size=6))
 
 (gdistances2 <- 
-    (gdhab+inset_element(gdenshab, 0.5, 0., 1, 0.33))+
-    (gdemp+inset_element(gdensemp, 0.5, 0., 1, 0.33))+
+    (gdhab2+inset_element(gdenshab2, 0.5, 0., 1, 0.33))+
+    (gdemp2+inset_element(gdensemp2, 0.5, 0., 1, 0.33))+
     plot_layout(guides = "collect"))
 
-graph2png(gdistances2, rep="meaps-doc/output", ratio = 2)
-save(gdistances2, file = "meaps-doc/output/gdistances2.rda")
+graph2png(gdistances2, rep="output", ratio = 2)
+save(gdistances2, file = "output/gdistances2.rda")
 
 ## modèle gravitaire ----------------------
 
@@ -325,7 +333,7 @@ flux_grav_furness <- function(s, delta, tol=0.0001) {
   return(f)
 }
 
-source("v2/annexes/f.normalisation.r")
+source("R/f.normalisation.r")
 score_grav <- function(emps, s, delta, tol = 0.0001, furness = FALSE) {
   if(furness)
     f <- flux_grav_furness(s, delta, tol)
@@ -342,13 +350,13 @@ kl_grav <- function(emps, s, delta, tol = 0.0001, furness=FALSE) {
   kullback_leibler(c(emp_flux(s1, f)$s), c(emp_flux(s1, emps)$s))
 }
 
-fr2 <- optim(.5, \(x) score_grav(mmb$emps,s1,x), lower = 0.001, upper = 10, method = "L-BFGS-B")
-fkl <- optim(.5, \(x) kl_grav(mmb$emps,s1,x, furness=TRUE), lower = 0.001, upper = 10, method = "L-BFGS-B")
-fkl2 <- optim(.5, \(x) kl_grav(mmb2$emps,s2,x, furness=TRUE), lower = 0.001, upper = 10, method = "L-BFGS-B")
+fr2 <- optim(.5, \(x) score_grav(mmb$meaps,s1,x), lower = 0.001, upper = 10, method = "L-BFGS-B")
+fkl <- optim(.5, \(x) kl_grav(mmb$meaps,s1,x, furness=TRUE), lower = 0.001, upper = 10, method = "L-BFGS-B")
+fkl2 <- optim(.5, \(x) kl_grav(mmb2$meaps,s2,x, furness=TRUE), lower = 0.001, upper = 10, method = "L-BFGS-B")
 fref <- flux_grav_furness(s1, fkl$par)
 f2 <- flux_grav_furness(s2, fkl$par)
 f22 <- flux_grav_furness(s2, fkl2$par)
-r2kl(c(emp_flux(s1, fref)$s), c(emp_flux(s1, mm$meaps)$s))
+rmeaps::r2kl2(c(emp_flux(s1, fref)$s), c(emp_flux(s1, mmb$meaps)$s))
 fluxg <- emp_flux(s1, fref)$s |>
   as_tibble() |>
   rename_all(~str_c("e",.x)) |> 
@@ -382,7 +390,7 @@ fluxg22 <- emp_flux(s2, f22)$s |>
   ungroup() |> 
   mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
 
-save(fluxg, fluxg2, fluxg22, fkl, fkl2, file = "meaps-doc/output/flux_grav.srda")
+save(fluxg, fluxg2, fluxg22, fkl, fkl2, file = "output/flux_grav.srda")
 
 ## ergodicité ------------------------
 # attention on utilise ici la version 1 de meaps
@@ -591,49 +599,52 @@ graph2png(gnmsd, rep="radiation/svg")
 save(gnmsd, file="meaps-doc/output/gmsd_erg.rda")
 
 
-# martrice de dérivées -----------------------------
+# matrice de dérivées -----------------------------
 sr <- s1
 n <- nrow(sr$habs)
 k <- nrow(sr$emps)
 gh <- unique(sr$habs$g) |> sort()
 ge <- unique(sr$emps$g) |> sort()
-groups <- cross2(ge,gh)
-
+groups <- expand_grid(ge,gh) |> 
+  mutate(l = str_c("h", gh,"-e", ge))
+groups <- set_names(purrr::transpose(list(groups$gh, groups$ge)), groups$l)
 # groups <- list(h1g1 = list(1,1), h2g2 = list(2,2))
 names(groups) <- map_chr(groups, ~str_c("e", .x[[1]], "-h", .x[[2]]))
 ms_odd <- list_modify( 
   list(ref = matrix(1, nrow = n, ncol = k)),
   !!!imap(groups,  ~{
     m <- matrix(1, nrow = n, ncol = k) 
-    m[which(sr$habs$g==.x[[2]]), which(sr$emp$g==.x[[1]])] <- 2
+    m[which(sr$habs$g==.x[[1]]), which(sr$emp$g==.x[[2]])] <- 2
     m
   }))
 
 shufs <- do.call(rbind, map(1:100, ~sample.int(n,n)))
 
-plan("multisession", workers =6)
+plan("sequential", workers=4)
 
 res <- future_imap(
   ms_odd, ~{
-    sourceCpp("R/meaps_oddmatrix.cpp", showOutput = FALSE, echo = FALSE)
-    mm <- meaps_boot2(sr$rk,
-                      emplois = rep(1, n), actifs = rep(1, n),
+    mm <- rmeaps::meaps_multishuf(sr$rk,
+                      emplois = rep(1, k),
+                      actifs = rep(1, n),
                       f = sr$f,
-                      modds = .x , shufs = shufs)
-    flux <- emp_flux(sr, mm$emps, mm$emps2)
-    ed <- mm$emps * sr$dist
-    emp_i <- matrixStats::rowSums2(mm$emps)
+                      modds = .x ,
+                      shuf = shufs,
+                      nthreads = 6)
+    flux <- emp_flux(sr, mm)
+    ed <- mm * sr$dist
+    emp_i <- matrixStats::rowSums2(mm)
     d_ind <- matrixStats::rowSums2(ed)/emp_i
     list(habs = bind_cols(sr$habs, tibble(d = d_ind), scn = .y),
          flux = flux$s,
          flux_ec = flux$ec,
-         emps = mm$emps,
-         empec = sqrt(mm$emps2- mm$emps^2))
+         emps = mm,
+         empec = 0)
   }, .options = furrr_options(seed=TRUE), .progress = TRUE) |> purrr::transpose()
 tres <- bind_rows(res$habs)
 
 mmflux <- map(res$flux[-1], ~.x - res$flux$ref)
-save(mmflux, file="meaps-doc/output/mmflux.rda")
+save(mmflux, file="output/mmflux.rda")
 ee <- map(mmflux, as.vector) |> flatten_dbl() |> matrix(ncol=9, nrow=9) |> eigen() 
 ee$values |> round(1)
 
