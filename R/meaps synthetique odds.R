@@ -404,9 +404,16 @@ if(fs::file_exists("output/libres.raw.qs")) {
   
   tic();
   libres.raw <- future_imap_dfr(1:500, ~{
-    Rcpp::sourceCpp("radiation/meaps.cpp", showOutput = FALSE, echo = FALSE)
-    shuf <- sample.int(k,k)
-    raw <- meaps_cpp(s1$rk,f = s1$f, p = s1$p, shuf = shuf)
+    Rcpp::sourceCpp("R/meaps.cpp", showOutput = FALSE, echo = FALSE)
+    shuf <- sample.int(n,n)
+    raw <- meaps_cpp_v1(s1$rk, f = s1$f, p = s1$p, shuf = shuf)
+    raw2 <- meaps_tension(rkdist=s1$rk,
+                          emplois=rep(1,k),
+                          actifs=rep(1,n),
+                          f=s1$f,
+                          shuf = matrix(shuf, nrow=1),
+                          modds=matrix(1, nrow=n, ncol=k),
+                          nthreads=4)
     colnames(raw$emps) <- str_c("e", 1:ncol(raw$emps))
     colnames(raw$dispo) <- str_c("e", 1:ncol(raw$dispo))
     tibrn <- tibble(emp = 1:ncol(raw$papn),
