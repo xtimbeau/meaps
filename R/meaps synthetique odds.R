@@ -397,8 +397,8 @@ save(fluxg, fluxg2, fluxg22, fkl, fkl2, file = "output/flux_grav.srda")
 # ce qu'il y a en moins : pas de traitement des paquets, pas de traitement des odds
 # pas de débordement
 # mais dans ce cas ce n'est pas grave
-if(fs::file_exists("meaps-doc/output/libres.raw.qs")) {
-  libres.raw <- qs::qread("meaps-doc/output/libres.raw.qs") 
+if(fs::file_exists("output/libres.raw.qs")) {
+  libres.raw <- qs::qread("output/libres.raw.qs") 
 } else {
   plan("multisession", workers = 7)
   
@@ -457,10 +457,10 @@ if(fs::file_exists("meaps-doc/output/libres.raw.qs")) {
   }, .options = furrr_options(seed = TRUE), .progress = TRUE)
   toc();
   
-  qs::qsave(libres.raw, "meaps-doc/output/libres.raw.qs")
+  qs::qsave(libres.raw, "output/libres.raw.qs")
 }
 
-libres.raw <- qs::qread("meaps-doc/output/libres.raw.qs")
+libres.raw <- qs::qread("output/libres.raw.qs")
 
 erg_libre <- libres.raw |>
   group_by(hhex, ehex) |> 
@@ -527,7 +527,7 @@ ggplot(erg_libre_emp) +
 shufs <- purrr::map(1:500, ~sample.int(n,n))
 plan("multisession", workers=16)
 fluxs <- future_imap_dfr(shufs, ~{
-  Rcpp::sourceCpp("radiation/meaps2.cpp", echo=FALSE)
+  Rcpp::sourceCpp("R/meaps2.cpp", echo=FALSE)
   mm <- rmeaps(emp = emp, hab = hab, shuf=.x , meaps_ver = 2)
   emp_flux(s1, mm$meaps)$s |>
     as_tibble() |>
@@ -536,15 +536,15 @@ fluxs <- future_imap_dfr(shufs, ~{
     relocate(gh) |> 
     mutate(draw = .y)
 }, .options = furrr_options(seed = TRUE), .progress = TRUE)
-save(fluxs, file="meaps-doc/output/fluxs.rda")
-load("meaps-doc/output/fluxs.rda")
+save(fluxs, file="output/fluxs.rda")
+load("output/fluxs.rda")
 gfluxs <- ggplot(fluxs)+
   geom_boxplot(aes(y=flux, x=cat, color=gh),
                show.legend = FALSE)+
   scale_y_log10()+
   xlab(NULL)+ylab("Nombre de trajets")+
   theme_ofce()
-graph2png(gfluxs, rep="meaps-doc/output")
+graph2png(gfluxs, rep="output")
 
 fluxsq <- fluxs |>
   pivot_longer(cols = starts_with("e"), names_to = "ge", values_to = "flux") |> 
@@ -559,7 +559,7 @@ fluxsq <- fluxs |>
                     round(q95), "]")) |> 
   pivot_wider(id_cols = gh, names_from = ge, values_from = intervale_r)
 
-save(fluxsq, file="meaps-doc/output/fluxsq.srda")
+save(fluxsq, file="output/fluxsq.srda")
 
 # test 5 rang n
 rangns <- erg_libre |> group_by(ehex, draw) |> summarize(across(c(rm, rsd, ge), first))
@@ -595,8 +595,8 @@ gnmsd <- ggplot(rangns |> filter(draw==500))+
   ylab("écart type du rang moyen au moment du remplissage") + 
   scale_color_discrete(name = "Pôle d'emploi")+
   theme_ofce()+theme(legend.position="right")
-graph2png(gnmsd, rep="radiation/svg")
-save(gnmsd, file="meaps-doc/output/gmsd_erg.rda")
+graph2png(gnmsd, rep="output")
+save(gnmsd, file="output/gmsd_erg.rda")
 
 
 # matrice de dérivées -----------------------------
@@ -692,7 +692,7 @@ flux3x3 <- bigflux |>
       rows = c(3,6,9)
     )) 
 
-save(flux3x3, file="meaps-doc/output/flux3x3.rda" |> glue::glue())  
+save(flux3x3, file="output/flux3x3.rda" |> glue::glue())  
 
 (gcarte_cfg2 <- 
     (ggplot()+

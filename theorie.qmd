@@ -360,7 +360,7 @@ On peut noter $A_u(i,k)$ le cumul des emplois qui restent disponibles pour $i$ l
 La grandeur qui nous intéresse est la moyenne sur tous les $n$ possibles, soit :
 
 $$
-\langle A \rangle_n(i,k) = \langle\sum_{l=1}^k \langle \phi \rangle_u(n, r_i(k)) \rangle _n
+\langle A \rangle_n(i,k) = \langle\sum_{j, r_i(j)\leq k} \langle \phi \rangle_u(n,j) \rangle _n
 $$ {#eq-an}
 
 La particularité de cette accessibilité est qu'à mesure que les emplois sont pris (lorsque $n$ s'accroît), l'accessibilité se restreint puisqu'elle ne retient que la part encore disponible des emplois proches.

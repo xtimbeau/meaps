@@ -1,13 +1,13 @@
 ### Résumé {.unnumbered .unlisted}
 
 Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix.
-En partant du modèle des "*intervening opportunities*" de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques explicites et flexibles -- qui peuvent s'adapter à une grande palette de situations.
+En partant du modèle des "*intervening opportunities*" de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (*MEAPS*) qui permet de construire ces choix sur des fondements microscopiques explicites et flexibles -- qui peuvent s'adapter à une grande palette de situations.
 Ainsi, le modèle s'accommode de différentes formulations des processus stochastiques microscopiques qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation.
 Nous explorons les propriétés du modèle théorique sur des données synthétiques.
 Nous proposons ensuite une application empirique à la Rochelle pour la modélisation des trajets quotidiens entre le domicile et le travail.
 Le modèle est ajusté sur les données du recensement qui mesurent les flux entre communes de résidence et d'emploi.
-La comparaison avec le modèle gravitaire montre que MEAPS est plus à même de décrire les flux de déplacements et qu'il ouvre des possibilités d'interprétations très riches.
-Nous produisons une cartographie des émissions de CO~2~ qui utilise MEAPS pour une interpolation au careeau 200m.
+La comparaison avec le modèle gravitaire montre que *MEAPS* est plus à même de décrire les flux de déplacements et qu'il ouvre des possibilités d'interprétations très riches.
+Nous produisons une cartographie des émissions de CO~2~ qui utilise MEAPS pour une interpolation au carreau 200m.
 La modélisation calibrée sur des données du recensement permet d'analyser des scénarios variantiels pour la Rochelle et permet d'illustrer la capacité du modèle à analyser des problématiques locales comme la configuration des réseaux de transport ou la localisation de l'emploi.
 
 ```{=html}
@@ -16,7 +16,13 @@ La modélisation calibrée sur des données du recensement permet d'analyser des
 ::: {.callout-note .align-left}
 ## *Remerciements*
 
-*Nous remercions Francesco Pirri et Pablo Vallier pour leur travail durant un stage à l'OFCE pendant l'été 2022 et une trop courte période d'assistant de recherche. Les discussions et les travaux conduits avec David Miet, Lucas Pouvreau et Valentin Stuhfault de Villes Vivantes ont été particulièrement fructueuses pour l'application à la Rochelle, en partie financée par l'agglomération de la Rochelle. Nous remercions également Florence Nassiet et Bernard Habbouche ainsi que leurs collègues des services de l'agglomération de la Rochelle dont les encouragements et les questionnements nous aurons guidé dans ce travail. L'ensemble des calculs a été réalisé sur nuvolos.cloud dont le support technique s'est avéré indispensable.*
+*Nous remercions Francesco Pirri et Pablo Vallier pour leur travail durant un stage à l'OFCE pendant l'été 2022 et une trop courte période d'assistant de recherche. Tanguy Enez a pris le relais et a significativement contribué.*
+
+*Les discussions et les travaux conduits avec David Miet, Lucas Pouvreau et Valentin Stuhfault de Villes Vivantes ont été particulièrement fructueuses pour l'application à la Rochelle, en partie financée par l'agglomération de la Rochelle.*
+
+*Nous remercions également Florence Nassiet et Bernard Habbouche ainsi que leurs collègues des services de l'agglomération de la Rochelle dont les encouragements et les questionnements nous aurons guidé dans ce travail.*
+
+*L'ensemble des calculs a été réalisé sur nuvolos.cloud dont le support technique s'est avéré indispensable.*
 :::
 
 ::: {.callout-tip .align-left}
