@@ -250,7 +250,7 @@ rmeaps_multishuf <- function(scn, shufs, nthreads=0) {
   modds <- matrix(1, ncol=ncol(rkdist), nrow = nrow(rkdist))
   for (j in 1:ncol(rkdist)) 
     modds[,j] <- scn$p[[j]]
-  rr <- rmeaps::meaps_multishuf(
+  rr <- rmeaps::meaps_alt(
     rkdist = scn$rk, 
     emplois = rep(1,nrow(scn$emp)), 
     actifs = rep(1,nrow(scn$hab)),
