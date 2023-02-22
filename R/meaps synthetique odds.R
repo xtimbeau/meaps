@@ -397,16 +397,17 @@ save(fluxg, fluxg2, fluxg22, fkl, fkl2, file = "output/flux_grav.srda")
 # ce qu'il y a en moins : pas de traitement des paquets, pas de traitement des odds
 # pas de débordement
 # mais dans ce cas ce n'est pas grave
-if(fs::file_exists("output/libres.raw.qs")) {
+options(future.globals.maxSize=1024^3) # 1Gb
+if(fs::file_exists("output/libres.raw.qs")&&FALSE) {
   libres.raw <- qs::qread("output/libres.raw.qs") 
 } else {
   plan("multisession", workers = 7)
   
   tic();
-  libres.raw <- future_imap_dfr(1:500, ~{
+  libres.raw <- future_imap_dfr(1:50, ~{
     Rcpp::sourceCpp("R/meaps.cpp", showOutput = FALSE, echo = FALSE)
     shuf <- sample.int(n,n)
-    raw <- meaps_cpp_v1(s1$rk, f = s1$f, p = s1$p, shuf = shuf)
+    #raw <- meaps_cpp_v1(s1$rk, f = s1$f, p = s1$p, shuf = shuf)
     raw2 <- meaps_tension(rkdist=s1$rk,
                           emplois=rep(1,k),
                           actifs=rep(1,n),
@@ -414,11 +415,13 @@ if(fs::file_exists("output/libres.raw.qs")) {
                           shuf = matrix(shuf, nrow=1),
                           modds=matrix(1, nrow=n, ncol=k),
                           nthreads=4)
+    raw$emps <- raw2$flux
+    # raw$dispo <- raw2$tension
     colnames(raw$emps) <- str_c("e", 1:ncol(raw$emps))
-    colnames(raw$dispo) <- str_c("e", 1:ncol(raw$dispo))
+    # colnames(raw$dispo) <- str_c("e", 1:ncol(raw$dispo))
     tibrn <- tibble(emp = 1:ncol(raw$papn),
                     ehex = s1$emps$ehex[emp],
-                    rangn = apply(raw$papn<0.01, FUN = which.max, MARGIN = 2)) |> 
+                    rangn = raw2$tension) |> 
       group_by(ehex) |> 
       summarize(rs = sum(rangn),
                 rs2 = sum(as.numeric(rangn)^2),
@@ -442,22 +445,23 @@ if(fs::file_exists("output/libres.raw.qs")) {
         pn = n(), .groups = "drop") |>
       left_join(s1$hhex |> select(hhex, gh), by="hhex") |> 
       left_join(s1$ehex |> select(ehex, ge), by="ehex")
-    tibo <- as_tibble(raw$dispo[-1,])
-    names(tibo) <- str_c("e", 1:ncol(raw$dispo))
-    tibo <- tibo |> 
-      mutate(hab = 1:nrow(tibo)) |> 
-      relocate(hab) |> 
-      mutate(hhex = s1$hexhab[hab]) |> 
-      pivot_longer(cols = starts_with("e"), values_to = 'libre', names_to = "emp") |> 
-      mutate(
-        emp = as.numeric(str_sub(emp,2,-1)),
-        ehex  = s1$hexemp[emp]) |>
-      group_by(hhex, ehex) |>
-      summarize(ls = sum(libre),
-                ls2 = sum(libre^2),
-                ln = n(), 
-                .groups = "drop")
-    left_join(tibe, tibo, by = c('hhex', 'ehex')) |> 
+    # tibo <- as_tibble(raw$dispo[-1,])
+    # names(tibo) <- str_c("e", 1:ncol(raw$dispo))
+    # tibo <- tibo |> 
+    #   mutate(hab = 1:nrow(tibo)) |> 
+    #   relocate(hab) |> 
+    #   mutate(hhex = s1$hexhab[hab]) |> 
+    #   pivot_longer(cols = starts_with("e"), values_to = 'libre', names_to = "emp") |> 
+    #   mutate(
+    #     emp = as.numeric(str_sub(emp,2,-1)),
+    #     ehex  = s1$hexemp[emp]) |>
+    #   group_by(hhex, ehex) |>
+    #   summarize(ls = sum(libre),
+    #             ls2 = sum(libre^2),
+    #             ln = n(), 
+    #             .groups = "drop")
+    # left_join(tibe, tibo, by = c('hhex', 'ehex')) |> 
+    tibe |> 
       left_join(tibrn, by="ehex") |> 
       mutate(draw = .y) |> 
       relocate(hhex, ehex, draw)
@@ -474,7 +478,7 @@ erg_libre <- libres.raw |>
   arrange(draw) |> 
   mutate(
     rnc = cumsum(as.numeric(rn)), rm = cumsum(rs)/rnc, rsd = sqrt(cumsum(rs2)/rnc - rm^2),
-    lnc=cumsum(as.numeric(ln)), lm=cumsum(ls)/lnc, lsd = sqrt(cumsum(ls2)/lnc -  lm^2),
+    # lnc=cumsum(as.numeric(ln)), lm=cumsum(ls)/lnc, lsd = sqrt(cumsum(ls2)/lnc -  lm^2),
     pnc=cumsum(as.numeric(pn)), pm=cumsum(ps)/pnc, psd = sqrt(cumsum(ps2)/pnc -  pm^2)) |> 
   ungroup()
 
@@ -493,8 +497,8 @@ erg_libre <- libres.raw |>
           text = element_text(color = "black"),
           axis.text = element_text(color = "black"),
           strip.text = element_text(color = "black")))
-graph2png(gemploi_erg, rep="meaps-doc/output", ratio=4/3)
-save(gemploi_erg, file="meaps-doc/output/gemploi_erg.rda")
+graph2png(gemploi_erg, rep="output", ratio=4/3)
+save(gemploi_erg, file="output/gemploi_erg.rda")
 # test 2 vers tous les emp de quelques hab
 gemploi_erg <- ggplot(erg_libre |> filter(hhex%in%sample(unique(hhex), 9))) + 
   geom_line(aes(x=draw, y=ps/pn, group = ehex), col="white", alpha=0.05, size=0.1) +
