@@ -251,6 +251,9 @@ Cette expression définit donc la probabilité pour un individu $i$ d'occuper l'
 La rang de $j$ n'est autre que le nombre d'opportunités cumulées du point de départ de $i$ jusqu'à $j$ et remplace la distance, comme dans les expressions de @stouffer1940 ou de @simini2012.
 Ce nombre n'est autre que l'accessibilité aux emplois de l'individu $i$ dans un cercle de rayon $[ij]$, que ce rayon soit défini en utilisant une distance euclidienne ou d'autres mesures comme le temps de parcours en transport en commun en utilisant un réseau de transport.
 
+Ce processus d'appariement peut s'interpréter comme une recherche d'un emploi satisfaisant en cherchant un emploi satisfaisant des critères non explicités et spécifique à l'individu et proche de son domicile afin de minimiser les coûts de transports.
+A priori, les emplois sont identiques ou homogènes pour l'individu et il organise donc sa recherche en les classant par rang de localisation.
+
 Chaque emploi a été supposé distinct spatialement des autres.
 Dans le cas où les emplois ne seraient pas séparés et pourraient s'accumuler en un point ou au sein d'un carreau, la formalisation ne change pas.
 

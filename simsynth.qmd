@@ -31,7 +31,7 @@ Pour étudier quelques unes des propriétés du modèle nous proposons ici d'exp
 
 Nous construisons un territoire abstrait composé d'un "centre ville" et de "deux périphéries" (@fig-territoire). Cette configuration arbitraire nous permet d'évaluer *MEAPS* en simulant les trajets et leur distribution. Chaque individu et chaque emploi sont localisés, distinctement les uns des autres, ce qui permet de calculer des distances euclidiennes entre chaque habitant et chaque emploi et d'en déduire un classement pour chaque habitant sans ambiguïté des emplois en fonction de leur éloignement de chaque résident. Tous les emplois sont considérés comme homogènes et on suppose une probabilité de fuite identique de 10% pour tous les individus. Les distances entre les pôles sont données dans le @tbl-distances (dans une unité sans intérêt).
 
-```{r, echo=FALSE}
+```{r}
 #| label: tbl-distances
 #| tbl-scap: "Distances entre les pôles"
 #| tbl-cap: "Distances entre les pôles"

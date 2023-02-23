@@ -178,13 +178,14 @@ add_total <- function(data) {
     mutate({{un}}:= "total")
   bind_rows(data, tot)
 }
-make_tibs <- function(emp, hab) {
+make_tibs <- function(emp, hab, binwidth = 0.1) {
   dist <- rdist::cdist(hab[, 1:2], emp[,1:2])
   rkdist <- matrixStats::rowRanks(dist)
   f <- hab[, "f"]
   p <- emp[, "p"]
-  hexhab <- hexbin::hexbin(hab[,"x"], hab[,"y"], xbins=bins, IDs=TRUE)@cID
-  hexemp <- hexbin::hexbin(emp[,"x"], emp[,"y"], xbins=bins, IDs=TRUE)@cID
+  xrange <- diff(range(c(hab[,"x"], emp[,"x"])))
+  hexhab <- hexbin::hexbin(hab[,"x"], hab[,"y"], xbins=round(xrange/binwidth), IDs=TRUE)@cID
+  hexemp <- hexbin::hexbin(emp[,"x"], emp[,"y"], xbins=round(xrange/binwidth), IDs=TRUE)@cID
   habs <- hab |> 
     as_tibble() |> 
     mutate(hab = 1:nrow(hab),
@@ -250,7 +251,7 @@ rmeaps_multishuf <- function(scn, shufs, nthreads=0) {
   modds <- matrix(1, ncol=ncol(rkdist), nrow = nrow(rkdist))
   for (j in 1:ncol(rkdist)) 
     modds[,j] <- scn$p[[j]]
-  rr <- rmeaps::meaps_multishuf(
+  rr <- rmeaps::meaps_alt(
     rkdist = scn$rk, 
     emplois = rep(1,nrow(scn$emp)), 
     actifs = rep(1,nrow(scn$hab)),
