@@ -36,7 +36,7 @@ handlers("cli")
 n <- 5000
 k <- 4500
 bins <- 1.2/0.05
-
+binwidth <- 0.075
 load("output/scenarios.rda")
 
 ## ergodicité ------------------------
@@ -204,7 +204,7 @@ rangns_ec <- ggplot(rangns |> filter(draw <250)) +
 
 library(patchwork)
 g_rangns <- rangns_m + rangns_ec
-graph2png(g_rangns, rep="meaps-doc/output", ratio = 16/7)
+graph2png(g_rangns, rep="output", ratio = 16/7)
 
 gnmsd <- ggplot(rangns |> filter(draw==max(draw)))+
   geom_point(aes(x=rm, y=rsd, color=ge)) +
@@ -214,15 +214,19 @@ gnmsd <- ggplot(rangns |> filter(draw==max(draw)))+
   theme_ofce()+theme(legend.position="right")
 graph2png(gnmsd, rep="output")
 save(gnmsd, file="output/gmsd_erg.rda")
-rangns <- s1$ehex |> 
-  left_join(rangns |> filter(draw==max(draw)) |> select(ehex, rm, rsd), by="ehex")
-carte_erg <- ggplot(rangns)+
-  stat_summary_hex(aes(x=x,y=y, z=rm), binwidth=0.1)+
-  scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
+rangns_max <- s1$ehex |> 
+  left_join(rangns |> filter(draw==max(draw)) |> select(ehex, rm, rsd), by="ehex") |> 
+  mutate(tension = (max(rm)-rm)/(max(rm)-min(rm)))
+  
+carte_erg <- ggplot(rangns_max)+
+  stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
+  scale_fill_distiller(palette="Spectral", direction=-1, name = "tension")+
   coord_equal(xlim=c(0,2), ylim=c(0,2)) +
-  geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
-  labs(title = "Habitants")+
+  geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
+  labs(title = "Tension")+
   theme_ofce_void(base_size = 8)+ 
   theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
         plot.margin = margin(6,6,6,6),
         panel.background = element_rect(fill="grey97"))
+
+graph2png(carte_erg, rep="output", ratio = 16/9)
