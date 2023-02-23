@@ -203,7 +203,7 @@ graph2png(gdenshabg, rep="/output", ratio = 16/10)
 ## graphes à densité/distances moyennes -------------
 ### s1 -----------------
 gdhab <- ggplot()+
-  stat_summary_hex(data = mmb$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb$hab, aes(x=x, y=y, z=d), fun = meann(5), binwidth=binwidth)+
   guides(fill=guide_colourbar("Distance\npar habitant"))+
   scale_fill_distiller(palette="Greens", direction=1,
                        breaks = c(.2, .3, .4, .5))+
@@ -226,7 +226,7 @@ gdenshab <- ggplot(mmb$hab)+
   theme_minimal()+
   theme(text=element_text(size=6))
 gdemp <- ggplot()+
-  stat_summary_hex(data = mmb$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb$emp, aes(x=x, y=y, z=d), fun = meann(5), binwidth=binwidth)+
   guides(fill=guide_colourbar("Distance\npour un emploi"))+
   scale_fill_distiller(palette="Oranges", direction=1,
                        breaks = c(.2, .3, .4, .5))+
@@ -260,7 +260,7 @@ save(gdistances, file = "output/gdistances.rda")
 
 ### s2 ---------------------
 gdhab2 <- ggplot()+
-  stat_summary_hex(data = mmb2$hab, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb2$hab, aes(x=x, y=y, z=d), fun = meann(5), binwidth=binwidth)+
   guides(fill=guide_colourbar("Distance\npar habitant"))+
   scale_fill_distiller(palette="Greens", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue par habitant")+
@@ -282,7 +282,7 @@ gdenshab2 <- ggplot(mmb2$hab)+
   theme_minimal()+
   theme(text=element_text(size=6))
 gdemp2 <- ggplot()+
-  stat_summary_hex(data = mmb2$emp, aes(x=x, y=y, z=d), fun = meann(5), bins=25)+
+  stat_summary_hex(data = mmb2$emp, aes(x=x, y=y, z=d), fun = meann(5), binwidth=binwidth)+
   guides(fill=guide_colourbar("Distance\npour un emploi"))+
   scale_fill_distiller(palette="Oranges", direction=1)+
   xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue pour un emploi") +
