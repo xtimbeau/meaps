@@ -9,12 +9,15 @@ book:
     border: true
     center: "**CC BY 4.0**"
   author:
-    - name : Maxime Parodi
+    - name : éMaxime Parodié
       email: "maxime.parodi@sciencespo.fr"
       affiliation: OFCE, Sciences po Paris
-    - name: Xavier Timbeau 
+      affiliation-url: "http://www.ofce.fr"
+    - name: "Xavier Timbeau" 
       email: "xavier.timbeau@sciencespo.fr"
       affiliation: OFCE, Ecole Urbaine, Sciences po Paris
+      affiliation-url: "http://www.ofce.fr"
+      orcid: "0000-0002-6198-5953"
   date: 02/01/2023
   output-file: "meaps"
   cover-image: www/cover.png
