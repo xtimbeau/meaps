@@ -462,7 +462,7 @@ ms_odd <- list_modify(
 
 shufs <- do.call(rbind, map(1:100, ~sample.int(n,n)))
 
-plan("sequential", workers=4)
+plan("multisession", workers=4)
 
 res <- future_imap(
   ms_odd, ~{
@@ -472,7 +472,8 @@ res <- future_imap(
                       f = sr$f,
                       modds = .x ,
                       shuf = shufs,
-                      nthreads = 8)
+                      nthreads = 4, 
+                      progress=FALSE)
     flux <- emp_flux(sr, mm)
     ed <- mm * sr$dist
     emp_i <- matrixStats::rowSums2(mm)
@@ -535,32 +536,6 @@ flux3x3 <- bigflux |>
     )) 
 
 save(flux3x3, file="output/flux3x3.rda" |> glue::glue())  
-
-(gcarte_cfg2 <- 
-    (ggplot()+
-       stat_binhex(data = as_tibble(sr$hab),
-                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.025)+
-       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
-       coord_equal(xlim=c(0,1), ylim=c(0,1))+
-       geom_text(data = sr$hgroupes, aes(x=x, y=y, label = g_label),
-                 nudge_y = 0,  size = 2, hjust = 0.5, vjust = 0.5) +
-       labs(title = "Habitants")+
-       theme_void(base_size = 8)+ 
-       theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
-             plot.margin = margin(6,6,6,6),
-             panel.background = element_rect(fill="grey97")))+
-    (ggplot()+
-       stat_binhex(data=as_tibble(sr$emp),
-                   aes(x=x,y=y, fill=100*after_stat(density)), binwidth=0.025)+
-       scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
-       coord_equal(xlim=c(0,1), ylim=c(0,1))+
-       geom_text(data = sr$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = -0.2) +
-       labs(title = "Emplois")+
-       theme_void(base_size = 8)+ 
-       theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
-             plot.margin = margin(6,6,6,6),
-             panel.background = element_rect(fill="grey97"))) + 
-    plot_layout(guides = 'collect'))
 
 tres <- tres |>
   separate(scn, into = c("e", "h"), sep="-") |> 
