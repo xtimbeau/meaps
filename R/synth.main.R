@@ -61,7 +61,6 @@ empv2 <- cbind(pos_cnorm(n=10/100*k, sigma = 0.05, centre = c(1.4, 1.4)), p=1, g
 emp <- rbind(empc, empv2, empv1)
 emp2<- rbind(empc, empv2, empv12)
 
-
 s1 <- make_tibs(emp, hab, binwidth)
 s2 <- make_tibs(emp2, hab2, binwidth)
 save(s1, s2, file = "output/scenarios.rda")

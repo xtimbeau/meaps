@@ -243,18 +243,18 @@ rmeaps_bstp <- function(scn, shufs, workers=1) {
 } 
 
 rmeaps_multishuf <- function(scn, shufs, nthreads=0) {
-  k <- nrow(scn$hab)
-  n <- nrow(scn$emp)
-  ids <- rownames(scn$hab)
+  n <- nrow(scn$habs)
+  k <- nrow(scn$emps)
+  ids <- rownames(scn$habs)
   dist <- scn$dist
   rkdist <- scn$rk
-  modds <- matrix(1, ncol=ncol(rkdist), nrow = nrow(rkdist))
+  modds <- matrix(1, ncol=k, nrow = n)
   for (j in 1:ncol(rkdist)) 
     modds[,j] <- scn$p[[j]]
   rr <- rmeaps::meaps_alt(
     rkdist = scn$rk, 
-    emplois = rep(1,nrow(scn$emp)), 
-    actifs = rep(1,nrow(scn$hab)),
+    emplois = rep(1,k), 
+    actifs = rep(1,n),
     modds = modds,
     f = scn$f,
     shuf = shufs,
