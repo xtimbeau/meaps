@@ -16,10 +16,9 @@ library(ofce)
 library(showtext)
 library(markdown)
 library(gt)
-sysfonts::font_add_google('Nunito')
 showtext_auto()
 options(ofce.background_color = "grey99")
-options(ofce.base_family = "Roboto")
+options(ofce.base_family = "Source Sans Pro")
 options(ofce.base_size = 9)
 ```
 
@@ -49,7 +48,7 @@ Pour assurer l'égalité entre demandes et offres d'emploi, on tire aléatoireme
 
 Dans l'analyse statistique qui suit, on procédera à une agrégation spatiale en pavant le plan où sont localisés emplois et habitants par des hexagones adjacents. Cela correspond à une analyse empirique où les données de localisation sont carroyées.
 
-```{r, echo=FALSE}
+```{r}
 #| label: fig-territoire
 #| fig-scap: "Territoire synthétique (centre + 2 villages)"
 #| fig-cap: "Territoire synthétique comportant un centre ville (h1) et deux villages (h2) et (h3). Dans chaque hexagone est indiqué la densité (5 000 habitants). 4 500 emplois avec des proportions d'emplois de 80% dans le centre et de 5% dans les 2 villages (les 10% restant sont la fuite). La dispersion est plus basse pour les emplois. Les densités d'emplois sont représentées dans le panneau de droite en orange."
@@ -71,7 +70,7 @@ Cette première représentation graphique permet de se représenter le fonctionn
 
 On peut construire une table des flux entre chaque pôles (@tbl-fluxpoles). Le premier élément est de noter que les contraintes aux marges sont parfaitement respectées, ce qui est le principe de construction de *MEAPS*, les approximations faites dans l'algorithme de résolution restant ici inférieures à $10^{-5}$ au moins. Par ailleurs, la table de flux confirme le diagnostic précédent. La plupart des habitants de h1 (95%) se rendent dans g1 (le même pôle donc). Ce taux d'"auto-emploi" est de 10% à 20% pour les deux autres pôles. Cela tient au déséquilibre de localisation des emplois et est une propriété souhaitée du modèle. Cela explique en partie la distribution des distances pour les habitants et également le concept réciproque (distances moyenne vers un hexagone d'emplois).
 
-```{r, echo=FALSE}
+```{r, echo}
 #| label: tbl-fluxpoles
 #| tbl-scap: "flux entre pôles"
 #| tbl-cap: "flux entre pôles"
@@ -82,7 +81,7 @@ flux |> gt() |> cols_label(gh="")
 
 Pour apprécier le comportement du modèle, on peut procéder à une expérience de pensée dans laquelle on éloigne le pôle 3 des deux autres pôles (la distance entre 1 et 3 passe de 0.7 à 1.2 dans cette expérience). Le @tbl-fluxpoles2 est obtenu en re-simulant le modèle sur la nouvelle géographie. Le résultat est très proche du modèle précédent. Les flux entre le pôle 1 et 3 sont marginalement modifiés (de 2 ou 3) alors que ceux entre h1 et e2 ou e3 le sont un peu plus, traduisant des changements de rangs possibles pour les habitants de h1 entre e2 ou e3 (qui est plus loin). Ce résultat est conforme à l'intuition et également une propriété souhaitée du modèle. Les distributions des distances (sortantes et arrivantes) sont plus largement modifiées, puisque 3 est plus loin de 1 et 2, comme l'indique la @fig-distances2. Les habitants de h1 préfèrent e2 à e3 et réduisent un peu leur trajets vers e3 mais augmentent leurs distances. L'accroissement de la saturation sur e2 conduit à des trajets vers e3 (de h1, h2 et h3) qui marque la distribution des distances. la @fig-denscomp éclaire ce qui se passe par pôle.
 
-```{r, echo=FALSE}
+```{r}
 #| label: tbl-fluxpoles2
 #| tbl-scap: "flux entre pôles (pôle 3 plus loin)"
 #| tbl-cap: "flux entre pôles (pôle 3 plus loin)"
@@ -91,7 +90,7 @@ load("output/tblflux.rda")
 flux2 |> gt() |> cols_label(gh="")
 ```
 
-```{r, echo=FALSE}
+```{r}
 #| label: fig-distances2
 #| fig-scap: "Distances moyenne par habitant et pour un emploi (3 éloigné)"
 #| fig-cap: "Le graphique est construit comme le précédent, le pôle 3 est éloigné de 0.5 (70% plus loin) par rapport à 1." 
@@ -99,7 +98,7 @@ flux2 |> gt() |> cols_label(gh="")
 knitr::include_graphics("output/gdistances2.png")
 ```
 
-```{r, echo=FALSE}
+```{r}
 #| label: fig-denscomp
 #| fig-scap: "Densités comparées"
 #| fig-cap: "Densités comparées des distances parcourues par habitant entre le scénario de référence et le scénario 'pôle 3 plus loin'. Le trait pointillé est utilisé pour le scénario alternatif."
@@ -260,7 +259,7 @@ knitr::include_graphics("output/g_rangns.png")
 
 Le rang moyen au moment de la saturation est une information qui peut être utilisé pour construire un indicateur localisé de tension.
 
-Le @tbl-fluxpoles_conf indique les intervalles de confiance à 90% que l'on peut construire à partir des simulations précédentes. On obtient une stabilité satisfaisante, bien que les flux agrégés soient stochastiques.
+Le @tbl-fluxpoles_conf indique les intervalles de confiance à 90% que l'on peut construire à partir des simulations précédentes. On obtient une stabilité satisfaisante, bien que les flux agrégés soient stochastiques. Pour une centaine de tirages on peut obtenir une précision supérieure à $10^{-3}$.
 
 ```{r, echo=FALSE}
 #| label: tbl-fluxpoles_conf 
@@ -273,5 +272,5 @@ fluxsq |>
   cols_label(gh="") |> 
   cols_align(columns = -gh, align ="center") |> 
   fmt_markdown(columns = -gh) |> 
-  tab_source_note(source = "Source: MEAPS, intervalle de confiance à 90%, 500 tirages")
+  tab_source_note(source = "Source: MEAPS, intervalle à 95%, 1024 tirages")
 ```

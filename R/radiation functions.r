@@ -152,8 +152,10 @@ rmeaps <- function(emp, hab, shuf = 1:nrow(hab), rcpp = TRUE, meaps_ver = 1) {
   }
 }
 
-pos_cunif <- function(n=100, centre = c(0.5, 0.5), rayon = 0.25) {
-  rayons <- runif(n)^0.5*rayon
+pos_cunif <- function(n=100, centre = c(0.5, 0.5), rayon = 0.25, beta=1.5) {
+  ru <- runif(n)
+  ru <- ru^beta
+  rayons <- ru^0.5*rayon
   angles <- runif(n)*2*pi
   res <- cbind(rayons*cos(angles),rayons*sin(angles))
   res[,1] <- res[,1]+centre[1]

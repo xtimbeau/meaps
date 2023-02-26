@@ -21,7 +21,8 @@ library(progressr)
 library(scales)
 library(rmeaps)
 
-options(ofce.background_color = "grey99")
+options(ofce.background_color = "grey99",
+        ofce.basefamily = "Source Sans Pro")
 showtext::showtext_opts(dpi = 200)
 showtext::showtext_auto()
 conflict_prefer_all("dplyr", quiet = TRUE)
@@ -43,27 +44,31 @@ handlers("cli")
 n <- 5000
 k <- 4500
 bins <- 1.2/0.05
-binwidth <- 0.075
+binwidth <- 0.05
 ## génération --------------
 # on représente ici une agglomération centrale, plus des villages avec des emplois
 # mais pas en nombre suffisant dans les villages
 set.seed(1942) 
-habc <- cbind(pos_cnorm(n=70*n/100, sigma = 0.15, centre = c(1, 1)), f=0.1, g = 1)
-habv1 <- cbind(pos_cnorm(n=15*n/100, sigma = 0.1, centre = c(.6, .6)), f=0.1, g = 3)
-habv12 <- cbind(pos_cnorm(n=15*n/100, sigma = 0.1, centre = c(.1, .1)), f=0.1, g = 3)
-habv2 <- cbind(pos_cnorm(n=15*n/100, sigma = 0.1, centre = c(1.4, 1.4)), f=0.1, g = 2)
+beta=1.6; rh <- 0.25; re <- rh*sqrt(9/10); pc <- .7
+habc <- cbind(pos_cunif(n=pc*n, rayon = rh, centre = c(1, 1), beta=beta), f=0.1, g = 1)
+habv1 <- cbind(pos_cunif(n=(1-pc)/2*n, rayon = rh*sqrt((1-pc)/2/pc), centre = c(.5, .5), beta=beta), f=0.1, g = 3)
+habv12 <- t(t(habv1) + c(-.25, -.25, 0, 0))
+habv2 <- cbind(pos_cunif(n=(1-pc)/2*n, rayon = rh*sqrt((1-pc)/2/pc), centre = c(1.5, 1.5), beta=beta), f=0.1, g = 2)
+habv22 <- t(t(habv2) + c(.25, .25, 0, 0))
 hab <- rbind(habc, habv2, habv1)
-hab2 <- rbind(habc, habv2, habv12)
-empc <- cbind(pos_cnorm(n=80/100*k, sigma = 0.05, centre = c(1, 1)), p=1, g=1)
-empv1 <- cbind(pos_cnorm(n=10/100*k, sigma = 0.05, centre = c(0.6, 0.6)), p=1, g=3)
-empv12 <- cbind(pos_cnorm(n=10/100*k, sigma = 0.05, centre = c(.1, .1)), p=1, g=3)
-empv2 <- cbind(pos_cnorm(n=10/100*k, sigma = 0.05, centre = c(1.4, 1.4)), p=1, g=2)
+hab2 <- rbind(habc, habv22, habv12)
+empc <- cbind(pos_cunif(n=pc*k, rayon  = re, centre = c(1, 1), beta=beta), p=1, g=1)
+empv1 <- cbind(pos_cunif(n=(1-pc)/2*k, rayon = re*sqrt((1-pc)/2/pc), centre = c(.5, .5), beta=beta), p=1, g=3)
+empv12 <- t(t(empv1) + c(-.25, -.25, 0, 0))
+empv2 <- cbind(pos_cunif(n=(1-pc)/2*k, rayon = re*sqrt((1-pc)/2/pc), centre = c(1.5, 1.5), beta=beta), p=1, g=2)
+empv22 <- t(t(empv2) + c(.25, .25, 0, 0))
 emp <- rbind(empc, empv2, empv1)
-emp2<- rbind(empc, empv2, empv12)
+emp2<- rbind(empc, empv22, empv12)
 
 s1 <- make_tibs(emp, hab, binwidth)
 s2 <- make_tibs(emp2, hab2, binwidth)
-save(s1, s2, file = "output/scenarios.rda")
+qsave(s1, file = "output/s1.qs")
+qsave(s2, file = "output/s2.qs")
 
 dds <- rdist::cdist(cbind(s1$hgroupes$x, s1$hgroupes$y), cbind(s1$egroupes$x, s1$egroupes$y)) 
 dds2 <- rdist::cdist(cbind(s2$hgroupes$x, s2$hgroupes$y), cbind(s2$egroupes$x, s2$egroupes$y)) 
@@ -83,26 +88,26 @@ meann <- function(n) function(x) ifelse(length(x)>n, mean(x), NA)
 coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
 (gcarte_ss <- 
     (ggplot()+
-       stat_binhex(data = as_tibble(s1$hab),
+       stat_binhex(data = s1$habs,
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
-       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants", 
-                            breaks = c( 1,  2,  3))+
+       scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants",
+                            breaks = c(1,2))+
        coords +
        geom_text(data = s1$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
        labs(title = "Habitants")+
-       theme_ofce_void(base_size = 8)+ 
+       theme_ofce_void(base_size = 9)+ 
        theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97")))+
     (ggplot()+
-       stat_binhex(data=as_tibble(s1$emp),
+       stat_binhex(data=as_tibble(s1$emps),
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
        scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois", 
-                            breaks = c( 5,  10,  15))+
+                            breaks = c(1,2))+
        coords +
        geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.2) +
        labs(title = "Emplois")+
-       theme_ofce_void(base_size = 8)+ 
+       theme_ofce_void(base_size = 9)+ 
        theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97"))) + 
@@ -112,7 +117,7 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
        stat_binhex(data = as_tibble(s2$hab),
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
        scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants", 
-                            breaks = c( 1,  2,  3))+
+                            breaks = c(1,2))+
        coords +
        geom_text(data = s2$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
        labs(title = "Habitants")+
@@ -124,11 +129,11 @@ coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
        stat_binhex(data=as_tibble(s2$emp),
                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
        scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois",
-                            breaks = c( 5,10,15))+
+                            breaks = c(1,2))+
        coords +
        geom_text(data = s2$egroupes, aes(x=x, y=y, label = g_label), size = 2, nudge_y = 0.2) +
        labs(title = "Emplois")+
-       theme_ofce_void(base_size = 8)+ 
+       theme_ofce_void(base_size = 9)+ 
        theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
              plot.margin = margin(6,6,6,6),
              panel.background = element_rect(fill="grey97"))) + 
@@ -189,11 +194,11 @@ save(flux, flux2, file = "output/tblflux.rda")
       name="pôle d'habitation",
       aesthetics = c('color','fill'), 
       labels = c("h1", "h2", "h3"))+
-    xlim(c(0,1.5))+ylim(c(0,7.5))+ylab(NULL)+xlab("distance")+
-    theme_ofce(base_size=9, base_family = "Nunito") +theme(legend.position = "right"))
-graph2png(gdenshabg, rep="/output", ratio = 16/10)
+    xlim(c(0,1))+ylim(c(0,20))+ylab(NULL)+xlab("distance")+
+    theme_ofce(base_size=9) +theme(legend.position = "right"))
+graph2png(gdenshabg, rep="output", ratio = 16/10)
 
-# flux |> gt() |> 
+ # flux |> gt() |> 
 #   gt::fmt_integer(columns = 2:5,
 #                   rows= everything(), sep_mark = " ") |> 
 #   gt::summary_rows(columns = 2:4, fns = list(total = ~sum(.)), formatter = fmt_integer, sep_mark = " ") |> 
@@ -221,7 +226,7 @@ gdhab <- ggplot()+
         panel.background = element_rect(fill="grey97"))
 gdenshab <- ggplot(mmb$hab)+
   geom_density(aes(x=d), fill="green", col=NA, alpha = 0.5)+
-  xlim(c(0,1.5))+ylim(c(0,5))+ylab(NULL)+xlab(NULL)+
+  xlim(c(0,1.5))+ylim(c(0,10))+ylab(NULL)+xlab(NULL)+
   theme_minimal()+
   theme(text=element_text(size=6))
 gdemp <- ggplot()+
@@ -245,7 +250,7 @@ gdemp <- ggplot()+
 gdensemp <- ggplot(mmb$emp)+
   geom_density(aes(x=d), fill="orange", col=NA, alpha = 0.5, position="stack")+
   xlim(c(0,1.5))+
-  scale_y_continuous(limits = c(0,15), oob =squish)+ylab(NULL)+xlab(NULL)+
+  scale_y_continuous(limits = c(0,10), oob =squish)+ylab(NULL)+xlab(NULL)+
   theme_minimal()+
   theme(text=element_text(size=6))
 
@@ -277,7 +282,7 @@ gdhab2 <- ggplot()+
         panel.background = element_rect(fill="grey97"))
 gdenshab2 <- ggplot(mmb2$hab)+
   geom_density(aes(x=d), fill="green", col=NA, alpha = 0.5)+
-  xlim(c(0,1.5))+ylim(c(0,5))+ylab(NULL)+xlab(NULL)+
+  xlim(c(0,1.5))+ylim(c(0,10))+ylab(NULL)+xlab(NULL)+
   theme_minimal()+
   theme(text=element_text(size=6))
 gdemp2 <- ggplot()+
@@ -312,9 +317,9 @@ gdensemp2 <- ggplot(mmb2$emp)+
 graph2png(gdistances2, rep="output", ratio = 2)
 save(gdistances2, file = "output/gdistances2.rda")
 
-## matrice de flux : variance ---------------
+## variance de la matrice de flux ---------------
 ### 
-shufs <- purrr::map(1:250, ~sample.int(n,n))
+shufs <- purrr::map(1:1024, ~sample.int(n,n))
 plan("multisession", workers=8)
 modds <- matrix(1, ncol=ncol(s1$rk), nrow = nrow(s1$rk))
 fluxs <- future_imap_dfr(shufs, ~{
@@ -347,14 +352,16 @@ graph2png(gfluxs, rep="output")
 fluxsq <- fluxs |>
   pivot_longer(cols = starts_with("e"), names_to = "ge", values_to = "flux") |> 
   group_by(ge, gh) |> 
-  summarize(q5 = quantile(flux, 0.05),
+  summarize(q5 = quantile(flux, 0.025),
             q50 = quantile(flux, 0.5),
-            q95 = quantile(flux, 0.95)) |> 
+            q95 = quantile(flux, 0.975),
+            te = sqrt(sd(flux))/mean(flux)) |> 
   transmute(ge, gh,
             intervale_r = 
               str_c(round(q50), "<br>[", 
                     round(q5), "; ",
-                    round(q95), "]")) |> 
+                    round(q95), "]<br>",
+                    "\u3B5\u2248", round(te*100,1), "%")) |> 
   pivot_wider(id_cols = gh, names_from = ge, values_from = intervale_r)
 
 save(fluxsq, file="output/fluxsq.srda")
@@ -438,8 +445,6 @@ fluxg22 <- emp_flux(s2, f22)$s |>
   mutate(across(2:5, ~prettyNum(round(.x), format ="d", big.mark = " ")))
 
 save(fluxg, fluxg2, fluxg22, fkl, fkl2, file = "output/flux_grav.srda")
-
-
 
 # matrice de dérivées -----------------------------
 sr <- s1

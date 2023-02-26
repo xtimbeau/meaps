@@ -9,7 +9,7 @@ book:
     border: true
     center: "**CC BY 4.0**"
   author:
-    - name : éMaxime Parodié
+    - name : "Maxime Parodi"
       email: "maxime.parodi@sciencespo.fr"
       affiliation: OFCE, Sciences po Paris
       affiliation-url: "http://www.ofce.fr"
