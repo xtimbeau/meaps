@@ -20,7 +20,7 @@ library(Rcpp)
 library(progressr)
 library(scales)
 library(rmeaps)
-
+library(qs)
 options(ofce.background_color = "grey99",
         ofce.basefamily = "Source Sans Pro")
 showtext::showtext_opts(dpi = 200)
@@ -187,14 +187,17 @@ knitr::kable(flux2)
 save(flux, flux2, file = "output/tblflux.rda")
 
 (gdenshabg <- ggplot(mmb$hab)+
-    geom_density(aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.5)+
-    geom_density(data = mmb2$hab, aes(x=d, group=g, fill=factor(g), col=factor(g)), alpha = 0.2, linetype ="dashed")+
+    geom_density(aes(x=d, y=after_stat(count)/nrow(mmb$hab), group=g, fill=factor(g), col=factor(g)),
+                 alpha = 0.5, position = "stack")+
+    geom_density(data = mmb2$hab,
+                 aes(x=d, y=after_stat(count)/nrow(mmb$hab), group=g, fill=factor(g), col=factor(g)), 
+                 alpha = 0.2, linetype ="dashed", position="stack")+
     scale_color_brewer(
       palette ="Dark2",
       name="pôle d'habitation",
       aesthetics = c('color','fill'), 
       labels = c("h1", "h2", "h3"))+
-    xlim(c(0,1))+ylim(c(0,20))+ylab(NULL)+xlab("distance")+
+    xlim(c(0,1))+ylab(NULL)+xlab("distance")+
     theme_ofce(base_size=9) +theme(legend.position = "right"))
 graph2png(gdenshabg, rep="output", ratio = 16/10)
 
