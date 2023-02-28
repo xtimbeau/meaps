@@ -12,10 +12,11 @@ library(future)
 library(shinyWidgets)
 library(shinydashboard)
 library(shinybusy)
-
+library(markdown)
+library(conflicted)
 source("radiation functions.r")
-plan("multisession", workers=2)
-
+plan("multisession")
+conflicts_prefer(shinydashboard::box)
 binwidth <- 0.075
 beta <- 1.6
 rh <- 0.25
@@ -23,10 +24,21 @@ re <- rh*sqrt(9/10)
 coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
 nshuf <- 256
 steps <- 32
-options(ofce.base_size = 11, 
-        ofce.base_family = "sans", 
+nthreads <- 2
+coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
+
+safe_meaps <- purrr::safely(.f = rmeaps::meaps_alt)
+
+options(ofce.base_size = 10, 
+        ofce.base_family = "arial", 
         ofce.background_color = "grey99")
 set.seed(1942) 
+
+scn_agg <- function(flux, scn) {
+  mmb <- meaps_summary(scn$emp, scn$hab, scn$dist, flux)
+  mmb$meaps <- NULL
+  return(append(mmb, list(egroupes = scn$egroupes, hgroupes = scn$hgroupes)))
+}
 
 # Define UI for app that draws a histogram ----
 ui <- dashboardPage(
@@ -36,19 +48,20 @@ ui <- dashboardPage(
   dashboardHeader(title = "MEAPS"),
   # Sidebar layout with input and output definitions ----
   dashboardSidebar(
+    width = "250px",
     fluidRow(
       column(6, numericInput(inputId = "n_habitants",
                              label = "habitants",
                              min = 0,
                              max = 5000,
                              step = 100,
-                             value = 1000)),
+                             value = 400)),
       column(6, numericInput(inputId = "k_emplois",
                              label = "emplois",
                              min = 0,
                              max = 5000,
                              step = 100,
-                             value = 1000))),
+                             value = 350))),
     sliderInput(inputId = "pc_habitants",
                 label = "part du centre",
                 min = 0,
@@ -79,15 +92,22 @@ ui <- dashboardPage(
                 value = -45,
                 step = 15,
                 max = 90)),
+  ## body ----------
   dashboardBody(
     tabBox(
       width = 12,
       tabPanel("Cartes des habitants et des emplois", 
-               plotOutput(outputId = "s1map")),
+               fluidRow(
+                 column(width=6, plotOutput(outputId = "s1map_h")),
+                 column(width=6, plotOutput(outputId = "s1map_e")))),
       tabPanel("Cartes des distances", 
-               plotOutput(outputId = "mapdensite")),         
+               fluidRow(
+                 column(width=6, plotOutput(outputId = "mapdensite_h")),
+                 column(width=6, plotOutput(outputId = "mapdensite_e")))),
       tabPanel("Distribution des distances", 
-               plotOutput(outputId = "distdensite")),
+               fluidRow(
+                 column(width=6, plotOutput(outputId = "distdensite_h")),
+                 column(width=6, plotOutput(outputId = "distdensite_e")))),
       tabPanel("Tension", 
                plotOutput(outputId = "tension"))),
     box(textOutput("jobstatus")),
@@ -102,6 +122,9 @@ server <- function(input, output, session) {
   s1 <- reactive({
     n <- input$n_habitants
     k <- input$k_emplois
+    if(n==0) n <- 1
+    if(k==0) k <- 1
+    f <- if(n>k) (n-k)/n else 0
     pc <- input$pc_habitants
     pc <- min(0.99, max(0.01, pc))
     r2 <- input$distance_c2
@@ -109,19 +132,23 @@ server <- function(input, output, session) {
     a2 <-  input$angle_c2
     a3 <- input$angle_c3
     n1 <- round(pc*n)
-    n23 <- round((1-pc)/2*n)
+    n2 <- round((1-pc)/2*n)
+    n3 <- n - n1 - n2
+    k1 <- round(pc*k)
+    k2 <- round((1-pc)/2*k)
+    k3 <- k - k1 - k2
     rh23 <- rh*sqrt((1-pc)/2/pc)
     c1 <- c(1,1)
     c2 <- c1 + c(r2*cos(a2/90*pi/2), r2*sin(a2/90*pi/2))
     c3 <- c1 + c(-r3*cos(-a3/90*pi/2), -r3*sin(-a3/90*pi/2))
-    habc <- cbind(pos_cunif(n=n1, rayon = rh, centre = c1, beta=beta), f=0.1, g = 1)
-    habv1 <- cbind(pos_cunif(n=n23, rayon = rh23, centre = c2, beta=beta), f=0.1, g = 3)
-    habv2 <- cbind(pos_cunif(n=n23, rayon = rh23, centre = c3, beta=beta), f=0.1, g = 2)
+    habc <- cbind(pos_cunif(n=n1, rayon = rh, centre = c1, beta=beta), f=f, g = 1)
+    habv1 <- cbind(pos_cunif(n=n2, rayon = rh23, centre = c2, beta=beta), f=f, g = 3)
+    habv2 <- cbind(pos_cunif(n=n3, rayon = rh23, centre = c3, beta=beta), f=f, g = 2)
     hab <- rbind(habc, habv2, habv1)
     
-    empc <- cbind(pos_cunif(n=round(pc*k), rayon  = re, centre = c1, beta=beta), p=1, g=1)
-    empv1 <- cbind(pos_cunif(n=round((1-pc)/2*k), rayon = re*sqrt((1-pc)/2/pc), centre = c2, beta=beta), p=1, g=3)
-    empv2 <- cbind(pos_cunif(n=round((1-pc)/2*k), rayon = re*sqrt((1-pc)/2/pc), centre = c3, beta=beta), p=1, g=2)
+    empc <- cbind(pos_cunif(n=k1, rayon  = re, centre = c1, beta=beta), p=1, g=1)
+    empv1 <- cbind(pos_cunif(n=k2, rayon = re*sqrt((1-pc)/2/pc), centre = c2, beta=beta), p=1, g=3)
+    empv2 <- cbind(pos_cunif(n=k3, rayon = re*sqrt((1-pc)/2/pc), centre = c3, beta=beta), p=1, g=2)
     emp <- rbind(empc, empv2, empv1)
     
     shufs <- do.call(rbind, purrr::map(1:nshuf, ~sample.int(n,n)))
@@ -132,42 +159,51 @@ server <- function(input, output, session) {
     
     n <- nrow(scn$rk)
     k <- ncol(scn$rk)
-    raw <- meaps_multishuf(
+    un_shuf <- (scn$shufs)[1,, drop=FALSE]
+    
+    raw <- meaps_alt(
       rkdist=scn$rk, 
       emplois = rep(1,k), 
       actifs = rep(1,n),
       modds = matrix(1, ncol=k, nrow=n),
       f = scn$f,
-      shuf = scn$shufs[1:1,, drop=FALSE],
+      shuf = un_shuf,
       nthreads = 1,
       progress = FALSE
     )
     acc_flux(raw)
+    agg_flux(scn_agg(raw, scn))
     plan("multisession")
+    
     return(scn)
   })
   
   acc_flux <- reactiveVal(NULL)
-  
+  agg_flux <- reactiveVal(NULL)
   fluxs1HD <- reactive({
     scn <- s1()
     n <- nrow(scn$rk)
     k <- ncol(scn$rk)
     le_step <- step()
-    if(le_step>nshuf %/% steps)
+    if(le_step > nshuf %/% steps)
       return()
-    
+    les_ranks <- scn$rk
+    la_fuite <- scn$f
+    les_shufs <- (scn$shufs)[((le_step-1)*steps+1):(le_step*steps),]
     future({
-      meaps_multishuf(
-        rkdist=scn$rk, 
+      rmeaps::meaps_alt(
+        rkdist = les_ranks, 
         emplois = rep(1,k), 
         actifs = rep(1,n),
         modds = matrix(1, ncol=k, nrow=n),
-        f = scn$f,
-        shuf = scn$shufs[((le_step-1)*steps+1):(le_step*steps),],
+        f = la_fuite,
+        shuf = les_shufs,
         nthreads = 4,
-        progress = FALSE
-      )}, seed=TRUE)
+        progress = FALSE)
+    },
+    seed=TRUE, 
+    globals = c("les_ranks", "la_fuite", "les_shufs", "n", "k"),
+    packages = c("rmeaps"))
   })
   
   observe({
@@ -176,6 +212,7 @@ server <- function(input, output, session) {
       if(le_step == nshuf %/% steps) 
         calculation("done")
       else {
+        scn <- isolate(s1())
         if(le_step==1) {
           new_flux <- value(isolate(fluxs1HD()))
           acc_flux(new_flux)
@@ -183,91 +220,89 @@ server <- function(input, output, session) {
           past_flux <- isolate(acc_flux())
           new_flux <- value(isolate(fluxs1HD()))
           new_flux <- (le_step * past_flux + new_flux)/(le_step+1)
-          acc_flux(new_flux)  
+          acc_flux(new_flux)
         }
+        agg_flux(scn_agg(new_flux, scn))
         step(le_step+1)
       }
     }
     if(calculation()!="done")
       invalidateLater(500, session)
   })
-  
+  ## job status --------------
   output$jobstatus <- renderText({
     le_step <- step()
     if(calculation()!="done")
-      glue::glue("Montecarlo sur {nshuf %/% steps * le_step}/{nshuf} tirages, en cours")
+      glue::glue("Montecarlo sur {steps * le_step}/{nshuf} tirages, en cours")
     else
       glue::glue("Montecarlo sur {nshuf} tirages, terminé")
   })
-  
-  output$s1map <- renderPlot({
-    coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
+  # carte du scénario ----------
+  output$s1map_h <- renderPlot({
     scn <- s1()
-    (ggplot()+
-        stat_binhex(data = scn$habs,
-                    aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
-        scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
-        coords +
-        geom_text(data = scn$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 4) +
-        labs(title = "Habitants")+
-        theme_ofce_void()+ 
-        theme(plot.margin = margin(6,6,6,6),
-              panel.background = element_rect(fill="grey99")))+
-      (ggplot()+
-         stat_binhex(data=scn$emps,
-                     aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
-         scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
-         coords +
-         geom_text(data = scn$egroupes, aes(x=x, y=y, label = g_label), size = 4, nudge_y = 0.2) +
-         labs(title = "Emplois")+
-         theme_ofce_void()+ 
-         theme(plot.margin = margin(6,6,6,6))) + 
-      plot_layout(guides = 'collect')
-  })
+    ggplot()+
+      stat_binhex(data = scn$habs,
+                  aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
+      scale_fill_distiller(palette="Greens", direction=1, name = "densité\nd'habitants")+
+      coords +
+      geom_text(data = scn$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 4) +
+      labs(title = "Habitants")+
+      theme_ofce_void()+ 
+      theme(plot.margin = margin(6,6,6,6),
+            panel.background = element_rect(fill="grey99"))})
   
-  output$mapdensite <- renderPlot({
-    raw <- acc_flux()
+  output$s1map_e <- renderPlot({
     scn <- s1()
-    mmb <- meaps_summary(scn$emp, scn$hab, scn$dist, raw)
-    gdhab <- ggplot()+
+    ggplot()+
+      stat_binhex(data=scn$emps,
+                  aes(x=x,y=y, fill=100*after_stat(density)), binwidth=binwidth)+
+      scale_fill_distiller(palette = "Oranges", direction=1, name = "densité\nd'emplois")+
+      coords +
+      geom_text(data = scn$egroupes, aes(x=x, y=y, label = g_label), size = 4, nudge_y = 0.2) +
+      labs(title = "Emplois")+
+      theme_ofce_void()+ 
+      theme(plot.margin = margin(6,6,6,6)) })
+  ## carte densité --------------
+  output$mapdensite_h <- renderPlot({
+    mmb <- agg_flux()
+    ggplot()+
       stat_summary_hex(data = mmb$hab, aes(x=x, y=y, z=d), binwidth=binwidth)+
       guides(fill=guide_colourbar("Distance\npar habitant"))+
       scale_fill_distiller(palette="Greens", direction=1)+
       xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue par habitant")+
-      geom_text(data = scn$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = -0.2,  size = 4)+
+      geom_text(data = mmb$hgroupes, aes(x=x, y=y, label = g_label), nudge_y = -0.2,  size = 4)+
       coords +
       theme_ofce_void() +
       theme(legend.position="right", 
             plot.margin = margin(6,6,6,6))
-    gdemp <- ggplot()+
+  })
+  output$mapdensite_e <- renderPlot({
+    mmb <- agg_flux()
+    ggplot()+
       stat_summary_hex(data = mmb$emp, aes(x=x, y=y, z=d), binwidth=binwidth)+
       guides(fill=guide_colourbar("Distance\npour un emploi"))+
       scale_fill_distiller(palette="Oranges", direction=1)+
       xlab(NULL)+ylab(NULL)+labs(title="Distance moyenne parcourue pour un emploi") +
-      geom_text(data = scn$egroupes, aes(x=x, y=y, label = g_label), size = 4, nudge_y = -0.2) +
+      geom_text(data = mmb$egroupes, aes(x=x, y=y, label = g_label), size = 4, nudge_y = -0.2) +
       coords +
       theme_ofce_void()+
       theme(legend.position="right",
             plot.margin = margin(6,6,6,6))
-    
-    gdhab+gdemp+plot_layout(guides = "collect")
   })
-  
-  output$distdensite <- renderPlot({
+  ## densite des distances ---------
+  output$distdensite_h <- renderPlot({
     le_step <- step()
-    if(le_step<=nshuf %/% steps) {
+    if(le_step<nshuf %/% steps) {
       alpha <- 0.75+0.5*(le_step-nshuf %/% steps)/(nshuf %/% steps -1)
       line <- "dashed"} 
     else {
       alpha <- 0.75
       line <- "solid"
     }
-    raw <- isolate(acc_flux())
-    scn <- s1()
-    mmb <- meaps_summary(scn$emps, scn$habs, scn$dist, raw)
-    dens_sum_h <- nrow(mmb$hab)
-    ghab <- ggplot(mmb$hab)+
-      geom_density(aes(x=d, fill=factor(g), col=factor(g), y=after_stat(count)/nrow(mmb$hab)), 
+    mmb <- agg_flux()
+    ggplot(mmb$hab)+
+      geom_density(aes(x=d, fill=factor(g), col=factor(g), 
+                       y=after_stat(count)/nrow(mmb$hab)), 
                    position="stack", alpha = alpha, linetype = line)+
       scale_color_brewer(
         palette ="Set2",
@@ -279,7 +314,19 @@ server <- function(input, output, session) {
       ylab(NULL)+xlab("distance")+
       labs(title="Distances parcourue par habitant") +
       theme_ofce(legend.position = "right")
-    gemp <- ggplot(mmb$emp)+
+    })
+  
+  output$distdensite_e <- renderPlot({
+    le_step <- step()
+    if(le_step<nshuf %/% steps) {
+      alpha <- 0.75+0.5*(le_step-nshuf %/% steps)/(nshuf %/% steps -1)
+      line <- "dashed"} 
+    else {
+      alpha <- 0.75
+      line <- "solid"
+    }
+    mmb <- agg_flux()
+    ggplot(mmb$emp)+
       geom_density(aes(x=d, fill=factor(g), col=factor(g), y=after_stat(count)/nrow(mmb$emp)), 
                    position="stack", alpha = alpha, linetype = line)+
       scale_color_brewer(
@@ -291,7 +338,6 @@ server <- function(input, output, session) {
       ylab(NULL)+xlab("distance")+
       labs(title="Distances parcourues pour un emploi") +
       theme_ofce(legend.position = "right")
-    (ghab+gemp)+plot_layout(guides="collect")
   })
   output$tension <- renderPlot({
     ggplot()
