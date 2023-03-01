@@ -189,34 +189,36 @@ make_tibs <- function(emp, hab, binwidth = 0.1) {
   hexhab <- hexbin::hexbin(hab[,"x"], hab[,"y"], xbins=round(xrange/binwidth), IDs=TRUE)@cID
   hexemp <- hexbin::hexbin(emp[,"x"], emp[,"y"], xbins=round(xrange/binwidth), IDs=TRUE)@cID
   habs <- hab |> 
-    as_tibble() |> 
-    mutate(hab = 1:nrow(hab),
+    tibble::as_tibble() |> 
+    dplyr::mutate(hab = 1:nrow(hab),
            hhex = hexhab)
   hhex <- habs |> 
-    group_by(hhex) |> 
-    summarize(nh = n(),
+    dplyr::group_by(hhex) |> 
+    dplyr::summarize(nh = dplyr::n(),
               gh = names(table(g))[[1]],
               x = mean(x), y=mean(y))
-  hgroupes <-  habs |> group_by(g) |> 
-    summarize(x = mean(x),
+  hgroupes <-  habs |> 
+    dplyr::group_by(g) |> 
+    dplyr::summarize(x = mean(x),
               y= mean(y),
-              pop = n())  |> 
-    mutate(g_label = str_c("h", g ," " ,pop ," habitants"), size = 6/.pt)
+              pop = dplyr::n())  |> 
+    dplyr::mutate(g_label = stringr::str_c("h", g ," " ,pop ," habitants"), size = 6/ggplot2::.pt)
   
   emps <- emp |> 
-    as_tibble() |> 
-    mutate(emp = 1:nrow(emp),
+    tibble::as_tibble() |> 
+    dplyr::mutate(emp = 1:nrow(emp),
            ehex = hexemp)
   ehex <- emps |> 
-    group_by(ehex) |> 
-    summarize(ne = n(),
+    dplyr::group_by(ehex) |> 
+    dplyr::summarize(ne = dplyr::n(),
               ge = names(table(g))[[1]],
               x = mean(x), y=mean(y))
-  egroupes <-  emps |> group_by(g) |> 
-    summarize(x = mean(x),
+  egroupes <-  emps |> 
+    dplyr::group_by(g) |> 
+    dplyr::summarize(x = mean(x),
               y= mean(y),
-              pop = n()) |> 
-    mutate(g_label = str_c("e", g ," " ,pop ," emplois"), size = 6/.pt)
+              pop = dplyr::n()) |> 
+    dplyr::mutate(g_label = stringr::str_c("e", g ," " ,pop ," emplois"), size = 6/ggplot2::.pt)
   list(habs=habs, emps=emps,
        ehex = ehex, hhex=hhex,
        hexhab = hexhab, hexemp = hexemp,
@@ -284,4 +286,46 @@ emp_flux <- function(s, emp, empec = NULL) {
     emps2_red <- NULL
   }
   return(list(s = emp_red, ec = emps2_red))
+}
+
+genere_3p <- function(n=1000, k=900, f=0.1, 
+                      part_h=0.7, part_e = 0.7, 
+                      d_cp2 = 0.75, d_cp3 = 0.75, 
+                      theta2 = 45, theta3 = -45,
+                      rayon = 0.5, beta = 1.5,
+                      nshuf = 256, binwidth = 0.075) {
+  part_h <- min(0.99, max(0.01, part_h))
+  part_e <- min(0.99, max(0.01, part_e))
+  
+  r2 <- d_cp2
+  r3 <- d_cp3
+  n1 <- max(1,round(part_h*n))
+  n2 <- max(1, round((1-part_h)/2*n))
+  n3 <- n2
+  n <- n1+n2+n3
+  
+  k1 <- max(1,round(part_e*k))
+  k2 <- max(1,round((1-part_e)/2*k))
+  k3 <- k2
+  k <- k1+k2+k3
+  rh <- rayon
+  re <- rayon*sqrt(k/n)
+  rh23 <- rh*sqrt((1-part_h)/2)
+  re23 <- re*sqrt((1-part_e)/2)
+  c1 <- c(0,0)
+  c2 <- c1 + c(r2*cos(theta2/90*pi/2), r2*sin(theta2/90*pi/2))
+  c3 <- c1 + c(-r3*cos(-theta3/90*pi/2), -r3*sin(-theta3/90*pi/2))
+  habc <- cbind(pos_cunif(n=n1, rayon = rh*sqrt(part_h), centre = c1, beta=beta), f=f, g = 1)
+  habv1 <- cbind(pos_cunif(n=n2, rayon = rh23, centre = c2, beta=beta), f=f, g = 3)
+  habv2 <- cbind(pos_cunif(n=n3, rayon = rh23, centre = c3, beta=beta), f=f, g = 2)
+  hab <- rbind(habc, habv2, habv1)
+  
+  empc <- cbind(pos_cunif(n=k1, rayon  = re*sqrt(part_e), centre = c1, beta=beta), p=1, g=1)
+  empv1 <- cbind(pos_cunif(n=k2, rayon = re23, centre = c2, beta=beta), p=1, g=3)
+  empv2 <- cbind(pos_cunif(n=k3, rayon = re23, centre = c3, beta=beta), p=1, g=2)
+  emp <- rbind(empc, empv2, empv1)
+  
+  shufs <- do.call(rbind, purrr::map(1:nshuf, ~sample.int(n,n)))
+  
+  append(make_tibs(emp, hab, binwidth), list(shufs = shufs, n = n, k = k))
 }

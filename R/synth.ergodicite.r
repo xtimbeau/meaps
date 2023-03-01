@@ -37,8 +37,8 @@ n <- 5000
 k <- 4500
 bins <- 1.2/0.05
 binwidth <- 0.075
-load("output/scenarios.rda")
-
+s1 <- qs::qread("output/s1.qs")
+s2 <- qs::qread("output/s2.qs")
 ## ergodicité ------------------------
 
 options(future.globals.maxSize=1024^3) # 1Gb
@@ -48,7 +48,7 @@ if(fs::file_exists("output/libres.raw.qs")&&FALSE) {
   plan("multisession", workers = availableCores()-1)
   
   tic();
-  libres.raw <- future_imap_dfr(1:500, ~{
+  libres.raw <- future_imap_dfr(1:256, ~{
     shuf <- sample.int(n,n)
     #raw <- meaps_cpp_v1(s1$rk, f = s1$f, p = s1$p, shuf = shuf)
     raw2 <- rmeaps::meaps_tension_alt(
@@ -179,7 +179,7 @@ erg_libre_emp <- erg_libre |>
 
 
 # test 5 rang n
-rangns <- erg_libre |> group_by(ehex, draw) |> summarize(across(c(rm, rsd, ge), first))
+rangns <- erg_libre |> group_by(ehex, draw) |> summarize(across(c(rm, rsd, ge), fisrt))
 rangns_m <- ggplot(rangns |> filter(draw<250)) + 
   geom_line(aes(x=draw, y=rm, group = ehex), col="white", alpha=0.3, size=0.2) +
   theme_ofce()+
@@ -216,17 +216,17 @@ graph2png(gnmsd, rep="output")
 save(gnmsd, file="output/gmsd_erg.rda")
 rangns_max <- s1$ehex |> 
   left_join(rangns |> filter(draw==max(draw)) |> select(ehex, rm, rsd), by="ehex") |> 
-  mutate(tension = (max(rm)-rm)/(max(rm)-min(rm)))
+  mutate(tension = (nrow(s1$habs)-rm)/nrow(s1$habs))
   
-carte_erg <- ggplot(rangns_max)+
+(carte_erg <- ggplot(rangns_max)+
   stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
   scale_fill_distiller(palette="Spectral", direction=-1, name = "tension")+
-  coord_equal(xlim=c(0,2), ylim=c(0,2)) +
+  coord_equal(xlim=c(-1,1), ylim=c(-1,1)) +
   geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
   labs(title = "Tension")+
   theme_ofce_void(base_size = 8)+ 
   theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
         plot.margin = margin(6,6,6,6),
-        panel.background = element_rect(fill="grey97"))
+        panel.background = element_rect(fill="grey97")))
 
 graph2png(carte_erg, rep="output", ratio = 16/9)

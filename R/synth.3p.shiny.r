@@ -10,6 +10,7 @@ library(scales)
 library(promises)
 library(future)
 library(shinyWidgets)
+library(fresh)
 library(shinydashboard)
 library(shinybusy)
 library(markdown)
@@ -17,17 +18,17 @@ library(conflicted)
 source("radiation functions.r")
 plan("multisession")
 conflicts_prefer(shinydashboard::box)
-binwidth <- 0.075
+binwidth <- 0.05
 beta <- 1.6
 rh <- 0.25
 re <- rh*sqrt(9/10)
-coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
 nshuf <- 256
-steps <- 32
-nthreads <- 2
-coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
+steps <- 16
+nthreads <- 4
+coords <- coord_equal(xlim=c(-1,1), ylim=c(-1,1))
 
 safe_meaps <- purrr::safely(.f = rmeaps::meaps_alt)
+safe_resolved <- purrr::safely(.f = future::resolved)
 
 options(ofce.base_size = 10, 
         ofce.base_family = "arial", 
@@ -40,63 +41,120 @@ scn_agg <- function(flux, scn) {
   return(append(mmb, list(egroupes = scn$egroupes, hgroupes = scn$hgroupes)))
 }
 
+# fresh theme -------------
+mytheme <- create_theme(
+  adminlte_color(
+    light_blue = "#434C5E"
+  ),
+  adminlte_sidebar(
+    width = "300px",
+    dark_bg = "#eee",
+    dark_hover_bg = "#81A1C1",
+    dark_color = "#2E3440",
+    dark_submenu_color = "#111"
+  ),
+  adminlte_global(
+    content_bg = "#FFF",
+    box_bg = "#eee", 
+    info_box_bg = "#eee"
+  ),
+  theme="flatly"
+)
+
 # Define UI for app that draws a histogram ----
 ui <- dashboardPage(
   skin = "black",
-  
   # App title ----
   dashboardHeader(title = "MEAPS"),
   # Sidebar layout with input and output definitions ----
   dashboardSidebar(
-    width = "250px",
     fluidRow(
       column(6, numericInput(inputId = "n_habitants",
-                             label = "habitants",
+                             label = "actifs",
                              min = 0,
                              max = 5000,
                              step = 100,
-                             value = 400)),
+                             value = 1000)),
       column(6, numericInput(inputId = "k_emplois",
                              label = "emplois",
                              min = 0,
                              max = 5000,
                              step = 100,
-                             value = 350))),
-    sliderInput(inputId = "pc_habitants",
-                label = "part du centre",
-                min = 0,
-                max = 1,
-                step = 0.1,
-                value = .7),
-    sliderInput(inputId = "distance_c2",
-                label = "distance du pôle 2 au pôle 1", 
-                min = 0.1,
-                value = 0.7,
-                step = 0.1,
-                max = 1),
-    sliderInput(inputId = "angle_c2",
-                label = "angle du pôle 2", 
-                min = -90,
-                value = 45,
-                step = 15,
-                max = 90),
-    sliderInput(inputId = "distance_c3",
-                label = "distance du pôle 3 au pôle 1", 
-                min = 0.1,
-                value = 0.7,
-                step = 0.1,
-                max = 1),
-    sliderInput(inputId = "angle_c3",
-                label = "angle du pôle 3", 
-                min = -90,
-                value = -45,
-                step = 15,
-                max = 90)),
-  ## body ----------
+                             value = 900))),
+    fluidRow(
+      column(6, numericInput(inputId = "fuite",
+                             label = "fuite",
+                             min = 0,
+                             max = .2,
+                             step = .01,
+                             value = .05)),
+      column(6, numericInput(inputId = "beta",
+                             label = "beta",
+                             min = 0.5,
+                             max = 2,
+                             step = .05,
+                             value = 1.5))),
+    fluidRow(
+      column(9, numericInput(inputId = "rayon",
+                             label = "rayon (inverse de la densité)",
+                             min = 0,
+                             max = 1.5,
+                             step = .1,
+                             value = .5))),
+    fluidRow(
+      column(6, numericInput(inputId = "pc_habitants",
+                             label = "% actifs au centre",
+                             min = 0,
+                             max = 1,
+                             step = .1,
+                             value = .7)),
+      column(6, numericInput(inputId = "pc_emplois",
+                             label = "% emplois au centre",
+                             min = 0,
+                             max = 1,
+                             step = .1,
+                             value = .7))),
+    fluidRow(
+      column(6, numericInput(inputId = "distance_c2",
+                             label = "dist. p2-centre",
+                             min = 0,
+                             max = 1.5,
+                             step = .05,
+                             value = .75)),
+      column(6, numericInput(inputId = "distance_c3",
+                             label = "dist. p3-centre",
+                             min = 0,
+                             max = 1.5,
+                             step = .05,
+                             value = .75))),
+    fluidRow(
+      column(6, numericInput(inputId = "angle_c2",
+                             label = "angle du p2",
+                             min = -90,
+                             value = 45,
+                             step = 15,
+                             max = 90)),
+      column(6, numericInput(inputId = "angle_c3",
+                             label = "angle du p3",
+                             min = -90,
+                             value = -45,
+                             step = 15,
+                             max = 90)))),
+  # Body ----------
   dashboardBody(
+    use_theme(mytheme),
+    chooseSliderSkin(skin = "Modern"),
+    tags$head(
+      tags$style(HTML("
+                      .sidebar {
+                        color: #333333;
+                        font-weight: normal;}
+                      .irs-grid-text {
+                        color: #555555;
+                      }"))),
     tabBox(
       width = 12,
-      tabPanel("Cartes des habitants et des emplois", 
+      tabPanel("Cartes des actifs et des emplois", 
                fluidRow(
                  column(width=6, plotOutput(outputId = "s1map_h")),
                  column(width=6, plotOutput(outputId = "s1map_e")))),
@@ -108,9 +166,11 @@ ui <- dashboardPage(
                fluidRow(
                  column(width=6, plotOutput(outputId = "distdensite_h")),
                  column(width=6, plotOutput(outputId = "distdensite_e")))),
-      tabPanel("Tension", 
+      tabPanel("Tension localisée", 
                plotOutput(outputId = "tension"))),
-    box(textOutput("jobstatus")),
+    box(
+      progressBar("job_pb", value=0, display_pct = TRUE),
+      textOutput("jobstatus")),
     box(includeMarkdown("signature.md"))
   ))
 
@@ -120,122 +180,115 @@ server <- function(input, output, session) {
   calculation <- reactiveVal("done")
   step <- reactiveVal(1)
   s1 <- reactive({
-    n <- input$n_habitants
-    k <- input$k_emplois
-    if(n==0) n <- 1
-    if(k==0) k <- 1
-    f <- if(n>k) (n-k)/n else 0
-    pc <- input$pc_habitants
-    pc <- min(0.99, max(0.01, pc))
-    r2 <- input$distance_c2
-    r3 <- input$distance_c3
-    a2 <-  input$angle_c2
-    a3 <- input$angle_c3
-    n1 <- round(pc*n)
-    n2 <- round((1-pc)/2*n)
-    n3 <- n - n1 - n2
-    k1 <- round(pc*k)
-    k2 <- round((1-pc)/2*k)
-    k3 <- k - k1 - k2
-    rh23 <- rh*sqrt((1-pc)/2/pc)
-    c1 <- c(1,1)
-    c2 <- c1 + c(r2*cos(a2/90*pi/2), r2*sin(a2/90*pi/2))
-    c3 <- c1 + c(-r3*cos(-a3/90*pi/2), -r3*sin(-a3/90*pi/2))
-    habc <- cbind(pos_cunif(n=n1, rayon = rh, centre = c1, beta=beta), f=f, g = 1)
-    habv1 <- cbind(pos_cunif(n=n2, rayon = rh23, centre = c2, beta=beta), f=f, g = 3)
-    habv2 <- cbind(pos_cunif(n=n3, rayon = rh23, centre = c3, beta=beta), f=f, g = 2)
-    hab <- rbind(habc, habv2, habv1)
-    
-    empc <- cbind(pos_cunif(n=k1, rayon  = re, centre = c1, beta=beta), p=1, g=1)
-    empv1 <- cbind(pos_cunif(n=k2, rayon = re*sqrt((1-pc)/2/pc), centre = c2, beta=beta), p=1, g=3)
-    empv2 <- cbind(pos_cunif(n=k3, rayon = re*sqrt((1-pc)/2/pc), centre = c3, beta=beta), p=1, g=2)
-    emp <- rbind(empc, empv2, empv1)
-    
-    shufs <- do.call(rbind, purrr::map(1:nshuf, ~sample.int(n,n)))
-    scn <- append(make_tibs(emp, hab, binwidth), list(shufs = shufs))
-    
-    calculation("pending")
-    step(1)
-    
-    n <- nrow(scn$rk)
-    k <- ncol(scn$rk)
-    un_shuf <- (scn$shufs)[1,, drop=FALSE]
-    
-    raw <- meaps_alt(
-      rkdist=scn$rk, 
-      emplois = rep(1,k), 
-      actifs = rep(1,n),
-      modds = matrix(1, ncol=k, nrow=n),
-      f = scn$f,
-      shuf = un_shuf,
-      nthreads = 1,
-      progress = FALSE
-    )
-    acc_flux(raw)
-    agg_flux(scn_agg(raw, scn))
-    plan("multisession")
-    
+    scn <- genere_3p(
+      n = input$n_habitants,
+      k = input$k_emplois,
+      f = input$fuite,
+      part_h = input$pc_habitants,
+      part_e = input$pc_emplois,
+      d_cp2 = input$distance_c2,
+      d_cp3 = input$distance_c3,
+      theta2 = input$angle_c2,
+      theta3 = input$angle_c3,
+      beta = input$beta,
+      rayon = input$rayon,
+      nshuf = nshuf)
+    step(0)
     return(scn)
   })
   
-  acc_flux <- reactiveVal(NULL)
-  agg_flux <- reactiveVal(NULL)
-  fluxs1HD <- reactive({
+  step1 <- observe({
     scn <- s1()
-    n <- nrow(scn$rk)
-    k <- ncol(scn$rk)
-    le_step <- step()
-    if(le_step > nshuf %/% steps)
-      return()
-    les_ranks <- scn$rk
-    la_fuite <- scn$f
-    les_shufs <- (scn$shufs)[((le_step-1)*steps+1):(le_step*steps),]
-    future({
-      rmeaps::meaps_alt(
-        rkdist = les_ranks, 
-        emplois = rep(1,k), 
-        actifs = rep(1,n),
-        modds = matrix(1, ncol=k, nrow=n),
-        f = la_fuite,
-        shuf = les_shufs,
-        nthreads = 4,
-        progress = FALSE)
-    },
-    seed=TRUE, 
-    globals = c("les_ranks", "la_fuite", "les_shufs", "n", "k"),
-    packages = c("rmeaps"))
+    un_shuf <- (scn$shufs)[1:steps,]
+    
+    raw <- rmeaps::meaps_tension_alt(
+      rkdist=scn$rk, 
+      emplois = rep(1,scn$k), 
+      actifs = rep(1,scn$n),
+      modds = matrix(1, ncol=scn$k, nrow=scn$n),
+      f = scn$f,
+      shuf = un_shuf,
+      nthreads = 4,
+      progress = FALSE
+    )
+    acc_flux(raw$flux)
+    acc_tension(raw$tension)
+    agg_flux(scn_agg(raw$flux, scn))
+    calculation("pending")
+    step(1)
+    updateProgressBar(id="job_pb", value = 1, total = nshuf %/% steps)
+    plan("multisession")
   })
   
-  observe({
-    le_step <- step()
-    if(resolved(fluxs1HD())) {
-      if(le_step == nshuf %/% steps) 
-        calculation("done")
-      else {
-        scn <- isolate(s1())
-        if(le_step==1) {
-          new_flux <- value(isolate(fluxs1HD()))
-          acc_flux(new_flux)
-        } else {
-          past_flux <- isolate(acc_flux())
-          new_flux <- value(isolate(fluxs1HD()))
-          new_flux <- (le_step * past_flux + new_flux)/(le_step+1)
-          acc_flux(new_flux)
+  acc_flux <- reactiveVal(NULL)
+  acc_tension <- reactiveVal(NULL)
+  agg_flux <- reactiveVal(NULL)
+  
+  fluxs1HD <- reactive(
+    {
+      le_step <- step()
+      if(le_step==0|le_step > nshuf %/% steps)
+        return()
+      scn <- s1()
+      n <- nrow(scn$rk)
+      k <- ncol(scn$rk)
+      les_ranks <- scn$rk
+      la_fuite <- scn$f
+      les_shufs <- (scn$shufs)[((le_step-1)*steps+1):(le_step*steps),]
+      future({
+        rmeaps::meaps_tension_alt(
+          rkdist = les_ranks, 
+          emplois = rep(1,k), 
+          actifs = rep(1,n),
+          modds = matrix(1, ncol=k, nrow=n),
+          f = la_fuite,
+          shuf = les_shufs,
+          nthreads = 4,
+          progress = FALSE)
+      },
+      seed=TRUE, 
+      globals = c("les_ranks", "la_fuite", "les_shufs", "n", "k"),
+      packages = c("rmeaps"))
+    })
+  
+  observe(
+    {
+      le_step <- step()
+      if(le_step==0)
+        return()
+      state <- safe_resolved(fluxs1HD())
+      if(!is.null(state$error))
+        return()
+      if(state$result==TRUE) {
+        if(le_step == nshuf %/% steps) {
+          updateProgressBar(id="job_pb", value = le_step, total = nshuf %/% steps)
+          calculation("done")
         }
-        agg_flux(scn_agg(new_flux, scn))
-        step(le_step+1)
+        else {
+          scn <- isolate(s1())
+          past_flux <- isolate(acc_flux())
+          past_tension <- isolate(acc_tension())
+          new_data <- value(isolate(fluxs1HD()))
+          new_flux <- (le_step * past_flux + new_data$flux)/(le_step+1)
+          new_tension <- (le_step * past_tension + new_data$tension)/(le_step+1)
+          acc_flux(new_flux)
+          acc_tension(new_tension)
+          agg_flux(scn_agg(new_flux, scn))
+          updateProgressBar(id="job_pb", value = le_step, total = nshuf %/% steps)
+          step(le_step+1)
+        }
       }
-    }
-    if(calculation()!="done")
-      invalidateLater(500, session)
-  })
+      if(calculation()!="done")
+        invalidateLater(250, session)
+    })
+  
   ## job status --------------
   output$jobstatus <- renderText({
     le_step <- step()
     if(calculation()!="done")
-      glue::glue("Montecarlo sur {steps * le_step}/{nshuf} tirages, en cours")
+      glue::glue("Monte-Carlo sur {steps * (le_step-1)}/{nshuf} tirages, en cours")
     else
-      glue::glue("Montecarlo sur {nshuf} tirages, terminé")
+      glue::glue("Monte-Carlo sur {nshuf} tirages, terminé")
   })
   # carte du scénario ----------
   output$s1map_h <- renderPlot({
@@ -314,7 +367,7 @@ server <- function(input, output, session) {
       ylab(NULL)+xlab("distance")+
       labs(title="Distances parcourue par habitant") +
       theme_ofce(legend.position = "right")
-    })
+  })
   
   output$distdensite_e <- renderPlot({
     le_step <- step()
@@ -340,7 +393,22 @@ server <- function(input, output, session) {
       theme_ofce(legend.position = "right")
   })
   output$tension <- renderPlot({
-    ggplot()
+    scn <- s1()
+    rangns_max <- scn$emps |> 
+      mutate(tension = acc_tension()) |> 
+      mutate(tension  = (scn$n - tension)/(scn$n))
+    ggplot(rangns_max)+
+      stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
+      scale_fill_distiller(palette="Spectral", direction=-1, name = "Tension", 
+                           limits = c(0, .5), breaks = c(0, .1, .2, .3, .4, .5),
+                           oob =squish)+
+      coords +
+      geom_text(data = scn$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
+      labs(title = "Tension")+
+      theme_ofce_void(base_size = 8)+ 
+      theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
+            plot.margin = margin(6,6,6,6),
+            panel.background = element_rect(fill="grey97"))
   })
 }
 

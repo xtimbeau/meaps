@@ -48,29 +48,16 @@ binwidth <- 0.05
 ## génération --------------
 # on représente ici une agglomération centrale, plus des villages avec des emplois
 # mais pas en nombre suffisant dans les villages
-set.seed(1942) 
-beta=1.6; rh <- 0.25; re <- rh*sqrt(9/10); pc <- .7
-habc <- cbind(pos_cunif(n=pc*n, rayon = rh, centre = c(1, 1), beta=beta), f=0.1, g = 1)
-habv1 <- cbind(pos_cunif(n=(1-pc)/2*n, rayon = rh*sqrt((1-pc)/2/pc), centre = c(.5, .5), beta=beta), f=0.1, g = 3)
-habv12 <- t(t(habv1) + c(-.25, -.25, 0, 0))
-habv2 <- cbind(pos_cunif(n=(1-pc)/2*n, rayon = rh*sqrt((1-pc)/2/pc), centre = c(1.5, 1.5), beta=beta), f=0.1, g = 2)
-habv22 <- t(t(habv2) + c(.25, .25, 0, 0))
-hab <- rbind(habc, habv2, habv1)
-hab2 <- rbind(habc, habv22, habv12)
-empc <- cbind(pos_cunif(n=pc*k, rayon  = re, centre = c(1, 1), beta=beta), p=1, g=1)
-empv1 <- cbind(pos_cunif(n=(1-pc)/2*k, rayon = re*sqrt((1-pc)/2/pc), centre = c(.5, .5), beta=beta), p=1, g=3)
-empv12 <- t(t(empv1) + c(-.25, -.25, 0, 0))
-empv2 <- cbind(pos_cunif(n=(1-pc)/2*k, rayon = re*sqrt((1-pc)/2/pc), centre = c(1.5, 1.5), beta=beta), p=1, g=2)
-empv22 <- t(t(empv2) + c(.25, .25, 0, 0))
-emp <- rbind(empc, empv2, empv1)
-emp2<- rbind(empc, empv22, empv12)
 
-s1 <- make_tibs(emp, hab, binwidth)
-s2 <- make_tibs(emp2, hab2, binwidth)
+set.seed(1942) 
+s1 <- genere_3p(n = n, k = k, rayon = 0.35, part_h = 0.7, part_e = 0.7, beta = 1.6, d_cp2 = 0.75, d_cp3 = 0.75)
+set.seed(1942) 
+s2 <- genere_3p(n = n, k = k, rayon = 0.35, part_h = 0.7, part_e = 0.7, beta = 1.6, , d_cp2 = 1, d_cp3 = 1)
 qsave(s1, file = "output/s1.qs")
 qsave(s2, file = "output/s2.qs")
 
 dds <- rdist::cdist(cbind(s1$hgroupes$x, s1$hgroupes$y), cbind(s1$egroupes$x, s1$egroupes$y)) 
+set.seed(1942) 
 dds2 <- rdist::cdist(cbind(s2$hgroupes$x, s2$hgroupes$y), cbind(s2$egroupes$x, s2$egroupes$y)) 
 rownames(dds) <- c("h1", "h2", "h3")
 colnames(dds) <- c("e1", "e2", "e3")
@@ -78,14 +65,14 @@ rownames(dds2) <- c("h1", "h2", "h3")
 colnames(dds2) <- c("e1", "e2", "e3")
 
 dds |>
-  knitr::kable(digits = 1)
+  knitr::kable(digits = 2)
 dds2 |>
-  knitr::kable(digits = 1)
+  knitr::kable(digits = 2)
 save(dds, dds2, file="output/dds.rda")
 meann <- function(n) function(x) ifelse(length(x)>n, mean(x), NA)
 ### cartes ----------------
 
-coords <- coord_equal(xlim=c(0,2), ylim=c(0,2))
+coords <- coord_equal(xlim=c(-1,1), ylim=c(-1,1))
 (gcarte_ss <- 
     (ggplot()+
        stat_binhex(data = s1$habs,
@@ -147,13 +134,12 @@ save(gcarte_ss2, file = "output/gcarte_ss2.rda")
 
 # bench::mark(v1 = meaps_cpp(s1$rk,f = s1$f, p = s1$p, shuf = 1:k))
 # bench::mark(v2 = meaps_rcpp(s1$rk,emplois=rep(1, n), actifs = rep(1, k), odds = s1$p, f = s1$f, shuf = 1:k))
-shufs <- do.call(rbind, purrr::map(1:256, ~sample.int(n,n)))
 # mm <- rmeaps(emp = emp, hab = hab, shuf = shufs, meaps_ver = 2)
-tic();mmb <- rmeaps_multishuf(s1, shufs, nthreads=8); toc()
+tic();mmb <- rmeaps_multishuf(s1, s1$shufs, nthreads=8); toc()
 
 # Les variations
 #mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
-tic();mmb2 <- rmeaps_multishuf(s2, shufs, nthreads=8); toc()
+tic();mmb2 <- rmeaps_multishuf(s2, s2$shufs, nthreads=8); toc()
 
 qs::qsave(mmb, file = "output/mmb1.qs", preset = "archive")
 qs::qsave(mmb2, file = "output/mmb2.qs")
@@ -404,7 +390,7 @@ kl_grav <- function(emps, s, delta, tol = 0.0001, furness=FALSE) {
     f <- flux_grav_furness(s, delta, tol)
   else
     f <- flux_grav(s, delta)
-  kullback_leibler(c(emp_flux(s1, f)$s), c(emp_flux(s1, emps)$s))
+  kl(c(emp_flux(s1, f)$s), c(emp_flux(s1, emps)$s))
 }
 
 fr2 <- optim(.5, \(x) score_grav(mmb$meaps,s1,x), lower = 0.001, upper = 10, method = "L-BFGS-B")

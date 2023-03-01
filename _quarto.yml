@@ -22,11 +22,11 @@ book:
   output-file: "meaps"
   cover-image: www/cover.png
   search: true
-  site-url: https://xtimbeau.github.io/meaps/
-  repo-url: https://github.com/xtimbeau/meaps/
+  site-url: "https://xtimbeau.github.io/meaps/"
+  repo-url: "https://github.com/xtimbeau/meaps/"
   open-graph: true
   twitter-card:
-    creator: "XTimbeau"
+    site: "@XTimbeau"
   repo-actions: [edit]
   downloads: [pdf, epub]
   sharing: [twitter]

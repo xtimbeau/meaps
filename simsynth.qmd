@@ -16,6 +16,7 @@ library(ofce)
 library(showtext)
 library(markdown)
 library(gt)
+library(glue)
 showtext_auto()
 options(ofce.background_color = "grey99")
 options(ofce.base_family = "Source Sans Pro")
@@ -40,11 +41,11 @@ load("output/dds.rda")
 dds |> as_tibble(rownames = "gh") |> 
   gt() |> 
   cols_label(gh = "") |> 
-  fmt_number(columns = where(is.numeric), decimals =1)
+  fmt_number(columns = where(is.numeric), decimals =2)
 
 ```
 
-Pour assurer l'égalité entre demandes et offres d'emploi, on tire aléatoirement 4 500 emplois. Les trois pôles d'emplois ont les mêmes centres que les pôles d'habitation, mais ont une répartition plus resserrée que pour les habitants. Comme indiqué sur la @fig-territoire, les tâches d'emplois 1 à 3 sont respectivement localisés autour des mêmes centres que les zones d'habitation 1 à 3. Les pôles périphériques comportent moins d'emplois (5% chacun) que le pôle central (80% de l'emploi total) afin de représenter dans les pôles périphériques des emplois présentiels, liés aux services fournis aux résidents (comme des commerces ou des écoles) et d'une zone d'activité centrale. Nous ne faisons aucune distinction de productivité ou de qualification nécessaire pour les emplois. Cette hypothèse simplifie la simulation du modèle, mais rien n'empêche de distinguer des catégories d'emplois, des catégories d'habitants ni d'introduire des éléments de choix entre distance et nature de l'emploi. Nous ne considérons ici pas le choix de la localisation et considérons toutes les localisations comme exogènes.
+Pour assurer l'égalité entre demandes et offres d'emploi, on tire aléatoirement 4 500 emplois. Les trois pôles d'emplois ont les mêmes centres que les pôles d'habitation, mais ont une répartition plus resserrée que pour les habitants. Comme indiqué sur la @fig-territoire, les tâches d'emplois 1 à 3 sont respectivement localisés autour des mêmes centres que les zones d'habitation 1 à 3. Les pôles périphériques comportent moins d'emplois (15% chacun) que le pôle central (70% de l'emploi total) afin de représenter dans les pôles périphériques des emplois présentiels, liés aux services fournis aux résidents (comme des commerces ou des écoles) et d'une zone d'activité centrale. Nous ne faisons aucune distinction de productivité ou de qualification nécessaire pour les emplois. Cette hypothèse simplifie la simulation du modèle, mais rien n'empêche de distinguer des catégories d'emplois, des catégories d'habitants ni d'introduire des éléments de choix entre distance et nature de l'emploi. Nous ne considérons ici pas le choix de la localisation et considérons toutes les localisations comme exogènes.
 
 Dans l'analyse statistique qui suit, on procédera à une agrégation spatiale en pavant le plan où sont localisés emplois et habitants par des hexagones adjacents. Cela correspond à une analyse empirique où les données de localisation sont carroyées.
 
@@ -58,7 +59,7 @@ knitr::include_graphics("output/gcarte_ss.png")
 
 La @fig-distances simule *MEAPS* à partir des données de @fig-territoire. On obtient pour chaque hexagone où résident des habitants une valeur moyenne de distance jusqu'à leur emploi. De la même façon, on calcule pour chaque emploi la distance accomplie en moyenne pour l'atteindre.
 
-```{r, echo=FALSE}
+```{r}
 #| label: fig-distances
 #| fig-scap: "Distances moyenne par habitant et pour un emploi"
 #| fig-cap: "On représente sur le panneau de **gauche** les distances moyennes parcourues par les habitants d'un héxagone. La vignette présente la densité des trajets en fonction de la distance(vert). Sur le panneau de **droite** on représente les distances moyennes pour atteindre chaque emploi, ainsi que la densité de ces trajets par distance dans la vignette (orange)" 
@@ -68,9 +69,9 @@ knitr::include_graphics("output/gdistances.png")
 
 Cette première représentation graphique permet de se représenter le fonctionnement du modèle *MEAPS*. On peut générer une distribution de trajets (dans les vignettes de la @fig-distances). Comme la majorité des emplois se trouvent dans le pôle central, les distances moyennes pour les habitants y sont plus faibles que dans les autres pôles. Le modèle génère un peu de variance à l'intérieur de chaque pôle. On retrouve l'idée que les hexagones d'habitations les plus excentrées génèrent des distances plus importantes. La distribution des distances moyennes pour atteindre un emploi est plus resserrée que celle des distances parcourues en moyenne par habitant. Les moyennes de ces deux distributions sont égales (par construction).
 
-On peut construire une table des flux entre chaque pôles (@tbl-fluxpoles). Le premier élément est de noter que les contraintes aux marges sont parfaitement respectées, ce qui est le principe de construction de *MEAPS*, les approximations faites dans l'algorithme de résolution restant ici inférieures à $10^{-5}$ au moins. Par ailleurs, la table de flux confirme le diagnostic précédent. La plupart des habitants de h1 (95%) se rendent dans g1 (le même pôle donc). Ce taux d'"auto-emploi" est de 10% à 20% pour les deux autres pôles. Cela tient au déséquilibre de localisation des emplois et est une propriété souhaitée du modèle. Cela explique en partie la distribution des distances pour les habitants et également le concept réciproque (distances moyenne vers un hexagone d'emplois).
+On peut construire une table des flux entre chaque pôles (@tbl-fluxpoles). Le premier élément est de noter que les contraintes aux marges sont parfaitement respectées, ce qui est le principe de construction de *MEAPS*, les approximations faites dans l'algorithme de résolution restant ici inférieures à $10^{-5}$ au moins. Par ailleurs, la table de flux confirme le diagnostic précédent. La plupart des habitants de h1 (78%) se rendent dans g1 (le même pôle donc). Ce taux d'"auto-emploi" est de 42% pour les deux autres pôles. Cela tient au déséquilibre de localisation des emplois et est une propriété souhaitée du modèle. Cela explique en partie la distribution des distances pour les habitants et également le concept réciproque (distances moyenne vers un hexagone d'emplois).
 
-```{r, echo}
+```{r}
 #| label: tbl-fluxpoles
 #| tbl-scap: "flux entre pôles"
 #| tbl-cap: "flux entre pôles"
@@ -79,7 +80,7 @@ load("output/tblflux.rda")
 flux |> gt() |> cols_label(gh="")
 ```
 
-Pour apprécier le comportement du modèle, on peut procéder à une expérience de pensée dans laquelle on éloigne le pôle 3 des deux autres pôles (la distance entre 1 et 3 passe de 0.7 à 1.2 dans cette expérience). Le @tbl-fluxpoles2 est obtenu en re-simulant le modèle sur la nouvelle géographie. Le résultat est très proche du modèle précédent. Les flux entre le pôle 1 et 3 sont marginalement modifiés (de 2 ou 3) alors que ceux entre h1 et e2 ou e3 le sont un peu plus, traduisant des changements de rangs possibles pour les habitants de h1 entre e2 ou e3 (qui est plus loin). Ce résultat est conforme à l'intuition et également une propriété souhaitée du modèle. Les distributions des distances (sortantes et arrivantes) sont plus largement modifiées, puisque 3 est plus loin de 1 et 2, comme l'indique la @fig-distances2. Les habitants de h1 préfèrent e2 à e3 et réduisent un peu leur trajets vers e3 mais augmentent leurs distances. L'accroissement de la saturation sur e2 conduit à des trajets vers e3 (de h1, h2 et h3) qui marque la distribution des distances. la @fig-denscomp éclaire ce qui se passe par pôle.
+Pour apprécier le comportement du modèle, on peut procéder à une expérience de pensée dans laquelle on éloigne les deux pôles satellites du centre (la distance entre 1 et 2 ou 3 passe de 0.7 à 1.2 dans cette expérience). Le @tbl-fluxpoles2 est obtenu en re-simulant le modèle sur la nouvelle géographie. Le résultat est identique à la configuration précédente. Ce résultat est conforme à l'intuition et est une propriété souhaitée du modèle. Puisque les ordres de classement ne changent pas (dès lors que les pôles sont assez éloignés et que la configuration demeure symétirque), les rangs ne sont pas modifiés et donc les flux sont inchangés. Les distributions des distances (sortantes et arrivantes) sont largement modifiées, puisque 2 ou 3 sont plus loins de 1, comme l'indique la @fig-distances2. On est tenté de conduire d'autres expériences de pensée pour analyser le comportement du modèle. L'application Shiny accessible à [ofce.shinyapps.io/rmeaps](https://ofce.shinyapps.io/rmeaps) permet de conduire toutes ces expériences en utilisant le même code que celui utilisé ici.
 
 ```{r}
 #| label: tbl-fluxpoles2
@@ -116,16 +117,19 @@ $$ {#eq-f}
 
 De plus le modèle gravitaire est normalisé en utilisant un algorithme de Furness [@de2011modelling] dans lequel on normalise d'abord sur les lignes (chaque individu a un emploi et un seul en probabilité, en tenant compte du paramètre de fuite), puis sur les colonnes (chaque emploi est pourvu complètement). On itère ces normalisations en ligne puis en colonne jusqu'à obtenir une matrice de flux stable. Ces normalisations suivent les @eq-ai et @eq-bj.
 
-Ce modèle gravitaire ainsi spécifié est ajusté sur la simulation *MEAPS* en prenant comme référence les flux du @tbl-fluxpoles, construits par agrégation sur les groupes d'habitants et d'emplois -- donc une matrice $3 \times 3$. L'ajustement est réalisé en calibrant le paramètre $\delta$ de façon à minimiser l'entropie relative de Kullback-Leitner des distributions agrégées (cette notion d'entropie est détaillée dans la @sec-ajust). Le résultat de l'estimation est proposé dans le @tbl-fluxgrav et correspond à une valeur de $\delta \approx 0.435$
+```{r}
+load("output/flux_grav.srda")
+```
 
-```{r fluxgrav}
+Ce modèle gravitaire ainsi spécifié est ajusté sur la simulation *MEAPS* en prenant comme référence les flux du @tbl-fluxpoles, construits par agrégation sur les groupes d'habitants et d'emplois -- donc une matrice $3 \times 3$. L'ajustement est réalisé en calibrant le paramètre $\delta$ de façon à minimiser l'entropie relative de Kullback-Leitner des distributions agrégées (cette notion d'entropie est détaillée dans la @sec-ajust). Le résultat de l'estimation est proposé dans le @tbl-fluxgrav et correspond à une valeur de $\delta \approx$ `r round(fkl$par,2)`.
+
+```{r}
 #| label: tbl-fluxgrav
 #| tbl-cap: "Modèle gravitaire calé sur la configuration de référence"
-load("output/flux_grav.srda")
 tg <- fluxg |> 
   gt() |> 
   cols_label(gh="") |>
-  tab_source_note(md("Normalisé, \u03B4 = 0.44")) |> 
+  tab_source_note(md(glue("Normalisé, \u03B4 = {round(fkl$par, 2)}"))) |> 
   as_raw_html()
 tm <- flux |> 
   gt() |> 
@@ -144,15 +148,15 @@ data.frame(meaps = tm, gravitaire = tg) |>
   )
 ```
 
-L'ajustement du modèle gravitaire donne un résultat correct. Une des raisons de ce bon résultat découle de la symétrie de la configuration géographique. Les deux satellites sont à même distance du pôle central et la fonction $f$ qui ne dépend que de la distance permet d'assurer une répartition des flux entre chacun des pôles sans trop de difficulté. Si on prend une configuration non symétrique, en éloignant un des deux satellites, l'autre restant à sa place, comme dans la configuration du @tbl-fluxpoles2, on obtient un schéma différent reporté sur @tbl-fluxgrav2.
+L'ajustement du modèle gravitaire donne un bon résultat. Une des raisons de ce bon résultat découle de la symétrie de la configuration géographique. Les deux satellites sont à même distance du pôle central et la fonction $f$ qui ne dépend que de la distance permet d'assurer une répartition des flux entre chacun des pôles sans trop de difficulté. Si on prend une configuration non symétrique, en éloignant un des deux satellites, l'autre restant à sa place, on obtient un schéma différent, le modèle gravitaire amplifiant les asymétries.
 
-```{r fluxgrav2}
+```{r}
 #| label: tbl-fluxgrav2
 #| tbl-cap: "Modèle gravitaire pour un satellite éloigné"
 tg2 <- fluxg2 |> 
   gt() |> 
   cols_label(gh="") |>
-  tab_source_note(md("Normalisé, \u03B4 = 0.44")) |> 
+  tab_source_note(glue("Normalisé, \u03B4 = {round(fkl$par, 2)}")) |> 
   as_raw_html()
 tm2 <- flux2 |> 
   gt() |> 
@@ -171,17 +175,17 @@ data.frame(meaps = tm2, gravitaire = tg2) |>
   )
 ```
 
-Le modèle *MEAPS* conserve une configuration proche dans le cas d'un pôle 3 éloigné de celle de référence. Le recul du pôle 3 introduit une dissymétrie légère parce que les habitants de 3 classent plus systématiquement les emplois de 3 en tête de leur besoin. Mais la modélisation radiative n'exclue pas que ces habitants choisissent des emplois en 1 voire en 2. Le plus grand éloignement ne modifie pas radicalement leurs choix. En revanche, le modèle gravitaire renvoie une réponse très différente de celle du cas de référence : pratiquement tous les emplois de 3 sont occupés par des habitants de 3. Cela induit une grande dissymétrie dans les choix d'emplois. Cette propriété du modèle gravitaire est attendue. La fonction $f$ donne un poids très faible aux emplois plus distants au point qu'ils ne sont plus choisit que lorsque la normalisation intervient. La réponse de *MEAPS* parait plus adaptée à ce que l'on observe. Lorsque des communes sont satellites d'un pôle central, il existe des flux vers cette commune pour occuper des emplois, y compris lorsque la commune est plus éloignée. Nous verrons lors de l'application à l'agglomération de la Rochelle, en utilisant des données décrivant les flux entre commune de résidence et commune d'emploi (issues de @MOBPRO) que *MEAPS* permet une meilleure représentation de la réalité que le modèle gravitaire.
+Le modèle *MEAPS* conserve une configuration identique dans le cas de pôles satellitaires éloignés du centre, parce la configuration reste symétrique et qu'aucun rang n'est modifié. En revanche, le modèle gravitaire renvoie une réponse très différente de celle du cas de référence : les habitants des satellites se tournent plus vers les emplois de leur satellite et les flux entre pôles satellites et le pôle central se réduisent. Cette propriété du modèle gravitaire est attendue : la fonction $f$ donne un poids plus faible aux emplois plus distants. A la limite où cet éloignement devant grand, les flux entre pôles satellites et le pôle central vont devenir très petit. Le paramètre estimé sur la simulation *MEAPS* est de l'ordre de `r round(fkl$par,2)`, ce qui est l'ordre de grandeur du rayon du pôle central (0,5). Pour une distance de quelques fois `r round(fkl$par,2)`, les flux entre pôles seront quasi nul. La réponse de *MEAPS* parait ici plus adaptée à ce que l'on observe. Lorsque des communes sont satellites d'un pôle central à une distance de quelques dizaines de kilomètres, il existe des flux vers cette commune pour occuper des emplois, y compris lorsque la commune est plus éloignée. La faible sensibilité à cette échelle à la distance. Nous verrons lors de l'application à l'agglomération de la Rochelle, en utilisant des données décrivant les flux entre commune de résidence et commune d'emploi (issues de @MOBPRO) que *MEAPS* permet une meilleure représentation de la réalité que le modèle gravitaire.
 
-Si l'on reconduit la procédure d'estimation du paramètre $\delta$ sur la configuration géographique où le pôle 3 est éloigné on aboutit à $\delta \approx 0.899$ . Cette valeur est différente du paramètre précédent. Mais surtout, il n'est plus possible avec le modèle gravitaire de représenter des flux presque symétriques et donc la qualité de l'ajustement s'en trouve dégradée (@tbl-fluxgrav3).
+Si l'on reconduit la procédure d'estimation du paramètre $\delta$ sur la configuration géographique où les pôles satellite sont éloignés on aboutit à $\delta \approx$ `r round(fkl2$par,2)`. Cette valeur est très différente du paramètre précédent pour prendre en compte des flux identiques mais une distance plus grande entre pôles (@tbl-fluxgrav3).
 
-```{r fluxgrav3}
+```{r}
 #| label: tbl-fluxgrav3
 #| tbl-cap: "Modèle gravitaire réajusté, satellite éloigné"
 tg22 <- fluxg22 |> 
   gt() |> 
   cols_label(gh="") |>
-  tab_source_note(md("Normalisé, \u03B4 = 0.90")) |> 
+  tab_source_note(md(glue("Normalisé, \u03B4 = {round(fkl2$par, 2)}"))) |> 
   as_raw_html()
 tm2 <- flux2 |> 
   gt() |> 
@@ -202,29 +206,29 @@ data.frame(meaps = tm2, gravitaire = tg22) |>
 
 ## Procédure d'estimation {#sec-estimation}
 
-Il est possible de modifier les pondérations des probabilités d'absorption de façon à modifier la table des flux. Ceci est illustré dans la table suivante où on a doublé pour chacune des 9 paires possibles de zone d'habitation (3) et de zone d'emploi (3) la probabilité relative d'absorption successivement. La configuration géographique est celle de la @fig-territoire, avec un centre et deux satellites. Le centre comporte plus d'emplois que de résidents, ce qui oblige à des flux entrants dans la zone 1 comme indiqués dans la @tbl-fluxpoles. On parle de doublement relatif de la probabilité, parce que les contraintes de constance de probabilité de fuite et de saturation des emplois imposent une réduction des probabilités d'absorption des autres emplois, ce qui est assuré dans l'algorithme qui implémente *MEAPS*.
+Il est possible de modifier les pondérations des probabilités d'absorption de façon à modifier la table des flux. Ceci est illustré dans la table suivante où on a doublé pour chacune des 9 paires possibles de zone d'habitation (3) et de zone d'emploi (3) la probabilité relative d'absorption successivement. La configuration géographique est celle de la @fig-territoire, avec un centre et deux satellites. Le centre comporte plus d'emplois que de résidents, ce qui oblige à des flux entrants dans la zone 1 comme indiqués dans la- @tbl-fluxpoles. On parle de doublement relatif de la probabilité, parce que les contraintes de constance de probabilité de fuite et de saturation des emplois imposent une réduction des probabilités d'absorption des autres emplois, ce qui est assuré dans l'algorithme qui implémente *MEAPS*.
 
-Le @tbl-fluxpond décrit les variations de flux par rapport à une situation de référence (celle de @tbl-fluxpoles), arrondi à l'entier le plus proche. Il y a donc $3 \times 3$ matrices $3 \times 3$. Chacune des sous matrices indique les variations de flux pour chaque paire origine destination et il y a 9 possibilités de doublement de la probabilité d'absorption qui constitue les lignes et les colonnes de la matrice englobante. On notera que les sommes des colonnes de chaque sous matrice sont nulles, ce qui indique le respect des contraintes en ligne et en colonne.
+Le @tbl-fluxpond décrit les variations de flux par rapport à une situation de référence (celle du @tbl-fluxpoles), arrondi à l'entier le plus proche. Il y a donc $3 \times 3$ matrices $3 \times 3$. Chacune des sous matrices indique les variations de flux pour chaque paire origine destination et il y a 9 possibilités de doublement de la probabilité d'absorption qui constitue les lignes et les colonnes de la matrice englobante. On notera que les sommes des colonnes de chaque sous matrice sont nulles, ce qui indique le respect des contraintes en ligne et en colonne.
 
 Conformément à l'intuition et malgré les effets induits par le respect des contraintes en ligne et en colonne, on observe bien que la paire zone d'habitation zone d'emploi qui se voit augmentée en probabilité relative connait des flux supérieurs. Pour compenser ces flux supérieurs, dans la même colonne, c'est-à-dire pour les flux en provenance des autres zones d'habitation, on constate systématiquement une diminution des flux en provenance des autres zones d'habitation. Symétriquement un accroissement des flux de la zone d'habitation $i$ vers la zone d'emploi $j$ induit toujours une diminution des flux de $i$ vers les autres zones d'emploi.
 
-```{r fluxpond, echo=FALSE}
+```{r}
 #| label: tbl-fluxpond
 #| tbl-cap: "Modification de la probabilité d'absorption"
 
 load("output/flux3x3.rda")
 flux3x3 |> 
   tab_source_note(
-    "Le tableau représente l'écart entre les flux obtenus pour une probabilité d'absorption doublée
-    pour la zone i d'habitation et la zone j d'emploi, pour chaque paire de zones habitation/emploi. 
+    md("Le tableau représente l'écart entre les flux obtenus pour une probabilité d'absorption doublée
+    pour la zone <em>i</em> d'habitation et la zone <em>j</em> d'emploi, pour chaque paire de zones habitation/emploi. 
     La première matrice en haut à gauche indique donc que le flux entre la zone 1 d'habitation et 
-    la zone 1 d'emploi est accru de 39 lorsque la probabilité d'absorption relative est doublée. 
-    Pour compenser ce flux plus important entre 1 et 1, le flux en la zone d'habitation 2 et l'emploi 1 est réduit de 20, 
-    ce qui implique à son tour que ceux entre 2 et 2 et entre 2 et 3 s'accroissent."
+    la zone 1 d'emploi est accru de 76 lorsque la probabilité d'absorption relative est doublée. 
+    Pour compenser ce flux plus important entre 1 et 1, le flux en la zone d'habitation 2 et l'emploi 1 est réduit de 38, 
+    ce qui implique à son tour que ceux entre 2 et 2 et entre 2 et 3 s'accroissent.")
 )
 ```
 
-Une propriété intéressante des matrices de la @tbl-fluxpond est que les 9 matrices $3 \times 3$ forment un espace vectoriel de dimension 4[^simsynth-1]. Ceci est attendu, puisque les contraintes réduisent la dimension de 9 ($=3\times 3$) à 4, puisqu'il y a 3 contraintes dans chaque dimension (lignes et colonnes) et qu'une est redondante (si les somme sur chaque ligne sont nulles, alors la somme de tous les coefficients est nulle et donc si les sommes sur deux colonnes sont nulles, la troisième l'est nécessairement). Cela indique que, au moins localement (au voisinage de la matrice de flux calculée en @tbl-fluxpoles), il est possible de modifier les probabilités d'absorption pour atteindre n'importe quelle matrice de flux. A l'approximation linéaire près, il est donc possible de reproduire n'importe quelle structure de flux agrégés par un jeu de paramètres saturant exactement la dimension de cette structure de flux. Cette propriété permet d'envisager différentes approches d'estimations, suivant les données dont on dispose et du nombre de degrés de liberté que l'on est prêt à consacrer à la reproduction des données.
+Une propriété intéressante des matrices du @tbl-fluxpond est que les 9 matrices $3 \times 3$ forment un espace vectoriel de dimension 4[^simsynth-1]. Ceci est attendu, puisque les contraintes réduisent la dimension de 9 ($=3\times 3$) à 4, puisqu'il y a 3 contraintes dans chaque dimension (lignes et colonnes) et qu'une est redondante (si les somme sur chaque ligne sont nulles, alors la somme de tous les coefficients est nulle et donc si les sommes sur deux colonnes sont nulles, la troisième l'est nécessairement). Cela indique que, au moins localement (au voisinage de la matrice de flux calculée dans le @tbl-fluxpoles), il est possible de modifier les probabilités d'absorption pour atteindre n'importe quelle matrice de flux. A l'approximation linéaire près, il est donc possible de reproduire n'importe quelle structure de flux agrégés par un jeu de paramètres saturant exactement la dimension de cette structure de flux. Cette propriété permet d'envisager différentes approches d'estimations, suivant les données dont on dispose et du nombre de degrés de liberté que l'on est prêt à consacrer à la reproduction des données.
 
 [^simsynth-1]: Les valeurs propres de la matrice $9 \times 9$ constituée des 9 vecteurs colonnes des 9 matrices "dérivées" sont (133.3, 97.3, -28.6, 22.0, 0, 0, 0, 0, 0). Les 5 valeurs propres nulles et les 4 non nulles permettent de conclure que la dimension de l'espace vectoriel engendré par les 9 matrices est 4.
 
@@ -236,32 +240,20 @@ L'utilisation de données synthétiques permet de tester simplement l'hypothèse
 
 [^simsynth-2]: Par la formule de Stirling $log_{10}(I!) \approx (n +1/2)log_{10} n +log_{10}\sqrt{2} - n log_{10}e \approx 5\times10^5$ pour $I=10^5$, ce qui fait un nombre de grande taille.
 
-Pour illustrer cette propriété, nous répétons les simulations du modèle pour plusieurs tirages de priorités (notés $u$ dans la section @sec-erg). En prenant la moyenne sur un échantillon de $u$, on peut construire un estimateur des grandeurs moyennes et montrer qu'avec un échantillon petit par rapport à $I!$, on peut les estimer avec fiabilité et dans un temps raisonnable. Cette propriété sera montrée sur la structure géographique particulière que nous avons synthétisée, sans que cela permette de le généraliser avec certitude. Il existe sans doute des configurations spatiales pathologiques qui contredisent cette conjecture.
+Pour illustrer cette propriété, nous répétons les simulations du modèle pour plusieurs tirages de priorités (notés $u$ dans la section @sec-erg), suivant une méthode de Monte-Carlo. En prenant la moyenne sur un échantillon de $u$, on peut construire un estimateur des grandeurs moyennes et montrer qu'avec un échantillon petit par rapport à $I!$, on peut les estimer avec fiabilité et dans un temps raisonnable. Cette propriété sera montrée sur la structure géographique particulière que nous avons synthétisée, sans que cela permette de le généraliser avec certitude. Il existe sans doute des configurations spatiales pathologiques qui contredisent cette conjecture.
 
 La @fig-emperg illustre les processus stochastiques à l'œuvre dans le modèle et leur résolution par la moyennisation sur les tirages possibles. On applique le modèle en tirant aléatoirement des permutations de priorité de choix. On représente alors pour quelques hexagones d'habitation (tirés au sort) l'ensemble des choix de destination (carroyés dans les hexagones). Le carroyage opère déjà une moyennisation puisque chacun des individus de chaque hexagone a un ordre de priorité différent. On représente alors les quantités d'emplois (la probabilité de choisir comme emploi un emploi qui se trouve dans l'hexagone d'arrivée). Les lignes blanches illustrent la dépendance au tirage de priorité. Mais au bout de quelques tirages, ces probabilités convergent en moyenne. Pour simuler le modèle, il n'est pas nécessaire (en toute vraisemblance) de parcourir l'univers entier des permutations.
 
-```{r, echo=FALSE}
+```{r}
 #| label: fig-emperg
 #| fig-scap: "Affectation de l'emploi pour des carreaux de départ"
 #| fig-cap: "Chaque ligne blanche représente pour un carreau de départ et d'arrivée (tous les carreaux d'arrivée sont représenté par une ligne, pour une sélection aléatoire de 4 carreaux de départ) la probabilité de prendre l'emploi dans le carreau d'arrivée en fonction du tirage aléatoire. Les lignes vertes représentent cette même probabibilité prise en moyenne sur les tirages cumulés. L'échelle de l'axe des y est logarithmique."
 knitr::include_graphics("output/gemploi_erg.png")
 ```
 
-Le schéma de saturation et de priorité est illustré par la @fig-rangerg ci-dessous. Pour chaque carreau d'arrivée (un emploi), on représente le rang moyen (gauche) et son écart type (droite) au moment de la saturation. La caractère stochastique découle du tirage aléatoire de l'ordre de chaque individu (les carreaux de départ). Pour la plupart des emplois, le rang moyen de saturation ergodique est atteint très rapidement. Trois bandes blanches apparaissent sur le graphique. Pour beaucoup d'emplois le rang moyen est le même et élevé. Pour quelques emplois le temps de convergence vers un état indépendant des tirages est plus long que pour la grande majorité. Pour un grand nombre de destinations, l'écart type est faible. Ces graphiques confirment qu'à quelques exceptions, l'état du système est stable après quelques tirages et le calcul de la moyenne.
-
-```{r, echo=FALSE}
-#| label: fig-rangerg
-#| fig-scap: "Rang au moment de la saturation"
-#| fig-cap: "Chaque ligne blanche représente pour un carreau d'arrivée (tous les carreaux d'arrivée sont représenté par une ligne) le rang moyen (panneau gauche) et l'écart type du rang (panneau de droite)."
-
-knitr::include_graphics("output/g_rangns.png")
-```
-
-Le rang moyen au moment de la saturation est une information qui peut être utilisé pour construire un indicateur localisé de tension.
-
 Le @tbl-fluxpoles_conf indique les intervalles de confiance à 90% que l'on peut construire à partir des simulations précédentes. On obtient une stabilité satisfaisante, bien que les flux agrégés soient stochastiques. Pour une centaine de tirages on peut obtenir une précision supérieure à $10^{-3}$.
 
-```{r, echo=FALSE}
+```{r}
 #| label: tbl-fluxpoles_conf 
 #| tbl-scap: "flux entre pôles, intervalles de confiance"
 #| tbl-cap: "flux entre pôles, intervalles de confiance"
@@ -274,3 +266,39 @@ fluxsq |>
   fmt_markdown(columns = -gh) |> 
   tab_source_note(source = "Source: MEAPS, intervalle à 95%, 1024 tirages")
 ```
+
+Le schéma de saturation et de priorité est illustré par la @fig-rangerg ci-dessous. Pour chaque carreau d'arrivée (un emploi), on représente le rang moyen (gauche) et son écart type (droite) au moment de la saturation. La caractère stochastique découle du tirage aléatoire de l'ordre de chaque individu (les carreaux de départ). Pour la plupart des emplois, le rang moyen de saturation ergodique est atteint très rapidement. Les lignes blanches sont rapidement horizontales, indiquant une rpaide convergence du rang moyen au fur et à mesure que les tirages s'accumulent. Ce graphique confirme qu'à quelques exceptions, l'état du système est stable après quelques tirages et le calcul de la moyenne. Le panneau de droite illustre l'écart type observé sur les tirages cumulés. La nature stochastique du modèle induite par les tirages est ainsi illustrée.
+
+```{r}
+#| label: fig-rangerg
+#| fig-scap: "Rang au moment de la saturation"
+#| fig-cap: "Chaque ligne blanche représente pour un carreau d'arrivée (tous les carreaux d'arrivée sont représenté par une ligne) le rang moyen (panneau gauche) et l'écart type du rang (panneau de droite)."
+
+knitr::include_graphics("output/g_rangns.png")
+```
+
+## Tension localisée par emploi
+
+Le rang moyen au moment de la saturation est une information qui peut être utilisé pour construire un indicateur localisé de tension comme sur la @fig-carte_erg. L'indicateur de tension donne une information distincte de la distance moyenne ou de la densité de population ou d'emploi. Les emplois les plus tendus se trouvent sur l'axe qui relie des pôles. Les emplois situés à la périphérie du pôle central ont un niveau de tension proche (mais un peu supérieur) à ceux situés dans les satellites mais les plus proches du pôle central. Ces éléments peuvent être utilisés pour identifier les zones pertinentes de développement de l'emploi.
+
+```{r}
+#| label: fig-carte_erg
+#| fig-scap: "Indicateur de tension"
+#| fig-cap: "Indicateur de tension relatif localisé égal au rang de saturation normalisé à 100% (0% pour l'emploi saturé le plus tard, 100% pour l'emploi saturé le plus tôt, en moyenne sur chaque hexagone d'emploi)."
+
+knitr::include_graphics("output/carte_erg.png")
+```
+
+L'expérimentation dans l'application Shiny permet d'étudier différentes propriétés de l'indicateur de tension, en particulier lorsque la tension globale est forte (moins d'emploi que de résidents) ou faible (excès d'emplois sur les résidents). Dans le cas où il y a un excès d'emploi sur les résidents, il est possible d'observer une tension locale sur certains emplois.
+
+## Simulation synthétiques dans Shiny
+
+L'application suivante permet de générer des géographies synthétiques et de simuler le modèle *MEAPS* sur ces distributions. La plupart des graphiques de ce chapitre peuvent être reproduits de cette façon. L'application permet de choisir la taille du porblème ($n$ le nombre d'actifs et $k$ le nombre d'emploi). En choisissant plus d'emplois que d'actifs on spécifie un problème où il y a excès d'emplois et donc pas de contrainte globale. Dans le cas inverse, il y a une fuite, calculée de façon à ce que le nombre d'actifs restant sur la zone soit égal au nombre d'emplois.
+
+Différents paramètres permettent de spécifier la géographie, c'est-à-dire la position relative des pôles ou leur taille. Le simulateur simule par Monte-Carlo plusieurs ordres de passages et affiche les graphiques correspondants au fur et à mesure de la convergence, en accumulant la moyenne des différentes variables du modèle. Cette fonctionnalité permet de visualiser très simplement la propriété d'ergodicité évoquée plus haut.
+
+::: column-screen
+```{=html}
+ <iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height: 900px" frameborder="0"></iframe>
+```
+:::
