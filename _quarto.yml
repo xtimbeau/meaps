@@ -2,6 +2,9 @@ project:
   type: book
   output-dir: docs
 
+execute:
+  freeze: auto
+
 book:
   title: "MEAPS"
   subtitle: "Distribution statistique des trajets entre le domicile et le travail"
@@ -26,7 +29,8 @@ book:
   repo-url: "https://github.com/xtimbeau/meaps/"
   open-graph: true
   twitter-card:
-    site: "@XTimbeau"
+    site: "@meaps"
+  google-analytics: "G-KF6Z4B486X"
   repo-actions: [edit]
   downloads: [pdf, epub]
   sharing: [twitter]
@@ -48,7 +52,7 @@ author-title: Auteurs
 citation:
   type: article
   container-title: "Document de travail de l'OFCE"
-  url: https://xtimbeau.github.io/larochelle/radiation/radiation.html
+  url: "https://xtimbeau.github.io/meaps"
 
 keywords: [ modèle gravitaire, modèle radiatif, mobilités ]
 lang: fr
@@ -101,8 +105,5 @@ format:
     extra_dependencies: ["float"]
     fig-dpi: 600
     fig-format: png
-  epub:
-    toc: true
-    epub-cover-image: www/cover.png
 
 editor: visual
