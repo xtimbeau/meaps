@@ -8,5 +8,4 @@
 /_site/
 libres.raw.qs
 .DS_Store
-*.rda
-*.qs
+*.bigqs

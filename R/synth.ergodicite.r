@@ -37,8 +37,8 @@ n <- 5000
 k <- 4500
 bins <- 1.2/0.05
 binwidth <- 0.05
-s1 <- qs::qread("output/s1.qs")
-s2 <- qs::qread("output/s2.qs")
+s1 <- qs::qread("output/s1.sqs") |> add_dist()
+s2 <- qs::qread("output/s2.sqs") |> add_dist()
 ## ergodicité ------------------------
 
 options(future.globals.maxSize=1024^3) # 1Gb
@@ -112,10 +112,10 @@ if(fs::file_exists("output/libres.raw.qs")&&FALSE) {
   }, .options = furrr_options(seed = TRUE), .progress = TRUE)
   toc();
   
-  qs::qsave(libres.raw, "output/libres.raw.qs")
+  qs::qsave(libres.raw, "output/libres.raw.bigqs")
 }
 
-libres.raw <- qs::qread("output/libres.raw.qs")
+libres.raw <- qs::qread("output/libres.raw.bigqs")
 
 erg_libre <- libres.raw |>
   group_by(hhex, ehex) |> 
@@ -219,7 +219,7 @@ rangns_max <- s1$ehex |>
   mutate(tension = (nrow(s1$habs)-rm)/nrow(s1$habs))
 
 (carte_erg <- ggplot(rangns_max)+
-    stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=0.075)+
+    stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
     scale_fill_distiller(palette="Spectral", direction=-1, name = "Tension", 
                          limits = c(0, .5), breaks = c(0, .1, .2, .3, .4, .5),
                          labels = label_percent(1),

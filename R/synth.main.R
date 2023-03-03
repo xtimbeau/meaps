@@ -147,8 +147,8 @@ tic();mmb <- rmeaps_multishuf(s1, s1$shufs, nthreads=8); toc()
 #mm2 <- rmeaps(emp = emp2, hab = hab2, shuf = shufs, meaps_ver = 2)
 tic();mmb2 <- rmeaps_multishuf(s2, s2$shufs, nthreads=8); toc()
 
-qs::qsave(mmb, file = "output/mmb1.qs", preset = "archive")
-qs::qsave(mmb2, file = "output/mmb2.qs")
+qs::qsave(mmb, file = "output/mmb1.bigqs", preset = "archive")
+qs::qsave(mmb2, file = "output/mmb2.bigqs")
 
 ## matrice de flux ----------------
 flux <- emp_flux(s1, mmb$meaps)$s |>
