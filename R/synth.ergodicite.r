@@ -36,7 +36,7 @@ handlers("cli")
 n <- 5000
 k <- 4500
 bins <- 1.2/0.05
-binwidth <- 0.075
+binwidth <- 0.05
 s1 <- qs::qread("output/s1.qs")
 s2 <- qs::qread("output/s2.qs")
 ## ergodicité ------------------------
@@ -179,8 +179,8 @@ erg_libre_emp <- erg_libre |>
 
 
 # test 5 rang n
-rangns <- erg_libre |> group_by(ehex, draw) |> summarize(across(c(rm, rsd, ge), fisrt))
-rangns_m <- ggplot(rangns |> filter(draw<250)) + 
+rangns <- erg_libre |> group_by(ehex, draw) |> summarize(across(c(rm, rsd, ge), first))
+rangns_m <- ggplot(rangns |> filter(draw<=256)) + 
   geom_line(aes(x=draw, y=rm, group = ehex), col="white", alpha=0.3, size=0.2) +
   theme_ofce()+
   theme(panel.grid = element_blank(),
@@ -191,7 +191,7 @@ rangns_m <- ggplot(rangns |> filter(draw<250)) +
         strip.text = element_text(color = "black"))+
   xlab("Nombre de tirages cumulés")+ylab("rang moyen au moment du remplissage")
 
-rangns_ec <- ggplot(rangns |> filter(draw <250)) + 
+rangns_ec <- ggplot(rangns |> filter(draw <=256)) + 
   geom_line(aes(x=draw, y=rsd, group = ehex), col="white", alpha=0.25, size=0.2) +
   theme_ofce()+
   theme(panel.grid = element_blank(),
@@ -217,16 +217,19 @@ save(gnmsd, file="output/gmsd_erg.rda")
 rangns_max <- s1$ehex |> 
   left_join(rangns |> filter(draw==max(draw)) |> select(ehex, rm, rsd), by="ehex") |> 
   mutate(tension = (nrow(s1$habs)-rm)/nrow(s1$habs))
-  
+
 (carte_erg <- ggplot(rangns_max)+
-  stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
-  scale_fill_distiller(palette="Spectral", direction=-1, name = "tension")+
-  coord_equal(xlim=c(-1,1), ylim=c(-1,1)) +
-  geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
-  labs(title = "Tension")+
-  theme_ofce_void(base_size = 8)+ 
-  theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
-        plot.margin = margin(6,6,6,6),
-        panel.background = element_rect(fill="grey97")))
+    stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=0.075)+
+    scale_fill_distiller(palette="Spectral", direction=-1, name = "Tension", 
+                         limits = c(0, .5), breaks = c(0, .1, .2, .3, .4, .5),
+                         labels = label_percent(1),
+                         oob =squish)+
+    coord_equal(xlim=c(-1,1), ylim=c(-1,1)) +
+    geom_text(data = s1$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
+    labs(title = "Tension")+
+    theme_ofce_void(base_size = 8)+ 
+    theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
+          plot.margin = margin(6,6,6,6),
+          panel.background = element_rect(fill="grey97")))
 
 graph2png(carte_erg, rep="output", ratio = 16/9)

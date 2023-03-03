@@ -181,8 +181,7 @@ add_total <- function(data) {
   bind_rows(data, tot)
 }
 make_tibs <- function(emp, hab, binwidth = 0.1) {
-  dist <- rdist::cdist(hab[, 1:2], emp[,1:2])
-  rkdist <- matrixStats::rowRanks(dist)
+  
   f <- hab[, "f"]
   p <- emp[, "p"]
   xrange <- diff(range(c(hab[,"x"], emp[,"x"])))
@@ -223,7 +222,7 @@ make_tibs <- function(emp, hab, binwidth = 0.1) {
        ehex = ehex, hhex=hhex,
        hexhab = hexhab, hexemp = hexemp,
        egroupes = egroupes, hgroupes = hgroupes, 
-       dist = dist, rk = rkdist, f = f, p = p)
+       f = f, p = p)
 }
 
 rmeaps_bstp <- function(scn, shufs, workers=1) {
@@ -329,3 +328,12 @@ genere_3p <- function(n=1000, k=900, f=0.1,
   
   append(make_tibs(emp, hab, binwidth), list(shufs = shufs, n = n, k = k))
 }
+
+add_dist <- function(scn) {
+  res <- scn
+  dist <- rdist::cdist(scn$hab[, 1:2], scn$emp[,1:2])
+  rkdist <- matrixStats::rowRanks(dist)
+  res$dist <- dist 
+  res$rk <- rkdist
+  return(res)
+  }

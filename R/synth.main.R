@@ -50,14 +50,20 @@ binwidth <- 0.05
 # mais pas en nombre suffisant dans les villages
 
 set.seed(1942) 
-s1 <- genere_3p(n = n, k = k, rayon = 0.35, part_h = 0.7, part_e = 0.7, beta = 1.6, d_cp2 = 0.75, d_cp3 = 0.75)
+s1 <- genere_3p(n = n, k = k, rayon = 0.35,
+                part_h = 0.7, part_e = 0.7, beta = 1.6,
+                d_cp2 = 0.75, d_cp3 = 0.75,
+                binwidth = binwidth)
 set.seed(1942) 
-s2 <- genere_3p(n = n, k = k, rayon = 0.35, part_h = 0.7, part_e = 0.7, beta = 1.6, , d_cp2 = 1, d_cp3 = 1)
-qsave(s1, file = "output/s1.qs")
-qsave(s2, file = "output/s2.qs")
-
+s2 <- genere_3p(n = n, k = k, rayon = 0.35,
+                part_h = 0.7, part_e = 0.7, beta = 1.6,
+                d_cp2 = 1, d_cp3 = 1,
+                binwidth = binwidth)
+qsave(s1, file = "output/s1.sqs")
+qsave(s2, file = "output/s2.sqs")
+s1 <- add_dist(s1)
+s2 <- add_dist(s2)
 dds <- rdist::cdist(cbind(s1$hgroupes$x, s1$hgroupes$y), cbind(s1$egroupes$x, s1$egroupes$y)) 
-set.seed(1942) 
 dds2 <- rdist::cdist(cbind(s2$hgroupes$x, s2$hgroupes$y), cbind(s2$egroupes$x, s2$egroupes$y)) 
 rownames(dds) <- c("h1", "h2", "h3")
 colnames(dds) <- c("e1", "e2", "e3")
@@ -308,7 +314,7 @@ save(gdistances2, file = "output/gdistances2.rda")
 
 ## variance de la matrice de flux ---------------
 ### 
-shufs <- purrr::map(1:1024, ~sample.int(n,n))
+shufs <- purrr::map(1:256, ~sample.int(n,n))
 plan("multisession", workers=8)
 modds <- matrix(1, ncol=ncol(s1$rk), nrow = nrow(s1$rk))
 fluxs <- future_imap_dfr(shufs, ~{
@@ -454,9 +460,9 @@ ms_odd <- list_modify(
     m
   }))
 
-shufs <- do.call(rbind, map(1:100, ~sample.int(n,n)))
+shufs <- do.call(rbind, map(1:128, ~sample.int(n,n)))
 
-plan("multisession", workers=4)
+plan("multisession", workers=2)
 
 res <- future_imap(
   ms_odd, ~{
@@ -483,6 +489,7 @@ tres <- bind_rows(res$habs)
 mmflux <- map(res$flux[-1], ~.x - res$flux$ref)
 save(mmflux, file="output/mmflux.rda")
 ee <- map(mmflux, as.vector) |> flatten_dbl() |> matrix(ncol=9, nrow=9) |> eigen() 
+save(ee, file="output/eigenvalues.srda")
 ee$values |> round(1)
 
 bigflux <- bind_rows(
@@ -545,3 +552,4 @@ ggplot(data = tres |> filter(e!="ref") )+
   facet_grid(rows = vars(h), cols = vars(e)) +
   ylab(NULL)+xlab("distances")+
   theme_ofce(base_size=9)+theme(legend.position = "right")
+

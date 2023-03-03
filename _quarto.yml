@@ -1,9 +1,7 @@
 project:
   type: book
   output-dir: docs
-
-execute:
-  freeze: auto
+  execute-dir: project
 
 book:
   title: "MEAPS"
@@ -29,7 +27,7 @@ book:
   repo-url: "https://github.com/xtimbeau/meaps/"
   open-graph: true
   twitter-card:
-    site: "@meaps"
+    site: "@xtimbeau"
   google-analytics: "G-KF6Z4B486X"
   repo-actions: [edit]
   downloads: [pdf, epub]
@@ -101,7 +99,7 @@ format:
     papersize: a4
     fontsize: 10pt
     fig-cap-location: bottom
-    include-in-header: 'preamble.tex'
+    include-in-header: 'www/preamble.tex'
     extra_dependencies: ["float"]
     fig-dpi: 600
     fig-format: png
