@@ -214,9 +214,28 @@ gnmsd <- ggplot(rangns |> filter(draw==max(draw)))+
   theme_ofce()+theme(legend.position="right")
 graph2png(gnmsd, rep="output")
 save(gnmsd, file="output/gmsd_erg.rda")
-rangns_max <- s1$ehex |> 
-  left_join(rangns |> filter(draw==max(draw)) |> select(ehex, rm, rsd), by="ehex") |> 
-  mutate(tension = (nrow(s1$habs)-rm)/nrow(s1$habs))
+
+
+## tension ---------
+
+tension.raw <- future_imap_dfr(1:256, ~{
+  shuf <- s1$shufs[.y, , drop=FALSE]
+  raw2 <- rmeaps::meaps_tension_alt(
+    rkdist=s1$rk,
+    emplois=rep(1,s1$k),
+    actifs=rep(1,s1$n),
+    f=s1$f,
+    shuf = shuf,
+    modds=matrix(1, nrow=s1$n, ncol=s1$k),
+    nthreads=1)
+  bind_cols(
+    tibble(tension = raw2$tension),
+    s1$emps) |> 
+    mutate(draw = .y)}, .progress = TRUE, .options = furrr_options(seed=TRUE)) 
+
+rangns_max <- tension.raw |>
+  group_by(x, y, p, g, emp, ehex) |> 
+  summarize(tension = (nrow(s1$habs)-mean(tension))/nrow(s1$habs))
 
 (carte_erg <- ggplot(rangns_max)+
     stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+

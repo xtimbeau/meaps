@@ -220,7 +220,7 @@ bind_cols(
     columns = c(gh, e1, e2, e3, total)
   ) |> 
   gt::tab_spanner(
-    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl$par, 2)}")),
+    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl2$par, 2)}")),
     columns = c(gh_g, e1_g, e2_g, e3_g, total_g)
   ) |> 
   cols_label(vide = " ", gh = "", gh_g ="") |> 
