@@ -50,15 +50,15 @@ mytheme <- create_theme(
   ),
   adminlte_sidebar(
     width = "300px",
-    dark_bg = "#eee",
+    dark_bg = "#efefef",
     dark_hover_bg = "#81A1C1",
     dark_color = "#2E3440",
     dark_submenu_color = "#111"
   ),
   adminlte_global(
     content_bg = "#FFF",
-    box_bg = "#eee", 
-    info_box_bg = "#eee"
+    box_bg = "#efefef", 
+    info_box_bg = "#efefef"
   ),
   theme="flatly"
 )
