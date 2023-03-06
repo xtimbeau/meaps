@@ -208,7 +208,7 @@ server <- function(input, output, session) {
       modds = matrix(1, ncol=scn$k, nrow=scn$n),
       f = scn$f,
       shuf = un_shuf,
-      nthreads = 4,
+      nthreads = nthreads,
       progress = FALSE
     )
     acc_flux(raw$flux)
@@ -243,7 +243,7 @@ server <- function(input, output, session) {
           modds = matrix(1, ncol=k, nrow=n),
           f = la_fuite,
           shuf = les_shufs,
-          nthreads = 4,
+          nthreads = nthreads,
           progress = FALSE)
       },
       seed=TRUE, 
