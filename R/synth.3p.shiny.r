@@ -25,7 +25,8 @@ beta <- 1.6
 rh <- 0.25
 re <- rh*sqrt(9/10)
 nshuf <- 256
-steps <- 16
+shuf_steps <- c(1, 9, 17, 25, seq(33, 256, by=32), nshuf)
+nsteps <- length(shuf_steps)
 nthreads <- 4
 coords <- coord_equal(xlim=c(-1,1), ylim=c(-1,1))
 
@@ -203,7 +204,7 @@ server <- function(input, output, session) {
   
   step1 <- observe({
     scn <- s1()
-    un_shuf <- (scn$shufs)[1:steps,]
+    un_shuf <- (scn$shufs)[1:shuf_steps[[1]],, drop=FALSE]
     raw <- rmeaps::meaps_tension_alt(
       rkdist=scn$rk, 
       emplois = rep(1,scn$k), 
@@ -211,7 +212,7 @@ server <- function(input, output, session) {
       modds = matrix(1, ncol=scn$k, nrow=scn$n),
       f = scn$f,
       shuf = un_shuf,
-      nthreads = 4,
+      nthreads = 1,
       progress = FALSE
     )
     acc_flux(raw$flux)
@@ -221,7 +222,7 @@ server <- function(input, output, session) {
     agg_flux(scn_agg(raw$flux, scn))
     calculation("pending")
     step(1)
-    updateProgressBar(id="job_pb", value = 1, total = nshuf %/% steps)
+    updateProgressBar(id="job_pb", value = 1, total = last(shuf_steps))
     plan("multisession")
   })
   
@@ -232,14 +233,14 @@ server <- function(input, output, session) {
   fluxs1HD <- reactive(
     {
       le_step <- step()
-      if(le_step==0|le_step > nshuf %/% steps)
+      if(le_step==0|le_step == nsteps)
         return()
       scn <- s1()
       n <- nrow(scn$rk)
       k <- ncol(scn$rk)
       les_ranks <- scn$rk
       la_fuite <- scn$f
-      les_shufs <- (scn$shufs)[((le_step-1)*steps+1):(le_step*steps),]
+      les_shufs <- (scn$shufs)[(shuf_steps[[le_step]]+1):shuf_steps[[le_step+1]],,drop=FALSE]
       future({
         rmeaps::meaps_tension_alt(
           rkdist = les_ranks, 
@@ -265,8 +266,8 @@ server <- function(input, output, session) {
       if(!is.null(state$error))
         return()
       if(state$result==TRUE) {
-        if(le_step == nshuf %/% steps) {
-          updateProgressBar(id="job_pb", value = le_step, total = nshuf %/% steps)
+        if(le_step >= nsteps) {
+          updateProgressBar(id="job_pb", value = last(shuf_steps), total = last(shuf_steps))
           calculation("done")
         }
         else {
@@ -274,29 +275,31 @@ server <- function(input, output, session) {
           past_flux <- isolate(acc_flux())
           past_tension <- isolate(acc_tension())$tension
           new_data <- value(isolate(fluxs1HD()))
-          new_flux <- (le_step * past_flux + new_data$flux)/(le_step+1)
-          new_tension <- (le_step * past_tension + new_data$tension)/(le_step+1)
+          wnew <- shuf_steps[[le_step+1]]-(shuf_steps[[le_step]]+1)
+          wold <- shuf_steps[[le_step]]
+          new_flux <- (wold * past_flux + wnew * new_data$flux)/(wnew+wold)
+          new_tension <- (wold * past_tension + wnew * new_data$tension)/(wnew+wold)
           acc_flux(new_flux)
           acc_tension(list(
             tension = new_tension,
             n = scn$n, k = scn$k,
             emps = scn$emps, egroupes = scn$egroupes))
           agg_flux(scn_agg(new_flux, scn))
-          updateProgressBar(id="job_pb", value = le_step, total = nshuf %/% steps)
+          updateProgressBar(id="job_pb", value = shuf_steps[[le_step+1]], total = last(shuf_steps))
           step(le_step+1)
         }
       }
       if(calculation()!="done")
-        invalidateLater(250, session)
+        invalidateLater(100, session)
     })
   
   ## job status --------------
   output$jobstatus <- renderText({
     le_step <- step()
     if(calculation()!="done")
-      glue::glue("Monte-Carlo sur {steps * (le_step-1)}/{nshuf} tirages, en cours")
+      glue::glue("Monte-Carlo sur {shuf_steps[[le_step]]}/{last(shuf_steps)} tirages, en cours")
     else
-      glue::glue("Monte-Carlo sur {nshuf} tirages, terminé")
+      glue::glue("Monte-Carlo sur {last(shuf_steps)} tirages, terminé")
   })
   # carte du scénario ----------
   output$s1map_h <- renderPlot({
@@ -353,8 +356,9 @@ server <- function(input, output, session) {
   ## densite des distances ---------
   output$distdensite_h <- renderPlot({
     le_step <- step()
-    if(le_step<nshuf %/% steps) {
-      alpha <- 0.75+0.5*(le_step-nshuf %/% steps)/(nshuf %/% steps -1)
+    if(le_step==0) return()
+    if(le_step < nsteps) {
+      alpha <- 0.75+0.5*shuf_steps[[le_step]]/last(shuf_steps)
       line <- "dashed"} 
     else {
       alpha <- 0.75
@@ -379,8 +383,9 @@ server <- function(input, output, session) {
   
   output$distdensite_e <- renderPlot({
     le_step <- step()
-    if(le_step<nshuf %/% steps) {
-      alpha <- 0.75+0.5*(le_step-nshuf %/% steps)/(nshuf %/% steps -1)
+    if(le_step==0) return()
+    if(le_step < nsteps) {
+      alpha <- 0.75+0.5*shuf_steps[[le_step]]/last(shuf_steps)
       line <- "dashed"} 
     else {
       alpha <- 0.75
@@ -409,6 +414,7 @@ server <- function(input, output, session) {
       stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
       scale_fill_distiller(palette="Spectral", direction=-1, name = "Tension", 
                            limits = c(0, .5), breaks = c(0, .1, .2, .3, .4, .5),
+                           labels = scales::label_percent(1),
                            oob =squish)+
       coords +
       geom_text(data = at$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
