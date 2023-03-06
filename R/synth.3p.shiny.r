@@ -199,7 +199,7 @@ server <- function(input, output, session) {
       add_dist()
     step(0)
     return(scn)
-  })
+  }) |> debounce(millis = 1000)
   
   step1 <- observe({
     scn <- s1()
@@ -211,7 +211,7 @@ server <- function(input, output, session) {
       modds = matrix(1, ncol=scn$k, nrow=scn$n),
       f = scn$f,
       shuf = un_shuf,
-      nthreads = nthreads,
+      nthreads = 4,
       progress = FALSE
     )
     acc_flux(raw$flux)
@@ -248,7 +248,7 @@ server <- function(input, output, session) {
           modds = matrix(1, ncol=k, nrow=n),
           f = la_fuite,
           shuf = les_shufs,
-          nthreads = nthreads,
+          nthreads = 4,
           progress = FALSE)
       },
       seed=TRUE, 
