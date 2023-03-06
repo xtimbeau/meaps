@@ -23,10 +23,9 @@ library(stars)
 library(glue)
 
 library(PrettyCols)
-sysfonts::font_add_google('Nunito')
 showtext_auto()
 options(ofce.background_color = "grey99")
-options(ofce.base_family = "Nunito")
+options(ofce.base_family = "Source Sans Pro")
 options(ofce.base_size = 9)
 ```
 

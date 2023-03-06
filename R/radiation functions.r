@@ -307,8 +307,8 @@ genere_3p <- function(n=1000, k=900, f=0.1,
   k2 <- max(1,round((1-part_e)/2*k))
   k3 <- k2
   k <- k1+k2+k3
-  rh <- rayon
-  re <- rayon*sqrt(k/n)
+  rh <- max(0.01, rayon)
+  re <- max(0.01, rayon)*sqrt(k/n)
   rh23 <- rh*sqrt((1-part_h)/2)
   re23 <- re*sqrt((1-part_e)/2)
   c1 <- c(0,0)

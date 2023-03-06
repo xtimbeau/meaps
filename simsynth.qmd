@@ -17,6 +17,7 @@ library(showtext)
 library(markdown)
 library(gt)
 library(glue)
+library(gtExtras)
 showtext_auto()
 options(ofce.background_color = "grey99")
 options(ofce.base_family = "Source Sans Pro")
@@ -126,26 +127,54 @@ Ce modèle gravitaire ainsi spécifié est ajusté sur la simulation *MEAPS* en 
 ```{r}
 #| label: tbl-fluxgrav
 #| tbl-cap: "Modèle gravitaire calé sur la configuration de référence"
-tg <- fluxg |> 
-  gt() |> 
-  cols_label(gh="") |>
-  tab_source_note(md(glue("Normalisé, \u03B4 = {round(fkl$par, 2)}"))) |> 
-  as_raw_html()
-tm <- flux |> 
-  gt() |> 
-  cols_label(gh="") |>
-  tab_source_note("Fuite à 10%") |> 
-  as_raw_html()
 
-data.frame(meaps = tm, gravitaire = tg) |> 
+# tg <- fluxg |> 
+#   gt() |> 
+#   cols_label(gh="") |>
+#   cols_align(align = "center", columns = -1) |> 
+#   tab_source_note(md(glue("Normalisé, \u03B4 = {round(fkl$par, 2)}"))) |> 
+#   as_raw_html()
+# tm <- flux |> 
+#   gt() |> 
+#   cols_label(gh="") |>
+#   cols_align(align = "center", columns = -1) |> 
+#   tab_source_note("Fuite à 10%") |> 
+#   as_raw_html() 
+# 
+# data.frame(meaps = tm, gravitaire = tg) |> 
+#   gt() |> 
+#   fmt_markdown(columns = everything()) |> 
+#   cols_label(meaps = "MEAPS",
+#              gravitaire = "Gravitaire") |> 
+#   tab_style(
+#     style = cell_text(weight = "bold"),
+#     locations = cells_column_labels()
+#   ) |> 
+#   tab_options(
+#     container.width = px(600),
+#     table.align = "center",
+#     heading.background.color = "transparent",
+#     column_labels.background.color = "transparent",
+#     table.background.color = "transparent",
+#     stub.background.color = "transparent")
+bind_cols(
+  flux,
+  tibble(vide=""),
+  fluxg |> rename_with(~str_c(.x, "_g"))
+) |> 
   gt() |> 
-  fmt_markdown(columns = everything()) |> 
-  cols_label(meaps = "MEAPS",
-             gravitaire = "Gravitaire") |> 
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_column_labels()
-  )
+  gt::tab_spanner(
+    label = md("MEAPS<br>Fuite à 10%"),
+    columns = c(gh, e1, e2, e3, total)
+  ) |> 
+  gt::tab_spanner(
+    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl$par, 2)}")),
+    columns = c(gh_g, e1_g, e2_g, e3_g, total_g)
+  ) |> 
+  cols_label(vide = " ", gh = "", gh_g ="") |> 
+  cols_label(e1_g = "e1", e2_g = "e2", e3_g = "e3", total_g = "total") |> 
+  tab_style(style = cell_borders(style="hidden"),
+            locations = cells_body(columns = vide) )
 ```
 
 L'ajustement du modèle gravitaire donne un bon résultat. Une des raisons de ce bon résultat découle de la symétrie de la configuration géographique. Les deux satellites sont à même distance du pôle central et la fonction $f$ qui ne dépend que de la distance permet d'assurer une répartition des flux entre chacun des pôles sans trop de difficulté. Si on prend une configuration non symétrique, en éloignant un des deux satellites, l'autre restant à sa place, on obtient un schéma différent, le modèle gravitaire amplifiant les asymétries.
@@ -153,26 +182,24 @@ L'ajustement du modèle gravitaire donne un bon résultat. Une des raisons de ce
 ```{r}
 #| label: tbl-fluxgrav2
 #| tbl-cap: "Modèle gravitaire pour un satellite éloigné"
-tg2 <- fluxg2 |> 
+bind_cols(
+  flux2,
+  tibble(vide=""),
+  fluxg2 |> rename_with(~str_c(.x, "_g"))
+) |> 
   gt() |> 
-  cols_label(gh="") |>
-  tab_source_note(glue("Normalisé, \u03B4 = {round(fkl$par, 2)}")) |> 
-  as_raw_html()
-tm2 <- flux2 |> 
-  gt() |> 
-  cols_label(gh="") |>
-  tab_source_note("Fuite à 10%") |> 
-  as_raw_html()
-
-data.frame(meaps = tm2, gravitaire = tg2) |> 
-  gt() |> 
-  fmt_markdown(columns = everything()) |> 
-  cols_label(meaps = "MEAPS (3 éloigné)",
-             gravitaire = "Gravitaire (3 éloigné)") |> 
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_column_labels()
-  )
+  gt::tab_spanner(
+    label = md("MEAPS<br>Fuite à 10%"),
+    columns = c(gh, e1, e2, e3, total)
+  ) |> 
+  gt::tab_spanner(
+    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl$par, 2)}")),
+    columns = c(gh_g, e1_g, e2_g, e3_g, total_g)
+  ) |> 
+  cols_label(vide = " ", gh = "", gh_g ="") |> 
+  cols_label(e1_g = "e1", e2_g = "e2", e3_g = "e3", total_g = "total") |> 
+  tab_style(style = cell_borders(style="hidden"),
+            locations = cells_body(columns = vide) )
 ```
 
 Le modèle *MEAPS* conserve une configuration identique dans le cas de pôles satellitaires éloignés du centre, parce la configuration reste symétrique et qu'aucun rang n'est modifié. En revanche, le modèle gravitaire renvoie une réponse très différente de celle du cas de référence : les habitants des satellites se tournent plus vers les emplois de leur satellite et les flux entre pôles satellites et le pôle central se réduisent. Cette propriété du modèle gravitaire est attendue : la fonction $f$ donne un poids plus faible aux emplois plus distants. A la limite où cet éloignement devant grand, les flux entre pôles satellites et le pôle central vont devenir très petit. Le paramètre estimé sur la simulation *MEAPS* est de l'ordre de `r round(fkl$par,2)`, ce qui est l'ordre de grandeur du rayon du pôle central (0,5). Pour une distance de quelques fois `r round(fkl$par,2)`, les flux entre pôles seront quasi nul. La réponse de *MEAPS* parait ici plus adaptée à ce que l'on observe. Lorsque des communes sont satellites d'un pôle central à une distance de quelques dizaines de kilomètres, il existe des flux vers cette commune pour occuper des emplois, y compris lorsque la commune est plus éloignée. La faible sensibilité à cette échelle à la distance. Nous verrons lors de l'application à l'agglomération de la Rochelle, en utilisant des données décrivant les flux entre commune de résidence et commune d'emploi (issues de @MOBPRO) que *MEAPS* permet une meilleure représentation de la réalité que le modèle gravitaire.
@@ -182,26 +209,25 @@ Si l'on reconduit la procédure d'estimation du paramètre $\delta$ sur la confi
 ```{r}
 #| label: tbl-fluxgrav3
 #| tbl-cap: "Modèle gravitaire réajusté, satellite éloigné"
-tg22 <- fluxg22 |> 
+bind_cols(
+  flux2,
+  tibble(vide=""),
+  fluxg22 |> rename_with(~str_c(.x, "_g"))
+) |> 
   gt() |> 
-  cols_label(gh="") |>
-  tab_source_note(md(glue("Normalisé, \u03B4 = {round(fkl2$par, 2)}"))) |> 
-  as_raw_html()
-tm2 <- flux2 |> 
-  gt() |> 
-  cols_label(gh="") |>
-  tab_source_note("Fuite à 10%") |> 
-  as_raw_html()
-
-data.frame(meaps = tm2, gravitaire = tg22) |> 
-  gt() |> 
-  fmt_markdown(columns = everything()) |> 
-  cols_label(meaps = "MEAPS (3 éloigné)",
-             gravitaire = "Gravitaire (3 éloigné)") |> 
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_column_labels()
-  )
+  gt::tab_spanner(
+    label = md("MEAPS<br>Fuite à 10%"),
+    columns = c(gh, e1, e2, e3, total)
+  ) |> 
+  gt::tab_spanner(
+    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl2$par, 2)}")),
+    columns = c(gh_g, e1_g, e2_g, e3_g, total_g)
+  ) |> 
+  cols_label(vide = " ", gh = "", gh_g ="") |> 
+  cols_label(e1_g = "e1", e2_g = "e2", e3_g = "e3", total_g = "total") |> 
+  tab_style(style = cell_borders(style="hidden"),
+            locations = cells_body(columns = vide) ) |> 
+  opt_row_striping(FALSE)
 ```
 
 ## Procédure d'estimation {#sec-estimation}
@@ -225,7 +251,7 @@ flux3x3 |>
     la zone 1 d'emploi est accru de 76 lorsque la probabilité d'absorption relative est doublée. 
     Pour compenser ce flux plus important entre 1 et 1, le flux en la zone d'habitation 2 et l'emploi 1 est réduit de 38, 
     ce qui implique à son tour que ceux entre 2 et 2 et entre 2 et 3 s'accroissent.")
-)
+  )
 ```
 
 Une propriété intéressante des matrices du @tbl-fluxpond est que les 9 matrices $3 \times 3$ forment un espace vectoriel de dimension 4[^simsynth-1]. Ceci est attendu, puisque les contraintes réduisent la dimension de 9 ($=3\times 3$) à 4, puisqu'il y a 3 contraintes dans chaque dimension (lignes et colonnes) et qu'une est redondante (si les somme sur chaque ligne sont nulles, alors la somme de tous les coefficients est nulle et donc si les sommes sur deux colonnes sont nulles, la troisième l'est nécessairement). Cela indique que, au moins localement (au voisinage de la matrice de flux calculée dans le @tbl-fluxpoles), il est possible de modifier les probabilités d'absorption pour atteindre n'importe quelle matrice de flux. A l'approximation linéaire près, il est donc possible de reproduire n'importe quelle structure de flux agrégés par un jeu de paramètres saturant exactement la dimension de cette structure de flux. Cette propriété permet d'envisager différentes approches d'estimations, suivant les données dont on dispose et du nombre de degrés de liberté que l'on est prêt à consacrer à la reproduction des données.
@@ -299,6 +325,6 @@ Différents paramètres permettent de spécifier la géographie, c'est-à-dire l
 
 ::: {.column-screen .content-visible when-format="html"}
 ```{=html}
- <iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
+<iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
 ```
 :::

@@ -37,8 +37,8 @@ n <- 5000
 k <- 4500
 bins <- 1.2/0.05
 binwidth <- 0.05
-s1 <- qs::qread("output/s1.qs")
-s2 <- qs::qread("output/s2.qs")
+s1 <- qs::qread("output/s1.sqs") |> add_dist()
+s2 <- qs::qread("output/s2.sqs") |> add_dist()
 ## ergodicité ------------------------
 
 options(future.globals.maxSize=1024^3) # 1Gb
@@ -112,10 +112,10 @@ if(fs::file_exists("output/libres.raw.qs")&&FALSE) {
   }, .options = furrr_options(seed = TRUE), .progress = TRUE)
   toc();
   
-  qs::qsave(libres.raw, "output/libres.raw.qs")
+  qs::qsave(libres.raw, "output/libres.raw.bigqs")
 }
 
-libres.raw <- qs::qread("output/libres.raw.qs")
+libres.raw <- qs::qread("output/libres.raw.bigqs")
 
 erg_libre <- libres.raw |>
   group_by(hhex, ehex) |> 
@@ -214,12 +214,31 @@ gnmsd <- ggplot(rangns |> filter(draw==max(draw)))+
   theme_ofce()+theme(legend.position="right")
 graph2png(gnmsd, rep="output")
 save(gnmsd, file="output/gmsd_erg.rda")
-rangns_max <- s1$ehex |> 
-  left_join(rangns |> filter(draw==max(draw)) |> select(ehex, rm, rsd), by="ehex") |> 
-  mutate(tension = (nrow(s1$habs)-rm)/nrow(s1$habs))
+
+
+## tension ---------
+
+tension.raw <- future_imap_dfr(1:256, ~{
+  shuf <- s1$shufs[.y, , drop=FALSE]
+  raw2 <- rmeaps::meaps_tension_alt(
+    rkdist=s1$rk,
+    emplois=rep(1,s1$k),
+    actifs=rep(1,s1$n),
+    f=s1$f,
+    shuf = shuf,
+    modds=matrix(1, nrow=s1$n, ncol=s1$k),
+    nthreads=1)
+  bind_cols(
+    tibble(tension = raw2$tension),
+    s1$emps) |> 
+    mutate(draw = .y)}, .progress = TRUE, .options = furrr_options(seed=TRUE)) 
+
+rangns_max <- tension.raw |>
+  group_by(x, y, p, g, emp, ehex) |> 
+  summarize(tension = (nrow(s1$habs)-mean(tension))/nrow(s1$habs))
 
 (carte_erg <- ggplot(rangns_max)+
-    stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=0.075)+
+    stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
     scale_fill_distiller(palette="Spectral", direction=-1, name = "Tension", 
                          limits = c(0, .5), breaks = c(0, .1, .2, .3, .4, .5),
                          labels = label_percent(1),

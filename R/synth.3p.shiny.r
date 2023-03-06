@@ -15,10 +15,12 @@ library(shinydashboard)
 library(shinybusy)
 library(markdown)
 library(conflicted)
+library(fontawesome)
 source("radiation functions.r")
 plan("multisession")
 conflicts_prefer(shinydashboard::box)
-binwidth <- 0.05
+conflicts_prefer(dplyr::filter)
+binwidth <- 0.075
 beta <- 1.6
 rh <- 0.25
 re <- rh*sqrt(9/10)
@@ -48,15 +50,15 @@ mytheme <- create_theme(
   ),
   adminlte_sidebar(
     width = "300px",
-    dark_bg = "#eee",
+    dark_bg = "#efefef",
     dark_hover_bg = "#81A1C1",
     dark_color = "#2E3440",
     dark_submenu_color = "#111"
   ),
   adminlte_global(
     content_bg = "#FFF",
-    box_bg = "#eee", 
-    info_box_bg = "#eee"
+    box_bg = "#efefef", 
+    info_box_bg = "#efefef"
   ),
   theme="flatly"
 )
@@ -70,34 +72,34 @@ ui <- dashboardPage(
   dashboardSidebar(
     fluidRow(
       column(6, numericInput(inputId = "n_habitants",
-                             label = "actifs",
-                             min = 0,
+                             label = list(fa("people-group", fill="green" ), "actifs"),
+                             min = 100,
                              max = 5000,
                              step = 100,
                              value = 1000)),
       column(6, numericInput(inputId = "k_emplois",
-                             label = "emplois",
-                             min = 0,
+                             label = list(fa("person-digging", fill="orange"), "emplois"),
+                             min = 100,
                              max = 5000,
                              step = 100,
-                             value = 900))),
+                             value = 800))),
     fluidRow(
       column(6, numericInput(inputId = "fuite",
-                             label = "fuite",
-                             min = 0,
+                             label = list(icon("person-running"), "fuite"),
+                             min = .01,
                              max = .2,
                              step = .01,
                              value = .05)),
       column(6, numericInput(inputId = "beta",
-                             label = "beta",
+                             label = list(icon("bezier-curve"), "beta"),
                              min = 0.5,
                              max = 2,
                              step = .05,
                              value = 1.5))),
     fluidRow(
-      column(9, numericInput(inputId = "rayon",
-                             label = "rayon (inverse de la densité)",
-                             min = 0,
+      column(6, numericInput(inputId = "rayon",
+                             label = list(icon("ruler-horizontal"),"rayon du centre"),
+                             min = 0.1,
                              max = 1.5,
                              step = .1,
                              value = .5))),
@@ -105,37 +107,37 @@ ui <- dashboardPage(
       column(6, numericInput(inputId = "pc_habitants",
                              label = "% actifs au centre",
                              min = 0,
-                             max = 1,
-                             step = .1,
-                             value = .7)),
+                             max = 100,
+                             step = 5,
+                             value = 70)),
       column(6, numericInput(inputId = "pc_emplois",
                              label = "% emplois au centre",
                              min = 0,
-                             max = 1,
-                             step = .1,
-                             value = .7))),
+                             max = 100,
+                             step = 5,
+                             value = 70))),
     fluidRow(
       column(6, numericInput(inputId = "distance_c2",
-                             label = "dist. p2-centre",
+                             label = list(icon("ruler-horizontal"),"dist. p2-centre"),
                              min = 0,
                              max = 1.5,
                              step = .05,
                              value = .75)),
       column(6, numericInput(inputId = "distance_c3",
-                             label = "dist. p3-centre",
+                             label = list(icon("ruler-horizontal"),"dist. p3-centre"),
                              min = 0,
                              max = 1.5,
                              step = .05,
                              value = .75))),
     fluidRow(
       column(6, numericInput(inputId = "angle_c2",
-                             label = "angle du p2",
+                             label = list(icon("angle-down"), "angle du p2 (°)"),
                              min = -90,
                              value = 45,
                              step = 15,
                              max = 90)),
       column(6, numericInput(inputId = "angle_c3",
-                             label = "angle du p3",
+                             label = list(icon("angle-up"), "angle du p3 (°)"),
                              min = -90,
                              value = -45,
                              step = 15,
@@ -184,15 +186,17 @@ server <- function(input, output, session) {
       n = input$n_habitants,
       k = input$k_emplois,
       f = input$fuite,
-      part_h = input$pc_habitants,
-      part_e = input$pc_emplois,
+      part_h = input$pc_habitants/100,
+      part_e = input$pc_emplois/100,
       d_cp2 = input$distance_c2,
       d_cp3 = input$distance_c3,
       theta2 = input$angle_c2,
       theta3 = input$angle_c3,
       beta = input$beta,
       rayon = input$rayon,
-      nshuf = nshuf)
+      nshuf = nshuf,
+      binwidth = binwidth) |> 
+      add_dist()
     step(0)
     return(scn)
   })
@@ -200,7 +204,6 @@ server <- function(input, output, session) {
   step1 <- observe({
     scn <- s1()
     un_shuf <- (scn$shufs)[1:steps,]
-    
     raw <- rmeaps::meaps_tension_alt(
       rkdist=scn$rk, 
       emplois = rep(1,scn$k), 
@@ -212,7 +215,9 @@ server <- function(input, output, session) {
       progress = FALSE
     )
     acc_flux(raw$flux)
-    acc_tension(raw$tension)
+    acc_tension(list(tension = raw$tension,
+                     n = scn$n, k = scn$k,
+                     emps = scn$emps, egroupes = scn$egroupes))
     agg_flux(scn_agg(raw$flux, scn))
     calculation("pending")
     step(1)
@@ -267,12 +272,15 @@ server <- function(input, output, session) {
         else {
           scn <- isolate(s1())
           past_flux <- isolate(acc_flux())
-          past_tension <- isolate(acc_tension())
+          past_tension <- isolate(acc_tension())$tension
           new_data <- value(isolate(fluxs1HD()))
           new_flux <- (le_step * past_flux + new_data$flux)/(le_step+1)
           new_tension <- (le_step * past_tension + new_data$tension)/(le_step+1)
           acc_flux(new_flux)
-          acc_tension(new_tension)
+          acc_tension(list(
+            tension = new_tension,
+            n = scn$n, k = scn$k,
+            emps = scn$emps, egroupes = scn$egroupes))
           agg_flux(scn_agg(new_flux, scn))
           updateProgressBar(id="job_pb", value = le_step, total = nshuf %/% steps)
           step(le_step+1)
@@ -393,17 +401,17 @@ server <- function(input, output, session) {
       theme_ofce(legend.position = "right")
   })
   output$tension <- renderPlot({
-    scn <- s1()
-    rangns_max <- scn$emps |> 
-      mutate(tension = acc_tension()) |> 
-      mutate(tension  = (scn$n - tension)/(scn$n))
+    at <- acc_tension()
+    rangns_max <- at$emps |> 
+      mutate(tension = at$tension) |> 
+      mutate(tension  = (at$n - tension)/(at$n))
     ggplot(rangns_max)+
       stat_summary_hex(aes(x=x,y=y, z=tension), binwidth=binwidth)+
       scale_fill_distiller(palette="Spectral", direction=-1, name = "Tension", 
                            limits = c(0, .5), breaks = c(0, .1, .2, .3, .4, .5),
                            oob =squish)+
       coords +
-      geom_text(data = scn$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
+      geom_text(data = at$egroupes, aes(x=x, y=y, label = g_label), nudge_y = 0.3,  size = 2) +
       labs(title = "Tension")+
       theme_ofce_void(base_size = 8)+ 
       theme(plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b=4)),
