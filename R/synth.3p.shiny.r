@@ -34,7 +34,7 @@ safe_meaps <- purrr::safely(.f = rmeaps::meaps_alt)
 safe_resolved <- purrr::safely(.f = future::resolved)
 
 options(ofce.base_size = 10, 
-        ofce.base_family = "arial", 
+        ofce.base_family = "sans", 
         ofce.background_color = "grey99")
 set.seed(1942) 
 
@@ -296,6 +296,8 @@ server <- function(input, output, session) {
   ## job status --------------
   output$jobstatus <- renderText({
     le_step <- step()
+    if(le_step==0)
+      return()
     if(calculation()!="done")
       glue::glue("Monte-Carlo sur {shuf_steps[[le_step]]}/{last(shuf_steps)} tirages, en cours")
     else
@@ -377,7 +379,7 @@ server <- function(input, output, session) {
       xlim(c(0,1))+
       scale_y_continuous(limits=c(0,10), oob = squish)+
       ylab(NULL)+xlab("distance")+
-      labs(title="Distances parcourue par habitant") +
+      labs(title="Distance parcourue par habitant") +
       theme_ofce(legend.position = "right")
   })
   
@@ -402,7 +404,7 @@ server <- function(input, output, session) {
         labels = c("e1", "e2", "e3"))+
       xlim(c(0,1))+scale_y_continuous(limits=c(0,10), oob = squish)+
       ylab(NULL)+xlab("distance")+
-      labs(title="Distances parcourues pour un emploi") +
+      labs(title="Distance parcourue pour un emploi") +
       theme_ofce(legend.position = "right")
   })
   output$tension <- renderPlot({
