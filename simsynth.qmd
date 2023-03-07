@@ -24,7 +24,7 @@ options(ofce.base_family = "Source Sans Pro")
 options(ofce.base_size = 9)
 ```
 
-# *MEAPS* : simulations synthétiques {#sec-synt}
+# Simulations synthétiques {#sec-synt}
 
 Pour étudier quelques unes des propriétés du modèle nous proposons ici d'explorer son comportement sur des données synthétiques. Les données synthétiques, générées de façon explicites, permettent de contrôler les variations de paramètres afin d'en isoler les conséquences. Ces simulations ne prétendent pas ni à l'exhaustivité ni à la démonstration, mais peuvent servir à appuyer l'intuition. L'ensemble de la partie sur les simulations synthétiques est exécutable au sens de @lasser2020. Les codes nécessaires à la reproduction de ces simulations et des graphiques associés sont disponibles sur `github.com/xtimbeau/meaps` et exécutables librement.
 

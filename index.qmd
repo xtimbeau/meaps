@@ -25,7 +25,7 @@ Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et 
 
 *Ce document a été produit avec [Quarto](https://quarto.org). La partie "Aspects théoriques" (@sec-theorie) ne demande rien de plus pour être exécutée qu'un environnement supportant Quarto. La partie "Simulations synthétiques" (@sec-synt) est exécutable complètement à partir des fichiers présent dans le dossier `R` du dépôt github [github.com/xtimbeau/meaps](https://github.com/xtimbeau/meaps). La partie "Application à la Rochelle" (@sec-rochelle) nécessite l'accès à des données spécifiques pour lesquelles nous étudions la possibilité de diffusion. N'hésitez pas à contacter les auteurs sur ce point.*
 
-*Nous utilisons de nombreux packages et logiciels libres dont* `tidyverse`, `data.table`, `matrixStats`, `R5`, `r5r`, `Rcpp`, `OpenMP, quarto, shiny, shinyWidgets, shinydashboard, future, furrr.`
+*Nous utilisons de nombreux packages et logiciels libres dont* `tidyverse`, `data.table`, `matrixStats`, `R5`, `r5r`, `Rcpp`, `OpenMP`, `quarto`, `shiny`, `shinyWidgets`, `shinydashboard`, `future`, `furrr` et bien sûr `R` et `RStudio` de Posit.
 :::
 
 Contacts : [Maxime Parodi](mailto:maxime.parodi@sciencespo.fr) ou [Xavier Timbeau](xavier.timbeau@sciencespo.fr)
