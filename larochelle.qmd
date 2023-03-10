@@ -226,7 +226,7 @@ ggplot(density)+
   geom_area(aes(
     x=x, ymax = y, y = y,
     group=factor(lbst), col = factor(lbst), fill = factor(lbst)),
-    alpha=0.95, position="identity")+
+    alpha=0.85, position="identity")+
   scale_x_continuous(labels = scales::label_percent(.01))+
   scale_color_brewer(palette="Blues", name = "Tirages M.C." , aesthetics = c("color", "fill"))+
   xlab(latex2exp::TeX("$R^2_{KL}$"))+
@@ -375,7 +375,7 @@ knitr::include_graphics("output/toutes configs odds effectifs.png")
 
 ### Estimations paramétriques et comparaison avec le modèle gravitaire
 
-Au lieu d'estimer directement un ensemble d'*odds-ratios* $\omicron_{ij}$ , on peut proposer des formes fonctionnelles paramètriques à partir desquelles on calculera les *odds-ratios*. C'est une stratégie bien plus parcimonieuse. On détermine alors les paramètres de la forme fonctionnelle retenue par un algorithme standard de minimisation de l'entropie relative, qui est le critère que nous avons choisi pour comparer les distributions. Il est également possible de conduire une estimation paramétrique pour le modèle gravitaire.
+Au lieu d'estimer directement un ensemble d'*odds-ratios* $\omicron_{ij}$ , on peut proposer des formes fonctionnelles paramétriques à partir desquelles on calculera les *odds-ratios*. C'est une stratégie bien plus parcimonieuse. On détermine alors les paramètres de la forme fonctionnelle retenue par un algorithme standard de minimisation de l'entropie relative, qui est le critère que nous avons choisi pour comparer les distributions. Il est également possible de conduire une estimation paramétrique pour le modèle gravitaire.
 
 Nous explorons ici trois formes fonctionnelles pour *MEAPS* :
 
