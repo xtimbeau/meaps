@@ -25,7 +25,7 @@ library(glue)
 library(PrettyCols)
 showtext_auto()
 options(ofce.background_color = "grey99")
-options(ofce.base_family = "Source Sans Pro")
+options(ofce.base_family = "sans")
 options(ofce.base_size = 9)
 ```
 
@@ -71,7 +71,7 @@ access_4modes <-
   map(c("to1k", "to5k", "to10k", "to20k"), ~{ 
     ggplot()+
       decor_carte +
-      ofce::theme_ofce_void(base_family = "Nunito", axis.text = element_blank()) +
+      ofce::theme_ofce_void(axis.text = element_blank()) +
       geom_sf(data=access, aes(fill=.data[[.x]]), col=NA)+
       #scico::scale_fill_scico(palette="hawaii", na.value=NA, direction=-1, name = "mn")+
       PrettyCols::scale_fill_pretty_c(
@@ -176,30 +176,27 @@ Une première stratégie de calage de *MEAPS* consiste à calculer autant d'*odd
 
 Les paramètres issues de cette approche contiennent une information qui peut ensuite être exploitée. Les *odds-ratios* s'interprètent alors relativement simplement : ceux qui sont supérieurs à 1 indiquent que le flux de mobilités professionnelles correspondant sont plus fréquents que ce que prévoit le modèle de référence ; et inversement pour les *odds-ratios* inférieurs à 1.
 
-Cette approche pose généralement un problème difficile d'optimisation algorithmique. Une approche brutale, qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les flux observés, se heurte à la grande dimension de l'espace des paramètres. En outre, comme toujours dans ce type d'exercice statistique, l'enjeu consiste à extraire des données disponibles des enseignements généraux en délaissant ce qui relève de la particularité d'un jeu de données. C'est toute la difficulté du surapprentissage (overfitting) que nous avons évoquée.
+Cette approche pose généralement un problème difficile d'optimisation algorithmique. Une approche brutale, qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les flux observés, se heurte à la grande dimension de l'espace des paramètres. En outre, comme toujours dans ce type d'exercice statistique, l'enjeu consiste à extraire des données disponibles des enseignements généraux en délaissant ce qui relève de la particularité d'un jeu de données. C'est toute la difficulté du surapprentissage (*overfitting*) que nous avons évoquée.
 
 Une seconde approche, plus parcimonieuse, consiste à définir une forme fonctionnelle pour les *odds-ratios* ou encore à regrouper les *odds-ratios* en quelques *clusters* pour ensuite n'évaluer qu'un petit nombre de paramètres. Ceci suppose de modéliser la structuration des *odds-ratios* à partir d'*a priori* sur les dimensions pertinentes.
 
-### Estimation de la première approche {#sec-estnp}
+### $R^2_{KL}$, ergodicité et émiettage
 
-A ce stade nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons les *odds-ratios* $\omicron^k_{ij}$ qui permettraient de combler l'écart entre les prévisions de MEAPS effectuées avec un ensemble d'*odds-ratios* $\omicron^{k-1}_{ij}$ et les données observées de @MOBPRO en utilisant la formule suivante où $\beta$ est un paramètre d'amortissement inférieur à 1 et positif et où $k$ indexe les itérations :
+La première confrontation empirique peut se faire avec le modèle MEAPS utilisé tel quel, c'est-à-dire en ne prenant en compte que la fuite. Pour chaque individu on peut observer dans @MOBPRO, par commune de résidence, un taux de fuite, c'est-à-dire les résidents actifs qui ne travaillent pas dans le périmètre retenu des communes d'emplois (@fig-zoneslr). ce taux de fuite est identique pour tous les résidents d'une commune, par la résolution spatiale que permet @MOBPRO. En revanche, les informations sur la localisation des emplois et des résidents ainsi que la structure des distances (mesurées comme le temps de parcours par mode en utilisant le routage sur les réseaux disponibles) sont connu à une résolution plus fine. Sur la base de ces informations, on peut donc simuler à partir de MEAPS des flux entre carreaux, agrégés entre communes, qui nous servirons de référence.
 
-$$
-\omicron^k_{ij} = \biggl(\frac{\tilde{c}^k_{abs}}{
-c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
-$$ {#eq-algest}
+Dans les simulations synthétiques présentées dans le @sec-synth les flux sont simulés avec une granularité unitaire. Chaque emploi ou chaque individu y est localisé et les distances sont calculées entre ces localisations. L'agrégation spatiale à la maille hexagonale se fait ensuite. Dansle cas des données que nous utilisons pour La Rochelle, les carreaux ne sont pas occupés par un seul résident actif ou un seul emploi. Il y a des paquets pour lesquels il n'est pas nécessaire de refaire les simulations individu par individu ou emploi par emploi. Nous les avons donc regroupés et simuler en conséquences dans MEAPS. Cela pose cependant un problème puisque le choix d'un ordre de priorité s'exerce maintenant sur des individus en paquets de taille différente, un faible nombre de ces paquets étant de taille très supérieure à la médiane des autres. Ainsi, lorsqu'un paquet de taille importante est à son tour de choisir, il peut saturer des emplois en une seule passe. Pour résoudre ce problème, nous procédons à un émiettage dans lesquels les paquets de taille importante sont divisés en paquets plus petits de taille inférieure à un seuil. Pour un seuil de 10 individus, on augmente le nombre de paquets d'environ 50% ce qui permet de conserver un problème de taille globale raisonnable tout en réduisant le problème de granularité des paquets. De plus, les paquets sont tirés au sort dans leur ordre de priorité en tenant compte de leur taille afin d'éviter une sur-représentation des paquets de petite taille dans les priorités.
 
-Nous modifions alors les $\omicron_{ij}$ en fonction des écarts observés. Cela conduit à chercher un point fixe. Nous calculons ensuite un critère d'ajustement à partir de l'entropie relative de Kullback-Leibler [@kullback1951]. L'entropie relative est définie pour deux distributions de probabilités $p$ et $q$ comme suit dans le cas discret :
+Sur la base des flux simulés, on peut définir un critère d'ajustement, assimilable à un $R^2$ à partir de l'entropie relative de Kullback-Leibler [@kullback1951]. L'entropie relative est définie pour deux distributions de probabilités $p$ et $q$ comme suit dans le cas discret :
 
 $$
 KL(p,q) = \sum_{i}p_i \times log(p_i/q_i)
-$$ {#eq-kl}
+$$
 
 Cette mesure ressemble à une distance, mais n'est pas symétrique et ne vérifie pas l'inégalité triangulaire. Elle s'interprète dans le cadre de la théorie de l'information comme la quantité relative d'information supplémentaire nécessaire pour exprimer $q$ à partir de $p$. En suivant @colincameron1997 on peut construire une mesure de la qualité de l'ajustement $R_{KL}^2$ de la façon suivante, où $\hat{q}$ et $q_0$ sont deux distributions, respectivement celles estimée et de référence, que l'on compare à $p$ :
 
 $$
 R_{KL}^2 = 1 - \frac{KL(p,\hat{q})}{KL(p, q_0)}
-$$ {#eq-r2kl}
+$$
 
 La distribution de référence est choisie comme une distribution uniforme, par analogie avec le calcul de la variance dans un $R^2$ habituel où l'on régresse sur une constante. On écrit :
 
@@ -207,13 +204,49 @@ $$
 \begin{aligned}
 KL(p,q_{ref}) &{}= \sum_{i}p_i \times log(p_i/unif) \\&{}= \sum_i p_i \times log(p_i) + log(N)
 \end{aligned}
-$$ {#eq-klent}
+$$
 
 Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois).
 
+La @fig-reflr représente le $R^2_{KL}$ que l'on calcule pour le modèle de référence en effectuant des simulations de Monte-Carlo pour différentes tailles d'échantillon d'ordre. Sans surprise, plus l'échantillon est grand, plus la distribution des $R^2_{KL}$ est étroite. Pour 256 tirages, l'intervalle de confiance à 95% pour le $R^2_{KL}$ est de l'ordre de 0.017% (contre 0.04% pour 64 tirages et 0.003% pour 1024 tirages) ce qui sera suffisant pour la plupart des applications.
+
+La valeur moyenne du $R^2_{KL}$ obtenue pour le MEAPS de référence est de 88.4%.
+
+```{r}
+#| label: fig-reflr
+#| fig-cap: "Densité des $R^2_{KL}$ simulés par bootstrap pour une simulation de Monte-Carlo sur 64 ou 256 ou 1024 tirages."
+
+stats <- qs::qread("output/bootstrap r2kl.qs")
+density <- map_dfr(c(64, 256, 1024), ~{
+  dd <- density(stats |> filter(lbst==.x) |> pull(r2kl2))
+  tibble(x  = dd$x, y=dd$y, lbst = .x)
+  })
+
+ggplot(density)+
+  geom_area(aes(
+    x=x, ymax = y, y = y,
+    group=factor(lbst), col = factor(lbst), fill = factor(lbst)),
+    alpha=0.95, position="identity")+
+  scale_x_continuous(labels = scales::label_percent(.01))+
+  scale_color_brewer(palette="Blues", name = "Tirages M.C." , aesthetics = c("color", "fill"))+
+  xlab(latex2exp::TeX("$R^2_{KL}$"))+
+  theme_ofce()
+```
+
+### Estimation de la première approche {#sec-estnp}
+
+A ce stade, nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons les *odds-ratios* $\omicron^k_{ij}$ qui permettraient de combler l'écart entre les prévisions de MEAPS effectuées avec un ensemble d'*odds-ratios* $\omicron^{k-1}_{ij}$ et les données observées de @MOBPRO en utilisant la formule suivante où $\beta$ est un paramètre d'amortissement inférieur à 1 et positif et où $k$ indexe les itérations :
+
+$$
+\omicron^k_{ij} = \biggl(\frac{\tilde{c}^k_{abs}}{
+c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
+$$ {#eq-algest}
+
+Nous modifions alors les $\omicron_{ij}$ en fonction des écarts observés. Cela conduit à chercher un point fixe.
+
 L'algorithme naïf est relativement efficace. Il converge en quelques dizaines d'itérations, s'avère stable et fait diminuer l'entropie relative. Il devra être affiné dans le futur afin de permettre une descente de gradient qui permet de minimiser explicitement l'entropie relative. L'algorithme naïf permet de réduire cette entropie relative sans assurer qu'elle est minimale.
 
-Cet algorithme a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2-np indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 88% ce qui est un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{ij}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un *odd-ratio* pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (La Rochelle), en revanche, l'*odd-ratio* $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{ij}$ librement. La première de ces deux configurations limite les $\omicron_{ij}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 99.4%, soit 1 854 $\omicron_{ij}$ . La seconde configuration estime tous les $\omicron_{ij}$ sans limite (soit 2 033 paramètres pour 72 communes de résidence et 210 communes d'activité, avec un grand nombre de liaisons non considérées).
+Cet algorithme a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2-np indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 88% ce qui est un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{ij}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un *odd-ratio* pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (La Rochelle), en revanche, l'*odd-ratio* $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{ij}$ librement. La première de ces deux configurations limite les $\omicron_{ij}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 99.4%, soit 1 854 $\omicron_{ij}$ . La seconde configuration estime tous les $\omicron_{ij}$ sans limite (soit 2 033 paramètres pour 72 communes de résidence et 210 communes d'activité, avec un grand nombre de liaisons non considérées parce que nulles).
 
 ```{r meapsR2-np}
 #| label: tbl-meapsR2-np
@@ -246,9 +279,9 @@ meaps_stats |>
 
 la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le fait d'estimer uniquement les $\omicron_{ii}$ diagonaux, en ajustant donc seulement les flux allant d'une commune de résidence vers elle même, donne déjà de très bons résultats en faisant passer le $R^2_{KL}$ de 88% à 95% et en réduisant visiblement les écarts entre flux observé et flux estimé, comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus, d'autant que les écarts pour les flux marginaux ne sont pas tant réduits que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{ij}$.
 
-Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une minute[^larochelle-2].
+Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une vingtaine de secondes[^larochelle-2].
 
-[^larochelle-2]: Autour de 6 années de vCPU...
+[^larochelle-2]: Autour d'une année de vCPU...
 
 ```{r actvsfit-np, fig.asp=1}
 #| label: fig-actvsfit-np

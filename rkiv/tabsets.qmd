@@ -1,0 +1,25 @@
+---
+title: "tabsets"
+cap-location: margin
+html: true
+---
+
+content @fig-plot1 and @fig-plot2
+
+::: panel-tabset
+## plot1
+
+```{r, echo=FALSE}
+#| fig-cap: figure 1
+#| label: fig-plot1
+plot(mtcars$mpg)
+```
+
+## plot2
+
+```{r, echo=FALSE}
+#| fig-cap: figure 2
+#| label: fig-plot2
+plot(mtcars$cyl)
+```
+:::

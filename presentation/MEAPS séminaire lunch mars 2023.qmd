@@ -1,0 +1,81 @@
+---
+title: "MEAPS"
+---
+
+# Pourquoi MEAPS ?
+
+## modèle à 4 étapes
+
+## modèle gravitaire (entre A et B)
+
+## prendre en compte le voisinage
+
+stouffer
+
+simini
+
+# Absorption
+
+process absorption
+
+forme approximative
+
+si densité uniforme expression en fonction de la distance (e(-r2))
+
+# Saturation&priorité
+
+pour un ordre de priorité
+
+# Ergodicité
+
+tous les ordres, il y en a bcp, mais on peut essayer d'en prendre un échantillon
+
+# Algorithme
+
+# Simulations Synthétiques
+
+propriétés du modèle
+
+rôle de la géographie
+
+application interactive
+
+# Estimations
+
+## données
+
+## distances
+
+## $R^2_{KL}$
+
+## Apprentissage ou estimation non paramétrique
+
+### expliciter les paramètres
+
+### algorithme d'évaluation
+
+### résultats
+
+## Estimation paramétriques
+
+### paramètres
+
+### résultat et comparaison avec le gravitaire
+
+### distribution le long des distances
+
+# Conclusions
+
+microfondements et agrégation explicites et flexibles
+
+peut s'appliquer à d'autres granularités, opportunités comme les écoles
+
+meilleure performance empirique que le modèle gravitaire sur MOBPRO à l'échelle bassin de vie
+
+produire un chiffre agrégé capacité
+
+on peut intrapoler (avec fiabilité) en se calant sur une donnée agrégée à une maille quelconque
+
+on peut dériver des indicateurs comme la tension, localisé et agrégés à une maille quelconque
+
+caractériser le biais communal, la ville du 1/4 d'heure
