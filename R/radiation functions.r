@@ -315,13 +315,13 @@ genere_3p <- function(n=1000, k=900, f=0.1,
   c2 <- c1 + c(r2*cos(theta2/90*pi/2), r2*sin(theta2/90*pi/2))
   c3 <- c1 + c(-r3*cos(-theta3/90*pi/2), -r3*sin(-theta3/90*pi/2))
   habc <- cbind(pos_cunif(n=n1, rayon = rh*sqrt(part_h), centre = c1, beta=beta), f=f, g = 1)
-  habv1 <- cbind(pos_cunif(n=n2, rayon = rh23, centre = c2, beta=beta), f=f, g = 3)
-  habv2 <- cbind(pos_cunif(n=n3, rayon = rh23, centre = c3, beta=beta), f=f, g = 2)
+  habv1 <- cbind(pos_cunif(n=n2, rayon = rh23, centre = c2, beta=beta), f=f, g = 2)
+  habv2 <- cbind(pos_cunif(n=n3, rayon = rh23, centre = c3, beta=beta), f=f, g = 3)
   hab <- rbind(habc, habv2, habv1)
   
   empc <- cbind(pos_cunif(n=k1, rayon  = re*sqrt(part_e), centre = c1, beta=beta), p=1, g=1)
-  empv1 <- cbind(pos_cunif(n=k2, rayon = re23, centre = c2, beta=beta), p=1, g=3)
-  empv2 <- cbind(pos_cunif(n=k3, rayon = re23, centre = c3, beta=beta), p=1, g=2)
+  empv1 <- cbind(pos_cunif(n=k2, rayon = re23, centre = c2, beta=beta), p=1, g=2)
+  empv2 <- cbind(pos_cunif(n=k3, rayon = re23, centre = c3, beta=beta), p=1, g=3)
   emp <- rbind(empc, empv2, empv1)
   
   shufs <- do.call(rbind, purrr::map(1:nshuf, ~sample.int(n,n)))

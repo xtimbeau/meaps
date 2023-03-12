@@ -1,48 +1,206 @@
 ---
 title: "MEAPS"
+subtitle: "Distribution statistique des trajets entre le domicile et le travail"
+
+author:
+    - name : "Maxime Parodi"
+      email: "maxime.parodi@sciencespo.fr"
+      affiliation: OFCE, Sciences po Paris
+      affiliation-url: "http://www.ofce.fr"
+    - name: "Xavier Timbeau" 
+      email: "xavier.timbeau@sciencespo.fr"
+      affiliation: OFCE, Ecole Urbaine, Sciences po Paris
+      affiliation-url: "http://www.ofce.fr"
+format: 
+  revealjs:
+    slide-level: 2
+    center: false
+    theme: [simple, presentation.scss]
+    fnavigation-mode: linear
+    code-fold: false
+    title-slide-attributes:
+      data-background-image: www/cover.png
+      data-background-size: contain
+      data-background-opacity: "0.25"
+   
+editor: visual
 ---
 
 # Pourquoi MEAPS ?
 
-## modèle à 4 étapes
+## Pourquoi MEAPS ? Le modèle à 4 étapes
 
-## modèle gravitaire (entre A et B)
+Dans la modélisation des flux de personnes, par exemple, le modèle à 4 étapes est souvent utilisé.
 
-## prendre en compte le voisinage
+-   étape 1 : nombre de trajet en partance des lieux de résidence, nombre de trajets arrivants
 
-stouffer
+-   étape 2 : distribution entre chaque paire des trajets partant ou arrivant
 
-simini
+-   étape 3 : choix modal
 
-# Absorption
+-   étape 4 : caractéristiques des trajets
 
-process absorption
+Nous nous intéressons à ces étapes, mais surtout l'étape 2 ou le mix étape 1/2
 
-forme approximative
+## Le modèle gravitaire
 
-si densité uniforme expression en fonction de la distance (e(-r2))
+Un modèle couramment utilisé est le modèle gravitaire
 
-# Saturation&priorité
+$$
+T_{i,j} = \frac {N_{hab, i}\times N_{emp, j}} {f(d_{i,j})}
+$$
 
-pour un ordre de priorité
+avec
 
-# Ergodicité
+$$
+f=e^{-d/\delta}
+$$
 
-tous les ordres, il y en a bcp, mais on peut essayer d'en prendre un échantillon
+Mais le modèle gravitaire a des propriétés théoriques ennuyeuses
 
-# Algorithme
+Il donne la même valeur à la distance quelque soit la densité du milieu dans lequel on est. Or, quand on est isolé, on accepte des distances plus grandes.
+
+## Pourquoi MEAPS ? Gravitaire versus radiatif
+
+On propose d'utiliser une autre analogie : le modèle radiatif de Simini et al ou des "*intervening opportunities*" de Stouffer
+
+Dans cette analogie, au lieu d'avoir des masses qui s'attirent (A et fB), le trajet entre A et B est perturbé par les Cs que l'on rencontre en chemin.
+
+*Analogie physique* : une particule est émise d'un point. Elle parcoure l'espace jusqu'à rencontrer des sites d'absorption. A chaque site d'absorption elle peut être absorbée (probabilité $p$) ou continuer (probabilité $1-p$).
+
+*Mais un milieu linéarisé* : au lieu d'une particule partant dans une direction quelconque, on classe sur une droite tous les sites d'absorption en fonction de leur distance. Ils seront rencontrés dans cet ordre. Ceci permet de représenter l'influence de la distance, puisque ce qui est près compte plus que ce qui est loin.
+
+## Pourquoi MEAPS ? plan de la présentation {.smaller}
+
+Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation
+
+1.  le modèle théorique
+
+    1.  version simple
+
+    2.  priorité et saturation
+
+    3.  ergodicité
+
+    4.  algorithme
+
+2.  des simulations synthétiques pour en étudier les propriétés
+
+    1.  une application Shiny
+
+3.  une estimation à partir de MOBPRO à La Rochelle
+
+    1.  données
+
+    2.  $R^2_{KL}$ et quelques autres éléments
+
+    3.  Apprentissage (ou estimation non paramètrique)
+
+    4.  Estimations paramètriques
+
+Une version préliminaire d'un document est disponible à [xtimbeau.github.io/meaps](https://xtimbeau.github.io/meaps)
+
+Avec un compte hypothes.is et le groupe hypothes.is/groups/717ArNxe/meaps vous pouvez faire des commentaires
+
+# **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation
+
+## Absorption {.smaller}
+
+Pour chaque individu, les emplois sont classés dans l'ordre des distances, chaque emploi a un rang $r_i(j)$ et une probabilité d'absorption uniforme \$p_a\$. La probabilité de dépasser au moins $j$ s'écrit :
+
+$$
+\bar F(j)=(1-p_a)^{r_i(j)}
+$$
+
+On peut définir une fuite, c'est-à-dire la probabilité de ne pas s'arrêter dans le périmètre d'étude (fini)
+
+$$
+p_a = 1-(p_f)^{1/J}
+$$
+
+La probabilité de s'arrêter en $j$ peut alors s'écrire :
+
+$$
+P_i(j) = (1-p_a)^{r_i(j)-1} \times p_a = {p_f}^{\frac {r_i(j)-1} {J}} \times (1-{p_f}^{1/J})
+$$
+
+et ne dépend que des paramètres globaux, la fuite et le nombre d'emplois.
+
+Si on a une mesure de la distance et que l'on défini **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$ on a au premier ordre :
+
+$$
+P_i(i\in c_d) \approx k\times \mu \times e^{-\mu \times s_i(d)}
+$$
+
+Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et trouver une forme "gravitaire".
+
+## Saturation&priorité
+
+L'absorption définit une "demande" qu'il faut confronter à des disponibilités. En l'absence d'un prix nous proposons
+
+-   une capacité finie de chaque site
+
+-   un remplissage progressif
+
+-   lorsque le site est saturé, il est indisponible pour les suivants
+
+-   ce qui fonctionne pour un ordre de priorité
+
+## Ergodicité
+
+Pour ne pas reposer sur sur un ordre arbitraire, nous proposons de faire la moyenne sur tous les ordres possibles. Aucun résident n'est particulier, la moyenne sur tous les ordres possibles donne une solution acceptable.
+
+Mais, il y a $I!$ ordres possibles ce qui est clairement impossible à traiter.
+
+On prend donc un (petit) échantillon de ces ordres et on suppose l'ergodicité du modèle : un faible nombre de tirages permet d'atteindre la moyenne sur tous les ordres.
+
+Intuitivement, chaque individu est localisé n'importe où, la saturation dépend surtout de la coïncidence d'individus proches qui sont les premiers servis. Cette coincidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
+
+## Quelques aspects informatiques
+
+Le modèle n'admet pas de solution fermée. La simulation est incontournable, notamment pour prendre en compte les données riches géographiques (réseaux de transport, localisation des emplois, des individus).
+
+L'algorithme a été implémenté en C++ en utilisant la parallélisation pour le Monte-Carlo avec OpenMP. Avec les optimisations que nous avons réussi à implémenter, pour un problème de la taille de La Rochelle, il faut 20s pour une simulation sur 256 tirages avec 4 threads.
+
+Le code est dans le package R `{rmeaps}`
+
+{{< fa brands github size=5x >}} github.com/maxime2506/rmeaps
 
 # Simulations Synthétiques
 
-propriétés du modèle
+## Simulations synthétiques
 
-rôle de la géographie
+On génère une distribution aléatoire, avec ue répartition spatiale des individus, des emplois, des distances et des rangs. On peut simuler le modèle et l'agréger à une maille choisie.
 
-application interactive
+::: {layout-ncol="2"}
+![](images/image-953895812.png)
+
+![](images/image-1618855787.png)
+:::
+
+On peut analyser l'ergodicité ou définir une tension et plein d'autres choses.
+
+## Une application interactive {.scrollable}
+
+::: column-screen
+```{=html}
+<iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
+```
+:::
 
 # Estimations
 
-## données
+## Données
+
+Sur l'agglomération de la Rochelle,
+
+-   localisation des résidents au carreau 200m (données carroyées de l'INSEE)
+
+-   localisation des emplois au carreau 200m (MOBPRO, issu du fichier détail du recensement, donnant les flux entre communes de résidence et communes d'emplois)+(fichiers fonciers)
+
+```{r}
+knitr::include_graphics("../output/popemp.png")
+```
 
 ## distances
 

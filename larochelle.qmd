@@ -1,37 +1,10 @@
 ```{r init, include = FALSE}
-library(knitr)
-opts_chunk$set(
-  echo = FALSE,
-  warning = FALSE,
-  message = FALSE,
-  fig.pos="htb", 
-  out.extra="",
-  dev="ragg_png",
-  out.width="100%",
-  fig.showtext=TRUE,
-  cache=FALSE)
-
-library(tidyverse)
-library(ofce)
-library(showtext)
-library(markdown)
-library(gt)
-library(qs)
-library(sf)
-library(ggspatial)
-library(stars)
-library(glue)
-
-library(PrettyCols)
-showtext_auto()
-options(ofce.background_color = "grey99")
-options(ofce.base_family = "sans")
-options(ofce.base_size = 9)
+source("rinit.r")
 ```
 
 # Estimation à La Rochelle {#sec-rochelle}
 
-Nous proposons ici une première application de *MEAPS* à l'agglomération de la Rochelle. Cette application est issue d'un travail de quantification de scénarios de politiques publiques visant à réduire l'empreinte carbone associée aux mobilités quotidiennes et au secteur résidentiel. La quantification demande à la fois de produire une cartographie très fine des émissions, en procédant par interpolation à partir de données plus macroscopiques mesurées par ailleurs et d'être en mesure de produire des évaluations des différences d'émissions de CO~2~ localement et à l'échelle du territoire selon les différents scénarios. Nous présentons ici deux familles de scénarios pour lesquelles *MEAPS* a été mobilisé :
+Nous proposons ici une première application de *MEAPS* à l'agglomération de la Rochelle. Cette application est issue d'un travail de quantification de scénarios de politiques publiques visant à réduire l'empreinte carbone associée aux mobilités quotidiennes et au secteur résidentiel. La quantification demande à la fois de produire une cartographie fine des émissions, en procédant par interpolation à partir de données connues à une maille moins fine et d'être en mesure de produire des évaluations des différences d'émissions de CO~2~ localement et à l'échelle du territoire selon les différents scénarios. Nous présentons ici deux familles de scénarios pour lesquelles *MEAPS* a été mobilisé :
 
 -   Des scénarios de localisation de l'emploi : nous projetons la distribution des trajets en utilisant *MEAPS* sur deux structures spatiales de l'emploi différentes, tout en conservant la même quantité d'emploi globale. La différence entre les kilomètres parcourus suivant les différents modes dans les deux scénarios permet d'évaluer l'impact de la localisation, en distinguant la contribution du changement modal, la contribution des changements de distance pure (à mode et flux carreaux à carreaux inchangés) et la contribution des changements de flux.
 
@@ -164,27 +137,11 @@ ggplot(mode_l) +
 
 ## Ajustement de *MEAPS* sur MOBPRO {#sec-ajust}
 
-### Stratégies d'apprentissage
-
-La construction de la matrice de distance permet d'utiliser *MEAPS* pour déduire les flux carreau à carreau. Le recensement et son volet "mobilités professionnelles" (MOBPRO) nous livrent une information agrégée sur les flux allant des communes résidentes vers les communes d'emplois selon le mode de transport. Cette information peut être injectée dans le modèle MEAPS pour améliorer la qualité des prédictions. Pour ce faire, nous introduisons pour chaque paire (*i*, *j*) un paramètre qui modifie la probabilité d'absorption de l'individu *i* par l'emploi *j*. On définit $c_{abs}$ comme la chance d'absorption, qui est égale à la probabilité d'être absorbé divisée par la probabilité de ne pas être absorbée, soit $c_{abs} = p_{abs}/(1-p_{abs})$ . Dans le modèle de référence, cette chance d'absorption est similaire pour tous les emplois considérés par un individu et elle ne dépend que de la probabilité de fuite. Un moyen simple d'injecter de l'information dans le modèle consiste alors à modifier cette chance d'absorption selon les individus et les emplois qu'ils considèrent. Les modifications des probabilités d'absorption peuvent alors être paramétrées par des *odds-ratios* (des ratios de chances relatives) $\omicron_{ij}$ de telle manière que la nouvelle chance d'absorption de i en j soit égale à $\tilde{c}_{abs,ij} = \omicron_{ij} \times c_{abs}$ . L'*odds-ratio* $\omicron_{ij}$ est un paramètre entre $0$ et $+\infty$ et *i* et *j* indexent les communes de départ et d'arrivée. La nouvelle probabilité d'absorption s'écrit alors à partir de la chance d'absorption de référence et de l'*odds-ratio* comme suit :
-
-$$
-\tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
-$$
-
-Une première stratégie de calage de *MEAPS* consiste à calculer autant d'*odds-ratios* qu'il y a de paires communes résidentes - communes d'emplois de manière à reproduire le plus fidèlement possible les flux agrégés de @MOBPRO. Cette méthode conduit en quelque sorte à saturer le modèle puisque l'on estime un nombre de paramètres proche du nombre de degrés de liberté imposé par @MOBPRO. Cette stratégie d'apprentissage est analogue à ce qui se fait en *machine learning* du fait de la démultiplication du nombre de paramètres à estimer. La limite de cette approche est le sur-ajustement (*overfitting*) qu'elle induit. Celle-ci est habituellement corrigée en ajoutant une pénalité à la complexité du modèle au sein de la fonction d'optimisation. Cela peut également se faire par *pruning*, en éliminant *a posteriori* les paramètres dont la contribution à l'explication des données est inférieure à un seuil.
-
-Les paramètres issues de cette approche contiennent une information qui peut ensuite être exploitée. Les *odds-ratios* s'interprètent alors relativement simplement : ceux qui sont supérieurs à 1 indiquent que le flux de mobilités professionnelles correspondant sont plus fréquents que ce que prévoit le modèle de référence ; et inversement pour les *odds-ratios* inférieurs à 1.
-
-Cette approche pose généralement un problème difficile d'optimisation algorithmique. Une approche brutale, qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les flux observés, se heurte à la grande dimension de l'espace des paramètres. En outre, comme toujours dans ce type d'exercice statistique, l'enjeu consiste à extraire des données disponibles des enseignements généraux en délaissant ce qui relève de la particularité d'un jeu de données. C'est toute la difficulté du surapprentissage (*overfitting*) que nous avons évoquée.
-
-Une seconde approche, plus parcimonieuse, consiste à définir une forme fonctionnelle pour les *odds-ratios* ou encore à regrouper les *odds-ratios* en quelques *clusters* pour ensuite n'évaluer qu'un petit nombre de paramètres. Ceci suppose de modéliser la structuration des *odds-ratios* à partir d'*a priori* sur les dimensions pertinentes.
-
-### $R^2_{KL}$, ergodicité et émiettage
+### émiettage, coefficient d'ajustement et ergodicité
 
 La première confrontation empirique peut se faire avec le modèle MEAPS utilisé tel quel, c'est-à-dire en ne prenant en compte que la fuite. Pour chaque individu on peut observer dans @MOBPRO, par commune de résidence, un taux de fuite, c'est-à-dire les résidents actifs qui ne travaillent pas dans le périmètre retenu des communes d'emplois (@fig-zoneslr). ce taux de fuite est identique pour tous les résidents d'une commune, par la résolution spatiale que permet @MOBPRO. En revanche, les informations sur la localisation des emplois et des résidents ainsi que la structure des distances (mesurées comme le temps de parcours par mode en utilisant le routage sur les réseaux disponibles) sont connu à une résolution plus fine. Sur la base de ces informations, on peut donc simuler à partir de MEAPS des flux entre carreaux, agrégés entre communes, qui nous servirons de référence.
 
-Dans les simulations synthétiques présentées dans le @sec-synth les flux sont simulés avec une granularité unitaire. Chaque emploi ou chaque individu y est localisé et les distances sont calculées entre ces localisations. L'agrégation spatiale à la maille hexagonale se fait ensuite. Dansle cas des données que nous utilisons pour La Rochelle, les carreaux ne sont pas occupés par un seul résident actif ou un seul emploi. Il y a des paquets pour lesquels il n'est pas nécessaire de refaire les simulations individu par individu ou emploi par emploi. Nous les avons donc regroupés et simuler en conséquences dans MEAPS. Cela pose cependant un problème puisque le choix d'un ordre de priorité s'exerce maintenant sur des individus en paquets de taille différente, un faible nombre de ces paquets étant de taille très supérieure à la médiane des autres. Ainsi, lorsqu'un paquet de taille importante est à son tour de choisir, il peut saturer des emplois en une seule passe. Pour résoudre ce problème, nous procédons à un émiettage dans lesquels les paquets de taille importante sont divisés en paquets plus petits de taille inférieure à un seuil. Pour un seuil de 10 individus, on augmente le nombre de paquets d'environ 50% ce qui permet de conserver un problème de taille globale raisonnable tout en réduisant le problème de granularité des paquets. De plus, les paquets sont tirés au sort dans leur ordre de priorité en tenant compte de leur taille afin d'éviter une sur-représentation des paquets de petite taille dans les priorités.
+Dans les simulations synthétiques présentées dans le @sec-synt les flux sont simulés avec une granularité individuelle. Chaque emploi ou chaque individu y est localisé et les distances sont calculées entre ces localisations et les flux par individu sont siimulés. L'agrégation spatiale à la maille hexagonale se fait ensuite. Dans le cas des données que nous utilisons pour La Rochelle, les carreaux ne sont pas occupés par un seul résident actif ou un seul emploi. Il y a des paquets pour lesquels il n'est pas nécessaire de refaire les simulations individu par individu ou emploi par emploi. Nous les avons donc regroupés et simuler en conséquences dans MEAPS. Cela pose cependant un problème puisque le choix d'un ordre de priorité s'exerce maintenant sur des individus en paquets de taille différente, un faible nombre de ces paquets étant de taille très supérieure à la médiane des autres. Ainsi, lorsqu'un paquet de taille importante est à son tour de choisir, il peut saturer des emplois en une seule passe. Pour résoudre ce problème, nous procédons à un émiettage dans lesquels les paquets de plus grande taille sont divisés en paquets plus petits. Pour un seuil d'émiettage de 20 individus (le flux le plus important de @MOBPRO pour La Rochelle est de 18 000) , on augmente le nombre de paquets d'environ 50% ce qui permet de conserver un problème de taille globale raisonnable tout en réduisant le problème de granularité des paquets. De plus, les paquets sont tirés au sort dans leur ordre de priorité en tenant compte de leur taille afin d'éviter une sur-représentation des paquets de petite taille dans les ordres de priorité.
 
 Sur la base des flux simulés, on peut définir un critère d'ajustement, assimilable à un $R^2$ à partir de l'entropie relative de Kullback-Leibler [@kullback1951]. L'entropie relative est définie pour deux distributions de probabilités $p$ et $q$ comme suit dans le cas discret :
 
@@ -206,15 +163,57 @@ KL(p,q_{ref}) &{}= \sum_{i}p_i \times log(p_i/unif) \\&{}= \sum_i p_i \times log
 \end{aligned}
 $$
 
-Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois).
+Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois). Le coefficient d'ajustement ainsi défini peut avoir pour des distributions particulières des valeurs négatives ou supérieures à 1. Il fonctionne assez bien malgré tout dans un grand nombre de cas.
 
-La @fig-reflr représente le $R^2_{KL}$ que l'on calcule pour le modèle de référence en effectuant des simulations de Monte-Carlo pour différentes tailles d'échantillon d'ordre. Sans surprise, plus l'échantillon est grand, plus la distribution des $R^2_{KL}$ est étroite. Pour 256 tirages, l'intervalle de confiance à 95% pour le $R^2_{KL}$ est de l'ordre de 0.017% (contre 0.04% pour 64 tirages et 0.003% pour 1024 tirages) ce qui sera suffisant pour la plupart des applications.
+Une première évaluation du modèle MEAPS est de comparer ce que l'on obtient avec MEAPS et un modèle gravitaire simple, estimé sur @MOBPRO, à la maille communale et donc sans recourir à la modélisation des réseaux de transport décrite plus haut. Le modèle gravitaire estimé est le suivant, où $f_{i,j}$ est le flux entre la commune $i$ de résidence et la commune $j$ d'emploi, $a_i$ sont les actifs en \$i\$, $e_j$ l'emploi en \$j\$, et $t_{i,j}$ le temps de parcours entre $i$ et $j$ en minutes issue des données calculées au carreau 200m agrégés à la maille communale :
+
+$$
+log(f_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \\
+R^2_{adj} = 2.29\%, 2034\ d.o.f
+$$
+
+En ajoutant à la comparaison MEAPS à la maille carreau 200m, on peut évaluer l'intérêt de la modélisation à la maille infra-communale. La @fig-divmailles représente l'ajustement dans les trois options comparées. Le modèle gravitaire à la maille communale donne un premier ajustement des données et le $R^2_{KL}$ est de 77.8%. MEAPS à la maille communale donne un résultat moins bon que le modèle gravitaire, échouant sans plus de paramètres à bien représenter les flux. Dans ce modèle le $R^2_{KL}$ est négatif. En revanche, MEAPS simulé sur le carreau 200m puis agrégé à la maille communale donne un résultat bien meilleur que les deux précédents modèles. Le $R^2_{KL}$ est de 88.4% et graphiquement l'ajustement apparaît plus satisfaisant. La seule utilisation des données de réseau et de localisation au carreau 200m permet donc une bien meilleure prédiction de @MOBPRO sans ajouter de paramètre estimé.
+
+```{r}
+#| label: fig-divmailles
+#| fig-cap: "Comparaison de MEAPS et d'un modèle gravitaire estimé à la maille communale et de MEAPS à la maille carreau 200m"
+#| fig-asp: 1
+
+data <- qs::qread("output/maillecommune.qs") |> 
+  mutate(diag = COMMUNE==DCLT,
+         maille = factor(maille, c("Gravitaire, communal", "MEAPS communal", "MEAPS c200"))) 
+  
+
+ggplot(data)+
+  scale_shape_manual(values=c(1, 18))+
+  scale_alpha_manual(values=c(0.35, 0.5))+
+  scale_size_manual(values=c(.5, 1.5))+
+  scale_color_manual(values = c("tomato","palegreen3", "royalblue2" ))+
+  geom_point(aes(x=mobpro, y=flux, col = maille, 
+                 shape=diag, alpha = diag, size = diag))+
+  scale_x_log10(limits=c(0.1, 20000),
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  scale_y_log10(limits=c(0.1, 25000), 
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  xlab("Flux observés")+ ylab("Flux estimés") +
+  guides(shape = "none", alpha = "none", size="none")+
+  facet_wrap(vars(maille), ncol = 2)+
+  geom_abline(slope=1, linewidth=0.25)+
+  coord_equal()+
+  ofce::theme_ofce(legend.position  = "none")
+
+```
+
+La @fig-reflr représente le $R^2_{KL}$ que l'on calcule pour le modèle de référence (MEAPS à la maille carreau 200m) en effectuant des simulations de Monte-Carlo pour différentes tailles de l'échantillon d'ordre de priorité. Sans surprise, plus l'échantillon est grand, plus la distribution des $R^2_{KL}$ est étroite. Pour 256 tirages, l'intervalle de confiance à 95% pour le $R^2_{KL}$ est de l'ordre de 0.017% (contre 0.04% pour 64 tirages et 0.003% pour 1024 tirages) ce qui sera suffisant pour la plupart des applications.
 
 La valeur moyenne du $R^2_{KL}$ obtenue pour le MEAPS de référence est de 88.4%.
 
 ```{r}
 #| label: fig-reflr
 #| fig-cap: "Densité des $R^2_{KL}$ simulés par bootstrap pour une simulation de Monte-Carlo sur 64 ou 256 ou 1024 tirages."
+#| fig-asp: 0.61
 
 stats <- qs::qread("output/bootstrap r2kl.qs")
 density <- map_dfr(c(64, 256, 1024), ~{
@@ -224,16 +223,32 @@ density <- map_dfr(c(64, 256, 1024), ~{
 
 ggplot(density)+
   geom_area(aes(
-    x=x, ymax = y, y = y,
+    x=x, y = y,
     group=factor(lbst), col = factor(lbst), fill = factor(lbst)),
-    alpha=0.85, position="identity")+
+    alpha=0.66, position="identity")+
   scale_x_continuous(labels = scales::label_percent(.01))+
-  scale_color_brewer(palette="Blues", name = "Tirages M.C." , aesthetics = c("color", "fill"))+
+  scale_color_brewer(palette="Accent", name = "Tirages M.C." , aesthetics = c("color", "fill"))+
   xlab(latex2exp::TeX("$R^2_{KL}$"))+
   theme_ofce()
 ```
 
-### Estimation de la première approche {#sec-estnp}
+### Stratégies d'apprentissage {#sec-estnp}
+
+L'information à la maille carreau 200m est pertinente pour reproduire les données de @MOBPRO. Pour aller plus loin dans l'ajustement, nous introduisons pour chaque paire (*i*, *j*) un paramètre qui modifie la probabilité d'absorption de l'individu *i* par l'emploi *j*. On définit $c_{abs}$ comme la chance d'absorption, qui est égale à la probabilité d'être absorbé divisée par la probabilité de ne pas être absorbée, soit $c_{abs} = p_{abs}/(1-p_{abs})$ . Dans le modèle de référence, cette chance d'absorption est similaire pour tous les emplois considérés par un individu et elle ne dépend que de la probabilité de fuite. Un moyen simple d'injecter de l'information dans le modèle consiste alors à modifier cette chance d'absorption selon les individus et les emplois qu'ils considèrent. Les modifications des probabilités d'absorption peuvent alors être paramétrées par des *odds-ratios* (des ratios de chances relatives) $\omicron_{ij}$ de telle manière que la nouvelle chance d'absorption de i en j soit égale à $\tilde{c}_{abs,ij} = \omicron_{ij} \times c_{abs}$. L'*odds-ratio* $\omicron_{ij}$ est un paramètre entre $0$ et $+\infty$ et *i* et *j* indexent les communes de départ et d'arrivée. La nouvelle probabilité d'absorption s'écrit alors à partir de la chance d'absorption de référence et de l'*odds-ratio* comme suit :
+
+$$
+\tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
+$$
+
+Une première stratégie de calage de *MEAPS* consiste à calculer autant d'*odds-ratios* qu'il y a de paires communes résidentes - communes d'emplois de manière à reproduire le plus fidèlement possible les flux agrégés de @MOBPRO. Cette méthode conduit en quelque sorte à saturer le modèle puisque l'on estime un nombre de paramètres proche du nombre de degrés de liberté imposé par @MOBPRO. Cette stratégie d'apprentissage est analogue à ce qui se fait en *machine learning* du fait de la démultiplication du nombre de paramètres à estimer. La limite de cette approche est le sur-ajustement (*overfitting*) qu'elle induit. Celle-ci est habituellement corrigée en ajoutant une pénalité à la complexité du modèle au sein de la fonction d'optimisation. Cela peut également se faire par *pruning*, en éliminant *a posteriori* les paramètres dont la contribution à l'explication des données est inférieure à un seuil.
+
+Les paramètres issues de cette approche contiennent une information qui peut ensuite être exploitée. Les *odds-ratios* s'interprètent alors relativement simplement : ceux qui sont supérieurs à 1 indiquent que le flux de mobilités professionnelles correspondant sont plus fréquents que ce que prévoit le modèle de référence ; et inversement pour les *odds-ratios* inférieurs à 1.
+
+Cette approche pose généralement un problème difficile d'optimisation algorithmique. Une approche brutale, qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les flux observés, se heurte à la grande dimension de l'espace des paramètres. En outre, comme toujours dans ce type d'exercice statistique, l'enjeu consiste à extraire des données disponibles des enseignements généraux en délaissant ce qui relève de la particularité d'un jeu de données. C'est toute la difficulté du surapprentissage (*overfitting*) que nous avons évoquée.
+
+Une seconde approche, plus parcimonieuse, consiste à définir une forme fonctionnelle pour les *odds-ratios* ou encore à regrouper les *odds-ratios* en quelques *clusters* pour ensuite n'évaluer qu'un petit nombre de paramètres. Ceci suppose de modéliser la structuration des *odds-ratios* à partir d'*a priori* sur les dimensions pertinentes.
+
+### Estimation de la première approche
 
 A ce stade, nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons les *odds-ratios* $\omicron^k_{ij}$ qui permettraient de combler l'écart entre les prévisions de MEAPS effectuées avec un ensemble d'*odds-ratios* $\omicron^{k-1}_{ij}$ et les données observées de @MOBPRO en utilisant la formule suivante où $\beta$ est un paramètre d'amortissement inférieur à 1 et positif et où $k$ indexe les itérations :
 
@@ -375,7 +390,7 @@ knitr::include_graphics("output/toutes configs odds effectifs.png")
 
 ### Estimations paramétriques et comparaison avec le modèle gravitaire
 
-Au lieu d'estimer directement un ensemble d'*odds-ratios* $\omicron_{ij}$ , on peut proposer des formes fonctionnelles paramétriques à partir desquelles on calculera les *odds-ratios*. C'est une stratégie bien plus parcimonieuse. On détermine alors les paramètres de la forme fonctionnelle retenue par un algorithme standard de minimisation de l'entropie relative, qui est le critère que nous avons choisi pour comparer les distributions. Il est également possible de conduire une estimation paramétrique pour le modèle gravitaire.
+Au lieu d'estimer directement un ensemble d'*odds-ratios* $\omicron_{ij}$, on peut proposer des formes fonctionnelles paramétriques à partir desquelles on calculera les *odds-ratios*. C'est une stratégie bien plus parcimonieuse. On détermine alors les paramètres de la forme fonctionnelle retenue par un algorithme standard de minimisation de l'entropie relative, qui est le critère que nous avons choisi pour comparer les distributions. Il est également possible de conduire une estimation paramétrique pour le modèle gravitaire.
 
 Nous explorons ici trois formes fonctionnelles pour *MEAPS* :
 
@@ -422,8 +437,8 @@ meaps_stats_p <- qs::qread("output/meaps_stats.sqs") |>
              "2 en diagonale" ~ str_c("o<sub>d</sub>\u2248", signif(p1, 2), "<br>",
                                                " o<sub>v</sub>\u2248", signif(p2, 2)),
              "distance critique" ~ 
-               str_c("d<sub>c</sub>\u2248 ", signif(p2, 2)," min<br>",
-                                               " o\u2248", signif(p1, 2))),
+               str_c("d<sub>c</sub>\u2248 ", signif(p1, 2)," min<br>",
+                                               " o\u2248", signif(p2, 2))),
     label = case_match(alg,
              "gravitaire avec furness" ~ "5. Gravitaire avec Furness",
              "gravitaire sans furness" ~ "4. Gravitaire sans Furness",
@@ -453,7 +468,7 @@ meaps_stats_p |>
 
 Les estimations des modèles 1 à 3, dans lesquelles on explore un terme diagonal sous différentes formes, renforcent le diagnostic de biais communal noté dans les estimations non paramétriques. Il y a en moyenne 4 fois plus de chance de choisir un emploi (@tbl-meapsR2-p, lignes 1 et 2) dans la commune de résidence. L'estimation du modèle 2 montre que les communes voisines ne connaissent pas un biais comparable, bien que la chance de choisir un emploi dans celles-ci soit supérieure à 1.
 
-L'estimation du modèle 3 indique qu'apparemment la distance explique mieux le biais communal que le découpage administratif et il convient plutôt de voir celui-ci comme un biais de proximité. En effet, le coefficient d'ajustement est supérieur de plus d'un point à celui obtenu avec le premier modèle, en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 8 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu'au lieu d'être approximativement de 4 elle est approximativement de 20, soit 5 fois plus.
+L'estimation du modèle 3 indique qu'apparemment la distance explique mieux le biais communal que le découpage administratif et il convient plutôt de voir celui-ci comme un biais de proximité. En effet, le coefficient d'ajustement est supérieur de plus d'un point à celui obtenu avec le premier modèle, en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 9 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu'au lieu d'être approximativement de 4 elle est approximativement de 19, soit plus de 4 fois plus.
 
 Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli[^larochelle-6] ou de données issues de traçages numériques.
 
@@ -613,47 +628,48 @@ meaps_estimations <- qs::qread("output/meaps_est.sqs") |>
                     c("diagonale", "90%", "99%", "100%") ~ TRUE,
                     .default = FALSE)) |> 
   filter(!is.na(alg)) |> 
-  filter(!np, alg != "référence") 
+  filter(!np|alg=="référence") 
 distances <- qs::qread("output/meaps_est.sqs") |>
   group_by(COMMUNE, DCLT) |>
   summarize(d = first(d[!is.na(d)]),
+            t = first(t[!is.na(t)]),
             mobpro = first(mobpro[!is.na(mobpro)])) |> 
   ungroup() |> 
-  drop_na(d)
+  drop_na(d, t)
 algs <- distinct(meaps_estimations, alg) |> pull(alg)
 param <- map_dfr(algs, ~{
   meaps_estimations |> 
     filter(alg==.x) |> 
-    select(-c(d, d5, d95, mobpro)) |> 
+    select(-c(d, d5, d95, mobpro, t, t5, t95)) |> 
     right_join(distances, by=c("COMMUNE", "DCLT")) |> 
     mutate(flux = replace_na(flux, 0),
            alg = .x)
 }) |> 
   mutate(
     label = case_match(alg,
-                       "gravitaire avec furness" ~ "5. gravitaire avec furness",
-                       "gravitaire sans furness" ~ "4. gravitaire sans furness",
-                       "référence" ~ " MEAPS odds=1",
+                       "gravitaire avec furness" ~ "5. Gravitaire avec Furness",
+                       "gravitaire sans furness" ~ "4. Gravitaire sans Furness",
+                       "référence" ~ "0. MEAPS odds=1",
                        "un en diagonale" ~ "1. Commune vers commune",
                        "2 en diagonale" ~ "2. Commune vers commune et voisines",
                        "distance critique" ~ "3. Distance carreau 200m"))
 
 param <- param |> 
-  filter(!np, !is.na(label)) |>
+  filter(!is.na(label)) |>
   group_by(label) |> 
-  arrange(label, d) |> 
+  arrange(label, t) |> 
   mutate(
     cumflux = cumsum(flux)/sum(flux),
     cumpro  = cumsum(mobpro)/sum(mobpro)) |>
   ungroup()
 
 bas <- ggplot(param)+
-  geom_step(aes(x=d, y=cumflux-cumpro , col=label), linewidth = 0.25) +
+  geom_step(aes(x=t, y=cumflux-cumpro , col=label), linewidth = 0.25) +
   geom_step(
     data=~filter(.x, alg==algs[[1]]),
-    aes(x=d, y=0), linetype="dashed", 
+    aes(x=t, y=0), linetype="dashed", 
     position = "identity", na.rm=TRUE)+
-  PrettyCols::scale_color_pretty_d("Bright")+
+  scale_color_brewer(palette="Set1")+
   theme_ofce(legend.position = "none",
              plot.margin = margin())+
   ylab("Ecart avec MOBPRO")+
@@ -661,22 +677,22 @@ bas <- ggplot(param)+
   scale_y_continuous(
     labels = scales::label_percent(1))+
   scale_x_continuous(
-    limits=c(0, 30000),
-    labels = scales::label_number(scale=1/1000, suffix=" km"),
+    limits=c(0, 90),
+    labels = scales::label_number(scale=1, suffix=" min"),
     n.breaks = 8)
   
 haut <- ggplot(param)+
   geom_step(
-    aes(x=d, y=cumflux, col=label),
+    aes(x=t, y=cumflux, col=label),
     position = "identity", na.rm=TRUE, alpha=1, linewidth = 0.25)+
   geom_step(
     data=~filter(.x, alg==algs[[1]]),
-    aes(x=d, y=cumpro), linetype="dashed", 
+    aes(x=t, y=cumpro), linetype="dashed", 
     position = "identity", na.rm=TRUE)+
-  PrettyCols::scale_color_pretty_d("Bright")+
+  scale_color_brewer(palette="Set1")+
   theme_ofce(legend.position = c(0.75, 0.3))+
   scale_x_continuous(
-    limits=c(0, 30000))+
+    limits=c(0, 90))+
   scale_y_continuous(
     labels = scales::label_percent(1),
     name = "Distribution cumulée le long de la distance")+

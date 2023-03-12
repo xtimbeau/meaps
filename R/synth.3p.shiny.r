@@ -90,13 +90,7 @@ ui <- dashboardPage(
                              min = .01,
                              max = .2,
                              step = .01,
-                             value = .05)),
-      column(6, numericInput(inputId = "beta",
-                             label = list(icon("bezier-curve"), "beta"),
-                             min = 0.5,
-                             max = 2,
-                             step = .05,
-                             value = 1.5))),
+                             value = .05))),
     fluidRow(
       column(6, numericInput(inputId = "rayon",
                              label = list(icon("ruler-horizontal"),"rayon du centre"),
@@ -193,7 +187,7 @@ server <- function(input, output, session) {
       d_cp3 = input$distance_c3,
       theta2 = input$angle_c2,
       theta3 = input$angle_c3,
-      beta = input$beta,
+      beta = 1.5,
       rayon = input$rayon,
       nshuf = nshuf,
       binwidth = binwidth) |> 

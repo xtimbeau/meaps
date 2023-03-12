@@ -5,10 +5,10 @@ account: ofce
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8425068
-bundleId: 6922511
+bundleId: 6946418
 url: https://ofce.shinyapps.io/rmeaps/
-when: 1678128116.81776
-lastSyncTime: 1678128116.81777
+when: 1678561594.37298
+lastSyncTime: 1678561594.373
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: collect figures.r|f.normalisation.r|meaps.cpp|meaps_oddmatrix.cpp|meaps_rcpp.cpp|meaps2.cpp|meaps2.r|rkiv/ggplotly essai.R|rkiv/meaps synthetique.r|signature.html|synth.ergodicite.r|synth.main.R
+ignoredFiles: collect figures.r|f.normalisation.r|meaps_oddmatrix.cpp|meaps_rcpp.cpp|meaps.cpp|meaps2.cpp|meaps2.r|rkiv/ggplotly essai.R|rkiv/meaps synthetique.r|signature.html|synth.ergodicite.r|synth.main.R
