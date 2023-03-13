@@ -82,7 +82,7 @@ $$ <br>
 avec
 
 $$
-f=e^{-d/\delta}
+f=e^{d/\delta}
 $$
 
 <br>
@@ -516,8 +516,7 @@ meaps_stats |>
              "diagonale" ~ "Diagonale (résidence égale emploi)",
              "référence" ~ "Référence (odds unitiaires)" )) |> 
   relocate(label) |> 
-  gt() |>
-  gt::tab_options(table.font.size = 9) |> 
+  gt() |> 
   fmt_percent(columns = r2kl, decimals = 1) |>
   fmt_integer(columns = c(dl, n_est), sep_mark = " ") |>
   cols_hide(alg) |> 

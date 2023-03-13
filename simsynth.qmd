@@ -319,7 +319,7 @@ L'expérimentation dans l'application *Shiny* permet d'étudier différentes pro
 
 ## Simulation synthétiques dans Shiny
 
-L'application *Shiny* permet de générer des géographies synthétiques et de simuler le modèle *MEAPS* sur ces distributions. La plupart des graphiques de ce chapitre peuvent être reproduits de cette façon. L'application permet de choisir la taille du problème ($n$ le nombre d'actifs et $k$ le nombre d'emploi). En choisissant plus d'emplois que d'actifs on spécifie un problème où il y a excès d'emplois et donc pas de contrainte globale. Dans le cas inverse, il y a une fuite, calculée de façon à ce que le nombre d'actifs restant sur la zone soit égal au nombre d'emplois.
+L'application [shiny rmeaps](https://ofce.shinyapps.io./rmeaps/) permet de générer des géographies synthétiques et de simuler le modèle *MEAPS* sur ces distributions. La plupart des graphiques de ce chapitre peuvent être reproduits de cette façon. L'application permet de choisir la taille du problème ($n$ le nombre d'actifs et $k$ le nombre d'emploi). En choisissant plus d'emplois que d'actifs on spécifie un problème où il y a excès d'emplois et donc pas de contrainte globale. Dans le cas inverse, il y a une fuite, calculée de façon à ce que le nombre d'actifs restant sur la zone soit égal au nombre d'emplois.
 
 Différents paramètres permettent de spécifier la géographie, c'est-à-dire la position relative des pôles ou leur taille. Le simulateur simule par Monte-Carlo plusieurs ordres de passages et affiche les graphiques correspondants au fur et à mesure de la convergence, en accumulant la moyenne des différentes variables du modèle. Cette fonctionnalité permet de visualiser simplement la propriété d'ergodicité évoquée plus haut.
 
