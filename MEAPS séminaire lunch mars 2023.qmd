@@ -1,6 +1,6 @@
 ---
 title: "MEAPS"
-subtitle: "Distribution statistique des trajets entre le domicile et le travail"
+subtitle: "Distribution statistique des trajets entre le domicile et le travail<br><br> *Séminaire lunch de l'OFCE*"
 
 author:
     - name : "Maxime Parodi"
@@ -11,6 +11,14 @@ author:
       email: "xavier.timbeau@sciencespo.fr"
       affiliation: OFCE, Ecole Urbaine, Sciences po Paris
       affiliation-url: "http://www.ofce.fr"
+date: 3/13/2023
+footer: "MEAPS Parodi&Timbeau 2023"
+transition: slide
+transition-speed: fast
+auto-stretch: true
+execute: 
+  echo: false
+  warning: false
 format: 
   revealjs:
     slide-level: 2
@@ -95,9 +103,11 @@ Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et 
 
     2.  $R^2_{KL}$ et quelques autres éléments
 
-    3.  Apprentissage (ou estimation non paramètrique)
+    3.  Apprentissage (ou estimation non paramétrique)
 
-    4.  Estimations paramètriques
+    4.  Estimations paramétriques
+
+4.  Conclusions
 
 Une version préliminaire d'un document est disponible à [xtimbeau.github.io/meaps](https://xtimbeau.github.io/meaps)
 
@@ -127,13 +137,20 @@ $$
 
 et ne dépend que des paramètres globaux, la fuite et le nombre d'emplois.
 
-Si on a une mesure de la distance et que l'on défini **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$ on a au premier ordre :
+Si on a une mesure de la distance et que l'on défini **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$ on a au premier ordre ($k$ est le nombre d'emploi en \$c_d\$, $\mu=\frac{-log(p_f)}{J})$ :
 
 $$
 P_i(i\in c_d) \approx k\times \mu \times e^{-\mu \times s_i(d)}
 $$
 
-Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et trouver une forme "gravitaire".
+et donc :
+
+$$
+T^{meaps}_{i,j} = \mu \times N_{hab, i}\times N_{emp, j} \times 
+e^{-\mu \times s_i(d)}
+$$
+
+Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et trouver une forme "gravitaire" qui dépend de la distance.
 
 ## Saturation&priorité
 
@@ -151,21 +168,27 @@ L'absorption définit une "demande" qu'il faut confronter à des disponibilités
 
 ## Ergodicité {.smaller}
 
-<br>
-
 Pour ne pas reposer sur sur un ordre arbitraire, nous proposons de faire la moyenne sur tous les ordres possibles. Aucun résident n'est particulier, la moyenne sur tous les ordres possibles donne une solution acceptable.
-
-<br>
 
 Mais, il y a $I!$ ordres possibles ce qui est impossible à traiter.
 
-<br>
-
 On prend donc un (petit) échantillon de ces ordres et on suppose l'ergodicité du modèle : un faible nombre de tirages permet d'atteindre la moyenne sur tous les ordres.
 
+Intuitivement, chaque individu est localisé n'importe où, la saturation dépend surtout de la coïncidence d'individus proches qui sont les premiers servis. Cette coïncidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
+
 <br>
 
-Intuitivement, chaque individu est localisé n'importe où, la saturation dépend surtout de la coïncidence d'individus proches qui sont les premiers servis. Cette coincidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
+En notant $\phi_u(i,j)$ la probabilité de disponibilité ($\phi$ vaut 0 si l'emploi est complètement pris)
+
+$$
+P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i^{-1}(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
+$$
+
+et
+
+$$
+\prod_{j=i} ^{J} (1-\lambda_{u,i} \times \phi_u(i,j) \times p_{a})= p_f
+$$
 
 ## Quelques aspects informatiques {.smaller}
 
@@ -203,7 +226,7 @@ On peut analyser l'ergodicité ou définir une tension et plein d'autres choses.
 
 ::: column-screen
 ```{=html}
-<iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
+<iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height: 1000px" frameborder="0"></iframe>
 ```
 :::
 
@@ -269,10 +292,10 @@ $q_0$ est une distribution uniforme et $KL(p, q_0)$ est l'entropie de $p$.
 
 ## Premiers résultats {.smaller}
 
-1.  On estime un modèle gravitaire sur @MOBPRO, avec les temps moyens de trajet agrégés par commune :
+1.  On estime un modèle gravitaire sur @MOBPRO, avec les temps moyens de trajet agrégés par commune :
 
 $$
-    log(f_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \ \ \ 
+    log(T_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \ \ \ 
     R^2_{adj} = 2.29\%, 2034\ d.o.f
     $$
 
@@ -323,13 +346,12 @@ $$
     c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
     $$
 
-2.  On impose une structure paramétrique de faible dimension (1 ou 2 dasn nos exemples) et on peut faire une optimisation numérique. La structure peut relier les $\omicron_{ij}$ à la distance, au voisinage, etc...
+2.  On impose une structure paramétrique de faible dimension (1 ou 2 dans nos exemples) et on peut faire une optimisation numérique. La structure peut relier les $\omicron_{ij}$ à la distance, au voisinage, etc...
 
 ## Apprentissage : résultats (1)
 
-<br>
-<br>
-<br>
+<br> <br> <br>
+
 ```{r}
 meaps_stats <- qs::qread("output/meaps_stats.sqs") |> 
   arrange(r2kl)
@@ -554,8 +576,8 @@ plots <- map(set_names(sort(unique(param$label))), ~{
     ofce::theme_ofce(legend.position  = "none")
 })
 ```
-::: {.panel-tabset}
 
+::: panel-tabset
 ```{r, results='asis'}
 
 iwalk(plots, ~ {
@@ -565,7 +587,6 @@ iwalk(plots, ~ {
 })
 ```
 :::
-
 
 ## Distribution le long des distances
 
@@ -671,7 +692,7 @@ haut / bas + plot_layout(heights = c(3,1))
 
 ## Conclusion (1)
 
-MEAPS dispose de microfondements et d'une agrégation explicite et flexible qui peut s'appliquer à plusieurs situations :
+MEAPS dispose de microfondements (analogie radiative) et d'une agrégation explicite et flexible qui peut s'appliquer à plusieurs situations :
 
 -   d'autres granularités, plusieurs niveaux de maille
 
@@ -681,7 +702,7 @@ MEAPS dispose de microfondements et d'une agrégation explicite et flexible qui 
 
 MEAPS permet une (bien) meilleure performance empirique que le modèle gravitaire sur MOBPRO à l'échelle du "bassin de vie" et pour les mobilités quotidiennes.
 
-On peut interpréter le biais intra-communal, le comparer entre territoires
+On peut interpréter le biais intra-communal, le comparer entre territoires ou dans le temps
 
 On pourrait utiliser la variance des territoires, ou la variance temporelle, ou des chocs exogènes pour en faire une analyse causale
 
@@ -691,9 +712,9 @@ On pourrait utiliser des informations plus fines (traces numériques, relevés d
 
 On peut produire :
 
--   un chiffre agrégé plus fiable que les estimations habituellement produite. L'évaluation sur MOBPRO a une résolution spatiale trop faible, on peut gagner en précision gràce à l'interpolation et l'utilisation d'une information sur la géographie
+-   un chiffre agrégé plus fiable que les estimations habituellement produite. L'évaluation sur MOBPRO a une résolution spatiale trop faible, on peut gagner en précision grâce à l'interpolation et l'utilisation d'une information sur la géographie
 
--   une intrapolation (avec fiabilité) en se calant sur les données à la maille commune et en utilisant l'information géographique (carte de CO~2~ , ville du 1/4 d'heure par exemple)
+-   une intrapolation (robuste) en se calant sur les données à la maille commune et en utilisant l'information géographique (carte de CO~2~ , ville du 1/4 d'heure par exemple)
 
 -   on peut dériver des indicateurs comme la tension sur les emplois, localisés et agrégés à une maille quelconque
 
@@ -702,10 +723,9 @@ On peut produire :
 ::: {#refs}
 :::
 
-##  Merci de votre attention
-<br>
-<br>
-<br>
+## Merci de votre attention
+
+<br> <br> <br>
 
 document : <https://xtimbeau.github.io/meaps>
 
@@ -713,6 +733,4 @@ document : <https://xtimbeau.github.io/meaps>
 
 code : <https://github.com/xtimbeau/meaps>
 
-<br>
-package : `devtools::install_github("maxime2506/rmeaps")`
-
+<br> package : `devtools::install_github("maxime2506/rmeaps")`
