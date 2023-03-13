@@ -70,7 +70,7 @@ format:
     theme:
       light:
         - cosmo
-        - www/custom.scss
+        - www/meaps.scss
       dark:
         - darkly
         - www/custom.scss
