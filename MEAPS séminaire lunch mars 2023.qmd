@@ -39,9 +39,11 @@ options(ofce.base_size = 18)
 
 ## Le modèle à 4 étapes
 
+<br>
+
 Dans la modélisation des flux de personnes, par exemple, le modèle à 4 étapes est souvent utilisé.
 
--   étape 1 : nombre de trajet en partance des lieux de résidence, nombre de trajets arrivants
+-   étape 1 : nombre de trajets en partance des lieux de résidence, nombre de trajets arrivants
 
 -   étape 2 : distribution entre chaque paire des trajets partant ou arrivant
 
@@ -52,6 +54,8 @@ Dans la modélisation des flux de personnes, par exemple, le modèle à 4 étape
 Nous nous intéressons à ces étapes, mais surtout l'étape 2 ou le mix étape 1/2
 
 ## Le modèle gravitaire
+
+<br>
 
 Un modèle couramment utilisé est le modèle gravitaire
 
@@ -71,6 +75,8 @@ Il donne la même valeur à la distance quelque soit la densité du milieu dans 
 
 ## Gravitaire versus radiatif
 
+<br>
+
 On propose d'utiliser une autre analogie : le modèle radiatif de [@simini2012] ou des "*intervening opportunities*" de [@stouffer1940]
 
 Dans cette analogie, au lieu d'avoir des masses qui s'attirent (A et fB), le trajet entre A et B est perturbé par les Cs que l'on rencontre en chemin.
@@ -83,21 +89,21 @@ Dans cette analogie, au lieu d'avoir des masses qui s'attirent (A et fB), le tra
 
 Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation
 
-1.  le modèle théorique
+1.  Le modèle théorique
 
-    1.  version simple
+    1.  Version simple
 
-    2.  priorité et saturation
+    2.  Priorité et saturation
 
-    3.  ergodicité
+    3.  Ergodicité
 
-    4.  algorithme
+    4.  Algorithme
 
-2.  des simulations synthétiques pour en étudier les propriétés
+2.  Simulations synthétiques pour en étudier les propriétés
 
     1.  une application Shiny
 
-3.  une estimation à partir de MOBPRO à La Rochelle
+3.  Estimations à partir de MOBPRO à La Rochelle
 
     1.  données
 
@@ -109,15 +115,17 @@ Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et 
 
 4.  Conclusions
 
-Une version préliminaire d'un document est disponible à [xtimbeau.github.io/meaps](https://xtimbeau.github.io/meaps)
-
-Avec un compte hypothes.is et le groupe hypothes.is/groups/717ArNxe/meaps vous pouvez faire des commentaires
+::: aside
+Une version préliminaire d'un document est disponible à [xtimbeau.github.io/meaps](https://xtimbeau.github.io/meaps), commentaires avec hypothes.is et le groupe hypothes.is/groups/717ArNxe/meaps
+:::
 
 # **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation
 
 ## Absorption {.smaller}
 
-Pour chaque individu, les emplois sont classés dans l'ordre des distances, chaque emploi a un rang $r_i(j)$ et une probabilité d'absorption uniforme \$p_a\$. La probabilité de dépasser au moins $j$ s'écrit :
+<br>
+
+Pour chaque individu, les emplois sont classés dans l'ordre des distances, chaque emploi a un rang $r_i(j)$ et une probabilité d'absorption uniforme $p_a$. La probabilité de dépasser au moins $j$ s'écrit :
 
 $$
 \bar F(j)=(1-p_a)^{r_i(j)}
@@ -137,7 +145,13 @@ $$
 
 et ne dépend que des paramètres globaux, la fuite et le nombre d'emplois.
 
-Si on a une mesure de la distance et que l'on défini **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$ on a au premier ordre ($k$ est le nombre d'emploi en \$c_d\$, $\mu=\frac{-log(p_f)}{J})$ :
+## Accessibilité {.smaller}
+
+<br>
+
+On définit **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$
+
+On a au premier ordre ($k$ est le nombre d'emploi en $c_d$, $\mu=\frac{-log(p_f)}{J})$ :
 
 $$
 P_i(i\in c_d) \approx k\times \mu \times e^{-\mu \times s_i(d)}
@@ -150,7 +164,17 @@ T^{meaps}_{i,j} = \mu \times N_{hab, i}\times N_{emp, j} \times
 e^{-\mu \times s_i(d)}
 $$
 
-Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et trouver une forme "gravitaire" qui dépend de la distance.
+<br>
+
+::: {.callout-note appearance="minimal" icon="false"}
+
+Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et (re)trouver une forme "gravitaire" qui dépend de la distance.
+
+$$
+T^{meaps}_{i,j} = \mu \times \frac {N_{hab, i}\times N_{emp, j}} { 
+e^{d^2/\rho^2}}
+$$
+:::
 
 ## Saturation&priorité
 
@@ -168,13 +192,15 @@ L'absorption définit une "demande" qu'il faut confronter à des disponibilités
 
 ## Ergodicité {.smaller}
 
-Pour ne pas reposer sur sur un ordre arbitraire, nous proposons de faire la moyenne sur tous les ordres possibles. Aucun résident n'est particulier, la moyenne sur tous les ordres possibles donne une solution acceptable.
+Pour ne pas reposer sur sur un ordre arbitraire, on fait la moyenne sur tous les ordres possibles.
 
-Mais, il y a $I!$ ordres possibles ce qui est impossible à traiter.
+Il y a $I!$ ordres possibles ce qui est impossible à traiter.
 
-On prend donc un (petit) échantillon de ces ordres et on suppose l'ergodicité du modèle : un faible nombre de tirages permet d'atteindre la moyenne sur tous les ordres.
+On prend donc un (petit) échantillon de ces ordres et on conjecture l'ergodicité du modèle : un faible nombre de tirages permettra d'atteindre la moyenne sur tous les ordres.
 
-Intuitivement, chaque individu est localisé n'importe où, la saturation dépend surtout de la coïncidence d'individus proches qui sont les premiers servis. Cette coïncidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
+::: {.callout-note appearance="minimal" icon="false"}
+Intuitivement, chaque individu est localisé aléatoirement, la saturation dépend surtout de la coïncidence d'individus proches d'une opportunité et qui sont donc les premiers servis. Cette coïncidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
+:::
 
 <br>
 
