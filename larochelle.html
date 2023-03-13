@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.3.262">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,9 +18,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -47,48 +48,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -102,8 +74,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -174,22 +145,33 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
 <meta property="og:title" content="MEAPS - 4&nbsp; Estimation à La Rochelle">
-<meta property="og:description" content="Nous proposons ici une première application de MEAPS à l’agglomération de la Rochelle.">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://xtimbeau.github.io/meaps/output/popemp.png">
 <meta property="og:site-name" content="MEAPS">
+<meta property="og:image:height" content="2429">
+<meta property="og:image:width" content="4251">
 <meta name="twitter:title" content="MEAPS - 4&nbsp; Estimation à La Rochelle">
-<meta name="twitter:description" content="Nous proposons ici une première application de MEAPS à l’agglomération de la Rochelle.">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://xtimbeau.github.io/meaps/output/popemp.png">
+<meta name="twitter:image-height" content="2429">
+<meta name="twitter:image-width" content="4251">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation à La Rochelle</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./larochelle.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation à La Rochelle</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -197,92 +179,103 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MEAPS</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/xtimbeau/meaps/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./meaps.pdf">
-            <i class="bi bi-bi-file-pdf pe-1"></i>
-          Download PDF
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./meaps.epub">
-            <i class="bi bi-bi-journal pe-1"></i>
-          Download ePub
-          </a>
-        </li>
-    </ul>
-    <a href="" title="Share" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
-            <i class="bi bi-bi-twitter pe-1"></i>
-          Twitter
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
-            <i class="bi bi-bi-linkedin pe-1"></i>
-          LinkedIn
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
-            <i class="bi bi-bi-facebook pe-1"></i>
-          Facebook
-          </a>
-        </li>
-    </ul>
-  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+    <a href="https://github.com/xtimbeau/meaps/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./meaps.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./meaps.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Basculer le mode sombre"><i class="bi"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Recherche"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Introduction</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tobler n’implique pas la gravité</span></a>
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tobler n’implique pas la gravité</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./theorie.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aspects théoriques</span></a>
+  <a href="./theorie.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Aspects théoriques</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./simsynth.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulations synthétiques</span></a>
+  <a href="./simsynth.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulations synthétiques</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./larochelle.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation à La Rochelle</span></a>
+  <a href="./larochelle.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation à La Rochelle</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./scenarios.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scénarios à la Rochelle</span></a>
+  <a href="./scenarios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scénarios à la Rochelle</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">Références</a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Références</span></a>
   </div>
 </li>
     </ul>
@@ -291,21 +284,22 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#emplois-résidents-au-carreau-inspire-200m" id="toc-emplois-résidents-au-carreau-inspire-200m" class="nav-link active" data-scroll-target="#emplois-résidents-au-carreau-inspire-200m"><span class="toc-section-number">4.1</span>  Emplois, résidents au carreau Inspire 200m</a></li>
-  <li><a href="#sec-distancesparmode" id="toc-sec-distancesparmode" class="nav-link" data-scroll-target="#sec-distancesparmode"><span class="toc-section-number">4.2</span>  Calcul des distances par mode</a></li>
-  <li><a href="#sec-ajust" id="toc-sec-ajust" class="nav-link" data-scroll-target="#sec-ajust"><span class="toc-section-number">4.3</span>  Ajustement de <em>MEAPS</em> sur MOBPRO</a>
+  <li><a href="#emplois-résidents-au-carreau-inspire-200m" id="toc-emplois-résidents-au-carreau-inspire-200m" class="nav-link active" data-scroll-target="#emplois-résidents-au-carreau-inspire-200m"><span class="header-section-number">4.1</span> Emplois, résidents au carreau Inspire 200m</a></li>
+  <li><a href="#sec-distancesparmode" id="toc-sec-distancesparmode" class="nav-link" data-scroll-target="#sec-distancesparmode"><span class="header-section-number">4.2</span> Calcul des distances par mode</a></li>
+  <li><a href="#sec-ajust" id="toc-sec-ajust" class="nav-link" data-scroll-target="#sec-ajust"><span class="header-section-number">4.3</span> Ajustement de <em>MEAPS</em> sur MOBPRO</a>
   <ul class="collapse">
-  <li><a href="#émiettage-coefficient-dajustement-et-ergodicité" id="toc-émiettage-coefficient-dajustement-et-ergodicité" class="nav-link" data-scroll-target="#émiettage-coefficient-dajustement-et-ergodicité"><span class="toc-section-number">4.3.1</span>  émiettage, coefficient d’ajustement et ergodicité</a></li>
-  <li><a href="#sec-estnp" id="toc-sec-estnp" class="nav-link" data-scroll-target="#sec-estnp"><span class="toc-section-number">4.3.2</span>  Stratégies d’apprentissage</a></li>
-  <li><a href="#estimation-de-la-première-approche" id="toc-estimation-de-la-première-approche" class="nav-link" data-scroll-target="#estimation-de-la-première-approche"><span class="toc-section-number">4.3.3</span>  Estimation de la première approche</a></li>
-  <li><a href="#estimations-paramétriques-et-comparaison-avec-le-modèle-gravitaire" id="toc-estimations-paramétriques-et-comparaison-avec-le-modèle-gravitaire" class="nav-link" data-scroll-target="#estimations-paramétriques-et-comparaison-avec-le-modèle-gravitaire"><span class="toc-section-number">4.3.4</span>  Estimations paramétriques et comparaison avec le modèle gravitaire</a></li>
+  <li><a href="#émiettage-coefficient-dajustement-et-ergodicité" id="toc-émiettage-coefficient-dajustement-et-ergodicité" class="nav-link" data-scroll-target="#émiettage-coefficient-dajustement-et-ergodicité"><span class="header-section-number">4.3.1</span> émiettage, coefficient d’ajustement et ergodicité</a></li>
+  <li><a href="#sec-estnp" id="toc-sec-estnp" class="nav-link" data-scroll-target="#sec-estnp"><span class="header-section-number">4.3.2</span> Stratégies d’apprentissage</a></li>
+  <li><a href="#estimation-de-la-première-approche" id="toc-estimation-de-la-première-approche" class="nav-link" data-scroll-target="#estimation-de-la-première-approche"><span class="header-section-number">4.3.3</span> Estimation de la première approche</a></li>
+  <li><a href="#estimations-paramétriques-et-comparaison-avec-le-modèle-gravitaire" id="toc-estimations-paramétriques-et-comparaison-avec-le-modèle-gravitaire" class="nav-link" data-scroll-target="#estimations-paramétriques-et-comparaison-avec-le-modèle-gravitaire"><span class="header-section-number">4.3.4</span> Estimations paramétriques et comparaison avec le modèle gravitaire</a></li>
   </ul></li>
-  <li><a href="#une-cartographie-des-émissions-de-co2" id="toc-une-cartographie-des-émissions-de-co2" class="nav-link" data-scroll-target="#une-cartographie-des-émissions-de-co2"><span class="toc-section-number">4.4</span>  Une cartographie des émissions de CO<sub>2</sub></a></li>
+  <li><a href="#une-cartographie-des-émissions-de-co2" id="toc-une-cartographie-des-émissions-de-co2" class="nav-link" data-scroll-target="#une-cartographie-des-émissions-de-co2"><span class="header-section-number">4.4</span> Une cartographie des émissions de CO<sub>2</sub></a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/xtimbeau/meaps/edit/main/larochelle.qmd" class="toc-action">Modifier cette page</a></p></div></div></nav>
 <div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
 <p><em>version provisoire, merci de ne pas diffuser ni de ne pas citer</em></p>
 </div></div></nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
@@ -314,7 +308,7 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-rochelle" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation à La Rochelle</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-rochelle" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation à La Rochelle</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -348,7 +342,7 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 <div class="cell-output-display page-columns page-full">
 <div id="fig-zoneslr" class="quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="figure page-columns page-full">
-<p><img src="output/popemp.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="output/popemp.png" class="quarto-discovered-preview-image img-fluid figure-img" style="width:100.0%"></p>
 <p></p><figcaption class="figure-caption margin-caption">figure&nbsp;4.1: Localisation es emplois et des résidents, zones de la Rochelle. Le périmètre de du SCOT de la Rochelle est indiqué ainsi que les limites administratives des communes et des EPCI le composant. Sources : OSM, Mapbox, IGN, carroyage INSEE 2017, Flores et fichiers fonciers 2018</figcaption><p></p>
 </figure>
 </div>
@@ -364,7 +358,7 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 <div class="cell">
 
 </div>
-<div class="panel-tabset page-columns page-full">
+<div class="tabset-margin-container"></div><div class="panel-tabset page-columns page-full">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">temps pour 1k</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">temps pour 5k</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">temps pour 10k</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">temps pour 20k</a></li></ul>
 <div class="tab-content page-columns page-full">
 <div id="tabset-1-1" class="tab-pane active page-columns page-full" role="tabpanel" aria-labelledby="tabset-1-1-tab">
@@ -502,14 +496,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 <p>Cet algorithme a été utilisé avec différentes contraintes sur les paramètres. Le <a href="#tbl-meapsR2-np">tableau&nbsp;<span>4.1</span></a> indique la qualité de l’ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d’absorption sont déterminées uniquement par les fuites par commune de résidence. C’est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le <span class="math inline">R^2_{KL}</span> vaut 88% ce qui est un ajustement élevé. La seconde configuration est celle où l’on ajuste des <span class="math inline">\omicron_{ij}</span> uniquement pour les termes diagonaux (<span class="math inline">i=j</span>). Cette configuration ajuste donc un <em>odd-ratio</em> pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d’absorption interne (<a href="#fig-carteodd">figure&nbsp;<span>4.12</span></a>), ce qui indique que le choix de résidence n’est pas indépendant de celui d’activité. Pour la commune la plus importante (La Rochelle), en revanche, l’<em>odd-ratio</em> <span class="math inline">\omicron_{17300, 17300}</span> est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des <span class="math inline">\omicron_{ij}</span> librement. La première de ces deux configurations limite les <span class="math inline">\omicron_{ij}</span> estimés à ceux représentant un total cumulé des flux mesurés par <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="references.html#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> égal à 99.4%, soit 1&nbsp;854 <span class="math inline">\omicron_{ij}</span> . La seconde configuration estime tous les <span class="math inline">\omicron_{ij}</span> sans limite (soit 2&nbsp;033 paramètres pour 72 communes de résidence et 210 communes d’activité, avec un grand nombre de liaisons non considérées parce que nulles).</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
-<div id="tbl-meapsR2-np" class="anchored page-columns page-full">
 
-<div id="uosrdbpeey" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
+<div id="yshksgxyju" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#uosrdbpeey) .gt_table {
+#yshksgxyju .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -534,7 +527,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-left-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_heading {
+#yshksgxyju .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -546,12 +539,12 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_caption {
+#yshksgxyju .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#uosrdbpeey) .gt_title {
+#yshksgxyju .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -563,7 +556,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-width: 0;
 }
 
-:where(#uosrdbpeey) .gt_subtitle {
+#yshksgxyju .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -575,13 +568,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-width: 0;
 }
 
-:where(#uosrdbpeey) .gt_bottom_border {
+#yshksgxyju .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_col_headings {
+#yshksgxyju .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -596,7 +589,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_col_heading {
+#yshksgxyju .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -616,7 +609,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-:where(#uosrdbpeey) .gt_column_spanner_outer {
+#yshksgxyju .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -628,15 +621,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 4px;
 }
 
-:where(#uosrdbpeey) .gt_column_spanner_outer:first-child {
+#yshksgxyju .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#uosrdbpeey) .gt_column_spanner_outer:last-child {
+#yshksgxyju .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#uosrdbpeey) .gt_column_spanner {
+#yshksgxyju .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -648,11 +641,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   width: 100%;
 }
 
-:where(#uosrdbpeey) .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-:where(#uosrdbpeey) .gt_group_heading {
+#yshksgxyju .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -678,7 +667,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   text-align: left;
 }
 
-:where(#uosrdbpeey) .gt_empty_group_heading {
+#yshksgxyju .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -693,15 +682,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: middle;
 }
 
-:where(#uosrdbpeey) .gt_from_md > :first-child {
+#yshksgxyju .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#uosrdbpeey) .gt_from_md > :last-child {
+#yshksgxyju .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#uosrdbpeey) .gt_row {
+#yshksgxyju .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -720,7 +709,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-:where(#uosrdbpeey) .gt_stub {
+#yshksgxyju .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -733,7 +722,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#uosrdbpeey) .gt_stub_row_group {
+#yshksgxyju .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -747,15 +736,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: top;
 }
 
-:where(#uosrdbpeey) .gt_row_group_first td {
+#yshksgxyju .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#uosrdbpeey) .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-:where(#uosrdbpeey) .gt_summary_row {
+#yshksgxyju .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -765,16 +750,16 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#uosrdbpeey) .gt_first_summary_row {
+#yshksgxyju .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_first_summary_row.thick {
+#yshksgxyju .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#uosrdbpeey) .gt_last_summary_row {
+#yshksgxyju .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -784,7 +769,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_grand_summary_row {
+#yshksgxyju .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -794,7 +779,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#uosrdbpeey) .gt_first_grand_summary_row {
+#yshksgxyju .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -804,21 +789,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-:where(#uosrdbpeey) .gt_striped {
+#yshksgxyju .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#uosrdbpeey) .gt_table_body {
+#yshksgxyju .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -827,7 +802,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_footnotes {
+#yshksgxyju .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -841,7 +816,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_footnote {
+#yshksgxyju .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -850,7 +825,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#uosrdbpeey) .gt_sourcenotes {
+#yshksgxyju .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -864,7 +839,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#uosrdbpeey) .gt_sourcenote {
+#yshksgxyju .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -872,108 +847,119 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#uosrdbpeey) .gt_left {
+#yshksgxyju .gt_left {
   text-align: left;
 }
 
-:where(#uosrdbpeey) .gt_center {
+#yshksgxyju .gt_center {
   text-align: center;
 }
 
-:where(#uosrdbpeey) .gt_right {
+#yshksgxyju .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#uosrdbpeey) .gt_font_normal {
+#yshksgxyju .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#uosrdbpeey) .gt_font_bold {
+#yshksgxyju .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#uosrdbpeey) .gt_font_italic {
+#yshksgxyju .gt_font_italic {
   font-style: italic;
 }
 
-:where(#uosrdbpeey) .gt_super {
+#yshksgxyju .gt_super {
   font-size: 65%;
 }
 
-:where(#uosrdbpeey) .gt_footnote_marks {
+#yshksgxyju .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
-  position: initial;
 }
 
-:where(#uosrdbpeey) .gt_asterisk {
+#yshksgxyju .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#uosrdbpeey) .gt_indent_1 {
+#yshksgxyju .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#uosrdbpeey) .gt_indent_2 {
+#yshksgxyju .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#uosrdbpeey) .gt_indent_3 {
+#yshksgxyju .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#uosrdbpeey) .gt_indent_4 {
+#yshksgxyju .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#uosrdbpeey) .gt_indent_5 {
+#yshksgxyju .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="R<sub>KL</sub><sup>2</sup>">R<sub>KL</sub><sup>2</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Degrés de liberté">Degrés de liberté</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="odds estimés">odds estimés</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="label" class="gt_row gt_left">Référence (odds unitiaires)</td>
-<td headers="r2kl" class="gt_row gt_right">88.4%</td>
-<td headers="dl" class="gt_row gt_right">1 752</td>
-<td headers="n_est" class="gt_row gt_right">0</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">Diagonale (résidence égale emploi)</td>
-<td headers="r2kl" class="gt_row gt_right">95.0%</td>
-<td headers="dl" class="gt_row gt_right">1 681</td>
-<td headers="n_est" class="gt_row gt_right">71</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">90% des flux cumulés</td>
-<td headers="r2kl" class="gt_row gt_right">97.4%</td>
-<td headers="dl" class="gt_row gt_right">1 027</td>
-<td headers="n_est" class="gt_row gt_right">725</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">99% des flux cumulés </td>
-<td headers="r2kl" class="gt_row gt_right">99.3%</td>
-<td headers="dl" class="gt_row gt_right">0</td>
-<td headers="n_est" class="gt_row gt_right">1 849</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">100% des flux cumulés</td>
-<td headers="r2kl" class="gt_row gt_right">99.6%</td>
-<td headers="dl" class="gt_row gt_right">0</td>
-<td headers="n_est" class="gt_row gt_right">2 029</td></tr>
-  </tbody>
-  
-  <tfoot class="gt_footnotes">
-    <tr>
-      <td class="gt_footnote" colspan="4"> Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100%  que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent.</td>
-    </tr>
-  </tfoot>
+
+<div id="tbl-meapsR2-np" class="anchored page-columns page-full">
+<table class="gt_table table table-sm table-striped" data-quarto-postprocess="true">
+
+<thead class="gt_col_headings">
+<tr class="header">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="R<sub>KL</sub><sup>2</sup>" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">R<sub>KL</sub><sup>2</sup></th>
+<th id="Degrés de liberté" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Degrés de liberté</th>
+<th id="odds estimés" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">odds estimés</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Référence (odds unitiaires)</td>
+<td class="gt_row gt_right" headers="r2kl">88.4%</td>
+<td class="gt_row gt_right" headers="dl">1 752</td>
+<td class="gt_row gt_right" headers="n_est">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">Diagonale (résidence égale emploi)</td>
+<td class="gt_row gt_right" headers="r2kl">95.0%</td>
+<td class="gt_row gt_right" headers="dl">1 681</td>
+<td class="gt_row gt_right" headers="n_est">71</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">90% des flux cumulés</td>
+<td class="gt_row gt_right" headers="r2kl">97.4%</td>
+<td class="gt_row gt_right" headers="dl">1 027</td>
+<td class="gt_row gt_right" headers="n_est">725</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">99% des flux cumulés</td>
+<td class="gt_row gt_right" headers="r2kl">99.3%</td>
+<td class="gt_row gt_right" headers="dl">0</td>
+<td class="gt_row gt_right" headers="n_est">1 849</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">100% des flux cumulés</td>
+<td class="gt_row gt_right" headers="r2kl">99.6%</td>
+<td class="gt_row gt_right" headers="dl">0</td>
+<td class="gt_row gt_right" headers="n_est">2 029</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="even">
+<td colspan="4" class="gt_footnote">Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100% que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent.</td>
+</tr>
+</tfoot>
+
 </table>
-<div class="quarto-table-caption margin-caption">tableau&nbsp;4.1:  Ajustements non paramètriques, mobilités professionelles la Rochelle </div></div>
+<div class="quarto-table-caption margin-caption">tableau&nbsp;4.1: Ajustements non paramètriques, mobilités professionelles la Rochelle</div></div>
+
 </div>
 </div>
 </div>
@@ -1048,14 +1034,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 <p>Le tableau <a href="#tbl-meapsR2-p">tableau&nbsp;<span>4.2</span></a> résume les résultats des estimations. Le modèle de référence, dans lequel tous les emplois sont substituables pour chaque individu, fait moins bien en termes d’ajustement que les autres modèles, à l’exception notable du modèle gravitaire non équilibré. Comme on avait pu le constater dans les estimations non paramétriques, le modèle de référence a, malgré son hypothèse simplificatrice, une bonne performance, ce qui est confirmé ici par la comparaison au modèle gravitaire simple.</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
-<div id="tbl-meapsR2-p" class="anchored page-columns page-full">
 
-<div id="gknqmkqhaf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
+<div id="iwgdsdjgxc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="page-columns page-full">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#gknqmkqhaf) .gt_table {
+#iwgdsdjgxc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1080,7 +1065,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-left-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_heading {
+#iwgdsdjgxc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1092,12 +1077,12 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_caption {
+#iwgdsdjgxc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#gknqmkqhaf) .gt_title {
+#iwgdsdjgxc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1109,7 +1094,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-width: 0;
 }
 
-:where(#gknqmkqhaf) .gt_subtitle {
+#iwgdsdjgxc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1121,13 +1106,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-width: 0;
 }
 
-:where(#gknqmkqhaf) .gt_bottom_border {
+#iwgdsdjgxc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_col_headings {
+#iwgdsdjgxc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1142,7 +1127,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_col_heading {
+#iwgdsdjgxc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1162,7 +1147,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-:where(#gknqmkqhaf) .gt_column_spanner_outer {
+#iwgdsdjgxc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1174,15 +1159,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 4px;
 }
 
-:where(#gknqmkqhaf) .gt_column_spanner_outer:first-child {
+#iwgdsdjgxc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#gknqmkqhaf) .gt_column_spanner_outer:last-child {
+#iwgdsdjgxc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#gknqmkqhaf) .gt_column_spanner {
+#iwgdsdjgxc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1194,11 +1179,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   width: 100%;
 }
 
-:where(#gknqmkqhaf) .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-:where(#gknqmkqhaf) .gt_group_heading {
+#iwgdsdjgxc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1224,7 +1205,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   text-align: left;
 }
 
-:where(#gknqmkqhaf) .gt_empty_group_heading {
+#iwgdsdjgxc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1239,15 +1220,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: middle;
 }
 
-:where(#gknqmkqhaf) .gt_from_md > :first-child {
+#iwgdsdjgxc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#gknqmkqhaf) .gt_from_md > :last-child {
+#iwgdsdjgxc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#gknqmkqhaf) .gt_row {
+#iwgdsdjgxc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1266,7 +1247,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-:where(#gknqmkqhaf) .gt_stub {
+#iwgdsdjgxc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1279,7 +1260,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#gknqmkqhaf) .gt_stub_row_group {
+#iwgdsdjgxc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1293,15 +1274,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: top;
 }
 
-:where(#gknqmkqhaf) .gt_row_group_first td {
+#iwgdsdjgxc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#gknqmkqhaf) .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-:where(#gknqmkqhaf) .gt_summary_row {
+#iwgdsdjgxc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1311,16 +1288,16 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#gknqmkqhaf) .gt_first_summary_row {
+#iwgdsdjgxc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_first_summary_row.thick {
+#iwgdsdjgxc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#gknqmkqhaf) .gt_last_summary_row {
+#iwgdsdjgxc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1330,7 +1307,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_grand_summary_row {
+#iwgdsdjgxc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1340,7 +1317,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#gknqmkqhaf) .gt_first_grand_summary_row {
+#iwgdsdjgxc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1350,21 +1327,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-:where(#gknqmkqhaf) .gt_striped {
+#iwgdsdjgxc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#gknqmkqhaf) .gt_table_body {
+#iwgdsdjgxc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1373,7 +1340,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_footnotes {
+#iwgdsdjgxc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1387,7 +1354,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_footnote {
+#iwgdsdjgxc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1396,7 +1363,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#gknqmkqhaf) .gt_sourcenotes {
+#iwgdsdjgxc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1410,7 +1377,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-:where(#gknqmkqhaf) .gt_sourcenote {
+#iwgdsdjgxc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1418,116 +1385,143 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-:where(#gknqmkqhaf) .gt_left {
+#iwgdsdjgxc .gt_left {
   text-align: left;
 }
 
-:where(#gknqmkqhaf) .gt_center {
+#iwgdsdjgxc .gt_center {
   text-align: center;
 }
 
-:where(#gknqmkqhaf) .gt_right {
+#iwgdsdjgxc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#gknqmkqhaf) .gt_font_normal {
+#iwgdsdjgxc .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#gknqmkqhaf) .gt_font_bold {
+#iwgdsdjgxc .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#gknqmkqhaf) .gt_font_italic {
+#iwgdsdjgxc .gt_font_italic {
   font-style: italic;
 }
 
-:where(#gknqmkqhaf) .gt_super {
+#iwgdsdjgxc .gt_super {
   font-size: 65%;
 }
 
-:where(#gknqmkqhaf) .gt_footnote_marks {
+#iwgdsdjgxc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
-  position: initial;
 }
 
-:where(#gknqmkqhaf) .gt_asterisk {
+#iwgdsdjgxc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#gknqmkqhaf) .gt_indent_1 {
+#iwgdsdjgxc .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#gknqmkqhaf) .gt_indent_2 {
+#iwgdsdjgxc .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#gknqmkqhaf) .gt_indent_3 {
+#iwgdsdjgxc .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#gknqmkqhaf) .gt_indent_4 {
+#iwgdsdjgxc .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#gknqmkqhaf) .gt_indent_5 {
+#iwgdsdjgxc .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="R<sub>KL</sub><sup>2</sup>">R<sub>KL</sub><sup>2</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Degrés de liberté">Degrés de liberté</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Paramètres">Paramètres</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="label" class="gt_row gt_left"> Référence</td>
-<td headers="r2kl" class="gt_row gt_center">88.4%</td>
-<td headers="dl" class="gt_row gt_center">1 752</td>
-<td headers="labelp" class="gt_row gt_center"><div class="gt_from_md"></div></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">1. Commune vers commune</td>
-<td headers="r2kl" class="gt_row gt_center">93.0%</td>
-<td headers="dl" class="gt_row gt_center">1 751</td>
-<td headers="labelp" class="gt_row gt_center">NA</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">2. Commune vers commune et voisines</td>
-<td headers="r2kl" class="gt_row gt_center">93.1%</td>
-<td headers="dl" class="gt_row gt_center">1 750</td>
-<td headers="labelp" class="gt_row gt_center"><div class="gt_from_md"><p>o<sub>d</sub>≈4.3<br> o<sub>v</sub>≈1.3</p>
-</div></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">3. Distance carreau 200m</td>
-<td headers="r2kl" class="gt_row gt_center">94.1%</td>
-<td headers="dl" class="gt_row gt_center">1 750</td>
-<td headers="labelp" class="gt_row gt_center"><div class="gt_from_md"><p>d<sub>c</sub>≈ 9 min<br> o≈19</p>
-</div></td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66;">4. Gravitaire sans Furness</td>
-<td headers="r2kl" class="gt_row gt_center" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66;">82.6%</td>
-<td headers="dl" class="gt_row gt_center" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66;">1 961</td>
-<td headers="labelp" class="gt_row gt_center" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66;"><div class="gt_from_md"><p>δ≈20 min</p>
-</div></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">5. Gravitaire avec Furness</td>
-<td headers="r2kl" class="gt_row gt_center">90.7%</td>
-<td headers="dl" class="gt_row gt_center">1 751</td>
-<td headers="labelp" class="gt_row gt_center"><div class="gt_from_md"><p>δ≈17 min</p>
-</div></td></tr>
-  </tbody>
-  
-  <tfoot class="gt_footnotes">
-    <tr>
-      <td class="gt_footnote" colspan="4"> Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les <em>odd-ratios</em>.</td>
-    </tr>
-  </tfoot>
+
+<div id="tbl-meapsR2-p" class="anchored page-columns page-full">
+<table class="gt_table table table-sm table-striped" data-quarto-postprocess="true">
+
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead class="gt_col_headings">
+<tr class="header">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="R<sub>KL</sub><sup>2</sup>" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">R<sub>KL</sub><sup>2</sup></th>
+<th id="Degrés de liberté" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Degrés de liberté</th>
+<th id="Paramètres" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Paramètres</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Référence</td>
+<td class="gt_row gt_center" headers="r2kl">88.4%</td>
+<td class="gt_row gt_center" headers="dl">1 752</td>
+<td class="gt_row gt_center" headers="labelp"><div class="gt_from_md">
+
+</div></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">1. Commune vers commune</td>
+<td class="gt_row gt_center" headers="r2kl">93.0%</td>
+<td class="gt_row gt_center" headers="dl">1 751</td>
+<td class="gt_row gt_center" headers="labelp">NA</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">2. Commune vers commune et voisines</td>
+<td class="gt_row gt_center" headers="r2kl">93.1%</td>
+<td class="gt_row gt_center" headers="dl">1 750</td>
+<td class="gt_row gt_center" headers="labelp"><div class="gt_from_md">
+<p>o<sub>d</sub>≈4.3<br>
+o<sub>v</sub>≈1.3</p>
+</div></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">3. Distance carreau 200m</td>
+<td class="gt_row gt_center" headers="r2kl">94.1%</td>
+<td class="gt_row gt_center" headers="dl">1 750</td>
+<td class="gt_row gt_center" headers="labelp"><div class="gt_from_md">
+<p>d<sub>c</sub>≈ 9 min<br>
+o≈19</p>
+</div></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66">4. Gravitaire sans Furness</td>
+<td class="gt_row gt_center" headers="r2kl" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66">82.6%</td>
+<td class="gt_row gt_center" headers="dl" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66">1 961</td>
+<td class="gt_row gt_center" headers="labelp" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray66"><div class="gt_from_md">
+<p>δ≈20 min</p>
+</div></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">5. Gravitaire avec Furness</td>
+<td class="gt_row gt_center" headers="r2kl">90.7%</td>
+<td class="gt_row gt_center" headers="dl">1 751</td>
+<td class="gt_row gt_center" headers="labelp"><div class="gt_from_md">
+<p>δ≈17 min</p>
+</div></td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="4" class="gt_footnote">Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les <em>odd-ratios</em>.</td>
+</tr>
+</tfoot>
+
 </table>
-<div class="quarto-table-caption margin-caption">tableau&nbsp;4.2:  Ajustements paramètriques, mobilités professionelles la Rochelle </div></div>
+<div class="quarto-table-caption margin-caption">tableau&nbsp;4.2: Ajustements paramètriques, mobilités professionelles la Rochelle</div></div>
+
 </div>
 </div>
 </div>
@@ -1577,32 +1571,32 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-C200" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-C200" class="csl-entry" role="listitem">
 C200. 2022. <span>«&nbsp;Revenus, pauvreté et niveau de vie en 2017 - Données carroyées. Dispositif Fichier localisé social et fiscal (Filosofi)&nbsp;»</span>. INSEE; <a href="https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217" class="uri">https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217</a>.
 </div>
-<div id="ref-colincameron1997" class="csl-entry" role="doc-biblioentry">
+<div id="ref-colincameron1997" class="csl-entry" role="listitem">
 Colin Cameron, A., et Frank A. G. Windmeijer. 1997. <span>«&nbsp;An R-Squared Measure of Goodness of Fit for Some Common Nonlinear Regression Models&nbsp;»</span>. <em>Journal of Econometrics</em> 77 (2): 329‑42. <a href="https://doi.org/10.1016/s0304-4076(96)01818-0">https://doi.org/10.1016/s0304-4076(96)01818-0</a>.
 </div>
-<div id="ref-conway2017" class="csl-entry" role="doc-biblioentry">
+<div id="ref-conway2017" class="csl-entry" role="listitem">
 Conway, Matthew Wigginton, Andrew Byrd, et Marco van der Linden. 2017. <span>«&nbsp;Evidence-Based Transit and Land Use Sketch Planning Using Interactive Accessibility Methods on Combined Schedule and Headway-Based Networks&nbsp;»</span>. <em>Transportation Research Record: Journal of the Transportation Research Board</em> 2653 (1): 45‑53. <a href="https://doi.org/10.3141/2653-06">https://doi.org/10.3141/2653-06</a>.
 </div>
-<div id="ref-conway2018" class="csl-entry" role="doc-biblioentry">
+<div id="ref-conway2018" class="csl-entry" role="listitem">
 Conway, Matthew Wigginton, Andrew Byrd, et Michael Van Eggermond. 2018. <span>«&nbsp;Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning&nbsp;»</span>. <em>Journal of Transport and Land Use</em> 11 (1). <a href="https://doi.org/10.5198/jtlu.2018.1074">https://doi.org/10.5198/jtlu.2018.1074</a>.
 </div>
-<div id="ref-conway2019" class="csl-entry" role="doc-biblioentry">
+<div id="ref-conway2019" class="csl-entry" role="listitem">
 Conway, Matthew Wigginton, et Anson F. Stewart. 2019. <span>«&nbsp;Getting Charlie Off the MTA: A Multiobjective Optimization Method to Account for Cost Constraints in Public Transit Accessibility Metrics&nbsp;»</span>. <em>International Journal of Geographical Information Science</em> 33 (9): 1759‑87. <a href="https://doi.org/10.1080/13658816.2019.1605075">https://doi.org/10.1080/13658816.2019.1605075</a>.
 </div>
-<div id="ref-kullback1951" class="csl-entry" role="doc-biblioentry">
+<div id="ref-kullback1951" class="csl-entry" role="listitem">
 Kullback, S., et R. A. Leibler. 1951. <span>«&nbsp;On Information and Sufficiency&nbsp;»</span>. <em>The Annals of Mathematical Statistics</em> 22 (1): 79‑86. <a href="https://doi.org/10.1214/aoms/1177729694">https://doi.org/10.1214/aoms/1177729694</a>.
 </div>
-<div id="ref-MOBPERS" class="csl-entry" role="doc-biblioentry">
+<div id="ref-MOBPERS" class="csl-entry" role="listitem">
 MOBPERS. 2021. <span>«&nbsp;EMP 2019 Résultats détaillés de l’enquête mobilité des personnes de 2019&nbsp;»</span>. SDES, Ministère de la transition écologique et de la cohésion des territoires; <a href="https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019" class="uri">https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019</a>.
 </div>
-<div id="ref-MOBPRO" class="csl-entry" role="doc-biblioentry">
+<div id="ref-MOBPRO" class="csl-entry" role="listitem">
 MOBPRO. 2022. <span>«&nbsp;Mobilités professionnelles en 2019 : déplacements domicile - lieu de travail Recensement de la population - Base flux de mobilité&nbsp;»</span>. INSEE; <a href="https://www.insee.fr/fr/statistiques/6454112" class="uri">https://www.insee.fr/fr/statistiques/6454112</a>.
 </div>
-<div id="ref-r5r" class="csl-entry" role="doc-biblioentry">
+<div id="ref-r5r" class="csl-entry" role="listitem">
 Pereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, et Matthew Wigginton Conway. 2021. <span>«&nbsp;r5r: Rapid Realistic Routing on Multimodal Transport Networks with R5 in R&nbsp;»</span>. <a href="https://doi.org/10.32866/001c.21262">https://doi.org/10.32866/001c.21262</a>.
 </div>
 </div>
@@ -1752,9 +1746,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1870,6 +1878,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1959,28 +2053,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>Les distances entre chaque paire de cases permettent de calculer un indicateur d'accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans *MEAPS*, en remplaçant la distance par la somme des opportunités en deçà d'un seuil de temps. Les cartes des @fig-4access1k, @fig-4access5k, @fig-4access10k, @fig-4access20k représentent les temps pour accéder à entre 1&nbsp;000 et 20&nbsp;000 d'emplois en utilisant différents modes de transport.</span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r cartes accessibilité}</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>access <span class="ot">&lt;-</span> qs<span class="sc">::</span><span class="fu">qread</span>(<span class="st">"output/acces4modes.sqs"</span>)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>decor_carte <span class="ot">&lt;-</span> qs<span class="sc">::</span><span class="fu">qread</span>(<span class="st">"output/decor_carte.sqs"</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="in">```dacbafwgdzmnkhnwmibrvrsrd</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="in">access &lt;- qs::qread("output/acces4modes.sqs")</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="in">decor_carte &lt;- qs::qread("output/decor_carte.sqs")</span></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>access_4modes <span class="ot">&lt;-</span> </span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">c</span>(<span class="st">"to1k"</span>, <span class="st">"to5k"</span>, <span class="st">"to10k"</span>, <span class="st">"to20k"</span>), <span class="sc">~</span>{ </span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>      decor_carte <span class="sc">+</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>      ofce<span class="sc">::</span><span class="fu">theme_ofce_void</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_sf</span>(<span class="at">data=</span>access, <span class="fu">aes</span>(<span class="at">fill=</span>.data[[.x]]), <span class="at">col=</span><span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>      <span class="co">#scico::scale_fill_scico(palette="hawaii", na.value=NA, direction=-1, name = "mn")+</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>      PrettyCols<span class="sc">::</span><span class="fu">scale_fill_pretty_c</span>(</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Rainbow"</span>, </span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>),</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">75</span>, <span class="dv">90</span>),</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        <span class="at">na.value =</span> <span class="st">"gray85"</span>,</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        <span class="at">direction=</span><span class="sc">-</span><span class="dv">1</span>, </span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend_title =</span> <span class="fu">glue</span>(<span class="st">"temps pour </span><span class="sc">\n</span><span class="st">{str_remove(.x, 'to')} emp."</span>))<span class="sc">+</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>      <span class="fu">annotation_scale</span>(<span class="at">line_width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"cm"</span>), </span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>                       <span class="at">text_cex =</span> <span class="fl">0.4</span>, <span class="at">pad_y =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"cm"</span>))<span class="sc">+</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>      <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(mode))</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="in">access_4modes &lt;- </span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="in">  map(c("to1k", "to5k", "to10k", "to20k"), ~{ </span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="in">    ggplot()+</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="in">      decor_carte +</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="in">      ofce::theme_ofce_void(axis.text = element_blank()) +</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="in">      geom_sf(data=access, aes(fill=.data[[.x]]), col=NA)+</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="in">      #scico::scale_fill_scico(palette="hawaii", na.value=NA, direction=-1, name = "mn")+</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="in">      PrettyCols::scale_fill_pretty_c(</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="in">        "Rainbow", </span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="in">        limits = c(0,100),</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="in">        breaks = c(15, 30, 45, 60, 75, 90),</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="in">        na.value = "gray85",</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="in">        direction=-1, </span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="in">        legend_title = glue("temps pour \n{str_remove(.x, 'to')} emp."))+</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="in">      annotation_scale(line_width = 0.2, height = unit(0.1, "cm"), </span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="in">                       text_cex = 0.4, pad_y = unit(0.1, "cm"))+</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="in">      facet_wrap(vars(mode))</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
@@ -2187,33 +2281,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>Cet algorithme a été utilisé avec différentes contraintes sur les paramètres. Le @tbl-meapsR2-np indique la qualité de l'ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d'absorption sont déterminées uniquement par les fuites par commune de résidence. C'est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le $R^2_{KL}$ vaut 88% ce qui est un ajustement élevé. La seconde configuration est celle où l'on ajuste des $\omicron_{ij}$ uniquement pour les termes diagonaux ($i=j$). Cette configuration ajuste donc un *odd-ratio* pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d'absorption interne (@fig-carteodd), ce qui indique que le choix de résidence n'est pas indépendant de celui d'activité. Pour la commune la plus importante (La Rochelle), en revanche, l'*odd-ratio* $\omicron_{17300, 17300}$ est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des $\omicron_{ij}$ librement. La première de ces deux configurations limite les $\omicron_{ij}$ estimés à ceux représentant un total cumulé des flux mesurés par @MOBPRO égal à 99.4%, soit 1&nbsp;854 $\omicron_{ij}$ . La seconde configuration estime tous les $\omicron_{ij}$ sans limite (soit 2&nbsp;033 paramètres pour 72 communes de résidence et 210 communes d'activité, avec un grand nombre de liaisons non considérées parce que nulles).</span>
 <span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r meapsR2-np}</span></span>
-<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-meapsR2-np</span></span>
-<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: Ajustements non paramètriques, mobilités professionelles la Rochelle</span></span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a><span class="in">```qinfvbrexnijac</span></span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: tbl-meapsR2-np</span></span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a><span class="in">#| tbl-cap: Ajustements non paramètriques, mobilités professionelles la Rochelle</span></span>
 <span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>meaps_stats <span class="ot">&lt;-</span> qs<span class="sc">::</span><span class="fu">qread</span>(<span class="st">"output/meaps_stats.sqs"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(r2kl)</span>
-<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>meaps_stats <span class="sc">|&gt;</span> </span>
-<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>f_in, <span class="sc">-</span>f_out, <span class="sc">-</span>p1, <span class="sc">-</span>p2) <span class="sc">|&gt;</span> </span>
-<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alg <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"référence"</span>, <span class="st">"diagonale"</span>, <span class="st">"90%"</span>, <span class="st">"99%"</span>, <span class="st">"100%"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( </span>
-<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a>    <span class="at">alg =</span> <span class="fu">factor</span>(alg, <span class="fu">c</span>(<span class="st">"référence"</span>, <span class="st">"diagonale"</span>, <span class="st">"90%"</span>, <span class="st">"99%"</span>, <span class="st">"100%"</span>)),</span>
-<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">case_match</span>(alg,</span>
-<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>             <span class="st">"100%"</span> <span class="sc">~</span> <span class="st">"100% des flux cumulés"</span>,</span>
-<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>             <span class="st">"99%"</span> <span class="sc">~</span> <span class="st">"99% des flux cumulés "</span>,</span>
-<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>             <span class="st">"90%"</span> <span class="sc">~</span> <span class="st">"90% des flux cumulés"</span>,</span>
-<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a>             <span class="st">"diagonale"</span> <span class="sc">~</span> <span class="st">"Diagonale (résidence égale emploi)"</span>,</span>
-<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>             <span class="st">"référence"</span> <span class="sc">~</span> <span class="st">"Référence (odds unitiaires)"</span> )) <span class="sc">|&gt;</span> </span>
-<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(label) <span class="sc">|&gt;</span> </span>
-<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> r2kl, <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> <span class="fu">c</span>(dl, n_est), <span class="at">sep_mark =</span> <span class="st">" "</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_hide</span>(alg) <span class="sc">|&gt;</span> </span>
-<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label =</span> <span class="st">""</span>,</span>
-<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>             <span class="at">r2kl =</span> <span class="fu">md</span>(<span class="st">"R&lt;sub&gt;KL&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;"</span>),</span>
-<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>             <span class="at">dl =</span> <span class="st">"Degrés de liberté"</span>,</span>
-<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>             <span class="at">n_est =</span> <span class="st">"odds estimés"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(<span class="fu">md</span>(<span class="st">"Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100%  que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent."</span>))</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a><span class="in">meaps_stats &lt;- qs::qread("output/meaps_stats.sqs") |&gt; </span></span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a><span class="in">  arrange(r2kl)</span></span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a><span class="in">meaps_stats |&gt; </span></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-f_in, -f_out, -p1, -p2) |&gt; </span></span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(alg %in% c("référence", "diagonale", "90%", "99%", "100%")) |&gt; </span></span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate( </span></span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="in">    alg = factor(alg, c("référence", "diagonale", "90%", "99%", "100%")),</span></span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a><span class="in">    label = case_match(alg,</span></span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a><span class="in">             "100%" ~ "100% des flux cumulés",</span></span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a><span class="in">             "99%" ~ "99% des flux cumulés ",</span></span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a><span class="in">             "90%" ~ "90% des flux cumulés",</span></span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a><span class="in">             "diagonale" ~ "Diagonale (résidence égale emploi)",</span></span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a><span class="in">             "référence" ~ "Référence (odds unitiaires)" )) |&gt; </span></span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a><span class="in">  relocate(label) |&gt; </span></span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a><span class="in">  gt() |&gt; </span></span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a><span class="in">  fmt_percent(columns = r2kl, decimals = 1) |&gt;</span></span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a><span class="in">  fmt_integer(columns = c(dl, n_est), sep_mark = " ") |&gt;</span></span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a><span class="in">  cols_hide(alg) |&gt; </span></span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a><span class="in">  cols_label(label = "",</span></span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a><span class="in">             r2kl = md("R&lt;sub&gt;KL&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;"),</span></span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a><span class="in">             dl = "Degrés de liberté",</span></span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a><span class="in">             n_est = "odds estimés") |&gt; </span></span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a><span class="in">  tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100%  que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent."))</span></span>
 <span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le fait d'estimer uniquement les $\omicron_{ii}$ diagonaux, en ajustant donc seulement les flux allant d'une commune de résidence vers elle même, donne déjà de très bons résultats en faisant passer le $R^2_{KL}$ de 88% à 95% et en réduisant visiblement les écarts entre flux observé et flux estimé, comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus, d'autant que les écarts pour les flux marginaux ne sont pas tant réduits que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (<span class="sc">\&lt;</span>0.0001) ou trop importants (<span class="sc">\&gt;</span>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{ij}$.</span>
@@ -2283,19 +2377,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a><span class="ot">[^larochelle-3]: </span>La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.</span>
 <span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a><span class="in">```{r spectreR}</span></span>
-<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-spectreR</span></span>
-<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-scap: "Odd-ratio par commune de résidence fonction de la distance aux communes d'emploi (spectre résidents)"</span></span>
-<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "La figure représente pour les 20 plus grandes communes de l'agglomération de la Rochelle les odd-ratios estimés (configuration 100% des flux) en fonction de la distance entre cette commune et les communes où travaillent les résidents. Les points marqués d'un petit point blancs sont les emplois situés hors du périmètre du SCoT."</span></span>
-<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"output/spectre effectif par COMMUNE 100.png"</span>)</span>
+<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a><span class="in">```yiwzeivrayfi</span></span>
+<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-spectreR</span></span>
+<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-scap: "Odd-ratio par commune de résidence fonction de la distance aux communes d'emploi (spectre résidents)"</span></span>
+<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-cap: "La figure représente pour les 20 plus grandes communes de l'agglomération de la Rochelle les odd-ratios estimés (configuration 100% des flux) en fonction de la distance entre cette commune et les communes où travaillent les résidents. Les points marqués d'un petit point blancs sont les emplois situés hors du périmètre du SCoT."</span></span>
+<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("output/spectre effectif par COMMUNE 100.png")</span></span>
 <span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a><span class="in">```{r spectreE}</span></span>
-<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-spectreE</span></span>
-<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-scap: "Odd-ratio par commune d'emploi fonction de la distance aux communes de résidence (spectre emplois)"</span></span>
-<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "La figure représente pour les 20 plus grandes communes d'emplois du périmètre géographique (33 km autour de l'agglomération de la Rochelle) les odd-ratios estimés (configuration 100% des flux) en fonction de la distance entre cette commune et les communes où résident les travailleurs de la commune."</span></span>
+<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a><span class="in">```lxvnofdctvem</span></span>
+<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-spectreE</span></span>
+<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-scap: "Odd-ratio par commune d'emploi fonction de la distance aux communes de résidence (spectre emplois)"</span></span>
+<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-cap: "La figure représente pour les 20 plus grandes communes d'emplois du périmètre géographique (33 km autour de l'agglomération de la Rochelle) les odd-ratios estimés (configuration 100% des flux) en fonction de la distance entre cette commune et les communes où résident les travailleurs de la commune."</span></span>
 <span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"output/spectre effectif par DCLT 100.png"</span>)</span>
+<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("output/spectre effectif par DCLT 100.png")</span></span>
 <span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a>La @fig-carteodd permet de préciser la valeur élevée des *odds-ratios* pour les flux internes. Les communes où sont localisés de nombreux emplois ont un *odds-ratio* plutôt plus faible alors qu'ils sont estimés plus élevés dans les communes plus petites et moins desservies. Pour les différentes procédure d'estimation et donc différents nombres de paramètres estimés, on observe une structure similaire dans la répartition géographique des *odds-ratios*, ce qui suggère que les *odds-ratios* estimés contiennent de l'information.</span>
@@ -2304,12 +2398,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a>A ce stade, les observations sont limitées par le faible nombre de communes modélisées, mais on peut espérer que l'analyse des *odds-ratios* estimés pourra servir à caractériser les communes en fonction des choix de résidence et d'emploi. En multipliant cette analyse pour d'autres territoires, l'information apportée par les *odds-ratios* pourra être inférée. Il sera aussi possible de confronter ces éléments à d'autres variables, comme le prix de l'immobilier, les loyers résidentiels ou commerciaux, la densité d'emploi.</span>
 <span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a><span class="in">```{r carteodd}</span></span>
-<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-carteodd</span></span>
-<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-scap: "Odd-ratio dans la diagonale"</span></span>
-<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Chaque cercle indique les odd-ratio estimés dans la diagonale (100% des flux). Les diamètres des cercles sont proportionels aux flux internes (de i à i)."</span></span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a><span class="in">```ywbrrfkibtgj</span></span>
+<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-carteodd</span></span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-scap: "Odd-ratio dans la diagonale"</span></span>
+<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-cap: "Chaque cercle indique les odd-ratio estimés dans la diagonale (100% des flux). Les diamètres des cercles sont proportionels aux flux internes (de i à i)."</span></span>
 <span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"output/toutes configs odds effectifs.png"</span>)</span>
+<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("output/toutes configs odds effectifs.png")</span></span>
 <span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimations paramétriques et comparaison avec le modèle gravitaire</span></span>
@@ -2343,51 +2437,51 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>Le tableau @tbl-meapsR2-p résume les résultats des estimations. Le modèle de référence, dans lequel tous les emplois sont substituables pour chaque individu, fait moins bien en termes d'ajustement que les autres modèles, à l'exception notable du modèle gravitaire non équilibré. Comme on avait pu le constater dans les estimations non paramétriques, le modèle de référence a, malgré son hypothèse simplificatrice, une bonne performance, ce qui est confirmé ici par la comparaison au modèle gravitaire simple.</span>
 <span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a><span class="in">```{r meapsR2-p}</span></span>
-<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-meapsR2-p</span></span>
-<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: Ajustements paramètriques, mobilités professionelles la Rochelle</span></span>
+<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a><span class="in">```sdqpykbgmwypz</span></span>
+<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: tbl-meapsR2-p</span></span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a><span class="in">#| tbl-cap: Ajustements paramètriques, mobilités professionelles la Rochelle</span></span>
 <span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a>meaps_stats_p <span class="ot">&lt;-</span> qs<span class="sc">::</span><span class="fu">qread</span>(<span class="st">"output/meaps_stats.sqs"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(r2kl) <span class="sc">|&gt;</span> </span>
-<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>f_in, <span class="sc">-</span>f_out) <span class="sc">|&gt;</span> </span>
-<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alg <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"référence"</span>, <span class="st">"gravitaire avec furness"</span>, <span class="st">"gravitaire sans furness"</span>,</span>
-<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"un en diagonale"</span>, <span class="st">"2 en diagonale"</span>, <span class="st">"distance critique"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>    <span class="at">labelp =</span> <span class="fu">case_match</span>(alg,</span>
-<span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a>             <span class="fu">c</span>(<span class="st">"gravitaire avec furness"</span>, <span class="st">"gravitaire sans furness"</span>) <span class="sc">~</span> </span>
-<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">str_c</span>(<span class="st">"\u03B4\u2248"</span>, <span class="fu">signif</span>(p1, <span class="dv">2</span>), <span class="st">" min"</span>),</span>
-<span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a>             <span class="st">"référence"</span> <span class="sc">~</span> <span class="st">""</span>,</span>
-<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>             <span class="st">"un en diagonale"</span> <span class="sc">~</span> <span class="fu">str_c</span>(<span class="st">"o\u2248"</span>, <span class="fu">signif</span>(p1, <span class="dv">2</span>)),</span>
-<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2 en diagonale"</span> <span class="sc">~</span> <span class="fu">str_c</span>(<span class="st">"o&lt;sub&gt;d&lt;/sub&gt;\u2248"</span>, <span class="fu">signif</span>(p1, <span class="dv">2</span>), <span class="st">"&lt;br&gt;"</span>,</span>
-<span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">" o&lt;sub&gt;v&lt;/sub&gt;\u2248"</span>, <span class="fu">signif</span>(p2, <span class="dv">2</span>)),</span>
-<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a>             <span class="st">"distance critique"</span> <span class="sc">~</span> </span>
-<span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_c</span>(<span class="st">"d&lt;sub&gt;c&lt;/sub&gt;\u2248 "</span>, <span class="fu">signif</span>(p1, <span class="dv">2</span>),<span class="st">" min&lt;br&gt;"</span>,</span>
-<span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">" o\u2248"</span>, <span class="fu">signif</span>(p2, <span class="dv">2</span>))),</span>
-<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">case_match</span>(alg,</span>
-<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a>             <span class="st">"gravitaire avec furness"</span> <span class="sc">~</span> <span class="st">"5. Gravitaire avec Furness"</span>,</span>
-<span id="cb1-459"><a href="#cb1-459" aria-hidden="true" tabindex="-1"></a>             <span class="st">"gravitaire sans furness"</span> <span class="sc">~</span> <span class="st">"4. Gravitaire sans Furness"</span>,</span>
-<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a>             <span class="st">"référence"</span> <span class="sc">~</span> <span class="st">" Référence"</span>,</span>
-<span id="cb1-461"><a href="#cb1-461" aria-hidden="true" tabindex="-1"></a>             <span class="st">"un en diagonale"</span> <span class="sc">~</span> <span class="st">"1. Commune vers commune"</span>,</span>
-<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a>             <span class="st">"2 en diagonale"</span> <span class="sc">~</span> <span class="st">"2. Commune vers commune et voisines"</span>,</span>
-<span id="cb1-463"><a href="#cb1-463" aria-hidden="true" tabindex="-1"></a>             <span class="st">"distance critique"</span> <span class="sc">~</span> <span class="st">"3. Distance carreau 200m"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(label) <span class="sc">|&gt;</span> </span>
-<span id="cb1-465"><a href="#cb1-465" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(label) <span class="sc">|&gt;</span> </span>
-<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>p1,<span class="sc">-</span>p2, <span class="sc">-</span>alg, <span class="sc">-</span>n_est)</span>
-<span id="cb1-467"><a href="#cb1-467" aria-hidden="true" tabindex="-1"></a>meaps_stats_p <span class="sc">|&gt;</span> </span>
-<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(label) <span class="sc">|&gt;</span> </span>
-<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> r2kl, <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-471"><a href="#cb1-471" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> <span class="fu">c</span>(dl), <span class="at">sep_mark =</span> <span class="st">" "</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_markdown</span>(<span class="at">columns =</span> labelp) <span class="sc">|&gt;</span> </span>
-<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_borders</span>(<span class="at">sides =</span> <span class="st">"top"</span>, <span class="at">col=</span><span class="st">"gray66"</span>),</span>
-<span id="cb1-475"><a href="#cb1-475" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">rows =</span> label <span class="sc">==</span> <span class="st">"4. Gravitaire sans Furness"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label =</span> <span class="st">""</span>,</span>
-<span id="cb1-477"><a href="#cb1-477" aria-hidden="true" tabindex="-1"></a>             <span class="at">labelp =</span> <span class="st">"Paramètres"</span>,</span>
-<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a>             <span class="at">r2kl =</span> <span class="fu">md</span>(<span class="st">"R&lt;sub&gt;KL&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;"</span>),</span>
-<span id="cb1-479"><a href="#cb1-479" aria-hidden="true" tabindex="-1"></a>             <span class="at">dl =</span> <span class="st">"Degrés de liberté"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">columns =</span> <span class="fu">c</span>(r2kl, dl, labelp), <span class="at">align=</span> <span class="st">"center"</span> ) <span class="sc">|&gt;</span> </span>
-<span id="cb1-481"><a href="#cb1-481" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(<span class="fu">md</span>(<span class="st">"Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les *odd-ratios*."</span>))</span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a><span class="in">meaps_stats_p &lt;- qs::qread("output/meaps_stats.sqs") |&gt; </span></span>
+<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a><span class="in">  arrange(r2kl) |&gt; </span></span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-f_in, -f_out) |&gt; </span></span>
+<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(alg %in% c("référence", "gravitaire avec furness", "gravitaire sans furness",</span></span>
+<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a><span class="in">                    "un en diagonale", "2 en diagonale", "distance critique")) |&gt; </span></span>
+<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a><span class="in">    labelp = case_match(alg,</span></span>
+<span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a><span class="in">             c("gravitaire avec furness", "gravitaire sans furness") ~ </span></span>
+<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a><span class="in">                 str_c("\u03B4\u2248", signif(p1, 2), " min"),</span></span>
+<span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a><span class="in">             "référence" ~ "",</span></span>
+<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a><span class="in">             "un en diagonale" ~ str_c("o\u2248", signif(p1, 2)),</span></span>
+<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a><span class="in">             "2 en diagonale" ~ str_c("o&lt;sub&gt;d&lt;/sub&gt;\u2248", signif(p1, 2), "&lt;br&gt;",</span></span>
+<span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a><span class="in">                                               " o&lt;sub&gt;v&lt;/sub&gt;\u2248", signif(p2, 2)),</span></span>
+<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a><span class="in">             "distance critique" ~ </span></span>
+<span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a><span class="in">               str_c("d&lt;sub&gt;c&lt;/sub&gt;\u2248 ", signif(p1, 2)," min&lt;br&gt;",</span></span>
+<span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a><span class="in">                                               " o\u2248", signif(p2, 2))),</span></span>
+<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a><span class="in">    label = case_match(alg,</span></span>
+<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a><span class="in">             "gravitaire avec furness" ~ "5. Gravitaire avec Furness",</span></span>
+<span id="cb1-459"><a href="#cb1-459" aria-hidden="true" tabindex="-1"></a><span class="in">             "gravitaire sans furness" ~ "4. Gravitaire sans Furness",</span></span>
+<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a><span class="in">             "référence" ~ " Référence",</span></span>
+<span id="cb1-461"><a href="#cb1-461" aria-hidden="true" tabindex="-1"></a><span class="in">             "un en diagonale" ~ "1. Commune vers commune",</span></span>
+<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a><span class="in">             "2 en diagonale" ~ "2. Commune vers commune et voisines",</span></span>
+<span id="cb1-463"><a href="#cb1-463" aria-hidden="true" tabindex="-1"></a><span class="in">             "distance critique" ~ "3. Distance carreau 200m")) |&gt; </span></span>
+<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a><span class="in">  arrange(label) |&gt; </span></span>
+<span id="cb1-465"><a href="#cb1-465" aria-hidden="true" tabindex="-1"></a><span class="in">  relocate(label) |&gt; </span></span>
+<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-p1,-p2, -alg, -n_est)</span></span>
+<span id="cb1-467"><a href="#cb1-467" aria-hidden="true" tabindex="-1"></a><span class="in">meaps_stats_p |&gt; </span></span>
+<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a><span class="in">  relocate(label) |&gt; </span></span>
+<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a><span class="in">  gt() |&gt; </span></span>
+<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a><span class="in">  fmt_percent(columns = r2kl, decimals = 1) |&gt;</span></span>
+<span id="cb1-471"><a href="#cb1-471" aria-hidden="true" tabindex="-1"></a><span class="in">  fmt_integer(columns = c(dl), sep_mark = " ") |&gt;</span></span>
+<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a><span class="in">  fmt_markdown(columns = labelp) |&gt; </span></span>
+<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a><span class="in">  tab_style(</span></span>
+<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a><span class="in">    style = cell_borders(sides = "top", col="gray66"),</span></span>
+<span id="cb1-475"><a href="#cb1-475" aria-hidden="true" tabindex="-1"></a><span class="in">    locations = cells_body(rows = label == "4. Gravitaire sans Furness")) |&gt; </span></span>
+<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a><span class="in">  cols_label(label = "",</span></span>
+<span id="cb1-477"><a href="#cb1-477" aria-hidden="true" tabindex="-1"></a><span class="in">             labelp = "Paramètres",</span></span>
+<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a><span class="in">             r2kl = md("R&lt;sub&gt;KL&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;"),</span></span>
+<span id="cb1-479"><a href="#cb1-479" aria-hidden="true" tabindex="-1"></a><span class="in">             dl = "Degrés de liberté") |&gt;</span></span>
+<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a><span class="in">  cols_align(columns = c(r2kl, dl, labelp), align= "center" ) |&gt; </span></span>
+<span id="cb1-481"><a href="#cb1-481" aria-hidden="true" tabindex="-1"></a><span class="in">  tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les *odd-ratios*."))</span></span>
 <span id="cb1-482"><a href="#cb1-482" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb1-483"><a href="#cb1-483" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-484"><a href="#cb1-484" aria-hidden="true" tabindex="-1"></a>Les estimations des modèles 1 à 3, dans lesquelles on explore un terme diagonal sous différentes formes, renforcent le diagnostic de biais communal noté dans les estimations non paramétriques. Il y a en moyenne 4 fois plus de chance de choisir un emploi (@tbl-meapsR2-p, lignes 1 et 2) dans la commune de résidence. L'estimation du modèle 2 montre que les communes voisines ne connaissent pas un biais comparable, bien que la chance de choisir un emploi dans celles-ci soit supérieure à 1.</span>
@@ -2641,7 +2735,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center"><strong>CC BY 4.0</strong></div>
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center"><strong>CC BY 4.0</strong></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
   </div>
 </footer>
 
