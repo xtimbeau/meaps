@@ -1,6 +1,6 @@
 ---
 title: "MEAPS"
-subtitle: "Distribution statistique des trajets entre le domicile et le travail"
+subtitle: "Distribution statistique des trajets entre le domicile et le travail<br><br> *Séminaire lunch de l'OFCE*"
 
 author:
     - name : "Maxime Parodi"
@@ -11,6 +11,14 @@ author:
       email: "xavier.timbeau@sciencespo.fr"
       affiliation: OFCE, Ecole Urbaine, Sciences po Paris
       affiliation-url: "http://www.ofce.fr"
+date: 3/13/2023
+footer: "MEAPS Parodi&Timbeau 2023"
+transition: slide
+transition-speed: fast
+auto-stretch: true
+execute: 
+  echo: false
+  warning: false
 format: 
   revealjs:
     slide-level: 2
@@ -18,6 +26,8 @@ format:
     theme: [simple, www/presentation.scss]
     navigation-mode: linear
     code-fold: false
+    smaller: true
+    self-contained: true
 editor: visual
 bibliography: references.bib
 ---
@@ -31,25 +41,43 @@ options(ofce.base_size = 18)
 
 ## Le modèle à 4 étapes
 
-Dans la modélisation des flux de personnes, par exemple, le modèle à 4 étapes est souvent utilisé.
+<br>
 
--   étape 1 : nombre de trajet en partance des lieux de résidence, nombre de trajets arrivants
+<br>
+
+Dans la modélisation des flux de personnes, par exemple, le modèle à 4 étapes est généralement utilisé.
+
+<br>
+
+-   étape 1 : nombre de trajets en partance des lieux de résidence, nombre de trajets arrivants
+
+<br>
 
 -   étape 2 : distribution entre chaque paire des trajets partant ou arrivant
 
+<br>
+
 -   étape 3 : choix modal
+
+<br>
 
 -   étape 4 : caractéristiques des trajets
 
-Nous nous intéressons à ces étapes, mais surtout l'étape 2 ou le mix étape 1/2
+<br> <br>
+
+Nous nous intéressons ici surtout à l'étape 2.
 
 ## Le modèle gravitaire
 
-Un modèle couramment utilisé est le modèle gravitaire
+<br>
+
+<br>
+
+Un modèle couramment utilisé est le modèle gravitaire <br>
 
 $$
 T_{i,j} = \frac {N_{hab, i}\times N_{emp, j}} {f(d_{i,j})}
-$$
+$$ <br>
 
 avec
 
@@ -57,61 +85,87 @@ $$
 f=e^{-d/\delta}
 $$
 
-Mais le modèle gravitaire a des propriétés théoriques ennuyeuses
+<br>
 
-Il donne la même valeur à la distance quelque soit la densité du milieu dans lequel on est. Or, quand on est isolé, on accepte des distances plus grandes.
+Mais le modèle gravitaire "écrase" l'information proprement spatiale et marche surtout "de loin".
+
+<br>
+
+Il donne la même valeur à la distance quelque soit la densité du milieu traversé. Or, quand on est isolé, on accepte des distances plus grandes.
 
 ## Gravitaire versus radiatif
 
-On propose d'utiliser une autre analogie : le modèle radiatif de [@simini2012] ou des "*intervening opportunities*" de [@stouffer1940]
+<br>
 
-Dans cette analogie, au lieu d'avoir des masses qui s'attirent (A et fB), le trajet entre A et B est perturbé par les Cs que l'on rencontre en chemin.
+<br>
 
-*Analogie physique* : une particule est émise d'un point. Elle parcoure l'espace jusqu'à rencontrer des sites d'absorption. A chaque site d'absorption elle peut être absorbée (probabilité $p$) ou continuer (probabilité $1-p$).
+On propose d'utiliser une autre analogie : le modèle radiatif de [@simini2012] ou des "*opportunités intervenantes*" de [@stouffer1940]
+
+<br>
+
+Dans cette analogie, au lieu d'avoir des masses qui s'attirent (A et B), le trajet entre A et B est influencé par les Cs que l'on rencontre en chemin.
+
+<br>
+
+<br>
+
+*Analogie physique* : une particule est émise d'un point. Elle parcourt l'espace jusqu'à rencontrer des sites d'absorption. A chaque site d'absorption elle peut être absorbée (probabilité $p$) ou continuer (probabilité $1-p$).
+
+<br>
 
 *Mais un milieu linéarisé* : au lieu d'une particule partant dans une direction quelconque, on classe sur une droite tous les sites d'absorption en fonction de leur distance. Ils seront rencontrés dans cet ordre. Ceci permet de représenter l'influence de la distance, puisque ce qui est près compte plus que ce qui est loin.
 
-## Plan de la présentation {.smaller}
+## Plan de la présentation
 
-Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation
+<br>
 
-1.  le modèle théorique
+Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation (/mi:ps/)
 
-    1.  version simple
+<br>
 
-    2.  priorité et saturation
+1.  Le modèle théorique
 
-    3.  ergodicité
+    1.  Version simple
 
-    4.  algorithme
+    2.  Priorité et saturation
 
-2.  des simulations synthétiques pour en étudier les propriétés
+    3.  Ergodicité
+
+    4.  Algorithme
+
+2.  Simulations synthétiques pour en étudier les propriétés
 
     1.  une application Shiny
 
-3.  une estimation à partir de MOBPRO à La Rochelle
+3.  Estimations à partir de MOBPRO à La Rochelle
 
     1.  données
 
     2.  $R^2_{KL}$ et quelques autres éléments
 
-    3.  Apprentissage (ou estimation non paramètrique)
+    3.  Apprentissage (ou estimation non paramétrique)
 
-    4.  Estimations paramètriques
+    4.  Estimations paramétriques
 
-Une version préliminaire d'un document est disponible à [xtimbeau.github.io/meaps](https://xtimbeau.github.io/meaps)
+4.  Conclusions
 
-Avec un compte hypothes.is et le groupe hypothes.is/groups/717ArNxe/meaps vous pouvez faire des commentaires
+::: aside
+Une version préliminaire du document décrivant le modèle et les résultats est disponible à [xtimbeau.github.io/meaps](https://xtimbeau.github.io/meaps), commentaires avec hypothes.is et le groupe hypothes.is/groups/717ArNxe/meaps
+:::
 
 # **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation
 
-## Absorption {.smaller}
+## Absorption
 
-Pour chaque individu, les emplois sont classés dans l'ordre des distances, chaque emploi a un rang $r_i(j)$ et une probabilité d'absorption uniforme \$p_a\$. La probabilité de dépasser au moins $j$ s'écrit :
+<br> <br>
+
+Pour chaque individu, les emplois sont classés dans l'ordre des distances, chaque emploi a un rang $r_i(j)$ et une probabilité d'absorption uniforme $p_a$. La probabilité de dépasser au moins $j$ s'écrit :
 
 $$
 \bar F(j)=(1-p_a)^{r_i(j)}
 $$
+
+<br>
 
 On peut définir une fuite, c'est-à-dire la probabilité de ne pas s'arrêter dans le périmètre d'étude (fini)
 
@@ -119,55 +173,103 @@ $$
 p_a = 1-(p_f)^{1/J}
 $$
 
+<br>
+
 La probabilité de s'arrêter en $j$ peut alors s'écrire :
 
 $$
 P_i(j) = (1-p_a)^{r_i(j)-1} \times p_a = {p_f}^{\frac {r_i(j)-1} {J}} \times (1-{p_f}^{1/J})
 $$
 
+<br>
+
 et ne dépend que des paramètres globaux, la fuite et le nombre d'emplois.
 
-Si on a une mesure de la distance et que l'on défini **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$ on a au premier ordre :
+## Accessibilité
+
+<br> <br>
+
+On définit **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$
+
+<br>
+
+On a au premier ordre ($k$ est le nombre d'emploi en $c_d$, $\mu=\frac{-log(p_f)}{J})$ :
 
 $$
 P_i(i\in c_d) \approx k\times \mu \times e^{-\mu \times s_i(d)}
 $$
 
-Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et trouver une forme "gravitaire".
+<br>
 
-## Saturation&priorité
+et donc :
+
+$$
+T^{meaps}_{i,j} = \mu \times N_{hab, i}\times N_{emp, j} \times 
+e^{-\mu \times s_i(d)}
+$$
 
 <br>
 
-L'absorption définit une "demande" qu'il faut confronter à des disponibilités. En l'absence d'un prix nous proposons
+::: {.callout-note appearance="minimal" icon="false"}
+Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et (re)trouver une forme "gravitaire" qui dépend de la distance.
+
+$$
+T^{meaps}_{i,j} = \mu \times \frac {N_{hab, i}\times N_{emp, j}} { 
+e^{d^2/\rho^2}}
+$$
+:::
+
+## Saturation & priorité
+
+<br> <br>
+
+L'absorption définit une "demande" qu'il faut confronter à des disponibilités. En l'absence d'un prix nous proposons :
+
+<br>
 
 -   une capacité finie de chaque site
 
+<br>
+
 -   un remplissage progressif
+
+<br>
 
 -   lorsque le site est saturé, il est indisponible pour les suivants
 
+<br>
+
 -   ce qui fonctionne pour un ordre de priorité
 
-## Ergodicité {.smaller}
+## Ergodicité
 
 <br>
 
-Pour ne pas reposer sur sur un ordre arbitraire, nous proposons de faire la moyenne sur tous les ordres possibles. Aucun résident n'est particulier, la moyenne sur tous les ordres possibles donne une solution acceptable.
+En notant $\phi_u(i,j)$ la probabilité de disponibilité ($\phi$ vaut 0 si l'emploi est complètement pris)
+
+$$
+P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i^{-1}(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
+$$
+
+$$
+\prod_{j=i} ^{J} (1-\lambda_{u,i} \times \phi_u(i,j) \times p_{a})= p_f
+$$
 
 <br>
 
-Mais, il y a $I!$ ordres possibles ce qui est impossible à traiter.
+Pour ne pas dépendre d'un ordre particulier, nous faisons la moyenne sur tous les ordres possibles. Aucun résident n'est privilégié, la moyenne sur tous les ordres possibles donne une solution acceptable.
+
+Il y a $I!$ ordres possibles ce qui est impossible à traiter.
+
+On prend donc un (petit) échantillon de ces ordres et on conjecture l'ergodicité du modèle : un faible nombre de tirages permettra d'atteindre la moyenne sur tous les ordres.
 
 <br>
 
-On prend donc un (petit) échantillon de ces ordres et on suppose l'ergodicité du modèle : un faible nombre de tirages permet d'atteindre la moyenne sur tous les ordres.
+::: {.callout-note appearance="minimal" icon="false"}
+Intuitivement, chaque individu est localisé aléatoirement, la saturation dépend surtout de la coïncidence d'individus proches d'une opportunité et qui sont donc les premiers servis. Cette coïncidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
+:::
 
-<br>
-
-Intuitivement, chaque individu est localisé n'importe où, la saturation dépend surtout de la coïncidence d'individus proches qui sont les premiers servis. Cette coincidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
-
-## Quelques aspects informatiques {.smaller}
+## Quelques aspects informatiques
 
 <br>
 
@@ -181,7 +283,11 @@ L'algorithme a été implémenté en C++ en utilisant la parallélisation pour l
 
 <br>
 
+<br>
+
 Le code est dans le package R `{rmeaps}`
+
+<br>
 
 {{< fa brands github >}} github.com/maxime2506/rmeaps
 
@@ -189,29 +295,35 @@ Le code est dans le package R `{rmeaps}`
 
 ## Simulations synthétiques
 
-On génère une distribution aléatoire, avec ue répartition spatiale des individus, des emplois, des distances et des rangs. On peut simuler le modèle et l'agréger à une maille choisie.
-
-::: {layout-ncol="2"}
-![](images/image-953895812.png)
-
-![](images/image-1618855787.png)
-:::
+On génère une distribution aléatoire, avec une répartition spatiale des individus, des emplois, des distances et des rangs. On peut simuler le modèle et l'agréger à une maille choisie.
 
 On peut analyser l'ergodicité ou définir une tension et plein d'autres choses.
+
+::: {layout-ncol="2"}
+![](images/image-953895812.png){width="401"}
+
+![](images/image-1618855787.png){width="401"}
+:::
+
+::: {layout-ncol="2"}
+![](images/image-395456829.png){width="310"}
+
+![](images/image-1726803244.png){width="242"}
+:::
 
 ## Une application interactive {.scrollable}
 
 ::: column-screen
 ```{=html}
-<iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
+<iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height:800px; zoom:75%" frameborder="0"></iframe>
 ```
 :::
 
-# Estimations {.smaller}
+# Estimations
 
-## Données {.smaller}
+## Données à La Rochelle
 
-Sur l'agglomération de la Rochelle,
+<br>
 
 -   @MOBPRO, fichier détail du recensement. Donne pour chaque commune de résidence, la commune principale d'activité de chaque résident. On interprète ça comme un flux. 72 communes de résidence, 210 communes d'emploi.
 
@@ -223,7 +335,7 @@ Sur l'agglomération de la Rochelle,
 knitr::include_graphics("output/popemp.png")
 ```
 
-## Distances {.smaller}
+## Distances
 
 On évalue les distances entre chaque paire de carreau 200m pour 4 modes de transport
 
@@ -249,7 +361,61 @@ ggplot(mode_l) +
   facet_wrap(vars(mode))
 ```
 
-## $R^2_{KL}$ {.smaller}
+## Accessibilité
+
+```{r}
+access <- qs::qread("output/acces4modes.sqs")
+decor_carte <- qs::qread("output/decor_carte.sqs")
+
+access_4modes <- 
+  map(c("to1k", "to5k", "to10k", "to20k"), ~{ 
+    ggplot()+
+      decor_carte +
+      ofce::theme_ofce_void(axis.text = element_blank(), base_size = 12) +
+      geom_sf(data=access, aes(fill=.data[[.x]]), col=NA)+
+      #scico::scale_fill_scico(palette="hawaii", na.value=NA, direction=-1, name = "mn")+
+      PrettyCols::scale_fill_pretty_c(
+        "Rainbow", 
+        limits = c(0,100),
+        breaks = c(15, 30, 45, 60, 75, 90),
+        na.value = "gray85",
+        direction=-1, 
+        legend_title = glue("temps pour \n{str_remove(.x, 'to')} emp."))+
+      annotation_scale(line_width = 0.2, height = unit(0.1, "cm"), 
+                       text_cex = 0.4, pad_y = unit(0.1, "cm"))+
+      facet_wrap(vars(mode))
+  })
+```
+
+::: panel-tabset
+## temps pour 1k
+
+```{r}
+access_4modes[[1]]
+```
+
+## temps pour 5k
+
+```{r}
+access_4modes[[2]]
+```
+
+## temps pour 10k
+
+```{r}
+access_4modes[[3]]
+```
+
+## temps pour 20k
+
+```{r}
+access_4modes[[4]]
+```
+:::
+
+## $R^2_{KL}$
+
+<br>
 
 On va comparer des flux entre eux et on aimerait avoir un critère à maximiser pour les ajustements. On utilise l'entropie "relative" de Kullback-Leibler, $p$ et $q$ sont deux distributions :
 
@@ -257,7 +423,11 @@ $$
 KL(p,q) = \sum_{i}p_i \times log(p_i/q_i)
 $$
 
+<br>
+
 Kolmogorov-Smirnov (KS) est une alternative. Nous préferrons KL à KS parce que KS repose sur le maximum d'écart entre deux distributions et est donc une métrique discontinue. KL pose un problème pour les 0 (que l'on enlève) et n'est pas une distance.
+
+<br>
 
 A partir de KL on peut définir un $R^2_{KL}$ suivant @colincameron1997 en utilisant la distribution uniforme comme point de référence (analogue à une constante pour un $R^2$ de régression linéaire) :
 
@@ -267,12 +437,12 @@ $$
 
 $q_0$ est une distribution uniforme et $KL(p, q_0)$ est l'entropie de $p$.
 
-## Premiers résultats {.smaller}
+## Premiers résultats
 
-1.  On estime un modèle gravitaire sur @MOBPRO, avec les temps moyens de trajet agrégés par commune :
+1.  On estime un modèle gravitaire sur @MOBPRO, avec les temps moyens de trajet agrégés par commune :
 
 $$
-    log(f_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \ \ \ 
+    log(T_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \ \ \ 
     R^2_{adj} = 2.29\%, 2034\ d.o.f
     $$
 
@@ -280,7 +450,7 @@ $$
 
 3.  MEAPS à la maille c200m.
 
-Le $R^2_{KL}$ pour le modèle gravitaire est de 77,8%, Le $R^2_{KL}$ pour MEAPS c200 est de 88,4%. f
+Le $R^2_{KL}$ pour le modèle gravitaire est de 77,8%, Le $R^2_{KL}$ pour MEAPS c200 est de 88,4%.
 
 ```{r}
 data <- qs::qread("output/maillecommune.qs") |> 
@@ -309,13 +479,15 @@ ggplot(data)+
   ofce::theme_ofce(legend.position  = "none")
 ```
 
-## Apprentissage ou estimation non paramétrique versus estimation paramètrique {.smaller}
+## Apprentissage ou estimation non paramétrique versus estimation paramétrique
+
+<br>
 
 On introduit des modifications de la probabilité d'absorption : $$
 \tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
 $$
 
-1.  Si on estime tous les $\omicron_{ij}$, $i$ et $j$ parcourant les communes de résidence et d'emploi on a un problème de grande dimensionalité. Pas d'optimisation directe possible, on utilise un algorithme approché (à la *machine learning*).\
+1.  Si on estime tous les $\omicron_{ij}$, $i$ et $j$ parcourant les communes de résidence et d'emploi, on a un problème de grande dimensionalité. Pas d'optimisation directe possible, on utilise un algorithme approché (à la *machine learning*).\
     Un tel algorithme est :
 
     $$
@@ -323,13 +495,12 @@ $$
     c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
     $$
 
-2.  On impose une structure paramétrique de faible dimension (1 ou 2 dasn nos exemples) et on peut faire une optimisation numérique. La structure peut relier les $\omicron_{ij}$ à la distance, au voisinage, etc...
+2.  On impose une structure paramétrique de faible dimension (1 ou 2 dans nos exemples) et on peut faire une optimisation numérique. La structure peut relier les $\omicron_{ij}$ à la distance, au voisinage, etc...
 
 ## Apprentissage : résultats (1)
 
-<br>
-<br>
-<br>
+<br> <br> <br> <br> <br>
+
 ```{r}
 meaps_stats <- qs::qread("output/meaps_stats.sqs") |> 
   arrange(r2kl)
@@ -345,16 +516,21 @@ meaps_stats |>
              "diagonale" ~ "Diagonale (résidence égale emploi)",
              "référence" ~ "Référence (odds unitiaires)" )) |> 
   relocate(label) |> 
-  gt() |> 
+  gt() |>
+  gt::tab_options(table.font.size = 9) |> 
   fmt_percent(columns = r2kl, decimals = 1) |>
   fmt_integer(columns = c(dl, n_est), sep_mark = " ") |>
   cols_hide(alg) |> 
   cols_label(label = "",
-             r2kl = md("R<sub>KL</sub><sup>2</sup>"),
+             r2kl = md("R<sup>2</sup><sub>KL</sub>"),
              dl = "Degrés de liberté",
              n_est = "odds estimés") |> 
-  tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100%  que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent."))
+  cols_align(columns = c(r2kl, dl, n_est), align = "center")
 ```
+
+::: aside
+Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100% que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent.
+:::
 
 ## Apprentissage : résultats (2)
 
@@ -422,9 +598,9 @@ knitr::include_graphics("output/spectre effectif par DCLT 100.png")
 knitr::include_graphics("output/toutes configs odds effectifs.png")
 ```
 
-## Estimations paramétriques : modèles {.smaller}
+## Estimations paramétriques : modèles
 
-<br>
+<br> <br>
 
 1.  Communes diagonales : flux allant d'une commune de résidence vers elle-même pour l'emploi.
 
@@ -438,15 +614,23 @@ knitr::include_graphics("output/toutes configs odds effectifs.png")
 
     $\omicron_{ij \in d_{i,j} \leq d_c} = o$ et $\omicron_{ij \in d_{i,j} > d_c} = 1$
 
-    <br>
+<br> <br>
 
 4.  Gravitaire, à la maille c200
 
 5.  Gravitaire, à la maille c200, plus une normalisation par Furness
 
-## Estimations paramètriques : résultats
+::: {.callout-note appearance="simple" icon="false"}
+## Algorithme de Furness
 
-<br>
+$T_{i,j} = a_i \times b_j \times \frac {N_{hab, i} \times N_{emp, j}} {f(d_{i,j})}$
+
+$a_i = \frac{1}{\Sigma_j \frac{ b_j \times N_{emp,j}}{f(d_{i,j})}} \ ;\ \ b_j = \frac{1}{\Sigma_i \frac{a_i \times N_{hab,i}}{f(d_{i,j})}}$
+:::
+
+## Estimations paramétriques : résultats
+
+<br> <br>
 
 ```{r}
 meaps_stats_p <- qs::qread("output/meaps_stats.sqs") |> 
@@ -488,11 +672,14 @@ meaps_stats_p |>
              labelp = "Paramètres",
              r2kl = md("R<sub>KL</sub><sup>2</sup>"),
              dl = "Degrés de liberté") |>
-  cols_align(columns = c(r2kl, dl, labelp), align= "center" ) |> 
-  tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les *odd-ratios*."))
+  cols_align(columns = c(r2kl, dl, labelp), align= "center" ) 
 ```
 
-## Estimations paramétriques : résultats (2) {.smaller}
+::: aside
+Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les *odd-ratios*.
+:::
+
+## Estimations paramétriques : résultats (2)
 
 ```{r, fig.asp=1}
 meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
@@ -554,8 +741,8 @@ plots <- map(set_names(sort(unique(param$label))), ~{
     ofce::theme_ofce(legend.position  = "none")
 })
 ```
-::: {.panel-tabset}
 
+::: panel-tabset
 ```{r, results='asis'}
 
 iwalk(plots, ~ {
@@ -565,7 +752,6 @@ iwalk(plots, ~ {
 })
 ```
 :::
-
 
 ## Distribution le long des distances
 
@@ -671,48 +857,71 @@ haut / bas + plot_layout(heights = c(3,1))
 
 ## Conclusion (1)
 
-MEAPS dispose de microfondements et d'une agrégation explicite et flexible qui peut s'appliquer à plusieurs situations :
+<br> <br>
+
+MEAPS dispose de microfondements (analogie radiative) et d'une agrégation explicite et flexible qui peut s'appliquer à plusieurs situations :
+
+<br>
 
 -   d'autres granularités, plusieurs niveaux de maille
 
--   d'autres opportunités comme les écoles (en cours) en modifiant les processus de recherche ou en enlevant la saturation
+<br>
+
+-   d'autres opportunités comme les écoles (en cours), les commerces... en modifiant les processus de recherche ou en enlevant la saturation
 
 ## Conclusion (2)
 
-MEAPS permet une (bien) meilleure performance empirique que le modèle gravitaire sur MOBPRO à l'échelle du "bassin de vie" et pour les mobilités quotidiennes.
+<br> <br>
 
-On peut interpréter le biais intra-communal, le comparer entre territoires
+-   MEAPS permet une (bien) meilleure performance empirique que le modèle gravitaire sur MOBPRO à l'échelle du "bassin de vie" et pour les mobilités quotidiennes.
 
-On pourrait utiliser la variance des territoires, ou la variance temporelle, ou des chocs exogènes pour en faire une analyse causale
+<br>
 
-On pourrait utiliser des informations plus fines (traces numériques, relevés de traffic, enquêtes locales) pour un calage plus fin, à intégrer éventuellement avec la maille communale.
+-   On peut interpréter le biais intra-communal, le comparer entre territoires ou dans le temps.
+
+<br>
+
+-   On pourrait utiliser la variance des territoires, ou la variance temporelle, ou des chocs exogènes pour en faire une analyse causale.
+
+<br>
+
+-   On pourrait utiliser des informations plus fines (traces numériques, relevés de trafic routier, enquêtes locales) pour un calage plus fin, à intégrer éventuellement avec la maille communale.
 
 ## Conclusion (3)
 
+<br> <br>
+
 On peut produire :
 
--   un chiffre agrégé plus fiable que les estimations habituellement produite. L'évaluation sur MOBPRO a une résolution spatiale trop faible, on peut gagner en précision gràce à l'interpolation et l'utilisation d'une information sur la géographie
+<br>
 
--   une intrapolation (avec fiabilité) en se calant sur les données à la maille commune et en utilisant l'information géographique (carte de CO~2~ , ville du 1/4 d'heure par exemple)
+-   un chiffre agrégé plus fiable que les estimations habituellement produites. L'évaluation sur MOBPRO a une résolution spatiale trop faible, on peut gagner en précision grâce à l'interpolation et l'utilisation d'une information sur la géographie (localisation des résidents, des emplois, réseaux).
 
--   on peut dériver des indicateurs comme la tension sur les emplois, localisés et agrégés à une maille quelconque
+<br>
+
+-   une intrapolation (robuste) en se calant sur les données à la maille commune et en utilisant l'information géographique (carte de CO~2~ , ville du 1/4 d'heure par exemple).
+
+<br>
+
+-   on peut dériver des indicateurs comme la tension sur les emplois, localisés et agrégés à une maille quelconque.
 
 ## Références
 
 ::: {#refs}
 :::
 
-##  Merci de votre attention
 <br>
+
 <br>
+
 <br>
+
+#### Merci de votre attention
+
+<br> <br> <br>
 
 document : <https://xtimbeau.github.io/meaps>
 
-<br>
-
 code : <https://github.com/xtimbeau/meaps>
 
-<br>
 package : `devtools::install_github("maxime2506/rmeaps")`
-

@@ -69,6 +69,7 @@ access_4modes <-
 #| fig-scap: "Accessibilité à 1 000 emplois pour la Rochelle"
 #| fig-cap: "Temps d'accès à 1 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
 #| fig-asp: 0.9
+#| fig-height: 18 
 access_4modes[[1]]
 ```
 
