@@ -904,7 +904,9 @@ On peut produire :
 
 -   on peut dériver des indicateurs comme la tension sur les emplois, localisés et agrégés à une maille quelconque.
 
-## Références
+## {#sec-fin}
+
+#### Références
 
 ::: {#refs}
 :::
