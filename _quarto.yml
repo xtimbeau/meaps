@@ -6,9 +6,6 @@ project:
 book:
   title: "MEAPS"
   subtitle: "Distribution statistique des trajets entre le domicile et le travail"
-  page-footer: 
-    border: true
-    center: "**CC BY 4.0**"
   author:
     - name : "Maxime Parodi"
       email: "maxime.parodi@sciencespo.fr"
@@ -29,8 +26,11 @@ book:
   repo-url: "https://github.com/xtimbeau/meaps/"
   google-analytics: "G-KF6Z4B486X"
   repo-actions: [edit]
-  downloads: [pdf, epub]
+  downloads: [pdf]
   sharing: [twitter, linkedin, facebook]
+  page-footer: 
+      border: true
+      center: "**CC BY 4.0**"
   sidebar:
     footer: "<em>version provisoire, merci de ne pas diffuser ni de ne pas citer</em>"
   chapters:
@@ -73,7 +73,7 @@ format:
         - www/meaps.scss
       dark:
         - darkly
-        - www/custom.scss
+        - www/meaps.scss
     date-modified: today
     toc: true
     toc-location: left 
@@ -82,7 +82,7 @@ format:
     number-depth: 3 
     html-math-method: katex
     fig-dpi: 600
-    fig-format: png
+    fig-format: svg
     fig-width: 5
     cap-location: margin
     reference-location: margin
@@ -92,7 +92,7 @@ format:
     toc-depth: 1
     number-sections: true
     number-depth: 3 
-    documentclass: scrreprt
+    documentclass: scrbook
     classoption: 
     - DIV=9
     papersize: a4

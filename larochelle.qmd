@@ -21,7 +21,7 @@ La carte de la zone considérée est représentée sur la @fig-zoneslr. L'analys
 ```{r}
 #| label: fig-zoneslr
 #| fig-scap: "Localisation des résidents et des emplois"
-#| fig-cap: "Localisation es emplois et des résidents, zones de la Rochelle. Le périmètre de du SCOT de la Rochelle est indiqué ainsi que les limites administratives des communes et des EPCI le composant. Sources : OSM, Mapbox, IGN, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+#| fig-cap: "Localisation des emplois et des résidents, zones de la Rochelle. Le périmètre de du SCOT de la Rochelle est indiqué ainsi que les limites administratives des communes et des EPCI le composant.<br>Sources : OSM, Mapbox, IGN, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
 
 knitr::include_graphics("output/popemp.png")
 ```
@@ -41,7 +41,7 @@ access <- qs::qread("output/acces4modes.sqs")
 decor_carte <- qs::qread("output/decor_carte.sqs")
 
 access_4modes <- 
-  map(c("to1k", "to5k", "to10k", "to20k"), ~{ 
+  map(set_names(c("to1k", "to5k", "to10k", "to20k")), ~{ 
     ggplot()+
       decor_carte +
       ofce::theme_ofce_void(axis.text = element_blank()) +
@@ -61,63 +61,29 @@ access_4modes <-
 
 ```
 
-::: {.content-visible when-format="html"}
-:::: panel-tabset
-## temps pour 1k
+::: panel-tabset
 
 ```{r}
-#| label: fig-4access1k
-#| fig-scap: "Accessibilité à 1 000 emplois pour la Rochelle"
-#| fig-cap: "Temps d'accès à 1 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
-#| fig-asp: 0.9
-#| fig-height: 18 
-access_4modes[[1]]
+nacc <- names(access_4modes)
+names(nacc) <- nacc |> str_remove("to") |> str_remove("k") |> as.numeric() |> format(big.mark=" ")
+src <- lapply(names(access_4modes), function(x) knit_expand(file = "access_template.qmd"))
+  
+  
+#   
+#   size <- format(1000*(as.numeric(str_remove(.y, "to") |> str_remove("k"))), big.mark = " ")
+#   
+#   cat(glue("#### temps pour {str_remove(.y, 'to')}"), "\n")
+#   
+#   # cat(glue("'Temps d'accès à {size} emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins {size} emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018'"), "\n")
+#   # cat("#| fig-asp: 0.9", "\n")
+#   print(.x)
+#   cat(str_c("{", glue("#fig-4acc{.y}"), "}"))
+#   cat("\n\n")
+# })
+
 ```
+`r knit(text = unlist(src))`
 
-## temps pour 5k
-
-```{r}
-#| label: fig-4access5k
-#| fig-scap: "Accessibilité à 5 000 emplois pour la Rochelle"
-#| fig-cap: "Temps d'accès à 5 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
-#| fig-asp: 0.9
-
-access_4modes[[2]]
-```
-
-## temps pour 10k
-
-```{r}
-#| label: fig-4access10k
-#| fig-scap: "Accessibilité à 10 000 emplois pour la Rochelle"
-#| fig-cap: "Temps d'accès à 10 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
-#| fig-asp: 0.9
-
-access_4modes[[3]]
-```
-
-## temps pour 20k
-
-```{r}
-#| label: fig-4access20k
-#| fig-scap: "Accessibilité à 20 000 emplois pour la Rochelle"
-#| fig-cap: "Temps d'accès à 20 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
-#| fig-asp: 0.9
-
-access_4modes[[4]]
-```
-::::
-:::
-
-::: {.content-hidden when-format="html"} 
-```{r}
-#| label: fig-4access10kalt
-#| fig-scap: "Accessibilité à 10 000 emplois pour la Rochelle"
-#| fig-cap: "Temps d'accès à 10 000 emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 10 000 emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. Calcul des auteurs. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
-#| fig-asp: 0.9
-
-access_4modes[[3]]
-```
 :::
 
 Les courbes d'accessibilité de la @fig-comaccess sont construites en prenant la moyenne par commune de résidence des temps d'accès pour les différents seuils d'emplois. C'est cette courbe qui découle du modèle théorique présenté plus haut (@sec-meaps) et qui détermine les choix individuels de déplacement comme de localisation. Ces courbes font apparaître une propriété propre aux villes littorales : si pour des temps courts, l'accès à l'emploi est maximal à la Rochelle, en revanche d'autres communes jouissent d'une position plus "centrale" lorsqu'on accepte des temps de trajets supérieurs à 30 minutes en voiture.
