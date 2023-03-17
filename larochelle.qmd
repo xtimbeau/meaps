@@ -10,7 +10,7 @@ Nous proposons ici une première application de *MEAPS* à l'agglomération de l
 
 -   Des scénarios de modification de la structure du réseau de transport. Le principe est identique à celui pour la localisation de l'emploi. C'est la matrice des distances et des temps qui est modifiée par une modification des infrastructures de transports (par exemple une ligne de bus en plus). Cette matrice de distance différente induit des temps de trajet plus petits mais uniquement pour le mode transport en commun. Elle induit un changement modal (plus de transport en commun, moins des autres modes) et enfin conduit à un changement des rangs des opportunités et donc une redistribution des flux de carreau à carreau.
 
-Dans les deux familles de scénarios, les simulations par *MEAPS* permettent de construire un contrefactuel et des alternatives à un niveau fin, croisant la localisation au carreau 200m pour les résidences (5 456 carreaux pour la Rochelle et le périmètre du SCOT) et les opportunités (6 326 carreaux dans le périmètre de 33km autour de l'agglomération de la Rochelle), soit 34,5 millions de flux et de modes. L'agrégation de ces informations est alors possible à des niveaux plus généraux pour analyser les impacts. La conversion des kilomètres ou des minutes en émissions de CO~2~ pour la voiture est effectuée à partir de coefficients de conversion conventionnels, ce qui permet d'étendre les indicateurs au champ des émissions de gaz à effet de serre.
+Dans les deux familles de scénarios, les simulations par *MEAPS* permettent de construire un contrefactuel et des alternatives à un niveau fin, croisant la localisation au carreau 200m pour les résidences (5 456 carreaux pour la Rochelle et le périmètre du SCOT) et les opportunités (6 326 carreaux dans le périmètre de 33 km autour de l'agglomération de la Rochelle), soit 34,5 millions de flux et de modes. L'agrégation de ces informations est alors possible à des niveaux plus généraux pour analyser les impacts. La conversion des kilomètres ou des minutes en émissions de CO~2~ pour la voiture est effectuée à partir de coefficients de conversion conventionnels, ce qui permet d'étendre les indicateurs au champ des émissions de gaz à effet de serre.
 
 ## Emplois, résidents au carreau Inspire 200m
 
@@ -34,19 +34,19 @@ Pour ce faire nous calculons à partir d'un calculateur d'itinéraire (R^5^ de C
 
 A partir des temps de trajets par mode, nous appliquons un modèle de choix discret, *Random Utility Model* (RUM) à la McFadden, estimé sur l'enquête mobilité des personnes @MOBPERS en utilisant les données de mobilités professionnelles @MOBPRO pour caler les flux commune à commune. L'estimation de ce modèle est détaillée dans un autre document (référence à insérer).
 
-Les distances entre chaque paire de cases permettent de calculer un indicateur d'accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans *MEAPS*, en remplaçant la distance par la somme des opportunités en deçà d'un seuil de temps. Les cartes des @fig-4access1k, @fig-4access5k, @fig-4access10k, @fig-4access20k représentent les temps pour accéder à entre 1 000 et 20 000 d'emplois en utilisant différents modes de transport.
-
-```{r cartes accessibilité}
+```{r access}
 access <- qs::qread("output/acces4modes.sqs")
 decor_carte <- qs::qread("output/decor_carte.sqs")
-
+if(is_html_output())
+  accpanels <- set_names(c("to1k", "to5k", "to10k", "to20k")) else
+  accpanels <- set_names(c("to10k"))  
+  
 access_4modes <- 
-  map(set_names(c("to1k", "to5k", "to10k", "to20k")), ~{ 
+  map(accpanels, ~{ 
     ggplot()+
       decor_carte +
       ofce::theme_ofce_void(axis.text = element_blank()) +
       geom_sf(data=access, aes(fill=.data[[.x]]), col=NA)+
-      #scico::scale_fill_scico(palette="hawaii", na.value=NA, direction=-1, name = "mn")+
       PrettyCols::scale_fill_pretty_c(
         "Rainbow", 
         limits = c(0,100),
@@ -58,37 +58,36 @@ access_4modes <-
                        text_cex = 0.4, pad_y = unit(0.1, "cm"))+
       facet_wrap(vars(mode))
   })
-
+nacc <- names(access_4modes) |>
+  str_remove("to") |> 
+  str_remove("k") |>
+  as.numeric() 
+nacc <- format(nacc*1000, big.mark=" ")
+if(is_html_output())
+  src <- map2(
+    names(access_4modes), 
+    nacc,
+    function(x, y) knit_expand(file = "access_template.qmd")) else
+  src <- map2(
+    names(access_4modes), 
+    nacc,
+    function(x, y) knit_expand(file = "access_template_nohtml.qmd"))
+  
+acc_cr <- str_c(str_c("@fig-acc", accpanels), collapse = ", ")
 ```
+
+Les distances entre chaque paire de cases permettent de calculer un indicateur d'accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans *MEAPS*, en remplaçant la distance par la somme des opportunités en deçà d'un seuil de temps. Les cartes des `r acc_cr` représentent les temps pour accéder à un seuil d'emplois en utilisant différents modes de transport.
 
 ::: panel-tabset
-
 ```{r}
-nacc <- names(access_4modes)
-names(nacc) <- nacc |> str_remove("to") |> str_remove("k") |> as.numeric() |> format(big.mark=" ")
-src <- lapply(names(access_4modes), function(x) knit_expand(file = "access_template.qmd"))
-  
-  
-#   
-#   size <- format(1000*(as.numeric(str_remove(.y, "to") |> str_remove("k"))), big.mark = " ")
-#   
-#   cat(glue("#### temps pour {str_remove(.y, 'to')}"), "\n")
-#   
-#   # cat(glue("'Temps d'accès à {size} emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins {size} emplois suivant l'un des quatre modes considéré. Cette mesure remplace la distance dans le modèle radiatif. <br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018'"), "\n")
-#   # cat("#| fig-asp: 0.9", "\n")
-#   print(.x)
-#   cat(str_c("{", glue("#fig-4acc{.y}"), "}"))
-#   cat("\n\n")
-# })
-
 ```
-`r knit(text = unlist(src))`
 
+`r knit(text = unlist(src))`
 :::
 
 Les courbes d'accessibilité de la @fig-comaccess sont construites en prenant la moyenne par commune de résidence des temps d'accès pour les différents seuils d'emplois. C'est cette courbe qui découle du modèle théorique présenté plus haut (@sec-meaps) et qui détermine les choix individuels de déplacement comme de localisation. Ces courbes font apparaître une propriété propre aux villes littorales : si pour des temps courts, l'accès à l'emploi est maximal à la Rochelle, en revanche d'autres communes jouissent d'une position plus "centrale" lorsqu'on accepte des temps de trajets supérieurs à 30 minutes en voiture.
 
-```{r courbe_access, echo= FALSE}
+```{r}
 #| label: fig-comaccess
 #| fig-scap: "Accessibilité par communes pour la Rochelle"
 #| fig-cap: "Courbe du temps d'accès aux emplois. Pour chaque commune, on calcule la médianne, pondérée par le nombre d'habitants par carreau, du temps d'accès à différents seuils d'emplois. Cela permet de caractériser les communes par leur accessibilité à l'emploi, une mesure plus pertinente de la 'distance à l'emploi'. Calcul des auteurs. Sources : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
@@ -376,17 +375,17 @@ Nous explorons ici trois formes fonctionnelles pour *MEAPS* :
 
 1.  Un paramètre pour tous les termes diagonaux, c'est-à-dire les flux allant d'une commune de résidence vers cette même commune pour l'emploi. Cette forme est proche de la forme "diagonale" estimé dans la @sec-estnp, mais un seul paramètre est estimé -- par une minimisation de l'entropie relative -- au lieu de 72 par l'algorithme itératif. Formellement, $\omicron_{i \neq j}=1$ et $\omicron_{ii} = o$.
 
-2.  Un paramètre pour tous les termes diagonaux et un paramètre pour les communes voisines d'emploi, c'est-à-dire un terme correctif reliant une commune de résidence aux communes voisines. Une commune est voisine d'une autre si au moins 5% des trajets pondérés par les emplois et les résidents ont une distance kilométrique inférieure à 3km. Cette définition permet d'exclure des communes limitrophes mais dont les pôles principaux sont distants. Formellement, $\omicron_{ii} = o_d$; $\omicron_{ij\in \mathcal{V}(i)} = o_v$ et $\omicron_{i, j \neq i, j \notin \mathcal{V}(i)} = 1$.
+2.  Un paramètre pour tous les termes diagonaux et un paramètre pour les communes voisines d'emploi, c'est-à-dire un terme correctif reliant une commune de résidence aux communes voisines. Une commune est voisine d'une autre si au moins 5% des trajets pondérés par les emplois et les résidents ont une distance kilométrique inférieure à 3 km. Cette définition permet d'exclure des communes limitrophes mais dont les pôles principaux sont distants. Formellement, $\omicron_{ii} = o_d$; $\omicron_{ij\in \mathcal{V}(i)} = o_v$ et $\omicron_{i, j \neq i, j \notin \mathcal{V}(i)} = 1$.
 
 3.  Un coefficient pour la distance et un paramètre pour la distance de "bascule". Formellement, en dessous d'une distance $d_c$ , on définit un $\omicron_{ij \in d_{i,j} \leq d_c} = o$ et $\omicron_{ij \in d_{i,j} > d_c} = 1$. Cette forme partage la même idée que le premier modèle, mais estime la notion de proximité au lieu de reposer sur le découpage administratif.
 
-Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite--, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-4].
+Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite --, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-4].
 
 [^larochelle-4]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
 
 A ces formes fonctionnelles pour *MEAPS*, nous ajoutons deux formes fonctionnelles pour le modèle gravitaire :
 
-4.  un modèle gravitaire suivant la définition @eq-gravity où $f(d)= e^{-d/\delta}$. Un seul paramètre $\delta$ est estimé.
+4.  un modèle gravitaire suivant la définition @eq-gravity où $f(d)= e^{d/\delta}$. Un seul paramètre $\delta$ est estimé.
 5.  un modèle gravitaire "équilibré" en utilisant l'algorithme de Furness, tel que décrit dans @sec-compgravsynth et en estimant $\delta$ comme dans le point 4.
 
 On pourrait multiplier les modèles estimés[^larochelle-5]. Le propos est ici d'illustrer les possibilités de notre modélisation et de les comparer à celles du modèle gravitaire. Deux points émergent :

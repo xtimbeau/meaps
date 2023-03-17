@@ -28,7 +28,7 @@ book:
   repo-actions: [edit]
   downloads: [pdf]
   sharing: [twitter, linkedin, facebook]
-  page-footer: 
+  page-footer:
       border: true
       center: "**CC BY 4.0**"
   sidebar:
@@ -36,11 +36,11 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - theorie.qmd
+    # - theorie.qmd
     - simsynth.qmd
-    - larochelle.qmd
-    - scenarios.qmd
-    - references.qmd
+    # - larochelle.qmd
+    # - scenarios.qmd
+    # - references.qmd
 
 bibliography: references.bib
 
@@ -62,11 +62,11 @@ crossref:
   tbl-title: tableau
   lof-title: Figures
   lot-title: Tableaux
-comments:
-  hypothesis: true
 logo: www/ofce.png
 format: 
   html:
+    comments:
+      hypothesis: true
     theme:
       light:
         - cosmo
@@ -92,15 +92,15 @@ format:
     toc-depth: 1
     number-sections: true
     number-depth: 3 
-    documentclass: scrbook
+    documentclass: scrreprt
     classoption: 
     - DIV=9
     papersize: a4
     fontsize: 10pt
-    fig-cap-location: bottom
+    # fig-cap-location: bottom
     include-in-header: 'www/preamble.tex'
-    extra_dependencies: ["float"]
-    fig-dpi: 600
-    fig-format: png
+    # extra_dependencies: ["float"]
+    # fig-dpi: 600
+    fig-format: svg
 
 editor: visual

@@ -1,8 +1,8 @@
 
-#### temps pour {{x}}
+#### {{y}} e.
 
-```{r fig-{{x}}}
-#| fig-cap: Temps d'accès à {{x}} emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins {{x}} emplois suivant l'un des quatre modes considéré.<br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018'
+```{r fig-acc{{x}}}
+#| fig-cap: "Temps d'accès à {{y}} emplois. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins {{y}} emplois suivant l'un des quatre modes considéré.<br>Calcul des auteurs. <br>Source : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
 #| fig-asp: 0.9
 
 access_4modes[['{{x}}']]
