@@ -36,11 +36,11 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    # - theorie.qmd
+    - theorie.qmd
     - simsynth.qmd
-    # - larochelle.qmd
-    # - scenarios.qmd
-    # - references.qmd
+    - larochelle.qmd
+    - scenarios.qmd
+    - references.qmd
 
 bibliography: references.bib
 
@@ -97,10 +97,10 @@ format:
     - DIV=9
     papersize: a4
     fontsize: 10pt
-    # fig-cap-location: bottom
+    fig-cap-location: bottom
     include-in-header: 'www/preamble.tex'
-    # extra_dependencies: ["float"]
-    # fig-dpi: 600
+    extra_dependencies: ["float"]
+    fig-dpi: 600
     fig-format: svg
 
 editor: visual

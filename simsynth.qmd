@@ -91,7 +91,7 @@ knitr::include_graphics("output/gdenshabg.png")
 Comparer *MEAPS* au modèle gravitaire permet d'en comprendre les avantages. Pour ce faire, nous simulons un modèle gravitaire suivant l'@eq-gravmod, c'est-à-dire permettant le calage sur les lignes (chaque individu a un emploi) et sur les colonnes (chaque emploi est pourvu). Ce modèle est simulé au niveau désagrégé, c'est-à-dire au niveau de chaque individu et de chaque emploi à partir de la configuration géographique décrite plus haut en @sec-3p2s. La spécification du modèle gravitaire est faite en utilisant comme fonction $f$ l'expression suivante où $\delta$ est un paramètre positif :
 
 $$
-f(d) = e^{-d/\delta}
+f(d) = e^{d/\delta}
 $$ {#eq-f}
 
 Il s'agit d'un choix très commun. Le modèle gravitaire est ensuite normalisé en utilisant l'algorithme de Furness [@de2011modelling] dans lequel on normalise d'abord sur les lignes (chaque individu a un emploi et un seul en probabilité, en tenant compte du paramètre de fuite), puis sur les colonnes (chaque emploi est pourvu complètement). On itère ces normalisations en ligne puis en colonne jusqu'à obtenir une matrice de flux stable. Ces normalisations suivent les @eq-ai et @eq-bj.
@@ -306,4 +306,5 @@ if(is_html_output())
   shiny <- knit(text=knit_expand("shiny_template.qmd")) else
   shiny <- ""
 ```
+
 `r knit(text=shiny)`
