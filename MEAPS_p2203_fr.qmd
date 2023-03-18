@@ -1,18 +1,19 @@
 ---
 title: "MEAPS"
 subtitle: "Distribution statistique des trajets entre le domicile et le travail<br><br> *Séminaire lunch de l'OFCE*"
-
+logo: www/ofce.png
 author:
-    - name : "Maxime Parodi"
-      email: "maxime.parodi@sciencespo.fr"
-      affiliation: OFCE, Sciences po Paris
-      affiliation-url: "http://www.ofce.fr"
-    - name: "Xavier Timbeau" 
-      email: "xavier.timbeau@sciencespo.fr"
-      affiliation: OFCE, Ecole Urbaine, Sciences po Paris
-      affiliation-url: "http://www.ofce.fr"
+  - name : "Maxime Parodi"
+    email: "maxime.parodi@sciencespo.fr"
+    affiliation: OFCE, Sciences po Paris
+    affiliation-url: "http://www.ofce.fr"
+  - name: "Xavier Timbeau" 
+    email: "xavier.timbeau@sciencespo.fr"
+    affiliation: OFCE, Ecole Urbaine, Sciences po Paris
+    affiliation-url: "http://www.ofce.fr"
 date: 3/13/2023
-footer: "MEAPS Parodi&Timbeau 2023"
+footer:
+  "Séminaire lunch de l'OFCE                         MEAPS Parodi&Timbeau 2023"
 transition: slide
 transition-speed: fast
 auto-stretch: true
@@ -26,8 +27,7 @@ format:
     theme: [simple, www/presentation.scss]
     navigation-mode: linear
     code-fold: false
-    smaller: true
-    self-contained: true
+    self-contained: false
 editor: visual
 bibliography: references.bib
 ---
@@ -40,8 +40,6 @@ options(ofce.base_size = 18)
 # Pourquoi MEAPS ?
 
 ## Le modèle à 4 étapes
-
-<br>
 
 <br>
 
@@ -71,8 +69,6 @@ Nous nous intéressons ici surtout à l'étape 2.
 
 <br>
 
-<br>
-
 Un modèle couramment utilisé est le modèle gravitaire <br>
 
 $$
@@ -97,9 +93,7 @@ Il donne la même valeur à la distance quelque soit la densité du milieu trave
 
 <br>
 
-<br>
-
-On propose d'utiliser une autre analogie : le modèle radiatif de [@simini2012] ou des "*opportunités intervenantes*" de [@stouffer1940]
+On propose d'utiliser une autre analogie : le modèle radiatif de [@simini2012] ou des "opportunités intervenantes" de [@stouffer1940]
 
 <br>
 
@@ -107,21 +101,17 @@ Dans cette analogie, au lieu d'avoir des masses qui s'attirent (A et B), le traj
 
 <br>
 
-<br>
-
-*Analogie physique* : une particule est émise d'un point. Elle parcourt l'espace jusqu'à rencontrer des sites d'absorption. A chaque site d'absorption elle peut être absorbée (probabilité $p$) ou continuer (probabilité $1-p$).
+Analogie physique : une particule est émise d'un point. Elle parcourt l'espace jusqu'à rencontrer des sites d'absorption. A chaque site d'absorption elle peut être absorbée (probabilité $p$) ou continuer (probabilité $1-p$).
 
 <br>
 
-*Mais un milieu linéarisé* : au lieu d'une particule partant dans une direction quelconque, on classe sur une droite tous les sites d'absorption en fonction de leur distance. Ils seront rencontrés dans cet ordre. Ceci permet de représenter l'influence de la distance, puisque ce qui est près compte plus que ce qui est loin.
+Mais un milieu linéarisé : au lieu d'une particule partant dans une direction quelconque, on classe sur une droite tous les sites d'absorption en fonction de leur distance. Ils seront rencontrés dans cet ordre. Ceci permet de représenter l'influence de la distance, puisque ce qui est près compte plus que ce qui est loin.
 
 ## Plan de la présentation
 
 <br>
 
 Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation (/mi:ps/)
-
-<br>
 
 1.  Le modèle théorique
 
@@ -157,7 +147,7 @@ Une version préliminaire du document décrivant le modèle et les résultats es
 
 ## Absorption
 
-<br> <br>
+<br>
 
 Pour chaque individu, les emplois sont classés dans l'ordre des distances, chaque emploi a un rang $r_i(j)$ et une probabilité d'absorption uniforme $p_a$. La probabilité de dépasser au moins $j$ s'écrit :
 
@@ -187,7 +177,7 @@ et ne dépend que des paramètres globaux, la fuite et le nombre d'emplois.
 
 ## Accessibilité
 
-<br> <br>
+<br>
 
 On définit **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$
 
@@ -273,15 +263,11 @@ Intuitivement, chaque individu est localisé aléatoirement, la saturation dépe
 
 <br>
 
-<br>
-
 Le modèle n'admet pas de solution fermée. La simulation est incontournable, notamment pour prendre en compte les données riches géographiques (réseaux de transport, localisation des emplois, des individus).
 
 <br>
 
 L'algorithme a été implémenté en C++ en utilisant la parallélisation pour le Monte-Carlo avec OpenMP. Avec les optimisations que nous avons réussi à implémenter, pour un problème de la taille de La Rochelle, il faut 20s pour une simulation sur 256 tirages avec 4 threads.
-
-<br>
 
 <br>
 
@@ -489,7 +475,7 @@ On introduit des modifications de la probabilité d'absorption : $$
 \tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
 $$
 
-1.  Si on estime tous les $\omicron_{ij}$, $i$ et $j$ parcourant les communes de résidence et d'emploi, on a un problème de grande dimensionalité. Pas d'optimisation directe possible, on utilise un algorithme approché (à la *machine learning*).\
+1.  Si on estime tous les $\omicron_{ij}$, $i$ et $j$ parcourant les communes de résidence et d'emploi, on a un problème de grande dimensionalité. Pas d'optimisation directe possible, on utilise un algorithme approché (à la machine learning).\
     Un tel algorithme est :
 
     $$
@@ -501,7 +487,7 @@ $$
 
 ## Apprentissage : résultats (1)
 
-<br> <br> <br> <br> <br>
+<br> <br> <br>
 
 ```{r}
 meaps_stats <- qs::qread("output/meaps_stats.sqs") |> 
@@ -601,7 +587,7 @@ knitr::include_graphics("output/toutes configs odds effectifs.png")
 
 ## Estimations paramétriques : modèles
 
-<br> <br>
+<br>
 
 1.  Communes diagonales : flux allant d'une commune de résidence vers elle-même pour l'emploi.
 
@@ -615,11 +601,13 @@ knitr::include_graphics("output/toutes configs odds effectifs.png")
 
     $\omicron_{ij \in d_{i,j} \leq d_c} = o$ et $\omicron_{ij \in d_{i,j} > d_c} = 1$
 
-<br> <br>
+<br>
 
 4.  Gravitaire, à la maille c200
 
 5.  Gravitaire, à la maille c200, plus une normalisation par Furness
+
+<br>
 
 ::: {.callout-note appearance="simple" icon="false"}
 ## Algorithme de Furness
@@ -631,7 +619,7 @@ $a_i = \frac{1}{\Sigma_j \frac{ b_j \times N_{emp,j}}{f(d_{i,j})}} \ ;\ \ b_j = 
 
 ## Estimations paramétriques : résultats
 
-<br> <br>
+<br>
 
 ```{r}
 meaps_stats_p <- qs::qread("output/meaps_stats.sqs") |> 
@@ -677,7 +665,7 @@ meaps_stats_p |>
 ```
 
 ::: aside
-Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les *odd-ratios*.
+Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les odd-ratios.
 :::
 
 ## Estimations paramétriques : résultats (2)
@@ -858,7 +846,7 @@ haut / bas + plot_layout(heights = c(3,1))
 
 ## Conclusion (1)
 
-<br> <br>
+<br>
 
 MEAPS dispose de microfondements (analogie radiative) et d'une agrégation explicite et flexible qui peut s'appliquer à plusieurs situations :
 
@@ -872,7 +860,7 @@ MEAPS dispose de microfondements (analogie radiative) et d'une agrégation expli
 
 ## Conclusion (2)
 
-<br> <br>
+<br>
 
 -   MEAPS permet une (bien) meilleure performance empirique que le modèle gravitaire sur MOBPRO à l'échelle du "bassin de vie" et pour les mobilités quotidiennes.
 
@@ -890,7 +878,7 @@ MEAPS dispose de microfondements (analogie radiative) et d'une agrégation expli
 
 ## Conclusion (3)
 
-<br> <br>
+<br>
 
 On peut produire :
 
@@ -908,7 +896,7 @@ On peut produire :
 
 ##  {#sec-fin}
 
-#### Références
+### Références
 
 ::: {#refs}
 :::
@@ -917,11 +905,9 @@ On peut produire :
 
 <br>
 
-<br>
+### Merci de votre attention
 
-#### Merci de votre attention
-
-<br> <br> <br>
+<br> <br>
 
 document : <https://xtimbeau.github.io/meaps>
 

@@ -2,7 +2,8 @@ project:
   type: book
   output-dir: docs
   execute-dir: project
-
+  post-render: 
+    - render-presentation.r
 book:
   title: "MEAPS"
   subtitle: "Distribution statistique des trajets entre le domicile et le travail"
