@@ -41,7 +41,7 @@ book:
     - larochelle.qmd
     - scenarios.qmd
     - references.qmd
-
+    - presentations.qmd
 bibliography: references.bib
 
 author-title: Auteurs
