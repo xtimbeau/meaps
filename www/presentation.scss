@@ -10,6 +10,9 @@ $presentation-h2-font-size: 1.2em;
 $presentation-h3-font-size: 1.2em;
 $presentation-h4-font-size: 1em;
 $presentation-font-size-root: 20px;
+// callout
+$callout-color-note: #e6142d;
+$callout-border-width: 1px;
 
 $mainFont: 'Source Sans Pro', sans-serif;
 $headingFont: 'Source Sans Pro', sans-serif;
@@ -49,6 +52,10 @@ $headingFont: 'Source Sans Pro', sans-serif;
   font-size: 0.5em;
 }
 
+.div.callout.callout-note {
+  border-left: 1px solid;
+}
+
 .reveal .slide-logo {
   height: 28px !important;
   width: 60px!important;
@@ -56,6 +63,7 @@ $headingFont: 'Source Sans Pro', sans-serif;
   max-height: unset !important;
 }
 
-.reveal .slide-menu-button {
-  color: #e6142d;
+.reveal .callout {
+  border-left: 1px;
+  border-left-color: $scpored;
 }
