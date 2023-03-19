@@ -1,17 +1,19 @@
 ---
 title: "MEAPS"
 subtitle: "Distribution statistique des trajets entre le domicile et le travail<br><br> *Séminaire lunch de l'OFCE*"
-logo: www/ofce.png
+logo: images/ofce.png
 author:
-  - name : "Maxime Parodi"
+  - name: "Maxime Parodi"
     email: "maxime.parodi@sciencespo.fr"
-    affiliation: OFCE, Sciences po Paris
+    affiliation: OFCE, Sciences Po Paris
     affiliation-url: "http://www.ofce.fr"
   - name: "Xavier Timbeau" 
     email: "xavier.timbeau@sciencespo.fr"
-    affiliation: OFCE, Ecole Urbaine, Sciences po Paris
+    affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
     affiliation-url: "http://www.ofce.fr"
+lang: fr
 date: 3/13/2023
+date-format: "dddd D MMMM YYYY"
 footer:
   "Séminaire lunch de l'OFCE                         MEAPS Parodi&Timbeau 2023"
 transition: slide
@@ -33,7 +35,7 @@ format:
 filters:
   - reveal-auto-agenda
 auto-agenda:
-  bullets: numbered
+  bullets: none
   heading: ""
 editor: visual
 bibliography: references.bib

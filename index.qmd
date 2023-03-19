@@ -28,4 +28,4 @@ Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et 
 *Nous utilisons de nombreux packages et logiciels libres dont* `tidyverse`, `data.table`, `matrixStats`, `R5`, `r5r`, `Rcpp`, `OpenMP`, `quarto`, `shiny`, `shinyWidgets`, `shinydashboard`, `future`, `furrr` et bien sûr `R` et `RStudio` de Posit.
 :::
 
-Contacts : [Maxime Parodi](mailto:maxime.parodi@sciencespo.fr) ou [Xavier Timbeau](xavier.timbeau@sciencespo.fr)
+Contacts : [Maxime Parodi](mailto:maxime.parodi@sciencespo.fr) ou [Xavier Timbeau](mailto:xavier.timbeau@sciencespo.fr)

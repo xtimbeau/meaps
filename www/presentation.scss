@@ -11,17 +11,22 @@ $font-family-monospace: 'Fira Code', monospace;
 
 // gris ofce
 $scpored: #e6142d;
+$ofcered: #a22a2e;
+$darkgrey: #333333;
+$green: #079D10;
+$blue: #000080;
+$presentation-color: $scpored;
 $body-bg: #fff;
 $body-color: #222;
-$link-color: $scpored;
-$presentation-heading-color: $scpored;
+$link-color: $presentation-color;
+$presentation-heading-color: $presentation-color;
 $presentation-h1-font-size: 2.5em;
 $presentation-h2-font-size: 1.2em;
 $presentation-h3-font-size: 1em;
 $presentation-h4-font-size: 1em;
 $presentation-font-size-root: 20px;
 // callout
-$callout-color-note: $scpored;
+$callout-color-note: $presentation-color;
 $callout-border-width: 1px;
 
 $mainFont: 'Nunito', sans-serif;
@@ -74,17 +79,19 @@ $headingFont: 'Nunito', sans-serif;
 
 .reveal .callout {
   border-left: 1px;
-  border-left-color: $scpored;
+  border-left-color: $presentation-color;
 }
 
 .agenda-inactive {
+  font-size: 1.2em;
   opacity: 0.25;
-  margin-top: -0.5em;
-  margin-bottom: -0.5em;
+  margin-top: -0.1em;
+  margin-bottom: -0.1em;
 }
 
 .agenda-active {
-  color: $scpored;
-  margin-top: -0.5em;
-  margin-bottom: -0.5em;
+  font-size: 1.5em;
+  color: $presentation-color;
+  margin-top: -0.1em;
+  margin-bottom: -0.1em;
 }

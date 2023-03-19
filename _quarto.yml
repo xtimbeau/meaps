@@ -10,11 +10,11 @@ book:
   author:
     - name : "Maxime Parodi"
       email: "maxime.parodi@sciencespo.fr"
-      affiliation: OFCE, Sciences po Paris
+      affiliation: OFCE, Sciences Po Paris
       affiliation-url: "http://www.ofce.fr"
     - name: "Xavier Timbeau" 
       email: "xavier.timbeau@sciencespo.fr"
-      affiliation: OFCE, Ecole Urbaine, Sciences po Paris
+      affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
       affiliation-url: "http://www.ofce.fr"
       orcid: "0000-0002-6198-5953"
   date: 02/01/2023
