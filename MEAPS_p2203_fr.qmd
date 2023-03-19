@@ -23,11 +23,18 @@ execute:
 format: 
   revealjs:
     slide-level: 2
+    slide-number: c/t
     center: false
     theme: [simple, www/presentation.scss]
     navigation-mode: linear
     code-fold: false
     self-contained: false
+    code-link: true
+filters:
+  - reveal-auto-agenda
+auto-agenda:
+  bullets: numbered
+  heading: ""
 editor: visual
 bibliography: references.bib
 ---
@@ -894,23 +901,23 @@ On peut produire :
 
 -   on peut dériver des indicateurs comme la tension sur les emplois, localisés et agrégés à une maille quelconque.
 
-##  {#sec-fin}
+## Références {#sec-fin}
 
-### Références
+<br>
+
+### Bibliographie
 
 ::: {#refs}
 :::
 
 <br>
 
-<br>
-
-### Merci de votre attention
-
-<br> <br>
+### Liens
 
 document : <https://xtimbeau.github.io/meaps>
 
 code : <https://github.com/xtimbeau/meaps>
+
+shiny: <https://ofce.shinyapps.io/rmeaps>
 
 package : `devtools::install_github("maxime2506/rmeaps")`

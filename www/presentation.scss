@@ -1,24 +1,33 @@
 /*-- scss:defaults --*/
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:ital,wght@0,300;0,700;1,300;1,700&display=swap');
+
+// Fonts (CSS rules)
+//$font-family-sans-serif: 'Nunito Sans', sans-serif;
+//$font-family-monospace: 'Roboto Mono', monospace;
+$font-family-serif: 'Libre Baskerville', serif; 
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-monospace: 'Fira Code', monospace;
+
 // gris ofce
 $scpored: #e6142d;
 $body-bg: #fff;
 $body-color: #222;
-$link-color: #42affa;
-$presentation-heading-color: #fd0314;
+$link-color: $scpored;
+$presentation-heading-color: $scpored;
 $presentation-h1-font-size: 2.5em;
 $presentation-h2-font-size: 1.2em;
-$presentation-h3-font-size: 1.2em;
+$presentation-h3-font-size: 1em;
 $presentation-h4-font-size: 1em;
 $presentation-font-size-root: 20px;
 // callout
-$callout-color-note: #e6142d;
+$callout-color-note: $scpored;
 $callout-border-width: 1px;
 
-$mainFont: 'Source Sans Pro', sans-serif;
-$headingFont: 'Source Sans Pro', sans-serif;
+$mainFont: 'Nunito', sans-serif;
+$headingFont: 'Nunito', sans-serif;
 
 /*-- scss:rules --*/
-
 
 .reveal h1 {
   font-weight: bold;
@@ -49,7 +58,7 @@ $headingFont: 'Source Sans Pro', sans-serif;
 }
 
 .reveal .footer.footer-default {
-  font-size: 0.5em;
+  font-size: 0.75em;
 }
 
 .div.callout.callout-note {
@@ -66,4 +75,16 @@ $headingFont: 'Source Sans Pro', sans-serif;
 .reveal .callout {
   border-left: 1px;
   border-left-color: $scpored;
+}
+
+.agenda-inactive {
+  opacity: 0.25;
+  margin-top: -0.5em;
+  margin-bottom: -0.5em;
+}
+
+.agenda-active {
+  color: $scpored;
+  margin-top: -0.5em;
+  margin-bottom: -0.5em;
 }
