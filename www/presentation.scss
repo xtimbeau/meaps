@@ -1,6 +1,10 @@
 /*-- scss:defaults --*/
 // fonts
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:ital,wght@0,300;0,700;1,300;1,700&display=swap');
+$fa-font-path: "./www/fontawesome";
+@import "./fontawesome/scss/fontawesome.scss";
+@import "./fontawesome/scss/solid.scss";
+@import "./fontawesome/scss/brands.scss";
 
 // Fonts (CSS rules)
 //$font-family-sans-serif: 'Nunito Sans', sans-serif;
@@ -20,6 +24,7 @@ $body-bg: #fff;
 $body-color: #222;
 $link-color: $presentation-color;
 $presentation-heading-color: $presentation-color;
+$ligthcolor: #F9F9F9;
 $presentation-h1-font-size: 2.5em;
 $presentation-h2-font-size: 1.2em;
 $presentation-h3-font-size: 1em;
@@ -46,14 +51,14 @@ $headingFont: 'Nunito', sans-serif;
 
 .reveal h1.title {
   font-size: 3em;
-  letter-spacing: 5px;
+  letter-spacing: 10px;
   font-weight: bold;
 }
 
 .reveal h2::before {
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 5 Free"; 
   font-weight: 900; 
-  content: "\f144";
+  content: "\f542";
   letter-spacing: 10px;
 }
 
@@ -66,8 +71,15 @@ $headingFont: 'Nunito', sans-serif;
   font-size: 0.75em;
 }
 
-.div.callout.callout-note {
-  border-left: 1px solid;
+
+.callout.callout-style-simple {
+  background-color: $ligthcolor !important;
+  padding-right: 1em !important;
+  padding-left: 1em !important;
+  margin-right: 3em !important;
+  margin-left: 3em !important;
+  font-size: 1em !important;
+  border-left: 0.15em solid $presentation-color !important;
 }
 
 .reveal .slide-logo {
@@ -75,11 +87,6 @@ $headingFont: 'Nunito', sans-serif;
   width: 60px!important;
   max-width: unset !important;
   max-height: unset !important;
-}
-
-.reveal .callout {
-  border-left: 1px;
-  border-left-color: $presentation-color;
 }
 
 .agenda-inactive {

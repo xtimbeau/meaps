@@ -146,7 +146,7 @@ $$
 
 Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois). Le coefficient d'ajustement ainsi défini peut avoir pour des distributions particulières des valeurs négatives ou supérieures à 1. Il fonctionne assez bien malgré tout dans un grand nombre de cas.
 
-Une première évaluation du modèle MEAPS est de comparer ce que l'on obtient avec MEAPS et un modèle gravitaire simple, estimé sur @MOBPRO, à la maille communale et donc sans recourir à la modélisation des réseaux de transport décrite plus haut. Le modèle gravitaire estimé est le suivant, où $f_{i,j}$ est le flux entre la commune $i$ de résidence et la commune $j$ d'emploi, $a_i$ sont les actifs en \$i\$, $e_j$ l'emploi en \$j\$, et $t_{i,j}$ le temps de parcours entre $i$ et $j$ en minutes issue des données calculées au carreau 200m agrégés à la maille communale :
+Une première évaluation du modèle MEAPS est de comparer ce que l'on obtient avec MEAPS et un modèle gravitaire simple, estimé sur @MOBPRO, à la maille communale et donc sans recourir à la modélisation des réseaux de transport décrite plus haut. Le modèle gravitaire estimé est le suivant, où $f_{i,j}$ est le flux entre la commune $i$ de résidence et la commune $j$ d'emploi, $a_i$ sont les actifs en $i$, $e_j$ l'emploi en $j$, et $t_{i,j}$ le temps de parcours entre $i$ et $j$ en minutes issue des données calculées au carreau 200m agrégés à la maille communale :
 
 $$
 log(f_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \\

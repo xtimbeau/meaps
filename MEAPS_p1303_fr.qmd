@@ -262,8 +262,6 @@ Il y a $I!$ ordres possibles ce qui est impossible à traiter.
 
 On prend donc un (petit) échantillon de ces ordres et on conjecture l'ergodicité du modèle : un faible nombre de tirages permettra d'atteindre la moyenne sur tous les ordres.
 
-<br>
-
 ::: {.callout-note appearance="minimal" icon="false"}
 Intuitivement, chaque individu est localisé aléatoirement, la saturation dépend surtout de la coïncidence d'individus proches d'une opportunité et qui sont donc les premiers servis. Cette coïncidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
 :::
@@ -615,8 +613,6 @@ knitr::include_graphics("output/toutes configs odds effectifs.png")
 4.  Gravitaire, à la maille c200
 
 5.  Gravitaire, à la maille c200, plus une normalisation par Furness
-
-<br>
 
 ::: {.callout-note appearance="simple" icon="false"}
 ## Algorithme de Furness
