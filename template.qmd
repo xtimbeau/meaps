@@ -1,0 +1,45 @@
+---
+title: "TITRE"
+subtitle: "sous-titre"
+logo: images/ofce.png
+author:
+  - name: "Maxime Parodi"
+    email: "maxime.parodi@sciencespo.fr"
+    affiliation: OFCE, Sciences Po Paris
+    affiliation-url: "http://www.ofce.fr"
+  - name: "Xavier Timbeau" 
+    email: "xavier.timbeau@sciencespo.fr"
+    affiliation: OFCE, Sciences Po Paris
+    affiliation-url: "http://www.ofce.fr"
+  - name: "Pierre Madec" 
+    email: "pierre.madec@sciencespo.fr"
+    affiliation: OFCE, Sciences Po Paris
+    affiliation-url: "http://www.ofce.fr"
+lang: fr
+date: 4/13/2023
+date-format: "dddd D MMMM YYYY"
+footer:
+  ""
+transition: slide
+transition-speed: fast
+auto-stretch: true
+execute: 
+  echo: false
+  warning: false
+format: 
+  revealjs:
+    slide-level: 2
+    slide-number: c/t
+    center: false
+    theme: [simple, www/presentation.scss]
+    navigation-mode: linear
+    code-fold: false
+    self-contained: false
+    code-link: true
+filters:
+  - reveal-auto-agenda
+auto-agenda:
+  bullets: none
+  heading: ""
+editor: visual
+---
