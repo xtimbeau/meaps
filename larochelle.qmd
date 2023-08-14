@@ -1,3 +1,10 @@
+#include <stdio.h>
+
+int main()
+{
+    printf("Hello World");
+    return 0;
+}
 ```{r init, include = FALSE}
 source("rinit.r")
 ```
