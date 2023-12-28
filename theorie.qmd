@@ -169,10 +169,10 @@ Une autre solution serait de considérer que la probabilité de fuite n'est pas 
 [^theorie-5]: En pratique, pour éviter les effets de bord, il faut choisir une zone d'emplois plus grande que la zone des résidents.
 
 $$
-\prod_{j=i} ^{J} (1-\lambda_{u,i} \times \phi_u(i,j) \times p_{a})= p_f
+\forall i, \prod_{j=1} ^{J} (1-\lambda_{u,i} \times \phi_u(i,j) \times p_{a})= p_f
 $$ {#eq-lambda}
 
-La solution de cette équation est celle d'un polynôme en $\lambda_{u,i}$ d'un ordre élevé. Il y a possiblement plusieurs solutions, mais il est nécessaire que $0<\lambda_{u,i}\times p_a<1$, ce qui réduit le nombre de solutions admissibles. On peut en produire une solution approchée par un développement limité à l'ordre 1 en prenant le $log$ de l'@eq-lambda :
+La solution de cette équation est celle d'un polynôme en $\lambda_{u,i}$ d'un ordre élevé. Il y a possiblement plusieurs solutions, mais il est nécessaire que $0<\lambda_{u,i}\times p_a<1$, ce qui réduit le nombre de solutions admissibles. Pour un $i$ donné, on peut en produire une solution approchée par un développement limité à l'ordre 1 en prenant le $log$ de l'@eq-lambda :
 
 $$
 p_{a} \times \lambda_{u,i} = \frac {-log(p_f)}{\sum_{j=1} ^{J} \phi_u(i,j)}
@@ -188,7 +188,7 @@ L'hypothèse ergodique consiste ici à soutenir que cette moyenne sur tous ces o
 
 La première grandeur que nous moyennons sur les ordres $u$ est la variable de disponibilités $\phi_u(i,j)$ de l'emploi $j$ pour le résident $i$. Cette moyenne $\langle\phi\rangle_u(n,j)$ correspond à la probabilité de disponibilité de l'emploi $j$ pour n'importe quel résident après que $n$ résidents occupent d'ores et déjà un emploi ou ont fuit la zone. Cette grandeur ne dépend pas de $i$, mais uniquement du nombre de résidents déjà positionnés.
 
-Une deuxième grandeur nous sera utile. Il s'agit de l'accessibilité moyenne aux emplois disponibles. On peut noter $A_u(i,k)$ le cumul des emplois qui restent disponibles pour $i$ lorsque $n$ résidents se sont d'ores et déjà positionnés, en comptant les emplois depuis le plus proche de $i$ jusqu'au $k^{ième}$ le plus proche. La grandeur qui nous intéresse est la moyenne sur tous les $n$ possibles, soit :
+Une deuxième grandeur nous sera utile. Il s'agit de l'accessibilité moyenne aux emplois disponibles. On peut noter $A_n(i,k)$ le cumul des emplois qui restent disponibles pour $i$ lorsque $n$ résidents se sont d'ores et déjà positionnés, en comptant les emplois depuis le plus proche de $i$ jusqu'au $k^{ième}$ le plus proche. La grandeur qui nous intéresse est la moyenne sur tous les $n$ possibles, soit :
 
 $$
 \langle A \rangle_n(i,k) = \langle\sum_{j, r_i(j)\leq k} \langle \phi \rangle_u(n,j) \rangle _n
@@ -201,7 +201,7 @@ Comme précédemment, nous considérons que la probabilité de fuite d'un indivi
 Pour un $n$ donné, on a :
 
 $$
-P_f=\prod_{k=1}^J(1-P_{a,n}\times \langle \phi \rangle_u(n, r_i(k))
+P_f=\prod_{k=1}^J(1-P_{a,n}\times \langle \phi \rangle_u(n, r_i^{-1}(k))
 $$ {#eq-pf2}
 
 En passant en $log$ et en effectuant un développement limité, on obtient :
@@ -213,13 +213,13 @@ $$ {#eq-logpf}
 Nous avons alors tous les éléments pour calculer la probabilité $P_n(i,j)$ que le résident $i$ prenne l'emploi $j$ après que $n$ résidents se sont déjà positionnés (cf. @eq-pij). En passant alors en $log$, on a :
 
 $$
-log(P_{ij})=log(P_{a,n})+log(\langle\phi \rangle_u(n,j))+\sum_{k=1}^{r_i^{-1}(j)}log(1-P_{a,n}\times \langle \phi \rangle_u(n,r_i(k))
+log(P_n(i,j))=log(P_{a,n})+log(\langle\phi \rangle_u(n,j))+\sum_{k=1}^{r_i^{-1}(j)}log(1-P_{a,n}\times \langle \phi \rangle_u(n,r_i(k))
 $$ {#eq-logpij}
 
 En faisant un développement limité du dernier terme puis la moyenne sur les $n$, il en découle :
 
 $$
-log(P_{ij})\approx\langle log(P_{a,n})\rangle _n+\langle\langle\phi\rangle_u(n,j)\rangle_n + \langle A\rangle_n(i, r_i^{-1}(j))
+log(P_{ij})\approx\langle log(P_{a,n})\rangle _n+\langle\langle\phi\rangle_u(n,j)\rangle_n + \langle A\rangle_n(i, r_i(j))
 $$ {#eq-logpijapprox}
 
 La probabilité $P_{ij}$ s'écrit donc à partir de la probabilité moyenne d'absorption, de l'espérance que l'emploi $j$ est disponible et de l'accessibilité moyenne. Sur le plan conceptuel, c'est tout à fait satisfaisant et compréhensible. Il reste que ces grandeurs ne peuvent pas être calculées directement ; il faut en passer par des simulations.

@@ -26,3 +26,5 @@ showtext_auto()
 options(ofce.background_color = "grey99")
 options(ofce.base_family = "sans")
 options(ofce.base_size = 9)
+
+source("secrets/azure.R")
