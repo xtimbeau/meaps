@@ -168,11 +168,11 @@ ggplot(mode_l) +
 
 ```
 
-## Ajustements "communal" de modèles gravitaires et de *MEAPS* {#sec-ajustcom}
+## Ajustements "communaux" de modèles gravitaires et de *MEAPS* {#sec-ajustcom}
 
 Les estimations que nous présentons dans cette section sont réalisées à la maille communale de MOBPRO, par une approche comparable à celle de @josselin2020, sur le périmètre de La Rochelle. Nous estimons dans un premier temps une famille de modèles gravitaires par les moindres carrés ordinaires. La forme estimée est celle de l'@eq-gravitaire en utilisant différentes distances.
 
-1.  La distance euclidienne entre les centroides de chaque commune, notée $euc$. Lorsque la destination est la même que l'origine, on utilise la moitié de la racine carré de la surface de la commune.
+1.  La distance euclidienne entre les centroïdes de chaque commune, notée $euc$. Lorsque la destination est la même que l'origine, on utilise la moitié de la racine carré de la surface de la commune.
 2.  La distance moyenne pondérée entre chaque paire de communes, notée $d$. Elle est obtenue en pondérant par le produit des actifs à l'origine et des emplois à la destination les distances calculées entre chaque carreau 200m de la commune d'origine et chaque carreau de la commune de destination. Cette distance moyenne pondérée est non nulle par construction lorsque la destination est l'origine.
 3.  Le temps moyen pour chaque paire de communes, noté $t$. Le calcul est le même que pour les distances moyennes pondérées.
 
