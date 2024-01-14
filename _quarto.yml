@@ -2,8 +2,7 @@ project:
   type: book
   output-dir: docs
   execute-dir: project
-  post-render: 
-    - render-presentation.r
+freeze: false
 book:
   title: "MEAPS"
   subtitle: "Distribution statistique des trajets entre le domicile et le travail"
@@ -65,43 +64,10 @@ crossref:
   lot-title: Tableaux
 logo: www/ofce.png
 format: 
-  html:
+  wp-html:
     comments:
       hypothesis: true
-    theme:
-      light:
-        - cosmo
-        - www/meaps.scss
-      dark:
-        - darkly
-        - www/meaps.scss
     date-modified: today
-    toc: true
-    toc-location: left 
-    toc-title: Sur cette page
-    number-sections: true
-    number-depth: 3 
-    html-math-method: katex
-    fig-dpi: 600
-    fig-format: svg
-    fig-width: 5
-    cap-location: margin
-    reference-location: margin
-    code-tools: true
-  pdf:
-    toc: true
-    toc-depth: 1
-    number-sections: true
-    number-depth: 3 
-    documentclass: scrreprt
-    classoption: 
-    - DIV=9
-    papersize: a4
-    fontsize: 10pt
-    fig-cap-location: bottom
-    include-in-header: 'www/preamble.tex'
-    extra_dependencies: ["float"]
-    fig-dpi: 600
-    fig-format: svg
-
+  wp-pdf: default
+  
 editor: visual
