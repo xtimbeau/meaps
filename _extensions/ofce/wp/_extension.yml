@@ -21,17 +21,22 @@ contributes:
         tbl-prefix: tableau
         eq-prefix: équation
         sec-prefix: section
+        tip-prefix: encadré
         fig-title: "**Graphique**"
+        tip-title: "**Encadré**"
         title-delim: "**.**"
         tbl-title: "**Tableau**"
         lof-title: Graphiques
         lot-title: Tableaux
-        logo: ofce.png
+      logo: ofce.png
       filters:
         - nameref
         - quotes
         # - search-replace
         - fr-nbsp
+        - collapse-callout
+      collapse-callout:
+        tip: true
       shortcodes:
         - fontawesome
         - downloadthis
@@ -55,9 +60,9 @@ contributes:
       fig-width: 6
       reference-location: margin
       logo: _extensions/ofce/wp/ofce_m.png
+      callout-icon: false
       lightbox: true
       title-block-style: default
-      callout-icon: false 
       template-partials:
         - html_template/title-block.html
         - html_template/title-metadata.html

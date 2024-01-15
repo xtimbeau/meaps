@@ -20,6 +20,7 @@ library(sf)
 library(ggspatial)
 library(stars)
 library(glue)
+library(gtsummary)
 
 library(PrettyCols)
 showtext_auto()

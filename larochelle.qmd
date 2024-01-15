@@ -1,6 +1,7 @@
 ```{r init, include = FALSE}
 source("rinit.r")
 ```
+
 # Estimations à La Rochelle {#sec-rochelle}
 
 Avant de produire une application complète pour l'agglomération de La Rochelle (dans un prochain document, voir plus bas), nous explorons ici la capacité du modèle MEAPS à reproduire les flux de mobilités en le comparant en particulier au modèle gravitaire. La question est de savoir quel modèle est le mieux à même de reproduire les données observées de flux, à savoir MOBPRO tout en introduisant un minimum de paramètres, pas souci de parcimonie et de généralité.
@@ -16,27 +17,27 @@ Dans la lignée de [@lenormand2016], [@josselin2020] utilisent une forme similai
 Cependant le modèle gravitaire et la stratégie d'estimation posent plusieurs problèmes : le premier est que lorsque $\alpha$ et $\beta$ sont différents de 1, la spécification dépend de l’échelle et n'est pas additive (voir supra). Cette propriété est particulièrement difficile à comprendre. Ainsi, l'estimation dépend par exemple de l'unité de découpage géographique choisie. Le second problème réside dans la métrioque d'estimation choisie. Dans @josselin2020, la seul métrique considérée est celle des erreurs moyennes au carré, pour une formulation en $log-log$. Ceci revient à minimiser le critère suivant :
 
 $$
-msre = \Sigma_i({log(\hat t}_i) - log(t_i))^2
+msre = \sum_i({log(\hat t}_i) - log(t_i))^2
 $$
 
 Ce même critère est celui qui est employé dans les estimations de @lenormand2016 à l'exception de l'utilisation du critère d'information statistique $I$ définit comme suit :
 
 $$
-I(t, \hat t) = \frac 1 N \Sigma_i {t_i \times (log(t_i) - log(\hat t_i))}
+I(t, \hat t) = \frac 1 N \sum_i {t_i \times (log(t_i) - log(\hat t_i))}
 $$
 
-Cette dernière métrique est aussi appelée l'entropie relative de deux distributions et est le critère utilisé pour comparer deux distributions. Ce n'est pas tout à fait une distance (non symétrie, non nécessairement positif) mais elle peut être utilisée pour constuire un critère proche du $R^2$ (voir encadré). La principale différence avec la métrique usuelle des moindres carrés ordinaires simple est que le poids donné aux erreurs du modèle n'est pas du tout le même suivant l'importance des flux. Une grande erreur relative sur un flux très petit ne doit pas avoir beaucoup d'importance alors que pour un flux très important, elle doit être très pénalisée. Or ce que l'on cherche à prévoir ce sont les flux et donc l'accent doit être mis sur la minimisation des erreurs sur les flux agrégés importants.
+Cette dernière métrique est aussi appelée l'entropie relative de deux distributions et est le critère utilisé pour comparer deux distributions. Ce n'est pas tout à fait une distance (non symétrie, non nécessairement positif) mais elle peut être utilisée pour construire un critère proche du $R^2$ (voir @tip-entropie). La principale différence avec la métrique usuelle des moindres carrés ordinaires simple est que le poids donné aux erreurs du modèle n'est pas du tout le même suivant l'importance des flux. Une grande erreur relative sur un flux très petit ne doit pas avoir beaucoup d'importance alors que pour un flux très important, elle doit être très pénalisée. Or ce que l'on cherche à prévoir ce sont les flux et donc l'accent doit être mis sur la minimisation des erreurs sur les flux agrégés importants.
 
 Les moindres carrés ordinaires donnent à chaque $\varepsilon_{ij}$, le même poids. Au contraire l'entropie relative pondère les erreurs par le terme $f_{ij}$. Cette métrique est d'autant plus importante que les données que l'on utilise sont très loin d'une distribution uniforme. Quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent une part très faible des flux cumulés. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux. Une régression par les moindres carrés ordinaires est une approche alternative si l'on pondère par les flux la régression en $log-log$. Le critère employé est alors :
 
 $$
-msre = \Sigma_i { t_i \times ({log(\hat t}_i) - log(t_i))^2 }
+msre = \sum_i { t_i \times ({log(\hat t}_i) - log(t_i))^2 }
 $$
 
-::: callout-tip
-### Entropie relative de Kullback-Leibler
+::: {#tip-entropie .callout-tip collapse="true"}
+## Entropie relative de Kullback-Leibler
 
-Sur la base des flux simulés, on peut définir un critère d'ajustement, assimilable à un $R^2$ à partir de l'entropie relative de Kullback-Leibler [@kullback1951]. L'entropie relative est définie pour deux distributions de probabilités $p$ et $q$ comme suit dans le cas discret :
+Sur la base des flux simulés, on peut définir un critère d'ajustement, similaire à un $R^2$ à partir de l'entropie relative de Kullback-Leibler [@kullback1951]. L'entropie relative est définie pour deux distributions de probabilités $p$ et $q$ comme suit dans le cas discret :
 
 $$
 KL(p,q) = \sum_{i}p_i \times log(p_i/q_i)
@@ -75,7 +76,7 @@ Les estimations que nous présentons ici aboutissent à plusieurs résultats imp
 
 3.  la modélisation des flux par MEAPS a de meilleures propriétés et une plus grande capacité prédictive que le modèle gravitaire, y compris lorsque celui ci est estimé en utilisant une métrique adaptée et une information géographique fine, à partir du moment où l'on introduit des paramètres dans le modèle radiatif. Le modèle radiatif universel et sans paramètre produit un résultat correct, mais l'ajustement est inférieur à ceux de modèles gravitaires paramétrisés ;
 
-4.  les paramètres du modèle gravitaire sont difficilement réconciliables avec l'interprétation. Ils dépendent en théorie de la configuration spatiale et de l'échelle d'observation. MEAPS permet une approche structurelle aux fondements bien définis qui donne aux paramètres une signification directement interprétable.
+4.  les paramètres du modèle gravitaire sont difficilement interpétables. Ils dépendent en effet de la configuration spatiale spécifique et de l'échelle d'observation. MEAPS permet une approche structurelle aux fondements bien définis qui donne aux paramètres une signification plus générale.
 
 Nous décrivons dans un premier temps la construction des données (@sec-emplois, @sec-distancesparmode). Nous présentons ensuite les estimations "communales" du modèle gravitaire usuel (par les moindres carrés ordinaires), du modèle gravitaire avec une métrique *KL* en le comparant à MEAPS sur cette même source d'information (@sec-communal). Nous présentons ensuite les estimations en utilisant l'information géographique fine, en utilisant une approche non paramètrique puis une approche paramètrique. Nous concluons sur les capacités à reproduire les flux mesurés dans MOBPRO.
 
@@ -107,7 +108,7 @@ A partir des temps de trajets par mode, nous appliquons un modèle de choix disc
 
 ```{r access}
 #| label: fig-accessibilite
-#| fig-cap: "Temps d'accès à l'emploi, pour différents seuils. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 1 000, 5 000, 10 000, 20 000 emplois suivant l'un des quatre modes considéré.<br>Calcul des auteurs. <br>*Source* : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+#| fig-cap: "Temps d'accès à l'emploi, pour différents seuils. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 1 000, 5 000, 10 000, 20 000 emplois suivant l'un des quatre modes considéré.<br>*Source* : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
 #| fig-asp: 0.9
 
 access <- qs::qread("output/acces4modes.sqs")
@@ -161,11 +162,9 @@ acc_cr <- str_c(str_c("@fig-acc", accpanels), collapse = ", ")
 Les distances entre chaque paire de cases permettent de calculer un indicateur d'accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans *MEAPS*, en remplaçant la distance par la somme des opportunités en deçà d'un seuil de temps. Les cartes du @fig-accessibilite représentent les temps pour accéder à un seuil d'emplois en utilisant différents modes de transport.
 
 ::: {#fig-accessibilite}
-
 `r knit(text = unlist(src))`
 
 Temps d'accès à l'emploi. Pour chaque carreau de résidence, on détermine le temps minimal pour atteindre au moins 1000, 5000, 10000 ou 20000 emplois suivant l'un des quatre modes considéré.<br>Calcul des auteurs. <br>*Source* : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018
-
 :::
 
 Les courbes d'accessibilité de la @fig-comaccess sont construites en prenant la moyenne par commune de résidence des temps d'accès pour les différents seuils d'emplois. C'est cette courbe qui découle du modèle théorique présenté plus haut (@sec-meaps) et qui détermine les choix individuels de déplacement comme de localisation. Ces courbes font apparaître une propriété propre aux villes littorales : si pour des temps courts, l'accès à l'emploi est maximal à la Rochelle, en revanche d'autres communes jouissent d'une position plus "centrale" lorsqu'on accepte des temps de trajets supérieurs à 30 minutes en voiture.
@@ -173,7 +172,7 @@ Les courbes d'accessibilité de la @fig-comaccess sont construites en prenant la
 ```{r}
 #| label: fig-comaccess
 #| fig-scap: "Accessibilité par communes pour la Rochelle"
-#| fig-cap: "Courbe du temps d'accès aux emplois. Pour chaque commune, on calcule la médianne, pondérée par le nombre d'habitants par carreau, du temps d'accès à différents seuils d'emplois. Cela permet de caractériser les communes par leur accessibilité à l'emploi, une mesure plus pertinente de la 'distance à l'emploi'. Calcul des auteurs. Sources : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
+#| fig-cap: "Courbe du temps d'accès aux emplois. Pour chaque commune, on calcule la médianne, pondérée par le nombre d'habitants par carreau, du temps d'accès à différents seuils d'emplois. Cela permet de caractériser les communes par leur accessibilité à l'emploi, une mesure plus pertinente de la 'distance à l'emploi'.<br>*Sources* : OSM, Mapbox, IGN, Conveyal R5, carroyage INSEE 2017, Flores et fichiers fonciers 2018"
 
 mode_l <- qs::qread("output/model_l.sqs")
 library(scales)
@@ -205,33 +204,39 @@ Les estimations que nous présentons dans cette section sont réalisées à la m
 2.  La distance moyenne pondérée entre chaque paire de communes, notée $d$. Elle est obtenue en pondérant par le produit des actifs à l'origine et des emplois à la destination les distances calculées entre chaque carreau 200m de la commune d'origine et chaque carreau de la commune de destination. Cette distance moyenne pondérée est non nulle par construction lorsque la destination est l'origine.
 3.  Le temps moyen pour chaque paire de communes, noté $t$. Le calcul est le même que pour les distances moyennes pondérées.
 
-Le tableau donne les résultats de l'estimation d'un modèle gravitaire non contraint (i.e $\alpha$ et $\beta$ sont estimés).
+Les tableaux (@tbl-gravcom, @tbl-gravcom_cc, @tbl-grav_com_w, @tbl_grav_com_w_cc) donnent les résultats d'estimations de différents modèles gravitaires non contraints (i.e $\alpha$ et $\beta$ sont estimés), contraints (i.e $\alpha=1$ et $\beta=1$), non pondérés (métrique standard) ou pondérés par les flux en niveau. Les résultats sont donnés pour les trois métriques de distances. Dans l'approche communale, les différences entre les métriques de distances sont minimes. En revanche, le modèle non contraint et sans pondération fait ressortir des coefficients $\alpha$ et $\beta$ très inférieurs à 1 (@tbl-gravcom), ce qui rend la critique de non additivité très forte. Les estimations contraintes ( @tbl-grav_com_cc) on t des $R^2$ bien plus bas et les coefficients estimés pour la distance sont très différents des estimations non contraintes. L'utilisation de la pondération, qui rapproche le critère d'estimation d'un critère de gain d'information ou d'entropie relative, conduit à des estimations différentes des estimations et des coefficients $\alpha$ et $\beta$ plus élevés [@tbl-grav_com_w]. Ils restent néanmoins inférieurs à 1 et lorsqu'ils sont contraints [@tbl-grav_com_w_cc], l'ajustement se dégrade nettement. La aussi, le coefficient de la distance (suivant les différentes métriques) se trouve être très dépendant de la forme estimée. L'hypothèse qu'il manque une description de la distribution jointe des masses aux origines et aux destinations subsiste, même avec une métrique plus pertienente pour l'estrimation.
 
 ```{r}
 #| label: tbl-gravcom
-#| tbl-cap: Estimation commune à commune de modèles gravitaires non contraints, métrique standard
-library(gtsummary)
+#| tbl-cap: Estimation commune à commune, modèle gravitaire non contraints, métrique standard, non pondéré
 bd_read("grav_est_com")
 ```
 
-::: callout-tip
-## Emiettage
+```{r}
+#| label: tbl-gravcom_cc
+#| tbl-cap: Estimation commune à commune, modèle gravitaire, contraint, métrique standard, non pondéré
+bd_read("grav_est_com_cc")
+```
 
-Dans les simulations synthétiques présentées dans le @sec-synt les flux sont simulés avec une granularité individuelle. Chaque emploi ou chaque individu est localisé et les distances sont calculées entre ces localisations et les flux par individu sont simulés. L'agrégation spatiale à la maille hexagonale se fait ensuite. Dans le cas des données que nous utilisons pour La Rochelle, les carreaux ne sont pas occupés par un seul résident actif ou un seul emploi. Il y a des paquets pour lesquels il n'est pas nécessaire de refaire les simulations individu par individu ou emploi par emploi. Nous les avons donc regroupés et simuler en conséquences dans MEAPS. Cela pose cependant un problème puisque le choix d'un ordre de priorité s'exerce maintenant sur des individus en paquets de taille différente, un faible nombre de ces paquets étant de taille très supérieure à la médiane des autres. Ainsi, lorsqu'un paquet de taille importante est à son tour de choisir, il peut saturer des emplois en une seule passe. Pour résoudre ce problème, nous procédons à un émiettage dans lesquels les paquets de plus grande taille sont divisés en paquets plus petits. Pour un seuil d'émiettage de 20 individus (le flux le plus important de @MOBPRO pour La Rochelle est de 18 000) , on augmente le nombre de paquets d'environ 50% ce qui permet de conserver un problème de taille globale raisonnable tout en réduisant le problème de granularité des paquets. De plus, les paquets sont tirés au sort dans leur ordre de priorité en tenant compte de leur taille afin d'éviter une sur-représentation des paquets de petite taille dans les ordres de priorité.
-:::
+```{r}
+#| label: tbl-gravcom_w
+#| tbl-cap: Estimation commune à commune, modèle gravitaire, non contraint, métrique standard, pondéré par les flux en niveau
 
-Une première évaluation du modèle MEAPS est de comparer ce que l'on obtient avec MEAPS et un modèle gravitaire simple, estimé sur @MOBPRO, à la maille communale et donc sans recourir à la modélisation des réseaux de transport décrite plus haut. Le modèle gravitaire estimé est le suivant, où $f_{i,j}$ est le flux entre la commune $i$ de résidence et la commune $j$ d'emploi, $a_i$ sont les actifs en $i$, $e_j$ l'emploi en $j$, et $t_{i,j}$ le temps de parcours entre $i$ et $j$ en minutes issue des données calculées au carreau 200m agrégés à la maille communale :
+bd_read("grav_est_com_w")
+```
 
-$$
-log(f_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \\
-R^2_{adj} = 2.29\%, 2034\ d.o.f
-$$
+```{r}
+#| label: tbl-gravcom_w_cc
+#| tbl-cap: Estimation commune à commune, modèle gravitaire, contraint, métrique standard, pondéré par les flux en niveau
 
-En ajoutant à la comparaison MEAPS à la maille carreau 200m, on peut évaluer l'intérêt de la modélisation à la maille infra-communale. La @fig-divmailles représente l'ajustement dans les trois options comparées. Le modèle gravitaire à la maille communale donne un premier ajustement des données et le $R^2_{KL}$ est de 77.8%. MEAPS à la maille communale donne un résultat moins bon que le modèle gravitaire, échouant sans plus de paramètres à bien représenter les flux. Dans ce modèle le $R^2_{KL}$ est négatif. En revanche, MEAPS simulé sur le carreau 200m puis agrégé à la maille communale donne un résultat bien meilleur que les deux précédents modèles. Le $R^2_{KL}$ est de 88.4% et graphiquement l'ajustement apparaît plus satisfaisant. La seule utilisation des données de réseau et de localisation au carreau 200m permet donc une bien meilleure prédiction de @MOBPRO sans ajouter de paramètre estimé.
+bd_read("grav_est_com_w_cc")
+```
+
+Une première évaluation du modèle *MEAPS* est estimée sur @MOBPRO, à la maille communale et donc sans recourir encore à la modélisation des réseaux de transport décrite plus haut. On procède en simulant *MEAPS* sans paramètre, c'est-à-dire en l'ajustant uniquement sur les contraintes en ligne et en colonne. On utilise les différentes métriques de distances comme pour les modèles gravitaires.
 
 ```{r}
 #| label: fig-divmailles
-#| fig-cap: "Comparaison de MEAPS et d'un modèle gravitaire estimé à la maille communale et de MEAPS à la maille carreau 200m"
+#| fig-cap: "Comparaison de MEAPS et d'un modèle gravitaire estimé à la maille communale et de MEAPS à la maille carreau 200m<br>*Source* : MEAPS"
 #| fig-asp: 1
 
 data <- qs::qread("output/maillecommune.qs") |> 
@@ -261,7 +266,25 @@ ggplot(data)+
 
 ```
 
-::: callout-tip
+## Ajustements en utilisant une information infra-communale
+
+On dispose d'une information au carreau 200m qui peut être est pertinente pour reproduire les données de @MOBPRO, bien que celles-ci sont connues entre commune. En effet, on peut localiser les emplois et les résidents plus finement, au carreau, calculer les temps de parcours entre les paires de carreau et injecter cette information géographique dans le modèle. On peut en attendre une meilleure prise en compte des configurations notamment pour les communes voisines. La distance entre les centroïdes peut masquer une densité d'habitation importante à la frontière entre deux communes, on inversement négliger la structure bi-polaire d'une commune et donc des flux qui se répartissent entre deux voisins proches. En utilisant cette représentation géographique à une échelle plus fine, on peut proposer des paramètrisations plus robustes et dont la significaiton est plus grande.
+
+Pour permettre une sépcification plus fine de *MEAPS*, nous introduisons pour chaque paire (*i*, *j*) un paramètre qui modifie la probabilité d'absorption de l'individu *i* par l'emploi *j*. On définit $c_{abs}$ comme la chance d'absorption, définie comme $c_{abs} = p_{abs}/(1-p_{abs})$ . Dans le *MEAPS* de référence, présenté plus haut, cette chance d'absorption est identique pour tous les emplois considérés par un individu et elle ne dépend que de la probabilité de fuite. Un moyen simple d'injecter de l'information dans le modèle consiste alors à modifier cette chance d'absorption selon les individus et les emplois qu'ils considèrent. Les modifications des probabilités d'absorption peuvent alors être paramétrées par des *odds-ratios* (des ratios de chances relatives) $\omicron_{ij}$ de telle manière que la nouvelle chance d'absorption de i en j soit égale à $\tilde{c}_{abs,ij} = \omicron_{ij} \times c_{abs}$. L'*odds-ratio* $\omicron_{ij}$ est un paramètre entre $0$ et $+\infty$ et *i* et *j* indexent les communes de départ et d'arrivée. La nouvelle probabilité d'absorption s'écrit alors à partir de la chance d'absorption de référence et de l'*odds-ratio* comme suit :
+
+$$
+\tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
+$$
+
+Une première stratégie de calage de *MEAPS* consiste à calculer autant d'*odds-ratios* qu'il y a de paires communes résidentes - communes d'emplois de manière à reproduire le plus fidèlement possible les flux agrégés de @MOBPRO. Cette méthode conduit en quelque sorte à saturer le modèle puisque l'on estime un nombre de paramètres proche du nombre de degrés de liberté imposé par @MOBPRO. Cette stratégie d'apprentissage est analogue à ce qui se fait en *machine learning* du fait de la démultiplication du nombre de paramètres à estimer. La limite de cette approche est le sur-ajustement (*overfitting*) qu'elle induit. Celle-ci est habituellement corrigée en ajoutant une pénalité à la complexité du modèle au sein de la fonction d'optimisation. Cela peut également se faire par *pruning*, en éliminant *a posteriori* les paramètres dont la contribution à l'explication des données est inférieure à un seuil.
+
+Les paramètres issues de cette approche contiennent une information qui peut ensuite être exploitée. Les *odds-ratios* s'interprètent alors relativement simplement : ceux qui sont supérieurs à 1 indiquent que le flux de mobilités professionnelles correspondant sont plus fréquents que ce que prévoit le modèle de référence ; et inversement pour les *odds-ratios* inférieurs à 1.
+
+Cette approche pose généralement un problème difficile d'optimisation algorithmique. Une approche brutale, qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les flux observés, se heurte à la grande dimension de l'espace des paramètres. En outre, comme toujours dans ce type d'exercice statistique, l'enjeu consiste à extraire des données disponibles des enseignements généraux en délaissant ce qui relève de la particularité d'un jeu de données. C'est toute la difficulté du surapprentissage (*overfitting*) que nous avons évoquée.
+
+Une seconde approche, plus parcimonieuse, consiste à définir une forme fonctionnelle pour les *odds-ratios* ou encore à regrouper les *odds-ratios* en quelques *clusters* pour ensuite n'évaluer qu'un petit nombre de paramètres. Ceci suppose de modéliser la structuration des *odds-ratios* à partir d'*a priori* sur les dimensions pertinentes.
+
+::: {#tip-ergodicite .callout-tip collpase="true"}
 ## Ergodicité
 
 La @fig-reflr représente le $R^2_{KL}$ que l'on calcule pour le modèle de référence (MEAPS à la maille carreau 200m) en effectuant des simulations de Monte-Carlo pour différentes tailles de l'échantillon d'ordre de priorité. Sans surprise, plus l'échantillon est grand, plus la distribution des $R^2_{KL}$ est étroite. Pour 256 tirages, l'intervalle de confiance à 95% pour le $R^2_{KL}$ est de l'ordre de 0.017% (contre 0.04% pour 64 tirages et 0.003% pour 1024 tirages) ce qui sera suffisant pour la plupart des applications.
@@ -292,23 +315,7 @@ ggplot(density)+
 ```
 :::
 
-### Stratégies d'apprentissage
-
-L'information à la maille carreau 200m est pertinente pour reproduire les données de @MOBPRO. Pour aller plus loin dans l'ajustement, nous introduisons pour chaque paire (*i*, *j*) un paramètre qui modifie la probabilité d'absorption de l'individu *i* par l'emploi *j*. On définit $c_{abs}$ comme la chance d'absorption, qui est égale à la probabilité d'être absorbé divisée par la probabilité de ne pas être absorbée, soit $c_{abs} = p_{abs}/(1-p_{abs})$ . Dans le modèle de référence, cette chance d'absorption est similaire pour tous les emplois considérés par un individu et elle ne dépend que de la probabilité de fuite. Un moyen simple d'injecter de l'information dans le modèle consiste alors à modifier cette chance d'absorption selon les individus et les emplois qu'ils considèrent. Les modifications des probabilités d'absorption peuvent alors être paramétrées par des *odds-ratios* (des ratios de chances relatives) $\omicron_{ij}$ de telle manière que la nouvelle chance d'absorption de i en j soit égale à $\tilde{c}_{abs,ij} = \omicron_{ij} \times c_{abs}$. L'*odds-ratio* $\omicron_{ij}$ est un paramètre entre $0$ et $+\infty$ et *i* et *j* indexent les communes de départ et d'arrivée. La nouvelle probabilité d'absorption s'écrit alors à partir de la chance d'absorption de référence et de l'*odds-ratio* comme suit :
-
-$$
-\tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
-$$
-
-Une première stratégie de calage de *MEAPS* consiste à calculer autant d'*odds-ratios* qu'il y a de paires communes résidentes - communes d'emplois de manière à reproduire le plus fidèlement possible les flux agrégés de @MOBPRO. Cette méthode conduit en quelque sorte à saturer le modèle puisque l'on estime un nombre de paramètres proche du nombre de degrés de liberté imposé par @MOBPRO. Cette stratégie d'apprentissage est analogue à ce qui se fait en *machine learning* du fait de la démultiplication du nombre de paramètres à estimer. La limite de cette approche est le sur-ajustement (*overfitting*) qu'elle induit. Celle-ci est habituellement corrigée en ajoutant une pénalité à la complexité du modèle au sein de la fonction d'optimisation. Cela peut également se faire par *pruning*, en éliminant *a posteriori* les paramètres dont la contribution à l'explication des données est inférieure à un seuil.
-
-Les paramètres issues de cette approche contiennent une information qui peut ensuite être exploitée. Les *odds-ratios* s'interprètent alors relativement simplement : ceux qui sont supérieurs à 1 indiquent que le flux de mobilités professionnelles correspondant sont plus fréquents que ce que prévoit le modèle de référence ; et inversement pour les *odds-ratios* inférieurs à 1.
-
-Cette approche pose généralement un problème difficile d'optimisation algorithmique. Une approche brutale, qui consiste à minimiser une fonction de perte mesurant l'écart entre les flux estimés et les flux observés, se heurte à la grande dimension de l'espace des paramètres. En outre, comme toujours dans ce type d'exercice statistique, l'enjeu consiste à extraire des données disponibles des enseignements généraux en délaissant ce qui relève de la particularité d'un jeu de données. C'est toute la difficulté du surapprentissage (*overfitting*) que nous avons évoquée.
-
-Une seconde approche, plus parcimonieuse, consiste à définir une forme fonctionnelle pour les *odds-ratios* ou encore à regrouper les *odds-ratios* en quelques *clusters* pour ensuite n'évaluer qu'un petit nombre de paramètres. Ceci suppose de modéliser la structuration des *odds-ratios* à partir d'*a priori* sur les dimensions pertinentes.
-
-### Estimation de la première approche
+### Estimation d'autant d'*odds-ratios* que de paires de commune
 
 A ce stade, nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons les *odds-ratios* $\omicron^k_{ij}$ qui permettraient de combler l'écart entre les prévisions de MEAPS effectuées avec un ensemble d'*odds-ratios* $\omicron^{k-1}_{ij}$ et les données observées de @MOBPRO en utilisant la formule suivante où $\beta$ est un paramètre d'amortissement inférieur à 1 et positif et où $k$ indexe les itérations :
 
@@ -476,6 +483,12 @@ On pourrait multiplier les modèles estimés[^larochelle-5]. Le propos est ici d
 -   *MEAPS* peut mieux reproduire les données, avec une qualité d'ajustement meilleure,
 
 -   *MEAPS* ouvre des possibilités d'interprétation plus riches que celle du modèle gravitaire, parce que les fondements microscopiques de *MEAPS* sont explicites.
+
+::: {#tip-emiettage .callout-tip collapse="true"}
+## Emiettage
+
+Dans les simulations synthétiques présentées dans le @sec-synt les flux sont simulés avec une granularité individuelle. Chaque emploi ou chaque individu est localisé et les distances sont calculées entre ces localisations et les flux par individu sont simulés. L'agrégation spatiale à la maille hexagonale se fait ensuite. Dans le cas des données que nous utilisons pour La Rochelle, les carreaux ne sont pas occupés par un seul résident actif ou un seul emploi. Il y a des paquets pour lesquels il n'est pas nécessaire de refaire les simulations individu par individu ou emploi par emploi. Nous les avons donc regroupés et simuler en conséquences dans MEAPS. Cela pose cependant un problème puisque le choix d'un ordre de priorité s'exerce maintenant sur des individus en paquets de taille différente, un faible nombre de ces paquets étant de taille très supérieure à la médiane des autres. Ainsi, lorsqu'un paquet de taille importante est à son tour de choisir, il peut saturer des emplois en une seule passe. Pour résoudre ce problème, nous procédons à un émiettage dans lesquels les paquets de plus grande taille sont divisés en paquets plus petits. Pour un seuil d'émiettage de 20 individus (le flux le plus important de @MOBPRO pour La Rochelle est de 18 000) , on augmente le nombre de paquets d'environ 50% ce qui permet de conserver un problème de taille globale raisonnable tout en réduisant le problème de granularité des paquets. De plus, les paquets sont tirés au sort dans leur ordre de priorité en tenant compte de leur taille afin d'éviter une sur-représentation des paquets de petite taille dans les ordres de priorité.
+:::
 
 Le tableau @tbl-meapsR2-p résume les résultats des estimations. Le modèle de référence, dans lequel tous les emplois sont substituables pour chaque individu, fait moins bien en termes d'ajustement que les autres modèles, à l'exception notable du modèle gravitaire non équilibré. Comme on avait pu le constater dans les estimations non paramétriques, le modèle de référence a, malgré son hypothèse simplificatrice, une bonne performance, ce qui est confirmé ici par la comparaison au modèle gravitaire simple.
 
