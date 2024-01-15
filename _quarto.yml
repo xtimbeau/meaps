@@ -53,15 +53,6 @@ citation:
 
 keywords: [ modèle gravitaire, modèle radiatif, mobilités ]
 lang: fr
-crossref:
-  fig-prefix: figure   
-  tbl-prefix: tableau
-  eq-prefix: équation
-  sec-prefix: section
-  fig-title: figure
-  tbl-title: tableau
-  lof-title: Figures
-  lot-title: Tableaux
 logo: www/ofce.png
 format: 
   wp-html:

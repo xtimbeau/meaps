@@ -17,15 +17,14 @@ contributes:
       fig-asp: 0.61
       cap-location: top
       crossref:
-        fig-prefix: figure
+        fig-prefix: graphique
         tbl-prefix: tableau
         eq-prefix: équation
         sec-prefix: section
-        fig-title: "**Figure**"
-        fig-delim: "**.**"
+        fig-title: "**Graphique**"
+        title-delim: "**.**"
         tbl-title: "**Tableau**"
-        tbl-delim: "**.**"
-        lof-title: Figures
+        lof-title: Graphiques
         lot-title: Tableaux
         logo: ofce.png
       filters:
