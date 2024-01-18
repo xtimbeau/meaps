@@ -6,32 +6,74 @@ source("rinit.r")
 
 Avant de produire une application complète pour l'agglomération de La Rochelle (dans un prochain document, voir plus bas), nous explorons ici la capacité du modèle MEAPS à reproduire les flux de mobilités en le comparant en particulier au modèle gravitaire. La question est de savoir quel modèle est le mieux à même de reproduire les données observées de flux, à savoir MOBPRO tout en introduisant un minimum de paramètres, pas souci de parcimonie et de généralité.
 
-L'estimation de modèle gravitaire est habituellement faite par une régression linéaire, par les moindres carrés ordinaires, où les flux observés sont la variable expliquée et les emplois, les actifs et la distance sont les facteurs explicatifs, de la forme suivante ($c$ est une constante, qui n'est pas estimée et déterminée pour respecter la contrainte en ligne) :
+Les estimations que nous présentons dans cette section sont réalisées à partir d'une donnée principale à maille communale de MOBPRO, par une approche comparable à celle de @josselin2020, sur le périmètre de La Rochelle au lieu de la région PACA.
+
+Nous estimons dans un premier temps une famille de modèles gravitaires par les moindres carrés ordinaires (MCO). Nous discutons ensuite la métrique employée pour l'estimation. Les moindres carrés ordinaires reposent sur l'éerreur quadratique moyenne, mais l'estimation de distributions (les flux de mobilités entre paire de commune) qui ne sont pas distributées de façon normale ou log-normale est biaisée par ce critère. Ainsi, quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent une part très faible des flux cumulés. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux.
+
+Nous proposons d'utiliser l'entropie relative comme fonction objectif à minimiser. Une régression par les moindres carrés ordinairses pondérée par les flux (c'est-à-dire la variable expliquée) donne un résultat plus proche de l'entropie relative que l'erreur quadratique moyenne non pondérée. Nous procédons ensuite à des estimations non-linéaires en utilisant principalement l'entropie relative comme fonction objectif (d'autres fonctions objectifs sont présentées pour comparer). Cette approche permet d'estimer des modèles gravitaires à simple contrainte (la constante $c$ de l'@eq-gravitaire n'est plus estimée et est remplacée par un vecteur $c_i$ qui assure le respect de la contrainte en ligne[^larochelle-1]) et à doble contrainte (à l afois la contrainte el ligne et en colonne sont respectées en utilisant par exemple la procédure de Furness). En utilisant la même procédure d'estimation non-linéaire avec comme fonction objectif l'entropie relative, nous estimons également *MEAPS* étendu afin de permettre une paramétrisation.
+
+[^larochelle-1]: Chaque habitant occupe un emploi modulo la fuite hors du territoire analysé.
+
+Nous déclinons enfin ces estimations en utilisant l'information infra-communale pour montrer que cette information peut accroître le pouvoir explicatif des modèles, en particulier de *MEAPS*. L'intuition est que l'information infra-communale permet une paramétrisation plus fine que sur la base de l'information communale. Bien que la vairable expliquée (les flux) soit connue à l'échelle communale, l'injection d'une information infra-communale permet d'augmenter le pouvoir explicatif des modèles utilisés, particulièrement pour *MEAPS*.
+
+## Le modèle gravitaire et ses variantes
+
+L'estimation de modèle gravitaire est habituellement faite par une régression linéaire, par les moindres carrés ordinaires, où les flux observés $f_{ij}$ sont la variable expliquée et les emplois $e$, les actifs $n$ et la distance $d$ sont les facteurs explicatifs, de la forme suivante :
 
 $$
-log(f_{ij}) = \alpha \times log(a_i) + \beta \times log(e_j) + \delta \times d + c + \varepsilon_{ij}
+log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + c + \varepsilon_{ij}
 $$ {#eq-gravitaire}
 
 Dans la lignée de [@lenormand2016], [@josselin2020] utilisent une forme similaire, avec quelques variations, pour estimer pour la région PACA, à partir des données MOBPRO, des modèles gravitaires. Ce sont les mêmes données que nous utilisons, dans une région différente, mais pour laquelle il est intéressant de comparer les approches. Différentes spécifications sont employées par @josselin2020, mais ce sont surtout des variations quant à la mesure de la distance ou de la population. Les modèles employés y sont avant tout gravitaires et s'appuient sur la conclusion de @lenormand2016 qui est que le modèle gravitaire semble dominer les autres formalisations.
 
-Cependant le modèle gravitaire et la stratégie d'estimation posent plusieurs problèmes : le premier est que lorsque $\alpha$ et $\beta$ sont différents de 1, la spécification dépend de l’échelle et n'est pas additive (voir supra). Cette propriété est particulièrement difficile à comprendre. Ainsi, l'estimation dépend par exemple de l'unité de découpage géographique choisie. Le second problème réside dans la métrique d'estimation choisie. Dans @josselin2020, la seul métrique considérée est celle des erreurs moyennes au carré, pour une formulation en $log-log$. Ceci revient à minimiser le critère suivant :
+L'estimation de ce modèle gravitaire n'est contrainte ni en ligne – chaque actif occupe un emploi –, ni en colonne – chaque emploi est occupé par un actif. Pour intégrer ces contraintes, il faut modifier le modèle à la marge et l'estimation par les MCO devient difficile. La contrainte en ligne (appelée aussi simple contrainte) se réalise en remplaçant la constante $c$ par un vecteur $a_i$ qui vérifie la condition suivante :
 
 $$
-msre = \sum_i({log(\hat t}_i) - log(t_i))^2
+log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + a_i + \varepsilon_{ij}
+$$ {#eq-grav_sc}
+
 $$
+a_i = \frac{n_i}{\sum_j {\frac{n_i ^ \alpha \times e_j ^ \beta} { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { e_j ^ \beta / d_{ij}^{\delta} }}
+$$ {#eq-algsc}
+
+La difficulté de l'estimation par les MCO est que les $c_i$ dépend des $\varepsilon_{ij}$ qui dépendent des $c_i$. Cette interdépendance impose une estimation non linéaire. Le respect de la contrainte en colonne est fait de manière similaire, en introduisant un autre vecteur $b_j$ et vérifiant les conditions suivantes (décrites dans la section précédente comme la procédure de Furness) :
+
+$$
+log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) + \delta \times d_{ij} + a_i + b_j + \varepsilon_{ij}
+$$ {#eq-gravdc} $$
+a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
+$$ {#eq-algdc1} $$
+b_j = \frac{e_j}{\sum_i { {a_i n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{e_j ^ {1-\beta}}{\sum_i {a_i n_i ^ \alpha / d_{ij}^{\delta} }}
+$$ {#eq-algdc2}
+
+Ces deux derniers modèles (simple et double contrainte, ou contrainte en ligne et contrainte en ligne et en colonne) peuvent être estimés par un optimisation non linéaire sans grande difficulté, la procédure de Furness convergeant rapidement.
+
+Les paramètres $\alpha$ et $\beta$ sont généralement laissés libres. Rappelons que lorsqu'ils sont inférieurs à 1, le modèle gravitaire est non additif, et que ces deux paramètres dépendent de l'échelle de l'analyse et du découpage. A ce problème s'ajoute le problème de la variable manquante qui représente la distribution spatiale jointe des $n_i$ et des $e_j$ (reliés par les $d_{ij}$ qui quantifient cette distribution spatiale jointe).
+
+Le respect des contraintes en ligne et en colonne ne résolvent pas la difficulté de la non additivité, bien que ces contraintes assurent le respect d'une contrainte d'échelle globale. Lorsque la contrainte en ligne est respectée, le doublement de la population globale conduit à un doublement de la somme des flux (en fait chaque ligne est doublée). Bien sûr cette propriété n'est pas satisfaisante si les opportunités sont exclusives (capacité donnée) et que le problème considéré est équilibré (autant d'emplois que d'actifs dans la zone considérée). Le respect de la double contrainte par la procédure de Furness satisfait alors cette condition, mais toujours sans garantir l'additivité des flux – pour cela il est nécessaire que $\alpha = \beta = 1$.
+
+## Fonctions objectifs pour l'estimation
+
+La stratégie d'estimation par les MCO habituellement utilisée pose un problème par la métrique d'estimation choisie. Par exemeple, dans @josselin2020, la seul métrique considérée est celle de l'erreur quadratique moyenne (*mean square root error, msre*), pour une formulation en $log-log$. Ceci revient à minimiser le critère suivant (en notat $\hat t_i$ la distribition estimée et $t_i$ la distribution observée) :
+
+$$
+msre = \sum_i({log( t}_i) - log(\hat t_i))^2
+$$ {#eq-msre}
 
 Ce même critère est celui qui est employé dans les estimations de @lenormand2016 à l'exception de l'utilisation du critère d'information statistique $I$ définit comme suit :
 
 $$
 I(t, \hat t) = \frac 1 N \sum_i {t_i \times (log(t_i) - log(\hat t_i))}
+$$ {#eq-infcrit}
+
+Cette dernière métrique est aussi appelée l'entropie relative de deux distributions utilisée pour comparer deux distributions, en ayant l'avantage d'être robuste à beaucoup de formes de distributions.
+
+Ce n'est pas une distance, puisque les propriétés de non symétrie ou de positivité ne sont pas respectées. <!--# je pense qu'on peut renforcer l'argument ici --> Néanmoins, elle peut être utilisée pour construire un critère proche du $R^2$ (voir @tip-entropie). La principale différence avec la métrique usuelle des moindres carrés ordinaires simple est que le poids donné aux erreurs du modèle n'est pas du tout le même. Une grande erreur relative sur un flux très petit ne doit pas avoir beaucoup d'importance alors que pour un flux très important, elle doit être très pénalisée. Or ce que l'on cherche à prévoir ce sont les flux et donc l'accent doit être mis sur la minimisation de l'erreurs sur des flux importants. Les moindres carrés ordinaires donnent à chaque $\varepsilon_{ij}$, le même poids. Au contraire l'entropie relative pondère les erreurs par le terme $f_{ij}$. Cette métrique est d'autant plus importante que les données que l'on utilise sont très loin d'une distribution uniforme ou normale.
+
+Une régression par les moindres carrés ordinaires est une approche alternative si l'on pondère par les flux la régression en $log-log$. Le critère employé est alors :
+
 $$
-
-Cette dernière métrique est aussi appelée l'entropie relative de deux distributions et est le critère utilisé pour comparer deux distributions. Ce n'est pas tout à fait une distance (non symétrie, non nécessairement positif) mais elle peut être utilisée pour construire un critère proche du $R^2$ (voir @tip-entropie). La principale différence avec la métrique usuelle des moindres carrés ordinaires simple est que le poids donné aux erreurs du modèle n'est pas du tout le même suivant l'importance des flux. Une grande erreur relative sur un flux très petit ne doit pas avoir beaucoup d'importance alors que pour un flux très important, elle doit être très pénalisée. Or ce que l'on cherche à prévoir ce sont les flux et donc l'accent doit être mis sur la minimisation des erreurs sur les flux agrégés importants.
-
-Les moindres carrés ordinaires donnent à chaque $\varepsilon_{ij}$, le même poids. Au contraire l'entropie relative pondère les erreurs par le terme $f_{ij}$. Cette métrique est d'autant plus importante que les données que l'on utilise sont très loin d'une distribution uniforme. Quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent une part très faible des flux cumulés. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux. Une régression par les moindres carrés ordinaires est une approche alternative si l'on pondère par les flux la régression en $log-log$. Le critère employé est alors :
-
-$$
-msre = \sum_i { t_i \times ({log(\hat t}_i) - log(t_i))^2 }
+msre = \sum_i { t_i \times ({log(t}_i) - log(\hat t_i))^2 }
 $$
 
 ::: {#tip-entropie .callout-tip collapse="true"}
@@ -57,26 +99,8 @@ KL(p,q_{ref}) &{}= \sum_{i}p_i \times log(p_i/unif) \\&{}= \sum_i p_i \times log
 \end{aligned}
 $$
 
-Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois). Le coefficient d'ajustement ainsi défini peut avoir pour des distributions particulières des valeurs négatives ou supérieures à 1. Il fonctionne assez bien malgré tout dans un grand nombre de cas.
+Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois). Le coefficient d'ajustement ainsi défini peut avoir pour des distributions très particulières des valeurs négatives ou supérieures à 1.
 :::
-
-Le troisième problème est que l'on utilise généralement les distances à vol d'oiseau (ou euclidiennes) entre les unités administratives qui définissent la granularité d'observation. On s'expose à la fois au problème d'un découpage administratif et à une approximation des distances en faisant fi de la géographie fine. Nous calculons des distances en utilisant l'information sur les réseaux de transport (routiers ou transport en commun) entre un maillage bien plus fin que les unités administratives. Si on ne connaît pas les flux entre paires d'origine et de destination à un niveau plus fin que le niveau communal, on peut en revanche localiser les emplois ou les actifs (@sec-emplois) au carreau 200m et ainsi générer des distances entre les carreaux 200m ( @sec-distancesparmode). L'utilisation de ces informations supplémentaires se trouve être critique dans l'analyse des flux, améliorant l'estimation du modèle gravitaire.
-
-Enfin, le quatrième problème, qui découle en partie de la non homogénéité du modèle, est que les flux doivent respecter une contrainte en ligne (chaque individu a un emploi et un seul) et en colonne (chaque emploi ne peut être occupé que par un individu). Or le respect de cette contrainte n'est pas garanti par l'@eq-gravitaire. L'usage est d'employer une procédure de Furness pour assurer le double équilibre en ligne et en colonne. Cependant, la justification théorique est incertaine et modifie les propriétés du modèle initial.
-
-Le cinquième problème est celui de la paramétrisation du modèle radiatif. @simini2012 proposent un paramètre supplémentaire à leur modèle en paramétrisant l'absorption à l'origine. @yang2014 introduisent un paramètre dans le modèle radiatif dans la formulation de @simini2012 par la loi élémentaire d'absorption. Sans surprise, l'introduction d'un paramètre supplémentaire améliore la qualité d'estimation et la porte au dessus de ce que le modèle gravitaire peut faire. Le problème noté par @fotheringham1983 de variables manquantes dans le modèle gravitaire est ainsi résolu. Les variables "ajoutées" décrivent la structure spatiale, ou pour être plus précis la distribution jointe des résidents et des opportunités.
-
-MEAPS résout chacun de ses problèmes explicitement, et en introduisant des paramètres dans la formulation de MEAPS (voir @sec-odds), on peut largement améliorer la qualité de l'ajustement.
-
-Les estimations que nous présentons ici aboutissent à plusieurs résultats importants :
-
-1.  une métrique pondérée ou d'entropie relative produit des résultats plus robustes, plus convainquant et une capacité de prédiction bien meilleure que la métrique implicite (non pondérée) des moindres carrés ordinaires ;
-
-2.  l'utilisation de données supplémentaires sur la géographie du territoire (localisation des individus, des résidents, réseaux de transport) accroît la qualité des estimation et la capacité prédictive ;
-
-3.  la modélisation des flux par MEAPS a de meilleures propriétés et une plus grande capacité prédictive que le modèle gravitaire, y compris lorsque celui ci est estimé en utilisant une métrique adaptée et une information géographique fine, à partir du moment où l'on introduit des paramètres dans le modèle radiatif. Le modèle radiatif universel et sans paramètre produit un résultat correct, mais l'ajustement est inférieur à ceux de modèles gravitaires paramétrisés ;
-
-4.  les paramètres du modèle gravitaire sont difficilement interprétables. Ils dépendent en effet de la configuration spatiale spécifique et de l'échelle d'observation. MEAPS permet une approche structurelle aux fondements bien définis qui donne aux paramètres une signification plus générale.
 
 Nous décrivons dans un premier temps la construction des données (@sec-emplois, @sec-distancesparmode). Nous présentons ensuite les estimations "communales" du modèle gravitaire usuel (par les moindres carrés ordinaires), du modèle gravitaire avec une métrique *KL* en le comparant à MEAPS sur cette même source d'information (@sec-communal). Nous présentons ensuite les estimations en utilisant l'information géographique fine, en utilisant une approche non paramètrique puis une approche paramètrique. Nous concluons sur les capacités à reproduire les flux mesurés dans MOBPRO.
 
@@ -96,9 +120,9 @@ Les paramètres issues de cette approche contiennent une information qui peut en
 
 ### Emplois, résidents au carreau Inspire 200m {#sec-emplois}
 
-La carte de la zone considérée est représentée sur la @fig-zoneslr. L'analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour des lieux de résidence. Cette carte est construite à partir des données carroyées de @C200 à la résolution du carreau 200m Inspire[^larochelle-1]. Nous ajoutons à ces données la localisation de l'emploi sur la même grille en utilisant les fichiers fonciers et les données d'emplois localisés de @MOBPRO. La méthode consiste à imputer par code NAF les emplois de chaque commune selon @MOBPRO aux surfaces professionnelles à la parcelle issues des fichiers fonciers. Cela permet ensuite de localiser au carreau 200m les emplois. Cette méthode est assez grossière, puisqu'en particulier la ratio personne/surface n'est pas constant d'une entreprise à l'autre, mais elle fournit une bonne première approximation d'autant que l'extrapolation ne dépasse pas l'échelle de la commune. Elle est en tout cas très supérieure à une imputation uniforme.
+La carte de la zone considérée est représentée sur la @fig-zoneslr. L'analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour des lieux de résidence. Cette carte est construite à partir des données carroyées de @C200 à la résolution du carreau 200m Inspire[^larochelle-2]. Nous ajoutons à ces données la localisation de l'emploi sur la même grille en utilisant les fichiers fonciers et les données d'emplois localisés de @MOBPRO. La méthode consiste à imputer par code NAF les emplois de chaque commune selon @MOBPRO aux surfaces professionnelles à la parcelle issues des fichiers fonciers. Cela permet ensuite de localiser au carreau 200m les emplois. Cette méthode est assez grossière, puisqu'en particulier la ratio personne/surface n'est pas constant d'une entreprise à l'autre, mais elle fournit une bonne première approximation d'autant que l'extrapolation ne dépasse pas l'échelle de la commune. Elle est en tout cas très supérieure à une imputation uniforme.
 
-[^larochelle-1]: INfrastructure for SPatial InfoRmation in Europe est depuis 2007 une directive pour la production de données spatialisées. Inspire définit une grille de carroyage et son système de projection harmonisée. C'est ce qui suit l'INSEE dans la diffusion des données carroyées. Voir https://inspire-geoportal.ec.europa.eu pour la définition de la grille et des jeux de données.
+[^larochelle-2]: INfrastructure for SPatial InfoRmation in Europe est depuis 2007 une directive pour la production de données spatialisées. Inspire définit une grille de carroyage et son système de projection harmonisée. C'est ce qui suit l'INSEE dans la diffusion des données carroyées. Voir https://inspire-geoportal.ec.europa.eu pour la définition de la grille et des jeux de données.
 
 ```{r}
 #| label: fig-zoneslr
@@ -208,7 +232,9 @@ ggplot(mode_l) +
 
 ## Ajustements "communaux" de modèles gravitaires et de *MEAPS* {#sec-ajustcom}
 
-Les estimations que nous présentons dans cette section sont réalisées à la maille communale de MOBPRO, par une approche comparable à celle de @josselin2020, sur le périmètre de La Rochelle. Nous estimons dans un premier temps une famille de modèles gravitaires par les moindres carrés ordinaires. La forme estimée est celle de l'@eq-gravitaire en utilisant différentes distances.
+### Modèles gravitaires par les MCO
+
+La forme estimée est celle de l'@eq-gravitaire en utilisant différentes distances.
 
 1.  La distance euclidienne entre les centroïdes de chaque commune, notée $euc$. Lorsque la destination est la même que l'origine, on utilise la moitié de la racine carré de la surface de la commune.
 2.  La distance moyenne pondérée entre chaque paire de communes, notée $d$. Elle est obtenue en pondérant par le produit des actifs à l'origine et des emplois à la destination les distances calculées entre chaque carreau 200m de la commune d'origine et chaque carreau de la commune de destination. Cette distance moyenne pondérée est non nulle par construction lorsque la destination est l'origine.
@@ -240,6 +266,57 @@ bd_read("grav_est_com_w")
 #| tbl-cap: Estimation commune à commune, modèle gravitaire, contraint, métrique standard, pondéré par les flux en niveau
 
 bd_read("grav_est_com_w_cc")
+```
+
+### Estimations non linéaires
+
+On estime cette fois les deux formes du modèle gravitaire qui respectent respectivement la contrainte en ligne et la contrainte en ligne et en colonne. Cela demande un algorithme itératif et une estimation non linéaire. Les résultats sont indiqués dans le @tbl-gravnonlineaire. Nous n'avons pas calculé d'intervalles de confiance sur les paramètres, parce que cela est difficile dans une estimation non linéaire. On aurait pu procéder par rééchantillonage (*bootstrap*), mais la nature de notre échantillon empirique s'y prête mal. Il s'agit en effet d'une zone géographique connexe par les mobilités professionnelles. Artificiellement enlever ou dupliquer des observations conduit à fabriquer une chimère qui n'aide pas à l'analyse de la variabilité de l'échantillon. En revanche, cette approche est possible sur un échantillon composé de plusieurs aires d'attraction en rééchantillonant en masse les aires d'attraction. Nous utiliserons cette méthode dans un prochain travail.
+
+```{r}
+#| label: tbl-gravnonlineaire
+#| tbl-cap: Estimations non linéaires commune à commune, modèles gravitaires
+estmeaps <- bd_read("estmeaps")
+
+estmeaps |> 
+  select(nom, dist, obj, nbp, p1, p2, p3, kl, r2w) |> 
+  mutate() |> 
+  relocate(nom, dist, obj, nbp, p2, p3, p1, kl, r2w) |> 
+  filter(str_detect(nom, "Grav")) |> 
+  gt() |> 
+  cols_label(nom = "", dist="distance", obj="objectif", 
+             nbp = "Paramètres", kl = "KL", r2w = md("R^2^ p."),
+             p1 = md("\u03B4"), p2 = md("\u03B1"), p3 = md("\u03B2")) |> 
+  fmt_number(columns = c(p1,p2,p3), decimals = 2) |> 
+  fmt_percent(columns = c(kl,r2w), decimals = 1) |> 
+  sub_missing() |> 
+  tab_style(locations = cells_body(rows = seq(4, 11, by = 3)), style = cell_borders(sides="top")) |> 
+  tab_footnote(md("log(f~ij~)=\u03B1xlog(a~ij~)+\u03B2xlog(e~ij~)-\u03B4xlog(d~ij~)+a~i~ ; simple contrainte (en ligne)"), locations = cells_body(columns=nom, rows = 1:6)) |> 
+  tab_footnote(md("log(f~ij~)=\u03B1xlog(a~ij~)+\u03B2xlog(e~ij~)-\u03B4xlog(d~ij~)+a~i~+b~j~ ; double contrainte (lignes et colonnes)"), locations = cells_body(columns=nom, rows = 7:12))
+```
+
+```{}
+```
+
+```{r}
+#| label: tbl-meapsnonlineaire
+#| tbl-cap: Estimations non linéaires commune à commune, MEAPS
+estmeaps <- bd_read("estmeaps")
+
+estmeaps |> 
+  select(nom, dist, obj, nbp, p1, p2, p3, kl, r2w) |> 
+  mutate() |> 
+  relocate(nom, dist, obj, nbp, p2, p3, p1, kl, r2w) |> 
+  filter(str_detect(nom, "Grav")) |> 
+  gt() |> 
+  cols_label(nom = "", dist="distance", obj="objectif", 
+             nbp = "Paramètres", kl = "KL", r2w = md("R^2^ p."),
+             p1 = md("\u03B4"), p2 = md("\u03B1"), p3 = md("\u03B2")) |> 
+  fmt_number(columns = c(p1,p2,p3), decimals = 2) |> 
+  fmt_percent(columns = c(kl,r2w), decimals = 1) |> 
+  sub_missing() |> 
+  tab_style(locations = cells_body(rows = seq(4, 11, by = 3)), style = cell_borders(sides="top")) |> 
+  tab_footnote(md("log(f~ij~)=\u03B1xlog(a~ij~)+\u03B2xlog(e~ij~)-\u03B4xlog(d~ij~)+a~i~ ; simple contrainte (en ligne)"), locations = cells_body(columns=nom, rows = 1:6)) |> 
+  tab_footnote(md("log(f~ij~)=\u03B1xlog(a~ij~)+\u03B2xlog(e~ij~)-\u03B4xlog(d~ij~)+a~i~+b~j~ ; double contrainte (lignes et colonnes)"), locations = cells_body(columns=nom, rows = 7:12))
 ```
 
 Une première évaluation du modèle *MEAPS* est estimée sur @MOBPRO, à la maille communale et donc sans recourir encore à la modélisation des réseaux de transport décrite plus haut. On procède en simulant *MEAPS* sans paramètre, c'est-à-dire en l'ajustant uniquement sur les contraintes en ligne et en colonne. On utilise les différentes métriques de distances comme pour les modèles gravitaires.
@@ -369,9 +446,9 @@ meaps_stats |>
 
 la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le fait d'estimer uniquement les $\omicron_{ii}$ diagonaux, en ajustant donc seulement les flux allant d'une commune de résidence vers elle même, donne déjà de très bons résultats en faisant passer le $R^2_{KL}$ de 88% à 95% et en réduisant visiblement les écarts entre flux observé et flux estimé, comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus, d'autant que les écarts pour les flux marginaux ne sont pas tant réduits que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{ij}$.
 
-Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une vingtaine de secondes[^larochelle-2].
+Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une vingtaine de secondes[^larochelle-3].
 
-[^larochelle-2]: Autour d'une année de vCPU...
+[^larochelle-3]: Autour d'une année de vCPU...
 
 ```{r actvsfit-np, fig.asp=1}
 #| label: fig-actvsfit-np
@@ -430,9 +507,9 @@ ggplot(non_param)+
 
 Notons que l'échantillon des mobilités donné par @MOBPRO pour l'agglomération de la Rochelle est très particulier. Une commune (La Rochelle, dont le code géographique est 17300) représente presque 29% des flux de mobilité (de La Rochelle lieu de résidence vers La Rochelle lieu d'emploi). C'est donc un schéma monocentrique, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit. La résolution spatiale de @MOBPRO ne nous permet pas d'en détailler la structure plus fine.
 
-Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent chacune plus de 1 000 résidents en activité -- on peut représenter les *odds-ratios* estimés dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{ij}$ sont égaux à 1 (des *odds-ratios* effectifs) en fonction de la distance entre la commune de destination et la commune de résidence[^larochelle-3]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odds-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odds-ratios* élevés pour des distances importantes
+Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent chacune plus de 1 000 résidents en activité -- on peut représenter les *odds-ratios* estimés dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{ij}$ sont égaux à 1 (des *odds-ratios* effectifs) en fonction de la distance entre la commune de destination et la commune de résidence[^larochelle-4]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odds-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odds-ratios* élevés pour des distances importantes
 
-[^larochelle-3]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
+[^larochelle-4]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
 
 ```{r spectreR}
 #| label: fig-spectreR
@@ -475,18 +552,18 @@ Nous explorons ici trois formes fonctionnelles pour *MEAPS* :
 
 3.  Un coefficient pour la distance et un paramètre pour la distance de "bascule". Formellement, en dessous d'une distance $d_c$ , on définit un $\omicron_{ij \in d_{i,j} \leq d_c} = o$ et $\omicron_{ij \in d_{i,j} > d_c} = 1$. Cette forme partage la même idée que le premier modèle, mais estime la notion de proximité au lieu de reposer sur le découpage administratif.
 
-Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite --, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-4].
+Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite --, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-5].
 
-[^larochelle-4]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
+[^larochelle-5]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
 
 A ces formes fonctionnelles pour *MEAPS*, nous ajoutons deux formes fonctionnelles pour le modèle gravitaire :
 
 4.  un modèle gravitaire suivant la définition @eq-gravity où $f(d)= e^{d/\delta}$. Un seul paramètre $\delta$ est estimé.
 5.  un modèle gravitaire "équilibré" en utilisant l'algorithme de Furness, tel que décrit dans @sec-compgravsynth et en estimant $\delta$ comme dans le point 4.
 
-On pourrait multiplier les modèles estimés[^larochelle-5]. Le propos est ici d'illustrer les possibilités de notre modélisation et de les comparer à celles du modèle gravitaire. Deux points émergent :
+On pourrait multiplier les modèles estimés[^larochelle-6]. Le propos est ici d'illustrer les possibilités de notre modélisation et de les comparer à celles du modèle gravitaire. Deux points émergent :
 
-[^larochelle-5]: Par exemple, en faisant dépendre les *odd-ratios* non pas de la distance et d'une distance critique mais du rang et d'un rang critique.
+[^larochelle-6]: Par exemple, en faisant dépendre les *odd-ratios* non pas de la distance et d'une distance critique mais du rang et d'un rang critique.
 
 -   *MEAPS* peut mieux reproduire les données, avec une qualité d'ajustement meilleure,
 
@@ -551,9 +628,9 @@ Les estimations des modèles 1 à 3, dans lesquelles on explore un terme diagona
 
 L'estimation du modèle 3 indique qu'apparemment la distance explique mieux le biais communal que le découpage administratif et il convient plutôt de voir celui-ci comme un biais de proximité. En effet, le coefficient d'ajustement est supérieur de plus d'un point à celui obtenu avec le premier modèle, en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 9 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu'au lieu d'être approximativement de 4 elle est approximativement de 19, soit plus de 4 fois plus.
 
-Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli[^larochelle-6] ou de données issues de traçages numériques.
+Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli[^larochelle-7] ou de données issues de traçages numériques.
 
-[^larochelle-6]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
+[^larochelle-7]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
 
 ```{r actvsfit-p, fig.asp=1}
 #| label: fig-actvsfit-p
@@ -788,8 +865,14 @@ library(patchwork)
 haut / bas + plot_layout(heights = c(3,1))
 ```
 
-## Une cartographie des émissions de CO~2~
+## Conclusion
 
-La construction d'un modèle et sa calibration et sa validation sur des données permet de projeter dans des dimensions non observées les prédictions du modèle. Nous utilisons ici *MEAPS*, calibré sur les données @MOBPRO sur l'agglomération de la Rochelle pour produire une carte au carreau 200m des émissions de CO~2~ liées à la mobilité professionnelle quotidienne.
+Les estimations que nous présentons ici aboutissent à plusieurs résultats importants :
 
-Le principe est assez simple : les seuls déplacements en voiture sont considérés comme étant émetteur de CO~2~, ce qui est une approximation raisonnable. Les émissions liées aux transports en commun, particulièrement les bus peu occupés pourraient être ajoutées, mais elles pèsent relativement peu dans le bilan des mobilités quotidiennes. Pour estimer les déplacements en voiture nous utilisons un modèle de choix discret évoqué dans la @sec-distancesparmode. Ce modèle estimé sur @MOBPERS ne pose à ce stade pas de difficulté particulière, si ce n'est un problème discuté à la fin de cette section.
+1.  une métrique pondérée ou d'entropie relative produit des résultats plus robustes, plus convainquant et une capacité de prédiction bien meilleure que la métrique implicite (non pondérée) des moindres carrés ordinaires ;
+
+2.  l'utilisation de données supplémentaires sur la géographie du territoire (localisation des individus, des résidents, réseaux de transport) accroît la qualité des estimation et la capacité prédictive ;
+
+3.  la modélisation des flux par MEAPS a de meilleures propriétés et une plus grande capacité prédictive que le modèle gravitaire, y compris lorsque celui ci est estimé en utilisant une métrique adaptée et une information géographique fine, à partir du moment où l'on introduit des paramètres dans le modèle radiatif. Le modèle radiatif universel et sans paramètre produit un résultat correct, mais l'ajustement est inférieur à ceux de modèles gravitaires paramétrisés ;
+
+4.  les paramètres du modèle gravitaire sont difficilement interprétables. Ils dépendent en effet de la configuration spatiale spécifique et de l'échelle d'observation. MEAPS permet une approche structurelle aux fondements bien définis qui donne aux paramètres une signification plus générale.
