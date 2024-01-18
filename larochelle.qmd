@@ -270,7 +270,9 @@ bd_read("grav_est_com_w_cc")
 
 ### Estimations non linéaires
 
-On estime cette fois les deux formes du modèle gravitaire qui respectent respectivement la contrainte en ligne et la contrainte en ligne et en colonne. Cela demande un algorithme itératif et une estimation non linéaire. Les résultats sont indiqués dans le @tbl-gravnonlineaire. Nous n'avons pas calculé d'intervalles de confiance sur les paramètres, parce que cela est difficile dans une estimation non linéaire. On aurait pu procéder par rééchantillonage (*bootstrap*), mais la nature de notre échantillon empirique s'y prête mal. Il s'agit en effet d'une zone géographique connexe par les mobilités professionnelles. Artificiellement enlever ou dupliquer des observations conduit à fabriquer une chimère qui n'aide pas à l'analyse de la variabilité de l'échantillon. En revanche, cette approche est possible sur un échantillon composé de plusieurs aires d'attraction en rééchantillonant en masse les aires d'attraction. Nous utiliserons cette méthode dans un prochain travail.
+On estime cette fois les deux formes du modèle gravitaire qui respectent respectivement la contrainte en ligne et la contrainte en ligne et en colonne. Cela demande un algorithme itératif et une estimation non linéaire. Les résultats sont reportés dans le @tbl-gravnonlineaire[^larochelle-3].
+
+[^larochelle-3]: Nous n'avons pas calculé d'intervalles de confiance sur les paramètres, parce que cela est difficile dans une estimation non linéaire. On aurait pu procéder par rééchantillonage (*bootstrap*), mais la nature de notre échantillon empirique s'y prête mal. Il s'agit en effet d'une zone géographique connexe par les mobilités professionnelles. Artificiellement enlever ou dupliquer des observations conduit à fabriquer une chimère qui n'aide pas à l'analyse de la variabilité de l'échantillon. En revanche, cette approche est possible sur un échantillon composé de plusieurs aires d'attraction en rééchantillonant en masse les aires d'attraction. Nous utiliserons cette méthode dans un prochain travail.
 
 ```{r}
 #| label: tbl-gravnonlineaire
@@ -294,7 +296,7 @@ estmeaps |>
   tab_footnote(md("log(f~ij~)=\u03B1xlog(a~ij~)+\u03B2xlog(e~ij~)-\u03B4xlog(d~ij~)+a~i~+b~j~ ; double contrainte (lignes et colonnes)"), locations = cells_body(columns=nom, rows = 7:12))
 ```
 
-```{}
+```         
 ```
 
 ```{r}
@@ -303,20 +305,21 @@ estmeaps |>
 estmeaps <- bd_read("estmeaps")
 
 estmeaps |> 
-  select(nom, dist, obj, nbp, p1, p2, p3, kl, r2w) |> 
+  select(nom, dist, obj, nbp, p1, p2, kl, r2w) |> 
   mutate() |> 
-  relocate(nom, dist, obj, nbp, p2, p3, p1, kl, r2w) |> 
-  filter(str_detect(nom, "Grav")) |> 
+  relocate(nom, dist, obj, nbp, p1,p2, kl, r2w) |> 
+  filter(str_detect(nom, "MEAPS")) |> 
   gt() |> 
   cols_label(nom = "", dist="distance", obj="objectif", 
              nbp = "Paramètres", kl = "KL", r2w = md("R^2^ p."),
-             p1 = md("\u03B4"), p2 = md("\u03B1"), p3 = md("\u03B2")) |> 
-  fmt_number(columns = c(p1,p2,p3), decimals = 2) |> 
+             p1 = md("p~1~"), p2 = md("p~2~")) |> 
+  fmt_number(columns = c(p1,p2), decimals = 2) |> 
   fmt_percent(columns = c(kl,r2w), decimals = 1) |> 
   sub_missing() |> 
   tab_style(locations = cells_body(rows = seq(4, 11, by = 3)), style = cell_borders(sides="top")) |> 
-  tab_footnote(md("log(f~ij~)=\u03B1xlog(a~ij~)+\u03B2xlog(e~ij~)-\u03B4xlog(d~ij~)+a~i~ ; simple contrainte (en ligne)"), locations = cells_body(columns=nom, rows = 1:6)) |> 
-  tab_footnote(md("log(f~ij~)=\u03B1xlog(a~ij~)+\u03B2xlog(e~ij~)-\u03B4xlog(d~ij~)+a~i~+b~j~ ; double contrainte (lignes et colonnes)"), locations = cells_body(columns=nom, rows = 7:12))
+  tab_footnote(md("o~ii~=p~1~ ; o~ij~=1"), locations = cells_body(columns=p1, rows = 4:6)) |>
+  tab_footnote(md("o~ii~=p~1~ ; o~iv(i)~=p~2~ ; o~ij~=1"), locations = cells_body(columns=c(p1,p2), rows = 7:9)) |>
+  tab_footnote(md("log(o~ij~)=-p~1~xlog(d~ij~)"), locations = cells_body(columns=p1, rows = 10:12))
 ```
 
 Une première évaluation du modèle *MEAPS* est estimée sur @MOBPRO, à la maille communale et donc sans recourir encore à la modélisation des réseaux de transport décrite plus haut. On procède en simulant *MEAPS* sans paramètre, c'est-à-dire en l'ajustant uniquement sur les contraintes en ligne et en colonne. On utilise les différentes métriques de distances comme pour les modèles gravitaires.
@@ -446,9 +449,9 @@ meaps_stats |>
 
 la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le fait d'estimer uniquement les $\omicron_{ii}$ diagonaux, en ajustant donc seulement les flux allant d'une commune de résidence vers elle même, donne déjà de très bons résultats en faisant passer le $R^2_{KL}$ de 88% à 95% et en réduisant visiblement les écarts entre flux observé et flux estimé, comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus, d'autant que les écarts pour les flux marginaux ne sont pas tant réduits que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{ij}$.
 
-Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une vingtaine de secondes[^larochelle-3].
+Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une vingtaine de secondes[^larochelle-4].
 
-[^larochelle-3]: Autour d'une année de vCPU...
+[^larochelle-4]: Autour d'une année de vCPU...
 
 ```{r actvsfit-np, fig.asp=1}
 #| label: fig-actvsfit-np
@@ -507,9 +510,9 @@ ggplot(non_param)+
 
 Notons que l'échantillon des mobilités donné par @MOBPRO pour l'agglomération de la Rochelle est très particulier. Une commune (La Rochelle, dont le code géographique est 17300) représente presque 29% des flux de mobilité (de La Rochelle lieu de résidence vers La Rochelle lieu d'emploi). C'est donc un schéma monocentrique, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit. La résolution spatiale de @MOBPRO ne nous permet pas d'en détailler la structure plus fine.
 
-Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent chacune plus de 1 000 résidents en activité -- on peut représenter les *odds-ratios* estimés dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{ij}$ sont égaux à 1 (des *odds-ratios* effectifs) en fonction de la distance entre la commune de destination et la commune de résidence[^larochelle-4]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odds-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odds-ratios* élevés pour des distances importantes
+Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent chacune plus de 1 000 résidents en activité -- on peut représenter les *odds-ratios* estimés dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{ij}$ sont égaux à 1 (des *odds-ratios* effectifs) en fonction de la distance entre la commune de destination et la commune de résidence[^larochelle-5]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odds-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odds-ratios* élevés pour des distances importantes
 
-[^larochelle-4]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
+[^larochelle-5]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
 
 ```{r spectreR}
 #| label: fig-spectreR
@@ -552,18 +555,18 @@ Nous explorons ici trois formes fonctionnelles pour *MEAPS* :
 
 3.  Un coefficient pour la distance et un paramètre pour la distance de "bascule". Formellement, en dessous d'une distance $d_c$ , on définit un $\omicron_{ij \in d_{i,j} \leq d_c} = o$ et $\omicron_{ij \in d_{i,j} > d_c} = 1$. Cette forme partage la même idée que le premier modèle, mais estime la notion de proximité au lieu de reposer sur le découpage administratif.
 
-Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite --, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-5].
+Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite --, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-6].
 
-[^larochelle-5]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
+[^larochelle-6]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
 
 A ces formes fonctionnelles pour *MEAPS*, nous ajoutons deux formes fonctionnelles pour le modèle gravitaire :
 
 4.  un modèle gravitaire suivant la définition @eq-gravity où $f(d)= e^{d/\delta}$. Un seul paramètre $\delta$ est estimé.
 5.  un modèle gravitaire "équilibré" en utilisant l'algorithme de Furness, tel que décrit dans @sec-compgravsynth et en estimant $\delta$ comme dans le point 4.
 
-On pourrait multiplier les modèles estimés[^larochelle-6]. Le propos est ici d'illustrer les possibilités de notre modélisation et de les comparer à celles du modèle gravitaire. Deux points émergent :
+On pourrait multiplier les modèles estimés[^larochelle-7]. Le propos est ici d'illustrer les possibilités de notre modélisation et de les comparer à celles du modèle gravitaire. Deux points émergent :
 
-[^larochelle-6]: Par exemple, en faisant dépendre les *odd-ratios* non pas de la distance et d'une distance critique mais du rang et d'un rang critique.
+[^larochelle-7]: Par exemple, en faisant dépendre les *odd-ratios* non pas de la distance et d'une distance critique mais du rang et d'un rang critique.
 
 -   *MEAPS* peut mieux reproduire les données, avec une qualité d'ajustement meilleure,
 
@@ -628,9 +631,9 @@ Les estimations des modèles 1 à 3, dans lesquelles on explore un terme diagona
 
 L'estimation du modèle 3 indique qu'apparemment la distance explique mieux le biais communal que le découpage administratif et il convient plutôt de voir celui-ci comme un biais de proximité. En effet, le coefficient d'ajustement est supérieur de plus d'un point à celui obtenu avec le premier modèle, en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 9 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu'au lieu d'être approximativement de 4 elle est approximativement de 19, soit plus de 4 fois plus.
 
-Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli[^larochelle-7] ou de données issues de traçages numériques.
+Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli[^larochelle-8] ou de données issues de traçages numériques.
 
-[^larochelle-7]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
+[^larochelle-8]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
 
 ```{r actvsfit-p, fig.asp=1}
 #| label: fig-actvsfit-p
