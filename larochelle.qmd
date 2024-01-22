@@ -29,7 +29,7 @@ Dans la lignée de [@lenormand2016], [@josselin2020] utilisent une forme similai
 L'estimation de ce modèle gravitaire n'est contrainte ni en ligne – chaque actif occupe un emploi –, ni en colonne – chaque emploi est occupé par un actif. Pour intégrer ces contraintes, il faut modifier le modèle à la marge et l'estimation par les MCO devient difficile. La contrainte en ligne (appelée aussi simple contrainte) se réalise en remplaçant la constante $c$ par un vecteur $a_i$ qui vérifie la condition suivante :
 
 $$
-log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + a_i + \varepsilon_{ij}
+log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + log(a_i) + \varepsilon_{ij}
 $$ {#eq-grav_sc}
 
 $$
@@ -39,7 +39,7 @@ $$ {#eq-algsc}
 La difficulté de l'estimation par les MCO est que les $c_i$ dépend des $\varepsilon_{ij}$ qui dépendent des $c_i$. Cette interdépendance impose une estimation non linéaire. Le respect de la contrainte en colonne est fait de manière similaire, en introduisant un autre vecteur $b_j$ et vérifiant les conditions suivantes (décrites dans la section précédente comme la procédure de Furness) :
 
 $$
-log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) + \delta \times d_{ij} + a_i + b_j + \varepsilon_{ij}
+log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + log(a_i) + log(b_j) + \varepsilon_{ij}
 $$ {#eq-gravdc} $$
 a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algdc1} $$
@@ -48,9 +48,23 @@ $$ {#eq-algdc2}
 
 Ces deux derniers modèles (simple et double contrainte, ou contrainte en ligne et contrainte en ligne et en colonne) peuvent être estimés par un optimisation non linéaire sans grande difficulté, la procédure de Furness convergeant rapidement.
 
-Les paramètres $\alpha$ et $\beta$ sont généralement laissés libres. Rappelons que lorsqu'ils sont inférieurs à 1, le modèle gravitaire est non additif, et que ces deux paramètres dépendent de l'échelle de l'analyse et du découpage. A ce problème s'ajoute le problème de la variable manquante qui représente la distribution spatiale jointe des $n_i$ et des $e_j$ (reliés par les $d_{ij}$ qui quantifient cette distribution spatiale jointe).
+En notant $\hat a_i = a_i/n_i^{1-\alpha}$ et $\hat b_j= b_j/e_j^{1-\beta}$ on a :
 
-Le respect des contraintes en ligne et en colonne ne résolvent pas la difficulté de la non additivité, bien que ces contraintes assurent le respect d'une contrainte d'échelle globale. Lorsque la contrainte en ligne est respectée, le doublement de la population globale conduit à un doublement de la somme des flux (en fait chaque ligne est doublée). Bien sûr cette propriété n'est pas satisfaisante si les opportunités sont exclusives (capacité donnée) et que le problème considéré est équilibré (autant d'emplois que d'actifs dans la zone considérée). Le respect de la double contrainte par la procédure de Furness satisfait alors cette condition, mais toujours sans garantir l'additivité des flux – pour cela il est nécessaire que $\alpha = \beta = 1$.
+$$
+\hat a_i = \frac{1}{\sum_j { \hat b_j e_j/ d_{ij}^{\delta} }}
+$$ {#eq-algdchat1}
+
+$$
+\hat b_j = \frac{1}{\sum_i { \hat a_i n_i/ d_{ij}^{\delta} }}
+$$ {#eq-algdchat2}
+
+Ces deux dernières équations montrent que dans le cas de la double contrainte, les paramètres $\alpha$ et $\beta$ disparaissent et le modèle gravitaire se résume à l'équation suivante :
+
+$$
+log(f_{ij}) = log(n_i) + log(e_j) - \delta \times d_{ij} + log(\hat a_i) + log(\hat b_j) + \varepsilon_{ij}
+$$ {#eq-gravfurness}
+
+Ceci montre que le modèle gravitaire sous la double contrainte (par la procédure de Furness) est additif, puisque l'élasticité de chaque flux $f_{ij}$ aux emplois ou aux résidents est unitaire.
 
 ## Fonctions objectifs pour l'estimation
 
