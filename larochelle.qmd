@@ -6,7 +6,7 @@ source("rinit.r")
 
 Avant de produire une application complète pour l'agglomération de La Rochelle (dans un prochain document, voir plus bas), nous explorons ici la capacité du modèle MEAPS à reproduire les flux de mobilités en le comparant en particulier au modèle gravitaire. La question est de savoir quel modèle est le mieux à même de reproduire les données observées de flux, à savoir MOBPRO tout en introduisant un minimum de paramètres, pas souci de parcimonie et de généralité.
 
-Les estimations que nous présentons dans cette section sont réalisées à partir d'une donnée principale à maille communale de MOBPRO, par une approche comparable à celle de @josselin2020, sur le périmètre de La Rochelle au lieu de la région PACA.
+Les estimations que nous présentons dans cette section sont réalisées à partir des données à maille communale de MOBPRO (fichier détail du recensement 2020), par une approche comparable à celle de @josselin2020, sur le périmètre de La Rochelle au lieu de la région PACA.
 
 Nous estimons dans un premier temps une famille de modèles gravitaires par les moindres carrés ordinaires (MCO). Nous discutons ensuite la métrique employée pour l'estimation. Les moindres carrés ordinaires reposent sur l'erreur quadratique moyenne, mais l'estimation de distributions (les flux de mobilités entre paire de commune) qui ne sont pas distributées de façon normale ou log-normale est biaisée par ce critère. Ainsi, quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent une part très faible des flux cumulés. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux.
 
@@ -16,7 +16,7 @@ Nous proposons d'utiliser l'entropie relative comme fonction objectif à minimis
 
 Nous déclinons enfin ces estimations en utilisant l'information infra-communale pour montrer que cette information peut accroître le pouvoir explicatif des modèles, en particulier de *MEAPS*. L'intuition est que l'information infra-communale permet une paramétrisation plus fine que sur la base de l'information communale. Bien que la vairable expliquée (les flux) soit connue à l'échelle communale, l'injection d'une information infra-communale permet d'augmenter le pouvoir explicatif des modèles utilisés, particulièrement pour *MEAPS*.
 
-## Le modèle gravitaire, avec ou sans effets fixes et aléatoires ou Furness
+## Spécification du modèle à estimer
 
 L'estimation de modèle gravitaire est habituellement faite par une régression linéaire [@lenormand2016, @josselin2020], par les moindres carrés ordinaires, où les flux observés $f_{ij}$ sont la variable expliquée et les emplois $e$ repartis dans $J$ unités spatiales, les actifs $n$ répartis dans $I$ unités spatiales et la matrice de distance $[d_{ij}]$ sont les facteurs explicatifs, de la forme suivante :
 
@@ -61,15 +61,15 @@ log(f_{ij}) = log(n_i) + log(e_j) - \delta \times log(d_{ij}) + log(a_i) + log(b
 \varepsilon_{ij} \sim \mathcal{N}(0, \sigma^2) 
 $$ {#eq-gravdc}
 
-Notons que dans le modèle à double contrainte, il n'y a pas $I+J$ contraintes mais une de moins puisque le nombre d'emplois est égal au nombre d'actifs. On peut estimer les $a_i$ ou $b_j$ comme des effets fixes ou des effets aléatoires. La procédure de Furness est également utilisée [@de2011modelling] en définissant $a_i$ et $b_j$ comme suit : $$
+Dans le modèle à double contrainte, il n'y a pas $I+J$ contraintes mais une de moins puisque le nombre d'emplois est égal au nombre d'actifs. On peut estimer les $a_i$ ou $b_j$ comme des effets fixes ou des effets aléatoires.
+
+La procédure de Furness est également utilisée [@de2011modelling] en définissant $a_i$ et $b_j$ comme suit : $$
 a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algdc1} $$
 b_j = \frac{e_j}{\sum_i { {a_i n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{e_j ^ {1-\beta}}{\sum_i {a_i n_i ^ \alpha / d_{ij}^{\delta} }}
 $$ {#eq-algdc2}
 
-Ce dernier modèle, par Furness, peut être estimé par un optimisation non linéaire sans grande difficulté, la procédure de Furness convergeant rapidement.
-
-En notant $\hat a_i = a_i/n_i^{1-\alpha}$ et $\hat b_j= b_j/e_j^{1-\beta}$ on a :
+Ce dernier modèle, par Furness, peut être estimé par un optimisation non linéaire sans grande difficulté, la procédure de Furness convergeant rapidement. En notant $\hat a_i = a_i/n_i^{1-\alpha}$ et $\hat b_j= b_j/e_j^{1-\beta}$ on a :
 
 $$
 \hat a_i = \frac{1}{\sum_j { \hat b_j e_j/ d_{ij}^{\delta} }}
@@ -85,13 +85,13 @@ $$
 log(f_{ij}) = log(n_i) + log(e_j) - \delta \times d_{ij} + log(\hat a_i) + log(\hat b_j) + \varepsilon_{ij}
 $$ {#eq-gravfurness}
 
-L'élasticité de chaque flux $f_{ij}$ aux emplois ou aux résidents est nécessairement unitaire.
-
-L'estimation de $\delta$ est alors faite en déterminant pour chaque valeur de $\delta$ les flux, auxquels on applique Furness, et donc en calculant les $a_i(\delta)$ et $b_j(\delta)$. On calcule alors la fonction objectif $\mathcal{L}$ poru ces flux ($\mathcal{L}$ étant l'erreur quadratique moyenne ou la log-vraisemblance) :
+L'élasticité de chaque flux $f_{ij}$ aux emplois ou aux résidents est nécessairement unitaire. Cette propriété introduit une différence stubtile avec la formulaiton en effets fixes ou aléatoires dans laquelle les paramètres $\alpha$ et $\beta$ peuvent être fixés à n'importe quelle valeur, les $a_i$ et $b_j$ s'ajustant en fonction. Ceci signifie que dans la formulation effets fixes/aléatoires, le modèle est agnostique quant à la valeur des dérivées à l'augmentation de la masse "actif" ou de la masse "emploi". L'estimation de $\delta$ est faite en déterminant pour chaque valeur de $\delta$ les flux, auxquels on applique Furness, et donc en calculant les $a_i(\delta)$ et $b_j(\delta)$. On calcule alors la fonction objectif $\mathcal{L}$ pour ces flux ($\mathcal{L}$ étant l'erreur quadratique moyenne ou la log-vraisemblance) :
 
 $$
 \hat \delta = \underset{\delta}{\mathrm{argmax}}\, \mathcal{L}(f_{ij}(\delta))  
-$$
+$$ {#eq-argmax}
+
+Le modèle formulé en effets fixes ou aléatoires est une formutation très particulère du modèle gravitaire. Les $a_i$ et $b_j$ représentent pour chaque origine $i$ ou chaque destination $j$ l'équivalent d'une masse d'actifs ou d'emplois, spécifique à l'origine ou à la destination, qui "remplace" ou complète la masse effectivement présente. En appliquant la procédure de Furness, on pose une hypothèse différente : l'élasticité à la masse d'actifs ou d'emplois est unitaire et les coefficients $a_i$ et $b_j$ permettent l'ajustement aux flux observés pour les marges.
 
 ### Fonction puissance ou exponentielle
 
@@ -99,23 +99,39 @@ Nous avons pour simplifier l'exposition choisi une fonction "distance" particuli
 
 Différentes métriques peuvent être utlisées pour analyser les distances. Cela peut être la distance à vol d'oiseau, la distance de parcours par les réseaux routiers ou le temps de parcours – qui permet d'intégrer les transports en commun. On peut également inclure un coût généralisé de transport, qui découle par exemple d'un modèle de choix discret et qui permet de prendre en compte des notions comme les préférences individuelles pour tel ou tel mode de transport (impliquant des vitesses et donc des temps différents) ou le confort ressenti par un mode de transport, que ce soit pendant le voyage ou par la sécurité qu'il procure dans la faible incertitude de sa réalisation. Nous utiliserons ici principalement la distance à vol d'oiseau, mais nous présentons en annexe des distances et des temps de parcours par les réseaux de transport.
 
-## Spécification du modèle
+## Gaussien ou multinomial
 
-La stratégie d'estimation par les MCO habituellement utilisée pose un problème par la métrique d'estimation choisie. Par exemeple, dans @josselin2020, la seul métrique considérée est celle de l'erreur quadratique moyenne (*mean square root error, msre*), pour une formulation en $log-log$. Ceci revient à minimiser le critère suivant (en notat $\hat t_i$ la distribition estimée et $t_i$ la distribution observée) :
+La stratégie d'estimation par les moindres carrés ordinaires (MCO) habituellement utilisée [@josselin2020, @lenormand2016] suppose que le processus générateur du bruit est gaussien. Cette hypothèse est forte. Une alternative est de considérer le tableau $ij$ des flux comme une table de contingence comptabilisant les flux dans chaque case. Au lieu d'une représentation implicitement continue, on privilègie une représentation discrète, et dans le cas où on ne conditionne pas les flux sur le total de la table ou les lignes ou les colonnes, on peut alors écrire, en suivant @flowerdew1982, que :
 
 $$
-msre = \sum_i({log( t}_i) - log(\hat t_i))^2
-$$ {#eq-msre}
+P(f_{ij}=k) = \frac{e^{-\lambda_{ij}} \lambda_{ij}}{k!}
+$$
 
-Ce même critère est celui qui est employé dans les estimations de @lenormand2016 à l'exception de l'utilisation du critère d'information statistique $I$ définit comme suit :
+La matrice de paramètres de Poisson $[\lambda_{ij}]$ peut alors être estimée à partir d'un modèle log-linéaire, qui peut être implémenté facilement par la procédure `glm`. On aura, en reprenant les notations employées :
+
+$$
+log(\lambda_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + log(a_i)
+$$
+
+Un des apports de cette approche est que la variance estimée par ce modèle des erreurs n'est pas log-normale. Or le modèle log-normal (par les MCO) donne la même signification (le même poids) à une erreur de 100% pour un flux très petit qu'à une erreur de 100% pour un flux très grand. La log-vraisemblance pour le modèle log-lineaire s'écrit ($f_{ij}$ sont observés, $\hat f_{ij}$ estimés) :
+
+$$
+\mathcal{L}_{MCO} = - \frac{N}{2}log(2\pi\sigma^2) - \frac 1 {2 \sigma^2} \sum (log(f_{ij}) - log(\hat f_{ij}))^2 
+$$
+
+Elle est directement reliée à l'erreur quadratique moyenne. Pour le modèle discret de Poisson, la log-vraisemblance s'écrit :
+
+$$
+\mathcal{L}_{Poisson} = 2 \sum_{ij} f_{ij} log(f_{ij}/{\hat f_{ij}}) - \sum_{ij} (f_{ij} - \bar f)
+$$
+
+Cette expression est équivalente (pour la maximiser) au critère d'information employé dasn @lenormand2016 :
 
 $$
 I(t, \hat t) = \frac 1 N \sum_i {t_i \times (log(t_i) - log(\hat t_i))}
 $$ {#eq-infcrit}
 
-Cette dernière métrique est aussi appelée l'entropie relative de deux distributions utilisée pour comparer deux distributions, en ayant l'avantage d'être robuste à beaucoup de formes de distributions.
-
-Ce n'est pas une distance, puisque les propriétés de non symétrie ou de positivité ne sont pas respectées. <!--# je pense qu'on peut renforcer l'argument ici --> Néanmoins, elle peut être utilisée pour construire un critère proche du $R^2$ (voir @tip-entropie). La principale différence avec la métrique usuelle des moindres carrés ordinaires simple est que le poids donné aux erreurs du modèle n'est pas du tout le même. Une grande erreur relative sur un flux très petit ne doit pas avoir beaucoup d'importance alors que pour un flux très important, elle doit être très pénalisée. Or ce que l'on cherche à prévoir ce sont les flux et donc l'accent doit être mis sur la minimisation de l'erreurs sur des flux importants. Les moindres carrés ordinaires donnent à chaque $\varepsilon_{ij}$, le même poids. Au contraire l'entropie relative pondère les erreurs par le terme $f_{ij}$. Cette métrique est d'autant plus importante que les données que l'on utilise sont très loin d'une distribution uniforme ou normale.
+Cette métrique est aussi appelée l'entropie relative de deux distributions utilisée pour comparer deux distributions. Contraitrement à l'erreur quadratique moyenne, en pondérant par le flux le log de l'erreur, on donne aux flux importants un poids plus grand. On peut construire un critère proche du $R^2$ (voir @tip-entropie). La différence entre les deux métriques (MCO versus Poisson) sera d'autant plus importante que les données que l'on utilise sont très loin d'une distribution uniforme ou normale, ce qui est le cas pour les données de flux. Comme on le voit plus bas, c'est donc déterminant pour les résultats empiriques.
 
 Une régression par les moindres carrés ordinaires est une approche alternative si l'on pondère par les flux la régression en $log-log$. Le critère employé est alors :
 
@@ -149,11 +165,9 @@ $$
 Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois). Le coefficient d'ajustement ainsi défini peut avoir pour des distributions très particulières des valeurs négatives ou supérieures à 1.
 :::
 
-Nous décrivons dans un premier temps la construction des données (@sec-emplois, @sec-distancesparmode). Nous présentons ensuite les estimations "communales" du modèle gravitaire usuel (par les moindres carrés ordinaires), du modèle gravitaire avec une métrique *KL* en le comparant à MEAPS sur cette même source d'information (@sec-communal). Nous présentons ensuite les estimations en utilisant l'information géographique fine, en utilisant une approche non paramètrique puis une approche paramètrique. Nous concluons sur les capacités à reproduire les flux mesurés dans MOBPRO.
-
 ## Extension de MEAPS avec des *odds-ratios* {#sec-odds}
 
-Pour permettre une spécification plus fine de *MEAPS*, nous introduisons pour chaque paire (*i*, *j*) un paramètre qui modifie la probabilité d'absorption de l'individu *i* par l'emploi *j*. On définit $c_{abs}$ comme la chance d'absorption, définie comme $c_{abs} = p_{abs}/(1-p_{abs})$ . Dans le *MEAPS* de référence, présenté plus haut, cette chance d'absorption est identique pour tous les emplois considérés par un individu et elle ne dépend que de la probabilité de fuite. Un moyen simple d'injecter de l'information dans le modèle consiste alors à modifier cette chance d'absorption selon les individus et les emplois qu'ils considèrent. Les modifications des probabilités d'absorption peuvent alors être paramétrées par des *odds-ratios* (des ratios de chances relatives) $\omicron_{ij}$ de telle manière que la nouvelle chance d'absorption de i en j soit égale à $\tilde{c}_{abs,ij} = \omicron_{ij} \times c_{abs}$. L'*odds-ratio* $\omicron_{ij}$ est un paramètre entre $0$ et $+\infty$ et *i* et *j* indexent les communes de départ et d'arrivée. La nouvelle probabilité d'absorption s'écrit alors à partir de la chance d'absorption de référence et de l'*odds-ratio* comme suit :
+Pour permettre une spécification plus fine, c'est-à-dire en ajoutant des paramètres, de *MEAPS*, nous introduisons pour chaque paire (*i*, *j*) un paramètre qui modifie la probabilité d'absorption de l'individu *i* par l'emploi *j*. On définit $c_{abs}$ comme la chance d'absorption, définie comme $c_{abs} = p_{abs}/(1-p_{abs})$ . Dans le *MEAPS* de référence, présenté plus haut, cette chance d'absorption est identique pour tous les emplois considérés par un individu et elle ne dépend que de la probabilité de fuite. Un moyen simple d'injecter de l'information dans le modèle consiste alors à modifier cette chance d'absorption selon les individus et les emplois qu'ils considèrent. Les modifications des probabilités d'absorption peuvent alors être paramétrées par des *odds-ratios* (des ratios de chances relatives) $\omicron_{ij}$ de telle manière que la nouvelle chance d'absorption de i en j soit égale à $\tilde{c}_{abs,ij} = \omicron_{ij} \times c_{abs}$. L'*odds-ratio* $\omicron_{ij}$ est un paramètre entre $0$ et $+\infty$ et *i* et *j* indexent les communes de départ et d'arrivée. La nouvelle probabilité d'absorption s'écrit alors à partir de la chance d'absorption de référence et de l'*odds-ratio* comme suit :
 
 $$ \tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}}  $$
 
