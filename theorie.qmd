@@ -176,7 +176,7 @@ A la fin de ce processus, tous les individus ont des emplois (à $p_f$ près) et
 Formellement, on note $\phi_u(i,j)$ la probabilité de disponibilité ($\phi$ vaut 0 si l'emploi est complètement pris) de l'emploi $j$ pour un ordre de priorité donné $u$ au moment où l'individu $i$ doit choisir. La probabilité de cet individu $i$ de prendre l'emploi $j$ s'écrit alors :
 
 $$
-P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i^{-1}(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
+P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
 $$ {#eq-puij}
 
 Cette expression est rendue complexe par la nécessité de parcourir les emplois dans l'ordre qui correspond à chaque individu. La probabilité $p_a$ doit alors être calculée pour que le taux de fuite de $i$ soit inchangé. On suppose que les emplois restants demeurent parfaitement substituables tout au long du processus d'affectation. La probabilité de chacun est donc identique et ajustée d'un facteur multiplicatif $\lambda_{u,i}$. Le terme $\lambda_{u,i}$ découle ainsi de l'indisponibilité potentielle des emplois. Lorsqu'un emploi est indisponible, l'individu $i$, lorsque c'est son tour de choisir, connait ses cibles potentielles. Il ajuste donc sa probabilité d'absorption de façon à respecter la probabilité de fuite. C'est de cette manière que nous respectons la contrainte en ligne, qui s'exprime par l'@eq-lambda ci-dessous. Ceci signifie qu'un individu a d'autant plus de chances d'accepter un emploi qu'il reste peu de choix.
