@@ -8,7 +8,7 @@ Avant de produire une application complète pour l'agglomération de La Rochelle
 
 Les estimations que nous présentons dans cette section sont réalisées à partir d'une donnée principale à maille communale de MOBPRO, par une approche comparable à celle de @josselin2020, sur le périmètre de La Rochelle au lieu de la région PACA.
 
-Nous estimons dans un premier temps une famille de modèles gravitaires par les moindres carrés ordinaires (MCO). Nous discutons ensuite la métrique employée pour l'estimation. Les moindres carrés ordinaires reposent sur l'éerreur quadratique moyenne, mais l'estimation de distributions (les flux de mobilités entre paire de commune) qui ne sont pas distributées de façon normale ou log-normale est biaisée par ce critère. Ainsi, quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent une part très faible des flux cumulés. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux.
+Nous estimons dans un premier temps une famille de modèles gravitaires par les moindres carrés ordinaires (MCO). Nous discutons ensuite la métrique employée pour l'estimation. Les moindres carrés ordinaires reposent sur l'erreur quadratique moyenne, mais l'estimation de distributions (les flux de mobilités entre paire de commune) qui ne sont pas distributées de façon normale ou log-normale est biaisée par ce critère. Ainsi, quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent une part très faible des flux cumulés. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux.
 
 Nous proposons d'utiliser l'entropie relative comme fonction objectif à minimiser. Une régression par les moindres carrés ordinairses pondérée par les flux (c'est-à-dire la variable expliquée) donne un résultat plus proche de l'entropie relative que l'erreur quadratique moyenne non pondérée. Nous procédons ensuite à des estimations non-linéaires en utilisant principalement l'entropie relative comme fonction objectif (d'autres fonctions objectifs sont présentées pour comparer). Cette approche permet d'estimer des modèles gravitaires à simple contrainte (la constante $c$ de l'@eq-gravitaire n'est plus estimée et est remplacée par un vecteur $c_i$ qui assure le respect de la contrainte en ligne[^larochelle-1]) et à doble contrainte (à la fois la contrainte el ligne et en colonne sont respectées en utilisant par exemple la procédure de Furness). En utilisant la même procédure d'estimation non-linéaire avec comme fonction objectif l'entropie relative, nous estimons également *MEAPS* étendu afin de permettre une paramétrisation.
 
@@ -16,37 +16,58 @@ Nous proposons d'utiliser l'entropie relative comme fonction objectif à minimis
 
 Nous déclinons enfin ces estimations en utilisant l'information infra-communale pour montrer que cette information peut accroître le pouvoir explicatif des modèles, en particulier de *MEAPS*. L'intuition est que l'information infra-communale permet une paramétrisation plus fine que sur la base de l'information communale. Bien que la vairable expliquée (les flux) soit connue à l'échelle communale, l'injection d'une information infra-communale permet d'augmenter le pouvoir explicatif des modèles utilisés, particulièrement pour *MEAPS*.
 
-## Le modèle gravitaire et ses variantes
+## Le modèle gravitaire, avec ou sans effets fixes et aléatoires ou Furness
 
-L'estimation de modèle gravitaire est habituellement faite par une régression linéaire, par les moindres carrés ordinaires, où les flux observés $f_{ij}$ sont la variable expliquée et les emplois $e$, les actifs $n$ et la distance $d$ sont les facteurs explicatifs, de la forme suivante :
+L'estimation de modèle gravitaire est habituellement faite par une régression linéaire [@lenormand2016, @josselin2020], par les moindres carrés ordinaires, où les flux observés $f_{ij}$ sont la variable expliquée et les emplois $e$ repartis dans $J$ unités spatiales, les actifs $n$ répartis dans $I$ unités spatiales et la matrice de distance $[d_{ij}]$ sont les facteurs explicatifs, de la forme suivante :
 
 $$
 log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + c + \varepsilon_{ij}
 $$ {#eq-gravitaire}
 
-Dans la lignée de [@lenormand2016], [@josselin2020] utilisent une forme similaire, avec quelques variations, pour estimer pour la région PACA, à partir des données MOBPRO, des modèles gravitaires. Ce sont les mêmes données que nous utilisons, dans une région différente, mais pour laquelle il est intéressant de comparer les approches. Différentes spécifications sont employées par @josselin2020, mais ce sont surtout des variations quant à la mesure de la distance ou de la population. Les modèles employés y sont avant tout gravitaires et s'appuient sur la conclusion de @lenormand2016 qui est que le modèle gravitaire semble dominer les autres formalisations.
+$$
+\varepsilon_{ij} \sim \mathcal{N}(0,\sigma^2)
+$$
 
-L'estimation de ce modèle gravitaire n'est contrainte ni en ligne – chaque actif occupe un emploi –, ni en colonne – chaque emploi est occupé par un actif. Pour intégrer ces contraintes, il faut modifier le modèle à la marge et l'estimation par les MCO devient difficile. La contrainte en ligne (appelée aussi simple contrainte) se réalise en remplaçant la constante $c$ par un vecteur $a_i$ qui vérifie la condition suivante :
+### Additivité
+
+Ainsi écrit le modèle gravitaire ne respecte pas la propriété d'additivté, du moins lorsque les coefficients $\alpha$ et $\beta$ sont différents de 1. Lorsque $\alpha$ est différent de 1, séparer un groupe de $n_i$ en deux sous groupes, pour lesquels les distances sont inchangées, conduit à projeter des flux dont la somme diffère du flux que l'on calcule pour les deux sous-groupes réunis. De façon symétrique, $\beta$ différent de 1 implique la même non additivité lors de la séparation d'un groupe $e_j$ en deux. Si l'estimation conduit à $\alpha\approx\beta\approx1$, la propriété d'additivité sera approximativement respectée. Comme nous le verrons dans les estimations, et comme il ressort généralement de la littérature [@josselin2020 pour la région PACA], les estimations habituelles de ce modèle gravitaire donnent des $\alpha$ et des $\beta$ inférieurs à 1.
+
+### Contraintes en ligne et en colonne
+
+La formulation simple du modèle gravitaire n'est contrainte ni en ligne – chaque actif occupe un emploi –, ni en colonne – chaque emploi est occupé par un actif. Pour intégrer ces contraintes, il faut introduire des parmaètres supplémentaires. Les $I$ contraintes en ligne (appelées aussi simples contraintes, ou contraintes de production des flux) sont représentées en remplaçant la constante $c$ par un vecteur $a_i$ (de taille $I$) :
 
 $$
 log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + log(a_i) + \varepsilon_{ij}
 $$ {#eq-grav_sc}
 
 $$
+\varepsilon_{ij} \sim \mathcal{N}(0,\sigma^2)
+$$
+
+L'introduction de ce vecteur évoque un effet fixe ou un effet aléatoire, selon l'hypothèse que l'on posera pour son estimation. Cette hypothèse assurera généralement le respect des contraintes en ligne. Une autre façon de l'évaluer est de le définir par le respect de la contrainte en ligne, en écrivant :
+
+$$
 a_i = \frac{n_i}{\sum_j {\frac{n_i ^ \alpha \times e_j ^ \beta} { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algsc}
 
-La difficulté de l'estimation par les MCO est que les $c_i$ dépend des $\varepsilon_{ij}$ qui dépendent des $c_i$. Cette interdépendance impose une estimation non linéaire. Le respect de la contrainte en colonne est fait de manière similaire, en introduisant un autre vecteur $b_j$ et vérifiant les conditions suivantes (décrites dans la section précédente comme la procédure de Furness) :
+Dès que l'on introduit ce vecteur dans le modèle, il n'est plus possible d'identifier $\alpha$ et on peut poser pour $\alpha$ n'importe quelle valeur, les $a_i$ étant bien entendu différents pour chaque $\alpha$. Le respect de la propriété d'additivité oblige cependant à choisir $\alpha=1$.
+
+Le respect des $J$ contraintes en colonne (appelées aussi contraintes d'attraction) est fait de manière similaire, en introduisant un vecteur $b_j$. Par le même raisonnement, on ne peut plus estimer $\beta$ et on le fixera à 1.
+
+Lorsque les deux jeux de contraintes sont actives en même temps on obtient un modèle de ce type :
 
 $$
-log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + log(a_i) + log(b_j) + \varepsilon_{ij}
-$$ {#eq-gravdc} $$
+log(f_{ij}) = log(n_i) + log(e_j) - \delta \times log(d_{ij}) + log(a_i) + log(b_j) + \varepsilon_{ij} \\
+\varepsilon_{ij} \sim \mathcal{N}(0, \sigma^2) 
+$$ {#eq-gravdc}
+
+Notons que dans le modèle à double contrainte, il n'y a pas $I+J$ contraintes mais une de moins puisque le nombre d'emplois est égal au nombre d'actifs. On peut estimer les $a_i$ ou $b_j$ comme des effets fixes ou des effets aléatoires. La procédure de Furness est également utilisée [@de2011modelling] en définissant $a_i$ et $b_j$ comme suit : $$
 a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algdc1} $$
 b_j = \frac{e_j}{\sum_i { {a_i n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{e_j ^ {1-\beta}}{\sum_i {a_i n_i ^ \alpha / d_{ij}^{\delta} }}
 $$ {#eq-algdc2}
 
-Ces deux derniers modèles (simple et double contrainte, ou contrainte en ligne et contrainte en ligne et en colonne) peuvent être estimés par un optimisation non linéaire sans grande difficulté, la procédure de Furness convergeant rapidement.
+Ce dernier modèle, par Furness, peut être estimé par un optimisation non linéaire sans grande difficulté, la procédure de Furness convergeant rapidement.
 
 En notant $\hat a_i = a_i/n_i^{1-\alpha}$ et $\hat b_j= b_j/e_j^{1-\beta}$ on a :
 
@@ -64,9 +85,21 @@ $$
 log(f_{ij}) = log(n_i) + log(e_j) - \delta \times d_{ij} + log(\hat a_i) + log(\hat b_j) + \varepsilon_{ij}
 $$ {#eq-gravfurness}
 
-Ceci montre que le modèle gravitaire sous la double contrainte (par la procédure de Furness) est additif, puisque l'élasticité de chaque flux $f_{ij}$ aux emplois ou aux résidents est unitaire.
+L'élasticité de chaque flux $f_{ij}$ aux emplois ou aux résidents est nécessairement unitaire.
 
-## Fonctions objectifs pour l'estimation
+L'estimation de $\delta$ est alors faite en déterminant pour chaque valeur de $\delta$ les flux, auxquels on applique Furness, et donc en calculant les $a_i(\delta)$ et $b_j(\delta)$. On calcule alors la fonction objectif $\mathcal{L}$ poru ces flux ($\mathcal{L}$ étant l'erreur quadratique moyenne ou la log-vraisemblance) :
+
+$$
+\hat \delta = \underset{\delta}{\mathrm{argmax}}\, \mathcal{L}(f_{ij}(\delta))  
+$$
+
+### Fonction puissance ou exponentielle
+
+Nous avons pour simplifier l'exposition choisi une fonction "distance" particulière, paramètrée par $\delta$, appelée fonction puissance avec la forme $1/d^\delta$. Des alternatives sont possibles comme la fonction exponentielle, écrite comme $exp(-d/\delta)$, ou tout autre fonction de la distance, éventuellement paramètrée par plus d'un paramètre.
+
+Différentes métriques peuvent être utlisées pour analyser les distances. Cela peut être la distance à vol d'oiseau, la distance de parcours par les réseaux routiers ou le temps de parcours – qui permet d'intégrer les transports en commun. On peut également inclure un coût généralisé de transport, qui découle par exemple d'un modèle de choix discret et qui permet de prendre en compte des notions comme les préférences individuelles pour tel ou tel mode de transport (impliquant des vitesses et donc des temps différents) ou le confort ressenti par un mode de transport, que ce soit pendant le voyage ou par la sécurité qu'il procure dans la faible incertitude de sa réalisation. Nous utiliserons ici principalement la distance à vol d'oiseau, mais nous présentons en annexe des distances et des temps de parcours par les réseaux de transport.
+
+## Spécification du modèle
 
 La stratégie d'estimation par les MCO habituellement utilisée pose un problème par la métrique d'estimation choisie. Par exemeple, dans @josselin2020, la seul métrique considérée est celle de l'erreur quadratique moyenne (*mean square root error, msre*), pour une formulation en $log-log$. Ceci revient à minimiser le critère suivant (en notat $\hat t_i$ la distribition estimée et $t_i$ la distribution observée) :
 
