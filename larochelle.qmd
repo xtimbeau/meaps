@@ -91,53 +91,53 @@ $$
 \hat \delta = \underset{\delta}{\mathrm{argmax}}\, \mathcal{L}(f_{ij}(\delta))  
 $$ {#eq-argmax}
 
-Le modèle formulé en effets fixes ou aléatoires est une formutation très particulère du modèle gravitaire. Les $a_i$ et $b_j$ représentent pour chaque origine $i$ ou chaque destination $j$ l'équivalent d'une masse d'actifs ou d'emplois, spécifique à l'origine ou à la destination, qui "remplace" ou complète la masse effectivement présente. En appliquant la procédure de Furness, on pose une hypothèse différente : l'élasticité à la masse d'actifs ou d'emplois est unitaire et les coefficients $a_i$ et $b_j$ permettent l'ajustement aux flux observés pour les marges.
+Le modèle formulé en effets fixes ou aléatoires est une formulation très particulière du modèle gravitaire. Les $a_i$ et $b_j$ représentent pour chaque origine $i$ ou chaque destination $j$ l'équivalent d'une masse d'actifs ou d'emplois, spécifique à l'origine ou à la destination, qui "remplace" ou complète la masse effectivement présente. En appliquant la procédure de Furness, on pose une hypothèse différente : l'élasticité à la masse d'actifs ou d'emplois est unitaire et les coefficients $a_i$ et $b_j$ permettent l'ajustement aux flux observés pour les marges.
 
 ### Fonction puissance ou exponentielle
 
-Nous avons pour simplifier l'exposition choisi une fonction "distance" particulière, paramètrée par $\delta$, appelée fonction puissance avec la forme $1/d^\delta$. Des alternatives sont possibles comme la fonction exponentielle, écrite comme $exp(-d/\delta)$, ou tout autre fonction de la distance, éventuellement paramètrée par plus d'un paramètre.
+Nous avons pour simplifier l'exposition choisi une fonction "distance" particulière, paramétrée par $\delta$, appelée fonction puissance avec la forme $1/d^\delta$. Des alternatives sont possibles comme la fonction exponentielle, écrite comme $e^{-d/\delta}$, ou tout autre fonction de la distance, éventuellement paramétrée par plus d'un paramètre.
 
-Différentes métriques peuvent être utlisées pour analyser les distances. Cela peut être la distance à vol d'oiseau, la distance de parcours par les réseaux routiers ou le temps de parcours – qui permet d'intégrer les transports en commun. On peut également inclure un coût généralisé de transport, qui découle par exemple d'un modèle de choix discret et qui permet de prendre en compte des notions comme les préférences individuelles pour tel ou tel mode de transport (impliquant des vitesses et donc des temps différents) ou le confort ressenti par un mode de transport, que ce soit pendant le voyage ou par la sécurité qu'il procure dans la faible incertitude de sa réalisation. Nous utiliserons ici principalement la distance à vol d'oiseau, mais nous présentons en annexe des distances et des temps de parcours par les réseaux de transport.
+Différentes métriques peuvent être utilisées pour analyser les distances. Cela peut être la distance à vol d'oiseau, la distance de parcours par les réseaux routiers ou le temps de parcours – qui permet d'intégrer les transports en commun. On peut également inclure un coût généralisé de transport, qui découle par exemple d'un modèle de choix discret et qui permet de prendre en compte des notions comme les préférences individuelles pour tel ou tel mode de transport (impliquant des vitesses et donc des temps différents) ou le confort ressenti par un mode de transport, que ce soit pendant le voyage ou par la sécurité qu'il procure dans la faible incertitude de sa réalisation. Nous utiliserons ici principalement la distance à vol d'oiseau, mais nous présentons en annexe des distances et des temps de parcours par les réseaux de transport.
 
-## Gaussien ou multinomial
+## Les flux sont une table de contingence
 
-La stratégie d'estimation par les moindres carrés ordinaires (MCO) habituellement utilisée [@josselin2020, @lenormand2016] suppose que le processus générateur du bruit est gaussien. Cette hypothèse est forte. Une alternative est de considérer le tableau $ij$ des flux comme une table de contingence comptabilisant les flux dans chaque case. Au lieu d'une représentation implicitement continue, on privilègie une représentation discrète, et dans le cas où on ne conditionne pas les flux sur le total de la table ou les lignes ou les colonnes, on peut alors écrire, en suivant @flowerdew1982, que :
-
-$$
-P(f_{ij}=k) = \frac{e^{-\lambda_{ij}} \lambda_{ij}}{k!}
-$$
-
-La matrice de paramètres de Poisson $[\lambda_{ij}]$ peut alors être estimée à partir d'un modèle log-linéaire, qui peut être implémenté facilement par la procédure `glm`. On aura, en reprenant les notations employées :
+La matrice des flux de mobilité sur un territoire s'apparente à une table de contingence $I\times J$, ce qui conditionne la stratégie d'estimation [@agresti2002]. La bonne représentation de cette table de contingence est donc non pas le modèle log-linéaire avec une erreur normale habituellement utilisé [@eq-gravdc] mais le résultat d'un tirage conduisant à une loi multinomiale où chaque cellule de la table a une probabilité $\pi_{ij}$ et les fréquences sont $f_{ij} = n \times \pi_{ij}$ où $n=\sum f_{ij}$. Dans ce cadre, la log-vraisemblance $\mathcal{L}$ d'une estimation $\hat f_{ij}$ à partir des mesures $f_{ij}$ s'écrit :
 
 $$
-log(\lambda_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + log(a_i)
+\mathcal{L} = \sum_{ij} f_{ij} \times log(\hat f_{ij}/n)
 $$
 
-Un des apports de cette approche est que la variance estimée par ce modèle des erreurs n'est pas log-normale. Or le modèle log-normal (par les MCO) donne la même signification (le même poids) à une erreur de 100% pour un flux très petit qu'à une erreur de 100% pour un flux très grand. La log-vraisemblance pour le modèle log-lineaire s'écrit ($f_{ij}$ sont observés, $\hat f_{ij}$ estimés) :
+Cette fonction de vraisemblance est équivalente, quand il s'agit de maximiser la log-vraisemblance et donc de déterminer dans une approche paramètrique, $\theta$ qui détermine $\hat f_{ij}(\theta)$, au critère d'information employé dans @lenormand2016, puisque les dérivées partielles par rapport aux $f_{ij}$ sont identiques :
 
-$$
-\mathcal{L}_{MCO} = - \frac{N}{2}log(2\pi\sigma^2) - \frac 1 {2 \sigma^2} \sum (log(f_{ij}) - log(\hat f_{ij}))^2 
-$$
+$$ I(t, \hat t) = \frac 1 N \sum_i {t_i \times (log(\hat t_i) - log(t_i))} $$
 
-Elle est directement reliée à l'erreur quadratique moyenne. Pour le modèle discret de Poisson, la log-vraisemblance s'écrit :
+La métrique du critère d'information est équivalente à celle de l'entropie relative de Kullback-Liebler que l'on emploie pour comparer des distributions – ce qui montre le lien entre les tables de contingence et les distributions. On peut construire un critère proche du $R^2$ (voir @tip-entropie).
 
-$$
-\mathcal{L}_{Poisson} = 2 \sum_{ij} f_{ij} log(f_{ij}/{\hat f_{ij}}) - \sum_{ij} (f_{ij} - \bar f)
-$$
-
-Cette expression est équivalente (pour la maximiser) au critère d'information employé dasn @lenormand2016 :
-
-$$
-I(t, \hat t) = \frac 1 N \sum_i {t_i \times (log(t_i) - log(\hat t_i))}
-$$ {#eq-infcrit}
-
-Cette métrique est aussi appelée l'entropie relative de deux distributions utilisée pour comparer deux distributions. Contraitrement à l'erreur quadratique moyenne, en pondérant par le flux le log de l'erreur, on donne aux flux importants un poids plus grand. On peut construire un critère proche du $R^2$ (voir @tip-entropie). La différence entre les deux métriques (MCO versus Poisson) sera d'autant plus importante que les données que l'on utilise sont très loin d'une distribution uniforme ou normale, ce qui est le cas pour les données de flux. Comme on le voit plus bas, c'est donc déterminant pour les résultats empiriques.
-
-Une régression par les moindres carrés ordinaires est une approche alternative si l'on pondère par les flux la régression en $log-log$. Le critère employé est alors :
+Lorsqu'on estime le modèle par les MCO, le critère d'optimisation est celui de l'erreur quadratique moyenne :
 
 $$
 msre = \sum_i { t_i \times ({log(t}_i) - log(\hat t_i))^2 }
 $$
+
+La différence entre les deux représentations (soit un modèle déterministe avec une erreur lognormale, soit un modèle multinomial) est principalement liée à la pondération des erreurs par les flux observés dans le modèle multinomial. Comme le notent @flowerdew1982 le modèle log-normal donne une trop grande importance aux petits flux, ce qui est d'autant plus problématique que les petits flux sont, de part la nature du problème, très nombreux. Ainsi, la différence entre les métriques (erreur quadratique moyenne versus entropie relative) sera d'autant plus importante que les données que l'on utilise sont très éloingnées d'une distribution uniforme ou normale, ce qui est le cas pour les données de flux. Cette intuition sera illustrée par la comparaison des écarts observés/prévus des différents modèles que nous aurons estimés. Une alternative à l'erreur quadratique moyenne est de procéder à une régression log-linéaire pondérée par les flux (i.e. la variable expliquée en exponentielle). Dans ce cas le critère d'optimisation sera équivalent à l'expression suivante :
+
+$$
+msre = \sum_i { t_i \times ({log(t}_i) - log(\hat t_i))^2 }
+$$
+
+Nous verrons dans les estimations que cette approche permet d'approcher celle de l'estimation pour les tables de contingence par des processus de Poisson. En effet, @agresti2002 montre que l'estimation d'une table de contingence $I \times J$ lorsque le nombre de cases dans le tableau et le nombre d'observation sont grands, peut se faire en considérant que le nombre d'individus dans chaque case du tableau sont les observations indépendantes d'un processus de Poisson :
+
+$$
+f_{ij} \sim Pois(\lambda_{ij}) \implies P(f_{ij}=k) = \frac{e^{-\lambda_{ij}} \lambda_{ij}}{k!}
+$$
+
+La matrice de paramètres de Poisson $[\lambda_{ij}]$ peut alors être estimée à partir d'un modèle log-linéaire, qui peut être implémenté facilement par la procédure `glm`. C'est cette approche que @flowerdew1982 applique à des flux de mobilité. On aura, en reprenant les notations employées :
+
+$$
+log(\lambda_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} +c
+$$
+
+On peut dans ce cadre estimer des effets fixes en ligne ou en colonne, qui reçoivent une interprétation similaire à celles avancées pour le modèle loglinéaire par les MCO.
 
 ::: {#tip-entropie .callout-tip collapse="true"}
 ## Entropie relative de Kullback-Leibler
@@ -178,6 +178,8 @@ Les paramètres issues de cette approche contiennent une information qui peut en
 ## Données
 
 ### Mobilités professionnelles
+
+La donnée principale que nous utilisons est issue du fichier détail du recensement. Nous partons de données individuelles, avec une information de localisation à la commune/aroondissement pour la résidence et l'emploi.
 
 ### Emplois, résidents au carreau Inspire 200m {#sec-emplois}
 
