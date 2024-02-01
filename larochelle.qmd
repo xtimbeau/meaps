@@ -135,7 +135,7 @@ $$
 log(\lambda_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} +c
 $$
 
-On peut dans ce cadre estimer des effets fixes en ligne ou en colonne, qui reçoivent une interprétation similaire à celles avancées pour le modèle loglinéaire par les MCO.
+On peut dans ce cadre estimer des effets fixes en ligne ou en colonne, qui reçoivent une interprétation similaire à celles avancées pour le modèle loglinéaire par les MCO. On peut également
 
 ::: {#tip-entropie .callout-tip collapse="true"}
 ## Entropie relative de Kullback-Leibler
