@@ -10,7 +10,7 @@ La paramétrisation du modèle, le choix du modèle statistique, ou de la métri
 
 Le point de départ est l'estimation d'un modèle gravitaire par les moindres carrés ordinaires (MCO). C'est habituellement ce qui est fait dans la littérature [@josselin2020 pour la région PACA en France par exemple]. Mais cette approche mérite d'être approfondie.
 
-Un premier point est que le tableau des flux de communes à communes découle d'un processus de comptage et qu'il s'apparente à une table de contingence de grande taille, ayant $I$ lignes (comme autant de communes d'origine) et $J$ colonnes (comme autant de commune de destination), on intègre mieux la spécificité du problème et cela nous oriente pour un processus générateur non plus normal ou log-normal, ajoutant à une composante déterministe une variation aléatoire normale, mais considérant le processus générateur comme multinomial ou suivant une distribution de Poisson. Ce changement de perspective sur le processus générateur se ramène à un changement de métrique d'erreur ou de log-vraisemblance employée pour l'estimation. Les moindres carrés ordinaires reposent sur l'erreur quadratique moyenne, mais l'estimation de distributions (les flux de mobilités entre paire de commune) qui ne sont pas distribuées de façon normale ou log-normale est biaisée par ce critère. Ainsi, quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent une part très faible des flux cumulés. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux. En revanche, l'hypothèse d'un processus générateur multinomial ou Poisson conduit à prendre en compte correctement cette spécificité. La distribution normale découle de l'indépendance des deux dimensions origine et destination, or tout indique que les flux ne sont pas le produit d'une origine et d'une destination indépendante. L'hypothèse implicite d'une estimation par les MCO apparaît éminemment discutable.
+## Spécifications du modèle et du processus générateur
 
 Nous proposons d'utiliser l'entropie relative (ou critère d'information ou log vraisemblance d'une distribution multinomiale) comme fonction objectif à minimiser. Une régression par les moindres carrés ordinaires pondérée par les flux (c'est-à-dire la variable expliquée) donne un résultat plus proche de l'entropie relative que l'erreur quadratique moyenne non pondérée. Nous procédons ensuite à des estimations non-linéaires en utilisant principalement l'entropie relative comme fonction objectif (d'autres fonctions objectifs sont présentées pour comparer). Cette approche permet d'estimer des modèles gravitaires à simple contrainte (la constante $c$ de l'@eq-gravitaire n'est plus estimée et est remplacée par un vecteur $c_i$ qui assure le respect de la contrainte en ligne[^larochelle-1]) et à double contrainte (à la fois la contrainte en ligne et en colonne sont respectées en utilisant par exemple la procédure de Furness). En utilisant la même procédure d'estimation non-linéaire avec comme fonction objectif l'entropie relative, nous estimons également *MEAPS* étendu afin de permettre une paramétrisation.
 
@@ -18,7 +18,7 @@ Nous proposons d'utiliser l'entropie relative (ou critère d'information ou log 
 
 Nous déclinons enfin ces estimations en utilisant l'information infra-communale pour montrer que cette information peut accroître le pouvoir explicatif des modèles, en particulier de *MEAPS*. L'intuition est que l'information infra-communale permet une paramétrisation plus fine que sur la base de l'information communale. Bien que la variable expliquée (les flux) soit connue à l'échelle communale, l'injection d'une information infra-communale permet d'augmenter le pouvoir explicatif des modèles utilisés, particulièrement pour *MEAPS*.
 
-## L'approche habituelle pour le modèle gravitaire : erreurs log-normales 
+### L'approche habituelle pour le modèle gravitaire : erreurs log-normales
 
 L'estimation de modèle gravitaire est habituellement faite par une régression linéaire [@lenormand2016, @josselin2020], par les moindres carrés ordinaires. Le modèle suivant est celui estimé, où les flux observés $f_{ij}$ sont la variable expliquée et les emplois $e$ repartis dans $J$ unités spatiales, les actifs $n$ répartis dans $I$ unités spatiales et la matrice de distance[^larochelle-2] $[d_{ij}]$ sont les facteurs explicatifs :
 
@@ -34,42 +34,83 @@ $$
 \varepsilon_{ij} \sim \mathcal{N}(0,\sigma^2)
 $$
 
-### Additivité
+Ainsi écrit le modèle gravitaire ne respecte la propriété d'additivité que si les coefficients $\alpha$ et $\beta$ sont égaux à 1. Lorsque $\alpha$ est différent de 1, séparer un groupe de $n_i$ en deux sous groupes, pour lesquels les distances sont inchangées, conduit à projeter des flux dont la somme s'écarte du flux que l'on calcule pour les deux sous-groupes réunis. De façon symétrique, $\beta$ différent de 1 implique la même non additivité lors de la séparation d'un groupe $e_j$ en deux. Or cette propriété d'additivité est nécessaire pour l'utilisation du modèle. Par exemple, la granularité de l'agrégation spatiale ne doit pas trop modifier les flux prévus surtout lorsque cette agrgégation est assez fine pour les distances relatives ne changent pas trop. La séparation des emplois en emplois par secteur, ou des individus suivant des caractéristiques socio-économiques ou suivant leurs préférences est un autre exemple de transformation à laquelle le modèle doit être robuste. Si on sépare les emplois en deux secteurs et que les comportements ne sont pas modifiés le long de cette séparation, il faut que les flux s'additionnent si on suit la cohérence de la modélisation.
 
-Ainsi écrit le modèle gravitaire ne respecte la propriété d'additivité que si les coefficients $\alpha$ et $\beta$ sont égaux à 1. Lorsque $\alpha$ est différent de 1, séparer un groupe de $n_i$ en deux sous groupes, pour lesquels les distances sont inchangées, conduit à projeter des flux dont la somme diffère du flux que l'on calcule pour les deux sous-groupes réunis. De façon symétrique, $\beta$ différent de 1 implique la même non additivité lors de la séparation d'un groupe $e_j$ en deux. Si l'estimation conduit à $\alpha\approx\beta\approx1$, la propriété d'additivité sera (approximativement) respectée. Comme nous le verrons dans les estimations, et comme il ressort généralement de la littérature [@josselin2020 pour la région PACA], les estimations habituelles de ce modèle gravitaire donnent des $\alpha$ et des $\beta$ nettement inférieurs à 1. Le non-respect de cette propriété d'additivité obère la portée du modèle et sa vraisemblance.
+Si l'estimation conduit à $\alpha\approx\beta\approx1$, la propriété d'additivité sera (approximativement) respectée. Comme nous le verrons dans les estimations, et comme il ressort généralement de la littérature [par exemple @josselin2020 pour la région PACA], les estimations, en règle générale, du modèle gravitaire par les MCO (i.e. avec des erreurs log-normales) donnent des $\alpha$ et des $\beta$ significativement inférieurs à 1. Le non-respect de cette propriété d'additivité obère la portée du modèle et sa vraisemblance.
+
+### Quel processus générateur : gaussien ou poisson ?
+
+Le modèle gravitaire log-linéaire estimé par les MCO suppose un bruit multiplicatif et un processus générateur dont les erreurs se compensent. Or les flux s'apparentent plus au résultat d'un comptage qu'au processus implicite du modèle MCO. Les flux ne sont donc plus à considérer comme des erreurs qui se compensent autour d'un modèle déterministe mais comme résultant d'une table de contingence et d'évènements independants mais dont on observe l'accumulation.
+
+Plusieurs représentations sont possibles. Une première approche est de considérer le résultat comme celui d'un tirage avec remise de $n$ boules de différentes couleurs (la dimension $i$) et placées dans $j$ coupoles aléatoirement. C'est alors une loi multinomiale où chaque cellule de la table a une probabilité $\pi_{ij}$ et les fréquences sont $f_{ij} = n \times \pi_{ij}$ et où $n=\sum f_{ij}$.
+
+Une alternative, très souvent employée en particulier dans les modèles linéaires généralisés, est de considérer la table de contingence comme produite par des processus de Poisson mulitvariés [@aitchison1989, @agresti2002].
+
+Une des propriétés qui différencie ces deux grandes catégories de modèles (multinomial et Poisson versus log normal) se trouve au voisinage des valeurs faibles. Intuitivement, un processus de Poisson a pour variance l'espérance de ce processus. Pour un processus log-normal, la variance est une fonction de l'écart-type et de la moyenne du log du bruit et tend vers une valeur strictement postive lorsque la moyenne du log du bruit tend vers 0[^larochelle-3]. Cette propriété implique que les erreurs relatives pour de petites valeurs dans une représentation log normale ont une variance plus importante que celle d'un processus de Poisson[^larochelle-4].
+
+[^larochelle-3]: Si $log(\varepsilon) \sim \mathcal N ( \mu, \sigma^2)$, alors $Var(\varepsilon) = (e^{\sigma^2}-1)e^{2\mu+\sigma^2}$.
+
+[^larochelle-4]: De façon plus générale, la famille `quasi,` dans l'estimation par `glm`, permet de spécifier un lien entre variance et moyenne et ainsi de définir des comportements au voisinage de 0 non pas constant (log linéaire), en lien avec la moyenne (Poisson) mais en carré de la moyenne (Bernouilli) ou en cube de la moyenne. Plus la dépendance est d'un ordre important, plus la variance tend rapidement vers 0.
+
+Une autre façon d'apprécier la différence d'approche entre le modèle log-normal et la table de contingence est à travers la log-vraisemblance. A une constante (indépendante des paramètres à estimer) près la log-vraisemblance pour le modèle log-linéaire est l'erreur quadratique moyenne (*msre*), en notant $\hat f$ le flux prédit par le modèle et $f$ l'observation :
+
+$$
+msre = \sum_i {({log(f}_{ij}) - log(\hat f_{ij}))^2 }
+$$ {#eq-msre}
+
+Pour le processus de Poisson, en gardant les mêmes notations, la probabilité des observations connaissant le modèle est :
+
+$$ P(\hat f_{ij}= f_{ij}) = \frac{e^{-\hat f_{ij}}\times \hat f_{ij}^{f_{ij}}}{f_{ij}!} $$ {#eq-poisson}
+
+La matrice de paramètres de Poisson $[\hat f_{ij}]$ peut alors être estimée à partir d'un modèle log-linéaire, qui peut être implémenté facilement par `glm`. C'est cette approche que @flowerdew1982 applique à des flux de mobilité. On peut alors écrire le modèle gravitaire simplement :
+
+$$ log(\hat f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} +c $$
+
+On en déduit la log-vraisemblance, en notant $n=\sum f_{ij}$ et en approximant la factorielle par la formule de Stirling [@agresti2002] :
+
+$$ \mathcal{L} = -\hat n + \sum_{ij}{f_{ij} log(\hat f_{ij})} - \sum_{ij}{f_{ij}log(f_{ij})}$$ {#eq-lvpoisson}
+
+Dans cette expression, lorsque $n$ est connu (et donc $\hat n = n$), le processus de Poisson est une loi multinomiale la log-vraisemblance se simplifie par l'élimination de $\hat n$. Ainsi, la log-vraisemblance pour un processus multinomial est :
+
+$$
+\mathcal L = \sum_{ij} f_{ij} log(\hat f_{ij} /n)
+$$
+
+L'expression de la log vraisemblance est alors (à une constante indépendante des paramètres près) égale au critère de gain d'information ou d'entropie relative [@kullback1951] :
+
+$$ I(f_{ij}, \hat f_{ij}) = \frac 1 n \sum_i {f_{ij} \times (log(\hat f_{ij}) - log(f_{ij}))} $$ {#eq-gaininfor}
+
+Comme l'avaient noté @flowerdew1982, les moindres carrés ordinaires reposent sur la minismisation de l'erreur quadratique moyenne, mais les flux de mobilités entre paire de commune ne suivent pas cette distribution (même corrigés par la partie déterministe) et l'estimation est biaisée. Ainsi, quelques paires origine-distribution concentrent la grande majorité des flux alors qu'un grand nombre de paires origine-destination représentent des flux petits et une part cumulée très faible des flux totaux. Dans le cas de la Rochelle et de ses environs, les flux La Rochelle-La Rochelle pèsent presque 20% des flux totaux et les 40 flux les plus importants (sur 2 125) représentent plus de 50% de l'ensemble des flux. L'hypothèse d'un processus générateur multinomial ou Poisson conduit à prendre en compte correctement la possibilité de flux faibles, associés à des paramètres de Poisson petits. Le modèle log-normal donne une trop grande importance aux petits flux, ce qui est d'autant plus problématique que les petits flux sont, de part la nature du problème, très nombreux. Ainsi, la différence entre les métriques (erreur quadratique moyenne versus entropie relative) sera d'autant plus importante que les données que l'on utilise sont très éloignées d'une distribution uniforme ou normale. Cette intuition sera illustrée par la comparaison des écarts observés/prévus des différents modèles que nous aurons estimés. Comme expliqué par [@agresti2002, pp.146-148], une alternative à l'erreur quadratique moyenne est de procéder à une régression log-linéaire du type @eq-gravitaire mais pondérée par les flux (i.e. l'anti log de la variable expliquée). Dans ce cas la fonction objectif à minimiser est :
+
+$$ msre_w = \sum_i {  f_{ij} \times (log(f_{ij}) - log(\hat f_{ij}))^2 } $$
+
+Nous verrons qu'il existe, outre le carré, une différence entre ce critère et le critère d'entropie relative et qui a trait à la connaissance ou non de la somme totale des flux ou des sommes en ligne ou en colonne. Comme illustré dans la suite pour la Rochelle, le critère pondéré permet des résultats proches de ceux obtenus par `glm` et Poisson.
 
 ### Contraintes en ligne et en colonne
 
-La formulation simple du modèle gravitaire n'est contrainte ni en ligne – chaque actif occupe un emploi –, ni en colonne – chaque emploi est occupé par un actif. Pour intégrer ces contraintes, il faut introduire des paramètres supplémentaires. Les $I$ contraintes en ligne (appelées aussi simples contraintes, ou contraintes de production des flux) sont représentées en remplaçant la constante $c$ par un vecteur $a_i$ (de taille $I$) :
+La différence entre le modèle multinomial et le modèle de Poisson tient à la nature de l'information dont on dispose. Pour le modèle multinomial, le nombre total d'individus est fixé, alors qu'il est aléatoire dans le modèle de Poisson. Lorsqu'on passe, dans le modèle de Poisson, des comptes dans chaque case de la table de contingence aux probabilités, ces probabilités suivent une loi multinomiale. Si on connait non seulement le nombre d'individus, mais aussi les marges de la table de contingence (c'est-dire le nombre d'individus pour chaque ligne, ce qui revient à dire que chaque individu occupe un emploi et le nombre d'emplois pour chaque colonne, ce qui revient à dire que chaque emploi est occupé), alors la distribution sous-jacente est hypergéométrique multivariée[^larochelle-5]. Elle est malheureusement utilisable que pour des dimensions très faibles, par exemple dans le test exact de Fisher [@agresti2002].
+
+[^larochelle-5]: \$f(f\_{ij}
+
+La formulation simple du modèle gravitaire n'est contrainte ni en ligne, ni en colonne. L'espérance de la somme $\sum_j \hat f_{ij}$ est différente de la $\sum_j {f_{ij}}$, généralement inférieure du fait de la convexité de la fonction $log$. Pour approcher ces contraintes, il faut introduire des paramètres supplémentaires, sous la forme d'effets fixes ou aléatoires. Les $I$ contraintes en ligne (appelées aussi simples contraintes, ou contraintes de production des flux) sont représentées en remplaçant la constante $c$ par un vecteur $a_i$ (de taille $I$) :
 
 $$
-log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + log(a_i) + \varepsilon_{ij}
+log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times log(d_{ij}) + log(a_i) + \varepsilon_{ij}
 $$ {#eq-grav_sc}
 
 $$
 \varepsilon_{ij} \sim \mathcal{N}(0,\sigma^2)
 $$
 
-L'introduction de ce vecteur évoque un effet fixe ou un effet aléatoire, selon l'hypothèse que l'on posera pour son estimation. Cette hypothèse assurera généralement le respect des contraintes en ligne. Une autre façon de l'évaluer est de le définir par le respect de la contrainte en ligne, en écrivant :
+On peut également le définir comme respectant explicitement les $I$ contraintes en ligne, et donc en tenant compte de la convexité de la fonction $log$ comme écrit dans l' @eq-alsc. L'estimation en peut plus se faire directement par une régression linéaire, puisque le vecteur $a_i$ dépend à la fois de l'estimation de $\alpha$ et de celle de $\beta$. On peut les estimer par une procédure itérative ou une minimisation non linéaire, dont la fonction objectif pourra être la $msre$ par analogie avec les MCO, l'entropie relative par analogie avec un `glm` poisson ou la $msre_w$ pour approcher la précédente.
 
-$$
+$$ 
 a_i = \frac{n_i}{\sum_j {\frac{n_i ^ \alpha \times e_j ^ \beta} { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algsc}
 
-Dès que l'on introduit ce vecteur dans le modèle, il n'est plus possible d'identifier $\alpha$ et on peut poser pour $\alpha$ n'importe quelle valeur, les $a_i$ étant bien entendu différents pour chaque $\alpha$. Le respect de la propriété d'additivité oblige cependant à choisir $\alpha=1$.
+Que cela soit par un effet fixe ou aléatoire, dès que l'on introduit le vecteur $a_i$ dans le modèle, il n'est plus possible d'identifier $\alpha$ et on peut supposer pour $\alpha$ n'importe quelle valeur, les $a_i$ étant fonction de $\alpha$. Le respect de la propriété d'additivité oblige cependant à choisir $\alpha=1$. Par l'expression @eq-algsc, le respect des contraintes en ligne induit nécessairement $\alpha=1$. En effet, $log(a_i)$ peut s'écrire comme la somme de $(1-\alpha)log(n_i)$ et d'un autre terme qui ne dépend que de $\beta$, $e_j$, $d_{ij}$ et $\delta$. L'equation initiale se réduit alors à un terme en $log(n_i)$. Dans le cas du respect des contraintes en ligne, l'élasticité des flux aux actifs est nécessairement unitaire.
 
-Le respect des $J$ contraintes en colonne (appelées aussi contraintes d'attraction) est fait de manière similaire, en introduisant un vecteur $b_j$. Par le même raisonnement, on ne peut plus estimer $\beta$ et on le fixera à 1.
-
-Lorsque les deux jeux de contraintes sont actives en même temps on obtient un modèle de ce type :
-
-$$
-log(f_{ij}) = log(n_i) + log(e_j) - \delta \times log(d_{ij}) + log(a_i) + log(b_j) + \varepsilon_{ij} \\
-\varepsilon_{ij} \sim \mathcal{N}(0, \sigma^2) 
-$$ {#eq-gravdc}
-
-Dans le modèle à double contrainte, il n'y a pas $I+J$ contraintes mais une de moins puisque le nombre d'emplois est égal au nombre d'actifs. On peut estimer les $a_i$ ou $b_j$ comme des effets fixes ou des effets aléatoires.
-
-La procédure de Furness est également utilisée [@de2011modelling] en définissant $a_i$ et $b_j$ comme suit : $$
+Le respect des $J$ contraintes en colonne (appelées aussi contraintes d'attraction) est fait de manière similaire, en introduisant un vecteur $b_j$. Par le même raisonnement, on ne peut plus estimer $\beta$ et on le fixera à 1, pour respecter la contrainte d'additivité. Le double respect des contraintes en ligne et en colonne peut se faire par la procédure de Furness [@de2011modelling] en définissant $a_i$ et $b_j$ comme suit : $$
 a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algdc1} $$
 b_j = \frac{e_j}{\sum_i { {a_i n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{e_j ^ {1-\beta}}{\sum_i {a_i n_i ^ \alpha / d_{ij}^{\delta} }}
@@ -91,63 +132,19 @@ $$
 log(f_{ij}) = log(n_i) + log(e_j) - \delta \times d_{ij} + log(\hat a_i) + log(\hat b_j) + \varepsilon_{ij}
 $$ {#eq-gravfurness}
 
-L'élasticité de chaque flux $f_{ij}$ aux emplois ou aux résidents est nécessairement unitaire. Cette propriété introduit une différence stubtile avec la formulaiton en effets fixes ou aléatoires dans laquelle les paramètres $\alpha$ et $\beta$ peuvent être fixés à n'importe quelle valeur, les $a_i$ et $b_j$ s'ajustant en fonction. Ceci signifie que dans la formulation effets fixes/aléatoires, le modèle est agnostique quant à la valeur des dérivées à l'augmentation de la masse "actif" ou de la masse "emploi". L'estimation de $\delta$ est faite en déterminant pour chaque valeur de $\delta$ les flux, auxquels on applique Furness, et donc en calculant les $a_i(\delta)$ et $b_j(\delta)$. On calcule alors la fonction objectif $\mathcal{L}$ pour ces flux ($\mathcal{L}$ étant l'erreur quadratique moyenne ou la log-vraisemblance) :
+L'élasticité de chaque flux $f_{ij}$ aux emplois ou aux résidents est nécessairement unitaire. Cette propriété introduit une différence subtile avec la formulation en effets fixes ou aléatoires dans laquelle les paramètres $\alpha$ et $\beta$ peuvent être fixés à n'importe quelle valeur, les $a_i$ et $b_j$ s'ajustant en fonction. Ceci signifie que dans la formulation effets fixes/aléatoires, le modèle est agnostique quant à la valeur des dérivées à l'augmentation de la masse "actif" ou de la masse "emploi". L'estimation de $\delta$ est faite en déterminant pour chaque valeur de $\delta$ les flux, auxquels on applique Furness, et donc en calculant les $a_i(\delta)$ et $b_j(\delta)$. On calcule alors la fonction objectif $\mathcal{L}$ pour ces flux ($\mathcal{L}$ étant l'erreur quadratique moyenne ou les autres fonctions objectif) :
 
 $$
 \hat \delta = \underset{\delta}{\mathrm{argmax}}\, \mathcal{L}(f_{ij}(\delta))  
 $$ {#eq-argmax}
 
-Le modèle formulé en effets fixes ou aléatoires est une formulation très dégradée du modèle gravitaire. Les termes $a_i$ et $b_j$ représentent pour chaque origine $i$ ou chaque destination $j$ l'équivalent d'une masse d'actifs ou d'emplois suplémentaires à l'origine ou à la destination, qui corrige les masses effectivement présentes. La procéd
-
-### Fonction puissance ou exponentielle
-
-### Processus générateur : les flux sont une table de contingence
-
-Parce que le processu générateur est celui du remplissage d'un ensembel de destination à partir d'origine, la matrice des flux de mobilité sur un territoire s'apparente à une table de contingence $I\times J$. On peut donc le représenter comme un tirage sans remise de $N$ boules de caractéristiques $i$ dans un plateau à $J$ cases. Le modèle sous-jacent est alors un modèle multinomial, distinct du modèle log-linéaire à erreur normale de l'équation @eq-gravitaire. Une alternative est de considérer ce processus comme le comptage d'évènements aléatoires suivantr des processus indépendants de Poisson, pour lesquels on a :
+Que l'on considère le modèle contraint par Furness ou le modèle augmenté d'effets fixes ou aléatoires, on est face à une difficulté d'interprétation. Indépendamment de leur mode de calcul, les coefficients $a_i$ et $b_j$ agissent comme des modificateurs des masses à l'origine ou à la destination. La partie déterministe du modèle gravitaire peu s'écrire comme l'@eq-gravaibj qui fait apparaître à quoi correspondent ces deux coefficients. Pour fonctionner le modèle gravitaire demande de "tricher" sur les masses, ce qui en limite fortement l'interprétation.
 
 $$
-P(f_{ij}=\hat f_{ij}) = \frac{e^{-\lambda_{ij}}\times \lambda_{ij}^{\hat f_{ij}}}{\hat f_{ij}!}
-$$
+\hat f_{ij} = f_0\frac{(a_i n_i)\times (b_j e_j)}{d_{ij}^\delta}
+$$ {#eq-gravaibj}
 
-Dan sles deux cas, la stratégie d'estimation [@flowerdew1982] est modifiée et on utilisera par exemple des modèles linéaires généralisés. La différence entre le modèle multinomial et le modèle de Poisson tient à la nature de l'information dont on dispose. Pour le modèle multinomial, le nombre total d'individus est fixé, il est aléatoire dans le modèle de Poisson. Lorsqu'on passe, dans le modèle de Poisson, des comptes dans chaque case de la table de contingence aux probabilités, ces probabilités suivent une loi multinomale. Si on connait non seulement le nombre d'individus, mais aussi les marges de la table de contingence (c'est-dire le nombre d'inidividus pour chaque ligne et le nombre d'emplois pour chaque colonne), alors la distribution sous jacente est hypergéométrique. Elle est malheureusement utilisable que pour des dimensions très faibles, par exemple dans le test exact de Fisher [@agresti2002].
-
-La bonne représentation de cette table de contingence n'est donc non pas le modèle log-linéaire avec une erreur normale habituellement utilisé [@eq-gravdc] mais le résultat d'un tirage conduisant à une loi multinomiale où chaque cellule de la table a une probabilité $\pi_{ij}$ et les fréquences sont $f_{ij} = n \times \pi_{ij}$ où $n=\sum f_{ij}$. Suivant @agresti2002, la log-vraisemblance $\mathcal{L}$ d'une estimation $\hat f_{ij}$ à partir des observations $f_{ij}$ s'écrit :
-
-$$
-\mathcal{L} = \sum_{ij} f_{ij} \times log(\hat f_{ij}/n)
-$$
-
-Cette fonction de vraisemblance est équivalente, quand il s'agit de maximiser la log-vraisemblance et donc de déterminer dans une approche paramètrique, $\theta$ qui détermine $\hat f_{ij}(\theta)$, au critère d'information employé dans @lenormand2016, puisque les dérivées partielles par rapport aux $f_{ij}$ sont identiques :
-
-$$ I(t, \hat t) = \frac 1 N \sum_i {t_i \times (log(\hat t_i) - log(t_i))} $$
-
-Le critère d'information est équivalente à l'entropie relative de Kullback-Liebler que l'on emploit pour comparer des distributions, et qui peut être généralisé en "déviance" ou "divergence" entre deux distributions. On peut construire un critère proche du $R^2$ (voir @tip-entropie).
-
-Lorsqu'on estime le modèle par les MCO, le critère d'optimisation est celui de l'erreur quadratique moyenne :
-
-$$
-msre = \sum_i { t_i \times ({log(t}_i) - log(\hat t_i))^2 }
-$$
-
-La différence entre les deux représentations (soit un modèle déterministe avec une erreur lognormale, soit un modèle multinomial) est principalement liée à la pondération des erreurs par les flux observés dans le modèle multinomial. Comme le notent @flowerdew1982 le modèle log-normal donne une trop grande importance aux petits flux, ce qui est d'autant plus problématique que les petits flux sont, de part la nature du problème, très nombreux. Ainsi, la différence entre les métriques (erreur quadratique moyenne versus entropie relative) sera d'autant plus importante que les données que l'on utilise sont très éloingnées d'une distribution uniforme ou normale, ce qui est le cas pour les données de flux. Cette intuition sera illustrée par la comparaison des écarts observés/prévus des différents modèles que nous aurons estimés. Une alternative à l'erreur quadratique moyenne est de procéder à une régression log-linéaire pondérée par les flux (i.e. la variable expliquée en exponentielle). Dans ce cas le critère d'optimisation sera équivalent à l'expression suivante :
-
-$$
-msre = \sum_i { t_i \times ({log(t}_i) - log(\hat t_i))^2 }
-$$
-
-Nous verrons dans les estimations que cette approche permet d'approcher celle de l'estimation pour les tables de contingence par des processus de Poisson. En effet, @agresti2002 montre que l'estimation d'une table de contingence $I \times J$ lorsque le nombre de cases dans le tableau et le nombre d'observation sont grands, peut se faire en considérant que le nombre d'individus dans chaque case du tableau sont les observations indépendantes d'un processus de Poisson :
-
-$$
-f_{ij} \sim Pois(\lambda_{ij}) \implies P(f_{ij}=k) = \frac{e^{-\lambda_{ij}} \lambda_{ij}}{k!}
-$$
-
-La matrice de paramètres de Poisson $[\lambda_{ij}]$ peut alors être estimée à partir d'un modèle log-linéaire, qui peut être implémenté facilement par la procédure `glm`. C'est cette approche que @flowerdew1982 applique à des flux de mobilité. On aura, en reprenant les notations employées :
-
-$$
-log(\lambda_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} +c
-$$
-
-On peut dans ce cadre estimer des effets fixes en ligne ou en colonne, qui reçoivent une interprétation similaire à celles avancées pour le modèle loglinéaire par les MCO. On peut également
+La solution et l'interprétation proposées par @fotheringham1983 sont plus intéressantes. Son point est de noter qu'il manque une variable au modèle gravitaire, décrivant le voisinage ou l'environnement de chaque leiu d'intérêt. Suivant son interprétation, les concentrations (des emplois réunis près les uns des autres) pourraient accroître l'attractivité, s'il y a un effet d'agglomération ou au contraire la diminuer s'il y a un effet de congestion ou de recherche de la solitude. Cependant, son approche ne résout pas la questions des contraintes en ligne et en colonne et fait simplement le pari que le problème sera moindre, une fois tenu compte de la concurrence entre opportunité.
 
 ::: {#tip-entropie .callout-tip collapse="true"}
 ## Entropie relative de Kullback-Leibler
@@ -164,15 +161,23 @@ $$
 R_{KL}^2 = 1 - \frac{KL(p,\hat{q})}{KL(p, q_0)}
 $$
 
-La distribution de référence est choisie comme une distribution uniforme, par analogie avec le calcul de la variance dans un $R^2$ habituel où l'on régresse sur une constante. On écrit :
+Si la distribution de référence est choisie comme une distribution uniforme, par analogie avec le calcul de la variance dans un $R^2$ habituel où l'on régresse sur une constante. On écrit :
 
 $$
 \begin{aligned}
-KL(p,q_{ref}) &{}= \sum_{i}p_i \times log(p_i/unif) \\&{}= \sum_i p_i \times log(p_i) + log(N)
+KL_u(p,q_{ref}) &{}= \sum_{i}p_i \times log(p_i/unif) \\&{}= \sum_i p_i \times log(p_i) - log(N)
 \end{aligned}
 $$
 
-Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre de résidents actifs ou d'emplois). Le coefficient d'ajustement ainsi défini peut avoir pour des distributions très particulières des valeurs négatives ou supérieures à 1.
+Ceci n'est autre que l'entropie de la distribution $p$ à une constante près ($N$ est le nombre total de résidents actifs ou d'emplois). Le coefficient d'ajustement ainsi défini peut avoir pour des distributions très particulières des valeurs négatives ou supérieures à 1.
+
+Si on connait les marges de la table de contingence (nombre d'actifs dans les origines $i$ et nombre d'emplois dans les destinations $j$), on peut utiliser comme référence non pas la distribution uniforme mais une distribution independante.
+
+$$
+KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j}{N^2})]
+$$
+
+On construit à partir de ces deux références $R^2_{KLu}$ et $R^2_{KLi}$.
 :::
 
 ### Extension de MEAPS avec des *odds-ratios* {#sec-odds}
@@ -189,7 +194,15 @@ Les paramètres issues de cette approche contiennent une information qui peut en
 
 ### Mobilités professionnelles
 
-La donnée principale que nous utilisons est issue du fichier détail du recensement. Nous partons de données individuelles, avec une information de localisation à la commune/arrondissement pour la résidence et l'emploi.
+La donnée principale que nous utilisons est issue du fichier détail du recensement. Nous partons de données individuelles, avec une information de localisation à la commune/arrondissement pour la résidence et l'emploi. Les données que nous employons sont le fichier détail des mobilités professionnelles de 2020[^larochelle-6] accessible sur le [site de l'INSEE](https://www.insee.fr/fr/statistiques/7637844?sommaire=7637890&q=mobilites+professionnelles). Nous sélectionnons les individus appartenant à notre territoire d'intérêt : le SCoT de la Rochelle pour l'estimation, une sélection d'autres SCoT pour le test. Le @tbl-scot donne quelques statistiques descriptives pour les différents échantillons. La colonne QQ plot indique en particulier que les log des flux ne sont pas normalement distribués avec une masse faible en début de distribution, ce qui est comptatible avec une distribution de Poisson des flux (antilog).
+
+[^larochelle-6]: 2020 a été marquée par le COVID. Outre les difficultés à suivre le plan de sondage, on peut estimer que l'analyse des flux de mobilité n'est pas perturbée au premier ordre. En effet, le recensement s'attache à identifier le lieu habituel de travail et de résidence. Les confinements ont probablement limité les changements d'emplois, mais le report d'une partie des relevés de terrain peut en partie compenser cet effet de fixation des emplois.
+
+```{r}
+#| label: tbl-scot
+#| tbl-cap: "Description des échantillons d'estimation et de test"
+bd_read("tbl_scot")
+```
 
 ## Ajustements "communaux" de modèles gravitaires et de *MEAPS* {#sec-ajustcom}
 
@@ -231,9 +244,9 @@ bd_read("grav_est_com_w_cc")
 
 ### Estimations non linéaires
 
-On estime cette fois les deux formes du modèle gravitaire qui respectent respectivement la contrainte en ligne et la contrainte en ligne et en colonne. Cela demande un algorithme itératif et une estimation non linéaire. Les résultats sont reportés dans le @tbl-gravnonlineaire[^larochelle-3].
+On estime cette fois les deux formes du modèle gravitaire qui respectent respectivement la contrainte en ligne et la contrainte en ligne et en colonne. Cela demande un algorithme itératif et une estimation non linéaire. Les résultats sont reportés dans le @tbl-gravnonlineaire[^larochelle-7].
 
-[^larochelle-3]: Nous n'avons pas calculé d'intervalles de confiance sur les paramètres, parce que cela est difficile dans une estimation non linéaire. On aurait pu procéder par rééchantillonage (*bootstrap*), mais la nature de notre échantillon empirique s'y prête mal. Il s'agit en effet d'une zone géographique connexe par les mobilités professionnelles. Artificiellement enlever ou dupliquer des observations conduit à fabriquer une chimère qui n'aide pas à l'analyse de la variabilité de l'échantillon. En revanche, cette approche est possible sur un échantillon composé de plusieurs aires d'attraction en rééchantillonant en masse les aires d'attraction. Nous utiliserons cette méthode dans un prochain travail.
+[^larochelle-7]: Nous n'avons pas calculé d'intervalles de confiance sur les paramètres, parce que cela est difficile dans une estimation non linéaire. On aurait pu procéder par rééchantillonage (*bootstrap*), mais la nature de notre échantillon empirique s'y prête mal. Il s'agit en effet d'une zone géographique connexe par les mobilités professionnelles. Artificiellement enlever ou dupliquer des observations conduit à fabriquer une chimère qui n'aide pas à l'analyse de la variabilité de l'échantillon. En revanche, cette approche est possible sur un échantillon composé de plusieurs aires d'attraction en rééchantillonant en masse les aires d'attraction. Nous utiliserons cette méthode dans un prochain travail.
 
 ```{r}
 #| label: tbl-gravnonlineaire
@@ -337,9 +350,9 @@ Une seconde approche, plus parcimonieuse, consiste à définir une forme fonctio
 
 #### Emplois, résidents au carreau Inspire 200m {#sec-emplois}
 
-La carte de la zone considérée est représentée sur la @fig-zoneslr. L'analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour des lieux de résidence. Cette carte est construite à partir des données carroyées de @C200 à la résolution du carreau 200m Inspire[^larochelle-4]. Nous ajoutons à ces données la localisation de l'emploi sur la même grille en utilisant les fichiers fonciers et les données d'emplois localisés de @MOBPRO. La méthode consiste à imputer par code NAF les emplois de chaque commune selon @MOBPRO aux surfaces professionnelles à la parcelle issues des fichiers fonciers. Cela permet ensuite de localiser au carreau 200m les emplois. Cette méthode est assez grossière, puisqu'en particulier la ratio personne/surface n'est pas constant d'une entreprise à l'autre, mais elle fournit une bonne première approximation d'autant que l'extrapolation ne dépasse pas l'échelle de la commune. Elle est en tout cas très supérieure à une imputation uniforme.
+La carte de la zone considérée est représentée sur la @fig-zoneslr. L'analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour des lieux de résidence. Cette carte est construite à partir des données carroyées de @C200 à la résolution du carreau 200m Inspire[^larochelle-8]. Nous ajoutons à ces données la localisation de l'emploi sur la même grille en utilisant les fichiers fonciers et les données d'emplois localisés de @MOBPRO. La méthode consiste à imputer par code NAF les emplois de chaque commune selon @MOBPRO aux surfaces professionnelles à la parcelle issues des fichiers fonciers. Cela permet ensuite de localiser au carreau 200m les emplois. Cette méthode est assez grossière, puisqu'en particulier la ratio personne/surface n'est pas constant d'une entreprise à l'autre, mais elle fournit une bonne première approximation d'autant que l'extrapolation ne dépasse pas l'échelle de la commune. Elle est en tout cas très supérieure à une imputation uniforme.
 
-[^larochelle-4]: INfrastructure for SPatial InfoRmation in Europe est depuis 2007 une directive pour la production de données spatialisées. Inspire définit une grille de carroyage et son système de projection harmonisée. C'est ce qui suit l'INSEE dans la diffusion des données carroyées. Voir https://inspire-geoportal.ec.europa.eu pour la définition de la grille et des jeux de données.
+[^larochelle-8]: INfrastructure for SPatial InfoRmation in Europe est depuis 2007 une directive pour la production de données spatialisées. Inspire définit une grille de carroyage et son système de projection harmonisée. C'est ce qui suit l'INSEE dans la diffusion des données carroyées. Voir https://inspire-geoportal.ec.europa.eu pour la définition de la grille et des jeux de données.
 
 ```{r}
 #| label: fig-zoneslr
@@ -524,9 +537,9 @@ meaps_stats |>
 
 la @fig-actvsfit-np représente les flux observés et estimés pour les différentes configurations du @tbl-meapsR2-np. Le fait d'estimer uniquement les $\omicron_{ii}$ diagonaux, en ajustant donc seulement les flux allant d'une commune de résidence vers elle même, donne déjà de très bons résultats en faisant passer le $R^2_{KL}$ de 88% à 95% et en réduisant visiblement les écarts entre flux observé et flux estimé, comme le montrent les deux panneaux supérieurs de la @fig-actvsfit-np. L'ajout de paramètres supplémentaires ne fait pas gagner beaucoup plus, d'autant que les écarts pour les flux marginaux ne sont pas tant réduits que ça. La limite de l'algorithme naïf apparaît ici, puisque le modèle complètement saturé n'ajuste pas totalement la distribution. Différents détails de l'algorithme peuvent l'expliquer, notamment la censure des *odd-ratio* trop faibles (\<0.0001) ou trop importants (\>10000) ou la prise en compte des flux nuls. Au-delà de cet argument, il est probable que pour converger vers un ajustement plus strict, il serait nécessaire de calculer la matrice des quasi dérivées des flux par rapport aux $\omicron_{ij}$.
 
-Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une vingtaine de secondes[^larochelle-5].
+Mais le coût peut être très élevé puisque cette matrice (calculée dans la partie synthétique dans un cas simple) est d'une taille considérable (1 755 $\times$ 1 755 coefficients), surtout si l'on prend en compte que le calcul de chaque terme prend autour d'une vingtaine de secondes[^larochelle-9].
 
-[^larochelle-5]: Autour d'une année de vCPU...
+[^larochelle-9]: Autour d'une année de vCPU...
 
 ```{r actvsfit-np, fig.asp=1}
 #| label: fig-actvsfit-np
@@ -585,9 +598,9 @@ ggplot(non_param)+
 
 Notons que l'échantillon des mobilités donné par @MOBPRO pour l'agglomération de la Rochelle est très particulier. Une commune (La Rochelle, dont le code géographique est 17300) représente presque 29% des flux de mobilité (de La Rochelle lieu de résidence vers La Rochelle lieu d'emploi). C'est donc un schéma monocentrique, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit. La résolution spatiale de @MOBPRO ne nous permet pas d'en détailler la structure plus fine.
 
-Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent chacune plus de 1 000 résidents en activité -- on peut représenter les *odds-ratios* estimés dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{ij}$ sont égaux à 1 (des *odds-ratios* effectifs) en fonction de la distance entre la commune de destination et la commune de résidence[^larochelle-6]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odds-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odds-ratios* élevés pour des distances importantes
+Pour les 20 plus grandes communes de l'agglomération de la Rochelle -- qui comptent chacune plus de 1 000 résidents en activité -- on peut représenter les *odds-ratios* estimés dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les $\omicron_{ij}$ sont égaux à 1 (des *odds-ratios* effectifs) en fonction de la distance entre la commune de destination et la commune de résidence[^larochelle-10]. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance $d$ étant la distance aux différentes communes de résidence @fig-spectreE. L'élément le plus frappant est que les *odds-ratios* de $i$ à $i$ sont généralement supérieur à 1 (@fig-spectreR), à l'exception de la commune de la Rochelle. Il n'émerge pas de structure particulière par rapport à la distance, si ce n'est des *odds-ratios* élevés pour des distances importantes
 
-[^larochelle-6]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
+[^larochelle-10]: La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d'arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.
 
 ```{r spectreR}
 #| label: fig-spectreR
@@ -630,18 +643,18 @@ Nous explorons ici trois formes fonctionnelles pour *MEAPS* :
 
 3.  Un coefficient pour la distance et un paramètre pour la distance de "bascule". Formellement, en dessous d'une distance $d_c$ , on définit un $\omicron_{ij \in d_{i,j} \leq d_c} = o$ et $\omicron_{ij \in d_{i,j} > d_c} = 1$. Cette forme partage la même idée que le premier modèle, mais estime la notion de proximité au lieu de reposer sur le découpage administratif.
 
-Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite --, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-7].
+Chacune de ces options mesure un biais intra-communal qui peut s'expliquer par un choix conjoint de localisation de résidence et d'emploi. *MEAPS* offre ici la possibilité de mesurer l'intensité de ce phénomène par rapport à l'hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu'elles concernent la géographie du territoire -- sa structure en pôles ou en satellite --, la formation des prix de l'immobilier, le réseau de transport ou la nature de l'activité économique. On pourrait également chercher à exploiter l'information sectorielle -- disponible dans @MOBPRO au niveau de 5 secteurs -- ou l'information sociale ou démographique -- disponible au niveau communal ou de l'IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli[^larochelle-11].
 
-[^larochelle-7]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
+[^larochelle-11]: Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.
 
 A ces formes fonctionnelles pour *MEAPS*, nous ajoutons deux formes fonctionnelles pour le modèle gravitaire :
 
 4.  un modèle gravitaire suivant la définition @eq-gravity où $f(d)= e^{d/\delta}$. Un seul paramètre $\delta$ est estimé.
 5.  un modèle gravitaire "équilibré" en utilisant l'algorithme de Furness, tel que décrit dans @sec-compgravsynth et en estimant $\delta$ comme dans le point 4.
 
-On pourrait multiplier les modèles estimés[^larochelle-8]. Le propos est ici d'illustrer les possibilités de notre modélisation et de les comparer à celles du modèle gravitaire. Deux points émergent :
+On pourrait multiplier les modèles estimés[^larochelle-12]. Le propos est ici d'illustrer les possibilités de notre modélisation et de les comparer à celles du modèle gravitaire. Deux points émergent :
 
-[^larochelle-8]: Par exemple, en faisant dépendre les *odd-ratios* non pas de la distance et d'une distance critique mais du rang et d'un rang critique.
+[^larochelle-12]: Par exemple, en faisant dépendre les *odd-ratios* non pas de la distance et d'une distance critique mais du rang et d'un rang critique.
 
 -   *MEAPS* peut mieux reproduire les données, avec une qualité d'ajustement meilleure,
 
@@ -706,9 +719,9 @@ Les estimations des modèles 1 à 3, dans lesquelles on explore un terme diagona
 
 L'estimation du modèle 3 indique qu'apparemment la distance explique mieux le biais communal que le découpage administratif et il convient plutôt de voir celui-ci comme un biais de proximité. En effet, le coefficient d'ajustement est supérieur de plus d'un point à celui obtenu avec le premier modèle, en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 9 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu'au lieu d'être approximativement de 4 elle est approximativement de 19, soit plus de 4 fois plus.
 
-Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli[^larochelle-9] ou de données issues de traçages numériques.
+Il convient à ce stade d'être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d'emplois au carreau 200m dont la précision est convaincante. Mais les flux dans @MOBPRO ne sont connus que pour les communes d'origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d'établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli[^larochelle-13] ou de données issues de traçages numériques.
 
-[^larochelle-9]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
+[^larochelle-13]: A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l'information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l'emploi occupé.
 
 ```{r actvsfit-p, fig.asp=1}
 #| label: fig-actvsfit-p
