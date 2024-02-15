@@ -10,7 +10,7 @@ La paramétrisation du modèle, le choix du modèle statistique, ou de la métri
 
 Le point de départ est l'estimation d'un modèle gravitaire par les moindres carrés ordinaires (MCO). C'est habituellement ce qui est fait dans la littérature [@josselin2020 pour la région PACA en France par exemple]. Mais cette approche mérite d'être approfondie.
 
-## Spécifications du modèle et du processus générateur
+## Spécifications du modèle et du processus générateur des données
 
 Nous proposons d'utiliser l'entropie relative (ou critère d'information ou log vraisemblance d'une distribution multinomiale) comme fonction objectif à minimiser. Une régression par les moindres carrés ordinaires pondérée par les flux (c'est-à-dire la variable expliquée) donne un résultat plus proche de l'entropie relative que l'erreur quadratique moyenne non pondérée. Nous procédons ensuite à des estimations non-linéaires en utilisant principalement l'entropie relative comme fonction objectif (d'autres fonctions objectifs sont présentées pour comparer). Cette approche permet d'estimer des modèles gravitaires à simple contrainte (la constante $c$ de l'@eq-gravitaire n'est plus estimée et est remplacée par un vecteur $c_i$ qui assure le respect de la contrainte en ligne[^larochelle-1]) et à double contrainte (à la fois la contrainte en ligne et en colonne sont respectées en utilisant par exemple la procédure de Furness). En utilisant la même procédure d'estimation non-linéaire avec comme fonction objectif l'entropie relative, nous estimons également *MEAPS* étendu afin de permettre une paramétrisation.
 
@@ -64,7 +64,7 @@ $$ P(\hat f_{ij}= f_{ij}) = \frac{e^{-\hat f_{ij}}\times \hat f_{ij}^{f_{ij}}}{f
 
 La matrice de paramètres de Poisson $[\hat f_{ij}]$ peut alors être estimée à partir d'un modèle log-linéaire, qui peut être implémenté facilement par `glm`. C'est cette approche que @flowerdew1982 applique à des flux de mobilité. On peut alors écrire le modèle gravitaire simplement :
 
-$$ log(\hat f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} +c $$
+$$ log(\hat f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} +c $$ {#eq-poissongrav}
 
 On en déduit la log-vraisemblance, en notant $n=\sum f_{ij}$ et en approximant la factorielle par la formule de Stirling [@agresti2002] :
 
@@ -190,11 +190,11 @@ Une première stratégie de calage de *MEAPS* consiste à calculer autant d'*odd
 
 Les paramètres issues de cette approche contiennent une information qui peut ensuite être exploitée. Les *odds-ratios* s'interprètent alors relativement simplement : ceux qui sont supérieurs à 1 indiquent que le flux de mobilités professionnelles correspondant sont plus fréquents que ce que prévoit le modèle de référence ; et inversement pour les *odds-ratios* inférieurs à 1.
 
-## Données
+## Données au niveau communal
 
 ### Mobilités professionnelles
 
-La donnée principale que nous utilisons est issue du fichier détail du recensement. Nous partons de données individuelles, avec une information de localisation à la commune/arrondissement pour la résidence et l'emploi. Les données que nous employons sont le fichier détail des mobilités professionnelles de 2020[^larochelle-6] accessible sur le [site de l'INSEE](https://www.insee.fr/fr/statistiques/7637844?sommaire=7637890&q=mobilites+professionnelles). Nous sélectionnons les individus appartenant à notre territoire d'intérêt : le SCoT de la Rochelle pour l'estimation, une sélection d'autres SCoT pour le test. Le @tbl-scot donne quelques statistiques descriptives pour les différents échantillons. La colonne QQ plot indique en particulier que les log des flux ne sont pas normalement distribués avec une masse faible en début de distribution, ce qui est comptatible avec une distribution de Poisson des flux (antilog).
+La donnée principale que nous utilisons est issue du fichier détail du recensement. Nous partons de données individuelles, avec une information de localisation à la commune/arrondissement pour la résidence et l'emploi. Les données que nous employons sont le fichier détail des mobilités professionnelles de 2020[^larochelle-6] accessible sur le [site de l'INSEE](https://www.insee.fr/fr/statistiques/7637844?sommaire=7637890&q=mobilites+professionnelles). Nous sélectionnons les individus appartenant à notre territoire d'intérêt : le SCoT de la Rochelle pour l'estimation, une sélection d'autres SCoT pour le test. Le @tbl-scot donne quelques statistiques descriptives pour les différents échantillons. La colonne QQ plot indique en particulier que les log des flux ne sont pas normalement distribués avec une masse importante en fin de distribution, ce qui est comptatible avec une distribution de Poisson des flux.
 
 [^larochelle-6]: 2020 a été marquée par le COVID. Outre les difficultés à suivre le plan de sondage, on peut estimer que l'analyse des flux de mobilité n'est pas perturbée au premier ordre. En effet, le recensement s'attache à identifier le lieu habituel de travail et de résidence. Les confinements ont probablement limité les changements d'emplois, mais le report d'une partie des relevés de terrain peut en partie compenser cet effet de fixation des emplois.
 
@@ -204,42 +204,25 @@ La donnée principale que nous utilisons est issue du fichier détail du recense
 bd_read("tbl_scot")
 ```
 
+Afin de produire des inervalles de confiance, nous rééchantillonons l'échantillon d'estimation (*bootstrap*). Nous utilisons le fichier détail, en tirant avec remise les individus du territoire concerné, avec comme probabilité leur poid dans l'échantillon divisé par la somme des poids. Pour les individus ayant des poids proche de 5, lié au plan de sondage du recensement pour les communes de moins de 10 000 habitants, nous les décomposons en 5 individus de poids divisé par 5. Cela permet d'éviter des accumulations autour des multiples de 5 dans la distribution rééchantillonée.
+
+Chaque échantillon *boostrapé* a le même nombre d'individus, avec la même distribution, mais des individus peuvent être répétés, confirmement au principe du *boostrap.*
+
+Nous associons ensuite à chaque paire commune d'origine commune de destination une distance à vol d'oiseau euclidienne entre les centroïdes des communes. Pour les mouvements de la même commune vers la même commune, nous définissons la distance comme la moitié de la racine carrée de la surface. Toutes les distances sont exprimées en kilomètres.
+
 ## Ajustements "communaux" de modèles gravitaires et de *MEAPS* {#sec-ajustcom}
 
-### Modèles gravitaires par les MCO
+### Modèles gravitaires par MCO ou glm
 
-La forme estimée est celle de l'@eq-gravitaire en utilisant différentes distances.
+Le @tbl-gravcom donne les résultats d'estimations de différents modèles gravitaires non contraints (i.e $\alpha$ et $\beta$ sont estimés), contraints (i.e $\alpha=1$ et $\beta=1$), non pondérés (métrique standard) ou pondérés par les flux en niveau, estimés par `glm` avec les familles Poisson ou quasi Poisson, avec effets fixes ou aléatoire ou sans. la forme estimée est l'@eq-gravitaire ou l' @eq-poissongrav, en ajoutant les coeeficients $a_i$ et $b_j$ lorsque des effets fixes ou aléatoires sont ajoutés. Les régressions sont effectuées soit par `stat::lm`, soit par `stat::glm` dans R, soit par le package `lme4` pour les effets fixes ou aléatoires. Le tableau présente différentes métriques (voir @tip-entropie pour les définitions), ainsi que les degrés de liberté des résidus associés à chaque régression.
 
-1.  La distance euclidienne entre les centroïdes de chaque commune, notée $euc$. Lorsque la destination est la même que l'origine, on utilise la moitié de la racine carré de la surface de la commune.
-2.  La distance moyenne pondérée entre chaque paire de communes, notée $d$. Elle est obtenue en pondérant par le produit des actifs à l'origine et des emplois à la destination les distances calculées entre chaque carreau 200m de la commune d'origine et chaque carreau de la commune de destination. Cette distance moyenne pondérée est non nulle par construction lorsque la destination est l'origine.
-3.  Le temps moyen pour chaque paire de communes, noté $t$. Le calcul est le même que pour les distances moyennes pondérées.
-
-Les tableaux (@tbl-gravcom, @tbl-gravcom_cc, @tbl-grav_com_w, @tbl_grav_com_w_cc) donnent les résultats d'estimations de différents modèles gravitaires non contraints (i.e $\alpha$ et $\beta$ sont estimés), contraints (i.e $\alpha=1$ et $\beta=1$), non pondérés (métrique standard) ou pondérés par les flux en niveau. Les résultats sont donnés pour les trois métriques de distances. Dans l'approche communale, les différences entre les métriques de distances sont minimes. En revanche, le modèle non contraint et sans pondération fait ressortir des coefficients $\alpha$ et $\beta$ très inférieurs à 1 (@tbl-gravcom), ce qui rend la critique de non additivité très forte. Les estimations contraintes ( @tbl-grav_com_cc) on t des $R^2$ bien plus bas et les coefficients estimés pour la distance sont très différents des estimations non contraintes. L'utilisation de la pondération, qui rapproche le critère d'estimation d'un critère de gain d'information ou d'entropie relative, conduit à des estimations différentes des estimations et des coefficients $\alpha$ et $\beta$ plus élevés [@tbl-grav_com_w]. Ils restent néanmoins inférieurs à 1 et lorsqu'ils sont contraints [@tbl-grav_com_w_cc], l'ajustement se dégrade nettement. La aussi, le coefficient de la distance (suivant les différentes métriques) se trouve être très dépendant de la forme estimée. L'hypothèse qu'il manque une description de la distribution jointe des masses aux origines et aux destinations subsiste, même avec une métrique plus pertinente pour l’estimation.
+Dans l'ensemble des régressions, les paramètres estimés sont largement significatifs. La régression par les MCO non contrainte (ligne 1 du @tbl-gravcom) fait apparaître des coefficients $\alpha$ et $\beta$ inférieurs à 1, marquant une franche non additivité. Contraindre ces paramètres dérgade fortement la qualité de l'estimation . Les estimations contraintes ( @tbl-grav_com_cc) on t des $R^2$ bien plus bas et les coefficients estimés pour la distance sont très différents des estimations non contraintes. L'utilisation de la pondération, qui rapproche le critère d'estimation d'un critère de gain d'information ou d'entropie relative, conduit à des estimations différentes des estimations et des coefficients $\alpha$ et $\beta$ plus élevés [@tbl-grav_com_w]. Ils restent néanmoins inférieurs à 1 et lorsqu'ils sont contraints [@tbl-grav_com_w_cc], l'ajustement se dégrade nettement. La aussi, le coefficient de la distance (suivant les différentes métriques) se trouve être très dépendant de la forme estimée. L'hypothèse qu'il manque une description de la distribution jointe des masses aux origines et aux destinations subsiste, même avec une métrique plus pertinente pour l’estimation.
 
 ```{r}
 #| label: tbl-gravcom
-#| tbl-cap: Estimation commune à commune, modèle gravitaire non contraints, métrique standard, non pondéré
-bd_read("grav_est_com")
-```
-
-```{r}
-#| label: tbl-gravcom_cc
-#| tbl-cap: Estimation commune à commune, modèle gravitaire, contraint, métrique standard, non pondéré
-bd_read("grav_est_com_cc")
-```
-
-```{r}
-#| label: tbl-gravcom_w
-#| tbl-cap: Estimation commune à commune, modèle gravitaire, non contraint, métrique standard, pondéré par les flux en niveau
-
-bd_read("grav_est_com_w")
-```
-
-```{r}
-#| label: tbl-gravcom_w_cc
-#| tbl-cap: Estimation commune à commune, modèle gravitaire, contraint, métrique standard, pondéré par les flux en niveau
-
-bd_read("grav_est_com_w_cc")
+#| tbl-cap: Estimations communales, modèles gravitaires
+tbl <- bd_read("tbl_grav_glm")
+tbl
 ```
 
 ### Estimations non linéaires
