@@ -1,0 +1,67 @@
+project:
+  type: website
+  output-dir: docs
+  execute-dir: project
+  
+freeze: auto
+
+website:
+  title: "MEAPS"
+  search: true
+  open-graph: true
+  twitter-card: true
+  site-url: "https://preview.meaps.fr/"
+  repo-url: "https://github.com/xtimbeau/meaps/"
+  google-analytics: "G-KF6Z4B486X"
+  reader-mode: true
+  bread-crumbs: true
+  page-footer:
+      border: true
+      center: "**CC BY 4.0**"
+  navbar: 
+    title: false
+    search: true
+    bakground: "#FEFEFE"
+    logo: www/ofce_m.png
+    logo-alt: "OFCE"
+    logo-href: "https://www.ofce.fr/"
+    left:
+      - text: "{{< iconify game-icons mesh-network >}} MEAPS"
+        file: index.qmd
+      - text: "{{< iconify fluent clipboard-math-formula-16-regular >}} Théorie"
+        file: theorie.qmd
+      - text: "Estimation"
+        icon: database-check
+        file: larochelle.qmd
+      - text: "{{< iconify gis statistic-map >}} Projection"
+        file: trajets.qmd
+      - text: "Références"
+        icon: book
+        file: references.qmd
+    right:
+      - text: "A propos"
+        icon: person-circle
+        file: about.qmd
+      - text: " "
+        icon: github
+        url: "https://github.com/xtimbeau/meaps"
+      
+bibliography: 
+  - references_trajets.bib
+  - references_meaps.bib
+
+author-title: Auteurs
+
+filters:
+  - search-replace
+
+search-replace:
+  oe : "\u0153"
+  ae : "\u00e6"
+
+logo: www/ofce.png
+
+format:
+  wp-html: default
+
+editor: visual

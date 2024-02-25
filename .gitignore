@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+/.quarto/
+/docs/
+/_book/
+/_site/
+libres.raw.qs
+.DS_Store
+*.bigqs

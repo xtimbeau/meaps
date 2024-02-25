@@ -1,0 +1,15 @@
+---
+format: 
+  wp-html:
+    toc: false
+appendix-style: none
+bibliography: [references_meaps.bib, references_trajets.bib]
+
+nocite: |
+  @*
+---
+
+# Références {.unnumbered}
+
+::: {#refs}
+:::

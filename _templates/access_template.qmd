@@ -1,0 +1,5 @@
+```{r}
+#| fig-asp: 1
+access_4modes[['{{x}}']]
+
+```

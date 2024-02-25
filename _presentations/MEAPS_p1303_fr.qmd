@@ -1,0 +1,921 @@
+---
+title: "MEAPS"
+subtitle: "Distribution statistique des trajets entre le domicile et le travail<br><br> *Séminaire lunch de l'OFCE*"
+logo: images/ofce.png
+author:
+  - name: "Maxime Parodi"
+    email: "maxime.parodi@sciencespo.fr"
+    affiliation: OFCE, Sciences Po Paris
+    affiliation-url: "http://www.ofce.fr"
+  - name: "Xavier Timbeau" 
+    email: "xavier.timbeau@sciencespo.fr"
+    affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
+    affiliation-url: "http://www.ofce.fr"
+lang: fr
+date: 3/13/2023
+date-format: "dddd D MMMM YYYY"
+footer:
+  "Séminaire lunch de l'OFCE                         MEAPS Parodi&Timbeau 2023"
+transition: slide
+transition-speed: fast
+auto-stretch: true
+execute: 
+  echo: false
+  warning: false
+format: 
+  revealjs:
+    slide-level: 2
+    slide-number: c/t
+    center: false
+    theme: [simple, www/presentation.scss]
+    navigation-mode: linear
+    code-fold: false
+    self-contained: false
+    code-link: true
+filters:
+  - reveal-auto-agenda
+auto-agenda:
+  bullets: none
+  heading: ""
+editor: visual
+bibliography: references.bib
+---
+
+```{r, include=FALSE}
+source("rinit.r")
+options(ofce.base_size = 18)
+```
+
+# Pourquoi MEAPS ?
+
+## Le modèle à 4 étapes
+
+<br>
+
+Dans la modélisation des flux de personnes, par exemple, le modèle à 4 étapes est généralement utilisé.
+
+<br>
+
+-   étape 1 : nombre de trajets en partance des lieux de résidence, nombre de trajets arrivants
+
+<br>
+
+-   étape 2 : distribution entre chaque paire des trajets partant ou arrivant
+
+<br>
+
+-   étape 3 : choix modal
+
+<br>
+
+-   étape 4 : caractéristiques des trajets
+
+<br> <br>
+
+Nous nous intéressons ici surtout à l'étape 2.
+
+## Le modèle gravitaire
+
+<br>
+
+Un modèle couramment utilisé est le modèle gravitaire <br>
+
+$$
+T_{i,j} = \frac {N_{hab, i}\times N_{emp, j}} {f(d_{i,j})}
+$$ <br>
+
+avec
+
+$$
+f=e^{d/\delta}
+$$
+
+<br>
+
+Mais le modèle gravitaire "écrase" l'information proprement spatiale et marche surtout "de loin".
+
+<br>
+
+Il donne la même valeur à la distance quelque soit la densité du milieu traversé. Or, quand on est isolé, on accepte des distances plus grandes.
+
+## Gravitaire versus radiatif
+
+<br>
+
+On propose d'utiliser une autre analogie : le modèle radiatif de [@simini2012] ou des "opportunités intervenantes" de [@stouffer1940]
+
+<br>
+
+Dans cette analogie, au lieu d'avoir des masses qui s'attirent (A et B), le trajet entre A et B est influencé par les Cs que l'on rencontre en chemin.
+
+<br>
+
+Analogie physique : une particule est émise d'un point. Elle parcourt l'espace jusqu'à rencontrer des sites d'absorption. A chaque site d'absorption elle peut être absorbée (probabilité $p$) ou continuer (probabilité $1-p$).
+
+<br>
+
+Mais un milieu linéarisé : au lieu d'une particule partant dans une direction quelconque, on classe sur une droite tous les sites d'absorption en fonction de leur distance. Ils seront rencontrés dans cet ordre. Ceci permet de représenter l'influence de la distance, puisque ce qui est près compte plus que ce qui est loin.
+
+## Plan de la présentation
+
+<br>
+
+Nous proposons un **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation (/mi:ps/)
+
+1.  Le modèle théorique
+
+    1.  Version simple
+
+    2.  Priorité et saturation
+
+    3.  Ergodicité
+
+    4.  Algorithme
+
+2.  Simulations synthétiques pour en étudier les propriétés
+
+    1.  une application Shiny
+
+3.  Estimations à partir de MOBPRO à La Rochelle
+
+    1.  données
+
+    2.  $R^2_{KL}$ et quelques autres éléments
+
+    3.  Apprentissage (ou estimation non paramétrique)
+
+    4.  Estimations paramétriques
+
+4.  Conclusions
+
+::: aside
+Une version préliminaire du document décrivant le modèle et les résultats est disponible à [xtimbeau.github.io/meaps](https://xtimbeau.github.io/meaps), commentaires avec hypothes.is et le groupe hypothes.is/groups/717ArNxe/meaps
+:::
+
+# **M**odèle **E**rgodique à **A**bsorption, **P**riorité et **S**aturation
+
+## Absorption
+
+<br>
+
+Pour chaque individu, les emplois sont classés dans l'ordre des distances, chaque emploi a un rang $r_i(j)$ et une probabilité d'absorption uniforme $p_a$. La probabilité de dépasser au moins $j$ s'écrit :
+
+$$
+\bar F(j)=(1-p_a)^{r_i(j)}
+$$
+
+<br>
+
+On peut définir une fuite, c'est-à-dire la probabilité de ne pas s'arrêter dans le périmètre d'étude (fini)
+
+$$
+p_a = 1-(p_f)^{1/J}
+$$
+
+<br>
+
+La probabilité de s'arrêter en $j$ peut alors s'écrire :
+
+$$
+P_i(j) = (1-p_a)^{r_i(j)-1} \times p_a = {p_f}^{\frac {r_i(j)-1} {J}} \times (1-{p_f}^{1/J})
+$$
+
+<br>
+
+et ne dépend que des paramètres globaux, la fuite et le nombre d'emplois.
+
+## Accessibilité
+
+<br>
+
+On définit **l'accessibilité** $s_i(d)=\sum _{j/d_{i,j}<d}1$
+
+<br>
+
+On a au premier ordre ($k$ est le nombre d'emploi en $c_d$, $\mu=\frac{-log(p_f)}{J})$ :
+
+$$
+P_i(i\in c_d) \approx k\times \mu \times e^{-\mu \times s_i(d)}
+$$
+
+<br>
+
+et donc :
+
+$$
+T^{meaps}_{i,j} = \mu \times N_{hab, i}\times N_{emp, j} \times 
+e^{-\mu \times s_i(d)}
+$$
+
+<br>
+
+::: {.callout-note appearance="minimal" icon="false"}
+Si la densité des opportunités (les emplois) est uniforme, on peut calculer $s_i(d)=r^2/\rho^2$ et (re)trouver une forme "gravitaire" qui dépend de la distance.
+
+$$
+T^{meaps}_{i,j} = \mu \times \frac {N_{hab, i}\times N_{emp, j}} { 
+e^{d^2/\rho^2}}
+$$
+:::
+
+## Saturation & priorité
+
+<br> <br>
+
+L'absorption définit une "demande" qu'il faut confronter à des disponibilités. En l'absence d'un prix nous proposons :
+
+<br>
+
+-   une capacité finie de chaque site
+
+<br>
+
+-   un remplissage progressif
+
+<br>
+
+-   lorsque le site est saturé, il est indisponible pour les suivants
+
+<br>
+
+-   ce qui fonctionne pour un ordre de priorité
+
+## Ergodicité
+
+<br>
+
+En notant $\phi_u(i,j)$ la probabilité de disponibilité ($\phi$ vaut 0 si l'emploi est complètement pris)
+
+$$
+P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i^{-1}(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
+$$
+
+$$
+\prod_{j=i} ^{J} (1-\lambda_{u,i} \times \phi_u(i,j) \times p_{a})= p_f
+$$
+
+<br>
+
+Pour ne pas dépendre d'un ordre particulier, nous faisons la moyenne sur tous les ordres possibles. Aucun résident n'est privilégié, la moyenne sur tous les ordres possibles donne une solution acceptable.
+
+Il y a $I!$ ordres possibles ce qui est impossible à traiter.
+
+On prend donc un (petit) échantillon de ces ordres et on conjecture l'ergodicité du modèle : un faible nombre de tirages permettra d'atteindre la moyenne sur tous les ordres.
+
+::: {.callout-note appearance="minimal" icon="false"}
+Intuitivement, chaque individu est localisé aléatoirement, la saturation dépend surtout de la coïncidence d'individus proches d'une opportunité et qui sont donc les premiers servis. Cette coïncidence est rare et donc quelques tirages conduisent à un résultat proche de tous les tirages.
+:::
+
+## Quelques aspects informatiques
+
+<br>
+
+Le modèle n'admet pas de solution fermée. La simulation est incontournable, notamment pour prendre en compte les données riches géographiques (réseaux de transport, localisation des emplois, des individus).
+
+<br>
+
+L'algorithme a été implémenté en C++ en utilisant la parallélisation pour le Monte-Carlo avec OpenMP. Avec les optimisations que nous avons réussi à implémenter, pour un problème de la taille de La Rochelle, il faut 20s pour une simulation sur 256 tirages avec 4 threads.
+
+<br>
+
+Le code est dans le package R `{rmeaps}`
+
+<br>
+
+{{< fa brands github >}} github.com/maxime2506/rmeaps
+
+# Simulations Synthétiques
+
+## Simulations synthétiques
+
+On génère une distribution aléatoire, avec une répartition spatiale des individus, des emplois, des distances et des rangs. On peut simuler le modèle et l'agréger à une maille choisie.
+
+On peut analyser l'ergodicité ou définir une tension et plein d'autres choses.
+
+::: {layout-ncol="2"}
+![](images/image-953895812.png){width="401"}
+
+![](images/image-1618855787.png){width="401"}
+:::
+
+::: {layout-ncol="2"}
+![](images/image-395456829.png){width="310"}
+
+![](images/image-1726803244.png){width="242"}
+:::
+
+## Une application interactive {.scrollable}
+
+<div>
+
+```{=html}
+<iframe id="meaps-shiny" src="https://ofce.shinyapps.io/rmeaps/" style="border: none; width: 100%; height:900px;" frameborder="0"></iframe>
+```
+
+</div>
+
+# Estimations
+
+## Données à La Rochelle
+
+<br>
+
+-   @MOBPRO, fichier détail du recensement. Donne pour chaque commune de résidence, la commune principale d'activité de chaque résident. On interprète ça comme un flux. 72 communes de résidence, 210 communes d'emploi.
+
+-   localisation des résidents au carreau 200m (données carroyées de l'INSEE) (5475 carreaux de résidence)
+
+-   localisation des emplois au carreau 200m (MOBPRO+fichiers fonciers en localisant en fonction des surfaces d'activité par 5 NAF, à proportion des surfaces de chaque commune) (6236 carreaux d'emplois)
+
+```{r}
+knitr::include_graphics("output/popemp.png")
+```
+
+## Distances
+
+On évalue les distances entre chaque paire de carreau 200m pour 4 modes de transport
+
+```{r}
+mode_l <- qs::qread("output/model_l.sqs")
+library(scales)
+ggplot(mode_l) +
+  geom_line(aes(x=temps, y=emp, group=com21), col="gray80", linewidth=0.2) +
+  geom_line(data = ~filter(.x, !str_detect(label, "^n")),
+            aes(x=temps, y=emp, color=label)) +
+  scale_x_continuous(breaks  = c(0, 20,40,60,80,100,120))+
+  scale_y_continuous(labels = ofce::f2si2, breaks = c(25000, 50000, 75000, 100000))+
+  PrettyCols::scale_color_pretty_d("Bold")+
+  ofce::theme_ofce(base_size = 9)+
+  xlab("temps en minutes") +
+  ylab("nombre d'emplois accessibles")+
+  labs(color="Communes")+
+  theme(legend.position = c(0.01, 0.99),
+        legend.justification = c(0,1),
+        panel.spacing = unit(12, "pt"),
+        plot.margin = margin(l = 6, r= 6),
+        panel.grid.major.x = element_line(color="gray80", linewidth = 0.1))+
+  facet_wrap(vars(mode))
+```
+
+## Accessibilité
+
+```{r}
+access <- qs::qread("output/acces4modes.sqs")
+decor_carte <- qs::qread("output/decor_carte.sqs")
+
+access_4modes <- 
+  map(c("to1k", "to5k", "to10k", "to20k"), ~{ 
+    ggplot()+
+      decor_carte +
+      ofce::theme_ofce_void(axis.text = element_blank(), base_size = 12) +
+      geom_sf(data=access, aes(fill=.data[[.x]]), col=NA)+
+      #scico::scale_fill_scico(palette="hawaii", na.value=NA, direction=-1, name = "mn")+
+      PrettyCols::scale_fill_pretty_c(
+        "Rainbow", 
+        limits = c(0,100),
+        breaks = c(15, 30, 45, 60, 75, 90),
+        na.value = "gray85",
+        direction=-1, 
+        legend_title = glue("temps pour \n{str_remove(.x, 'to')} emp."))+
+      annotation_scale(line_width = 0.2, height = unit(0.1, "cm"), 
+                       text_cex = 0.4, pad_y = unit(0.1, "cm"))+
+      facet_wrap(vars(mode))
+  })
+```
+
+::: panel-tabset
+## temps pour 1k
+
+```{r}
+access_4modes[[1]]
+```
+
+## temps pour 5k
+
+```{r}
+access_4modes[[2]]
+```
+
+## temps pour 10k
+
+```{r}
+access_4modes[[3]]
+```
+
+## temps pour 20k
+
+```{r}
+access_4modes[[4]]
+```
+:::
+
+## $R^2_{KL}$
+
+<br>
+
+On va comparer des flux entre eux et on aimerait avoir un critère à maximiser pour les ajustements. On utilise l'entropie "relative" de Kullback-Leibler, $p$ et $q$ sont deux distributions :
+
+$$
+KL(p,q) = \sum_{i}p_i \times log(p_i/q_i)
+$$
+
+<br>
+
+Kolmogorov-Smirnov (KS) est une alternative. Nous préferrons KL à KS parce que KS repose sur le maximum d'écart entre deux distributions et est donc une métrique discontinue. KL pose un problème pour les 0 (que l'on enlève) et n'est pas une distance.
+
+<br>
+
+A partir de KL on peut définir un $R^2_{KL}$ suivant @colincameron1997 en utilisant la distribution uniforme comme point de référence (analogue à une constante pour un $R^2$ de régression linéaire) :
+
+$$
+R_{KL}^2 = 1 - \frac{KL(p,\hat{q})}{KL(p, q_0)}
+$$
+
+$q_0$ est une distribution uniforme et $KL(p, q_0)$ est l'entropie de $p$.
+
+## Premiers résultats
+
+1.  On estime un modèle gravitaire sur @MOBPRO, avec les temps moyens de trajet agrégés par commune :
+
+$$
+    log(T_{i,j}) = log(a_i) + log(e_j) - \underset{(7.98)}{0.012} \times t_{i,j} - \underset{(131.7)}{10.02} \ \ \ 
+    R^2_{adj} = 2.29\%, 2034\ d.o.f
+    $$
+
+2.  On simule MEAPS sur MOBPRO à la maille commune,
+
+3.  MEAPS à la maille c200m.
+
+Le $R^2_{KL}$ pour le modèle gravitaire est de 77,8%, Le $R^2_{KL}$ pour MEAPS c200 est de 88,4%.
+
+```{r}
+data <- qs::qread("output/maillecommune.qs") |> 
+  mutate(diag = COMMUNE==DCLT,
+         maille = factor(maille, c("Gravitaire, communal", "MEAPS communal", "MEAPS c200"))) 
+  
+
+ggplot(data)+
+  scale_shape_manual(values=c(1, 18))+
+  scale_alpha_manual(values=c(0.35, 0.5))+
+  scale_size_manual(values=c(.5, 1.5))+
+  scale_color_manual(values = c("tomato","palegreen3", "royalblue2" ))+
+  geom_point(aes(x=mobpro, y=flux, col = maille, 
+                 shape=diag, alpha = diag, size = diag))+
+  scale_x_log10(limits=c(0.1, 20000),
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  scale_y_log10(limits=c(0.1, 25000), 
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  xlab("Flux observés")+ ylab("Flux estimés") +
+  guides(shape = "none", alpha = "none", size="none")+
+  facet_wrap(vars(maille), ncol = 3)+
+  geom_abline(slope=1, linewidth=0.25)+
+  coord_equal()+
+  ofce::theme_ofce(legend.position  = "none")
+```
+
+## Apprentissage ou estimation non paramétrique versus estimation paramétrique
+
+<br>
+
+On introduit des modifications de la probabilité d'absorption : $$
+\tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
+$$
+
+1.  Si on estime tous les $\omicron_{ij}$, $i$ et $j$ parcourant les communes de résidence et d'emploi, on a un problème de grande dimensionalité. Pas d'optimisation directe possible, on utilise un algorithme approché (à la machine learning).\
+    Un tel algorithme est :
+
+    $$
+    \omicron^k_{ij} = \biggl(\frac{\tilde{c}^k_{abs}}{
+    c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
+    $$
+
+2.  On impose une structure paramétrique de faible dimension (1 ou 2 dans nos exemples) et on peut faire une optimisation numérique. La structure peut relier les $\omicron_{ij}$ à la distance, au voisinage, etc...
+
+## Apprentissage : résultats (1)
+
+<br> <br> <br>
+
+```{r}
+meaps_stats <- qs::qread("output/meaps_stats.sqs") |> 
+  arrange(r2kl)
+meaps_stats |> 
+  select(-f_in, -f_out, -p1, -p2) |> 
+  filter(alg %in% c("référence", "diagonale", "90%", "99%", "100%")) |> 
+  mutate( 
+    alg = factor(alg, c("référence", "diagonale", "90%", "99%", "100%")),
+    label = case_match(alg,
+             "100%" ~ "100% des flux cumulés",
+             "99%" ~ "99% des flux cumulés ",
+             "90%" ~ "90% des flux cumulés",
+             "diagonale" ~ "Diagonale (résidence égale emploi)",
+             "référence" ~ "Référence (odds unitiaires)" )) |> 
+  relocate(label) |> 
+  gt() |> 
+  fmt_percent(columns = r2kl, decimals = 1) |>
+  fmt_integer(columns = c(dl, n_est), sep_mark = " ") |>
+  cols_hide(alg) |> 
+  cols_label(label = "",
+             r2kl = md("R<sup>2</sup><sub>KL</sub>"),
+             dl = "Degrés de liberté",
+             n_est = "odds estimés") |> 
+  cols_align(columns = c(r2kl, dl, n_est), align = "center")
+```
+
+::: aside
+Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Le nombre de degré de liberté est nul pour les configurations 99% et 100% arce que le nombre de paramètres estimés est supérieur au produit des linges et des colonnes moins les contraintes. Il y a bien plus de paramètres estimés pour la configuration 100% que pour 99%. En conséquence, l'algorithme conduit à un résultat légèrement différent.
+:::
+
+## Apprentissage : résultats (2)
+
+```{r, fig.asp=1}
+meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
+  mutate(alg = factor(
+    alg, c("référence", "diagonale", "90%", "99%", "100%",
+           "gravitaire sans furness", "gravitaire avec furness",
+           "un en diagonale", "2 en diagonale", 
+           "un fonction distance", "distance critique")),
+    grav = case_match(alg,
+                      c("gravitaire sans furness", "gravitaire avec furness") ~ TRUE, 
+                      .default = FALSE),
+    np = case_match(alg,
+                    c("diagonale", "90%", "99%", "100%") ~ TRUE,
+                    .default = FALSE))
+
+library(scales)
+ref <- meaps_estimations |>
+  filter(alg == "référence") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(flux!=0) |> 
+  select(-alg)
+non_param <- meaps_estimations |>
+  filter(np) |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(alg!="référence") |> 
+  filter(flux!=0)
+ggplot(non_param)+
+  geom_point(data=ref,
+             aes(x=mobpro, y=flux, shape = diag, alpha = diag, size = diag), 
+             col="gray80")+
+  scale_shape_manual(values=c(1, 18))+
+  scale_alpha_manual(values=c(0.1, 0.5))+
+  scale_size_manual(values=c(.5, 1.5))+
+  geom_point(data = ~.x |> filter(!estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag),
+             col="tomato")+
+  geom_point(data = ~.x |> filter(estime),
+             aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag), 
+             col="royalblue2")+
+  scale_x_log10(limits=c(0.1, 20000),
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  scale_y_log10(limits=c(0.1, 25000), 
+                labels = label_number(accuracy = 1,
+                                      big.mark = " "))+
+  xlab("Flux observés")+ ylab("Flux estimés") +
+  facet_wrap(vars(alg), ncol = 2)+
+  geom_abline(slope=1, linewidth=0.25)+
+  coord_equal()+
+  ofce::theme_ofce(legend.position  = "none")
+```
+
+## Apprentissage : résultats (3) {.scrollable}
+
+```{r}
+knitr::include_graphics("output/spectre effectif par DCLT 100.png")
+```
+
+## Apprentissage : résultats (4)
+
+```{r}
+
+knitr::include_graphics("output/toutes configs odds effectifs.png")
+```
+
+## Estimations paramétriques : modèles
+
+<br>
+
+1.  Communes diagonales : flux allant d'une commune de résidence vers elle-même pour l'emploi.
+
+    $\omicron_{i \neq j}=1$ et $\omicron_{ii} = o$.
+
+2.  Communes diagonales et voisines : 1+ une commune est voisine d'une autre si au moins 5% des trajets pondérés par les emplois et les résidents ont une distance kilométrique inférieure à 3km.
+
+    $\omicron_{ii} = o_d$; $\omicron_{ij\in \mathcal{V}(i)} = o_v$ et $\omicron_{i, j \neq i, j \notin \mathcal{V}(i)} = 1$.
+
+3.  Un coefficient en deça d'une distance et un paramètre pour cette distance de "bascule".
+
+    $\omicron_{ij \in d_{i,j} \leq d_c} = o$ et $\omicron_{ij \in d_{i,j} > d_c} = 1$
+
+<br>
+
+4.  Gravitaire, à la maille c200
+
+5.  Gravitaire, à la maille c200, plus une normalisation par Furness
+
+::: {.callout-note appearance="simple" icon="false"}
+## Algorithme de Furness
+
+$T_{i,j} = a_i \times b_j \times \frac {N_{hab, i} \times N_{emp, j}} {f(d_{i,j})}$
+
+$a_i = \frac{1}{\Sigma_j \frac{ b_j \times N_{emp,j}}{f(d_{i,j})}} \ ;\ \ b_j = \frac{1}{\Sigma_i \frac{a_i \times N_{hab,i}}{f(d_{i,j})}}$
+:::
+
+## Estimations paramétriques : résultats
+
+<br>
+
+```{r}
+meaps_stats_p <- qs::qread("output/meaps_stats.sqs") |> 
+  arrange(r2kl) |> 
+  select(-f_in, -f_out) |> 
+  filter(alg %in% c("référence", "gravitaire avec furness", "gravitaire sans furness",
+                    "un en diagonale", "2 en diagonale", "distance critique")) |> 
+  mutate(
+    labelp = case_match(alg,
+             c("gravitaire avec furness", "gravitaire sans furness") ~ 
+                 str_c("\u03B4\u2248", signif(p1, 2), " min"),
+             "référence" ~ "",
+             "un en diagonale" ~ str_c("o\u2248", signif(p1, 2)),
+             "2 en diagonale" ~ str_c("o<sub>d</sub>\u2248", signif(p1, 2), "<br>",
+                                               " o<sub>v</sub>\u2248", signif(p2, 2)),
+             "distance critique" ~ 
+               str_c("d<sub>c</sub>\u2248 ", signif(p1, 2)," min<br>",
+                                               " o\u2248", signif(p2, 2))),
+    label = case_match(alg,
+             "gravitaire avec furness" ~ "5. Gravitaire avec Furness",
+             "gravitaire sans furness" ~ "4. Gravitaire sans Furness",
+             "référence" ~ " Référence",
+             "un en diagonale" ~ "1. Commune vers commune",
+             "2 en diagonale" ~ "2. Commune vers commune et voisines",
+             "distance critique" ~ "3. Distance carreau 200m")) |> 
+  arrange(label) |> 
+  relocate(label) |> 
+  select(-p1,-p2, -alg, -n_est)
+meaps_stats_p |> 
+  relocate(label) |> 
+  gt() |> 
+  fmt_percent(columns = r2kl, decimals = 1) |>
+  fmt_integer(columns = c(dl), sep_mark = " ") |>
+  fmt_markdown(columns = labelp) |> 
+  tab_style(
+    style = cell_borders(sides = "top", col="gray66"),
+    locations = cells_body(rows = label == "4. Gravitaire sans Furness")) |> 
+  cols_label(label = "",
+             labelp = "Paramètres",
+             r2kl = md("R<sub>KL</sub><sup>2</sup>"),
+             dl = "Degrés de liberté") |>
+  cols_align(columns = c(r2kl, dl, labelp), align= "center" ) 
+```
+
+::: aside
+Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les odd-ratios.
+:::
+
+## Estimations paramétriques : résultats (2)
+
+```{r, fig.asp=1}
+meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
+  mutate(alg = factor(
+    alg, c("référence", "diagonale", "90%", "99%", "100%",
+           "gravitaire sans furness", "gravitaire avec furness",
+           "un en diagonale", "2 en diagonale", 
+           "un fonction distance", "distance critique")),
+    grav = case_match(alg,
+                      c("gravitaire sans furness", "gravitaire avec furness") ~ TRUE, 
+                      .default = FALSE),
+    np = case_match(alg,
+                    c("diagonale", "90%", "99%", "100%") ~ TRUE,
+                    .default = FALSE))
+library(scales)
+ref <- meaps_estimations |>
+  filter(alg == "référence") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(flux!=0) |> 
+  select(-alg)
+param <- meaps_estimations |>
+  filter(!np) |> 
+  filter(alg != "un fonction distance") |> 
+  mutate(diag = COMMUNE==DCLT) |> 
+  filter(flux!=0) |> 
+  mutate(
+  label = case_match(alg,
+             "gravitaire avec furness" ~ "5. Grav. avec F.",
+             "gravitaire sans furness" ~ "4. Grav.",
+             "référence" ~ "0. MEAPS o=1",
+             "un en diagonale" ~ "1. Diag.",
+             "2 en diagonale" ~ "2. Diag+vois.",
+             "distance critique" ~ "3. Dc c200m")) |> 
+  select(-alg)
+  
+plots <- map(set_names(sort(unique(param$label))), ~{
+  ggplot(param |> filter(label==.x))+
+    geom_point(data=ref,
+               aes(x=mobpro, y=flux, shape = diag, alpha = diag, size = diag), 
+               col="gray80")+
+    scale_shape_manual(values=c(1, 18))+
+    scale_alpha_manual(values=c(0.1, 0.5))+
+    scale_size_manual(values=c(.5, 1.5))+
+    geom_point(data = ~.x |> filter(!estime),
+               aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag),
+               col="tomato")+
+    geom_point(data = ~.x |> filter(estime),
+               aes(x=mobpro, y=flux, shape=diag, alpha = diag, size = diag), 
+               col="royalblue2")+
+    scale_x_log10(limits=c(0.1, 20000),
+                  labels = label_number(accuracy = 1,
+                                        big.mark = " "))+
+    scale_y_log10(limits=c(0.1, 25000), 
+                  labels = label_number(accuracy = 1,
+                                        big.mark = " "))+
+    xlab("Flux observés")+ ylab("Flux estimés") +
+    geom_abline(slope=1, linewidth=0.25)+
+    coord_equal()+
+    ofce::theme_ofce(legend.position  = "none")
+})
+```
+
+::: panel-tabset
+```{r, results='asis'}
+
+iwalk(plots, ~ {
+  cat('#### ', .y, '\n\n')
+  print(.x)
+  cat('\n\n')
+})
+```
+:::
+
+## Distribution le long des distances
+
+<br>
+
+```{r}
+load("output/dist.com.srda")
+meaps_estimations <- qs::qread("output/meaps_est.sqs") |> 
+  mutate(alg = factor(
+    alg, c("référence", "diagonale", "90%", "99%", "100%",
+           "gravitaire sans furness", "gravitaire avec furness",
+           "un en diagonale", "2 en diagonale", 
+           "un fonction distance", "distance critique")),
+    grav = case_match(alg,
+                      c("gravitaire sans furness", "gravitaire avec furness") ~ TRUE, 
+                      .default = FALSE),
+    np = case_match(alg,
+                    c("diagonale", "90%", "99%", "100%") ~ TRUE,
+                    .default = FALSE)) |> 
+  filter(!is.na(alg)) |> 
+  filter(!np|alg=="référence") 
+distances <- qs::qread("output/meaps_est.sqs") |>
+  group_by(COMMUNE, DCLT) |>
+  summarize(d = first(d[!is.na(d)]),
+            t = first(t[!is.na(t)]),
+            mobpro = first(mobpro[!is.na(mobpro)])) |> 
+  ungroup() |> 
+  drop_na(d, t)
+algs <- distinct(meaps_estimations, alg) |> pull(alg)
+param <- map_dfr(algs, ~{
+  meaps_estimations |> 
+    filter(alg==.x) |> 
+    select(-c(d, d5, d95, mobpro, t, t5, t95)) |> 
+    right_join(distances, by=c("COMMUNE", "DCLT")) |> 
+    mutate(flux = replace_na(flux, 0),
+           alg = .x)
+}) |> 
+  mutate(
+    label = case_match(alg,
+                       "gravitaire avec furness" ~ "5. Gravitaire avec Furness",
+                       "gravitaire sans furness" ~ "4. Gravitaire sans Furness",
+                       "référence" ~ "0. MEAPS odds=1",
+                       "un en diagonale" ~ "1. Commune vers commune",
+                       "2 en diagonale" ~ "2. Commune vers commune et voisines",
+                       "distance critique" ~ "3. Distance carreau 200m"))
+
+param <- param |> 
+  filter(!is.na(label)) |>
+  group_by(label) |> 
+  arrange(label, t) |> 
+  mutate(
+    cumflux = cumsum(flux)/sum(flux),
+    cumpro  = cumsum(mobpro)/sum(mobpro)) |>
+  ungroup()
+
+bas <- ggplot(param)+
+  geom_step(aes(x=t, y=cumflux-cumpro , col=label), linewidth = 0.25) +
+  geom_step(
+    data=~filter(.x, alg==algs[[1]]),
+    aes(x=t, y=0), linetype="dashed", 
+    position = "identity", na.rm=TRUE)+
+  scale_color_brewer(palette="Set1")+
+  theme_ofce(legend.position = "none",
+             plot.margin = margin(), 
+             base_size = 12)+
+  ylab("Ecart avec MOBPRO")+
+  xlab(NULL)+
+  scale_y_continuous(
+    labels = scales::label_percent(1))+
+  scale_x_continuous(
+    limits=c(0, 90),
+    labels = scales::label_number(scale=1, suffix=" min"),
+    n.breaks = 8)
+  
+haut <- ggplot(param)+
+  geom_step(
+    aes(x=t, y=cumflux, col=label),
+    position = "identity", na.rm=TRUE, alpha=1, linewidth = 0.25)+
+  geom_step(
+    data=~filter(.x, alg==algs[[1]]),
+    aes(x=t, y=cumpro), linetype="dashed", 
+    position = "identity", na.rm=TRUE)+
+  scale_color_brewer(palette="Set1")+
+  theme_ofce(legend.position = c(0.75, 0.3),
+             base_size = 12)+
+  scale_x_continuous(
+    limits=c(0, 90))+
+  scale_y_continuous(
+    labels = scales::label_percent(1),
+    name = "Distribution cumulée le long de la distance")+
+  theme(axis.line.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.margin = margin(b=1))+
+  guides(color=guide_legend("Estimation"))+
+  xlab(NULL)+ylab(NULL)
+
+library(patchwork)
+haut / bas + plot_layout(heights = c(3,1))
+```
+
+# Conclusions
+
+## Conclusion (1)
+
+<br>
+
+MEAPS dispose de microfondements (analogie radiative) et d'une agrégation explicite et flexible qui peut s'appliquer à plusieurs situations :
+
+<br>
+
+-   d'autres granularités, plusieurs niveaux de maille
+
+<br>
+
+-   d'autres opportunités comme les écoles (en cours), les commerces... en modifiant les processus de recherche ou en enlevant la saturation
+
+## Conclusion (2)
+
+<br>
+
+-   MEAPS permet une (bien) meilleure performance empirique que le modèle gravitaire sur MOBPRO à l'échelle du "bassin de vie" et pour les mobilités quotidiennes.
+
+<br>
+
+-   On peut interpréter le biais intra-communal, le comparer entre territoires ou dans le temps.
+
+<br>
+
+-   On pourrait utiliser la variance des territoires, ou la variance temporelle, ou des chocs exogènes pour en faire une analyse causale.
+
+<br>
+
+-   On pourrait utiliser des informations plus fines (traces numériques, relevés de trafic routier, enquêtes locales) pour un calage plus fin, à intégrer éventuellement avec la maille communale.
+
+## Conclusion (3)
+
+<br>
+
+On peut produire :
+
+<br>
+
+-   un chiffre agrégé plus fiable que les estimations habituellement produites. L'évaluation sur MOBPRO a une résolution spatiale trop faible, on peut gagner en précision grâce à l'interpolation et l'utilisation d'une information sur la géographie (localisation des résidents, des emplois, réseaux).
+
+<br>
+
+-   une intrapolation (robuste) en se calant sur les données à la maille commune et en utilisant l'information géographique (carte de CO~2~ , ville du 1/4 d'heure par exemple).
+
+<br>
+
+-   on peut dériver des indicateurs comme la tension sur les emplois, localisés et agrégés à une maille quelconque.
+
+## Références {#sec-fin}
+
+<br>
+
+### Bibliographie
+
+::: {#refs}
+:::
+
+<br>
+
+### Liens
+
+document : <https://xtimbeau.github.io/meaps>
+
+code : <https://github.com/xtimbeau/meaps>
+
+shiny: <https://ofce.shinyapps.io/rmeaps>
+
+package : `devtools::install_github("maxime2506/rmeaps")`

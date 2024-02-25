@@ -1,0 +1,13 @@
+# Scénarios à la Rochelle {#sec-scenarios}
+
+La construction d'un modèle représentant de façon fine et fiable les déplacements permet de proposer des analyses pour des scénarios complexes. C'est le but d'une modélisation que de proposer des réposnes convaincantes à des questions du type "Que se passerait-il si...". Dans la réponse à une telle question, on esp\^ère que la modélisation permet de la prendre en compte avec une profondeur suffisante et que les éléments calibrés sur les observations sont suffisamment invariants pour justifier une projection.
+
+## Re-localisation de l'emploi
+
+Le Schéma de Cohérence Territorial (SCoT) est un document de planification, établi et voté par les élus des communes composant le territoire et soumis à validation de l'État. Il défini, entre autres, des zones de développement économique, urbaines et des espaces naturels. C'est la loi SRU relative à la Solidarité et au Renouvellement Urbains du 13 décembre 2000 qui l'a défini et les contours en ont été modifiés au cours des dernières années.
+
+Le schéma n'est pas qu'indicatif puisqu'il est opposable. En ce qui concerne le développement de l'emploi, la création de zones d'activité est rendue possible par le SCoT, mais la réalisation effective des créations d'emploi et surtout leur localisation nette des déplacements d'autres emplois découle des décisions de l'ensemble des acteurs et donc et donc de causalités diverses et variées. Nous évaluons ici des scénarios comptatibles avec le SCoT sans pour autant nous prononcer quant à leur réalisme ou leur probabilité d'occurrence. Ainsi, nous analysons les localisations proposées à emploi total constant, c'est-à-dire vues comme des relocalisations de l'emploi vers les zones d'activités depuis leur localisation actuelle.
+
+## Reconfiguration du réseau de transport en commun
+
+L'analyse du territoire ne repose pas seulement sur la localisation de l'emploi, mais aussi sur une prise en compte détaillée des possibilités de transport.

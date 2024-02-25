@@ -1,0 +1,54 @@
+---
+appendix-style: none
+---
+# MEAPS : Modèle Ergodique d'Absorption avec Priorité et Saturation {.unnumbered .unlisted}
+
+Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix. En partant du modèle des "*intervening opportunities*" de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un **M**odèle **E**rgodique d'**A**bsorption avec **P**riorité et **S**aturation qui permet de construire ces choix sur des fondements microscopiques explicites et flexibles -- qui peuvent s'adapter à une grande palette de situations. Ainsi, ce modèle s'accommode de différentes formulations des processus stochastiques microscopiques qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation.
+
+Autour de ce modèle nous avons produit trois documents :
+
+1.  Dans le premier document, [Aspects théoriques](theorie.qmd) [@meaps2023], nous définissons le modèle et nous en dérivons quelques propriétés théoriques. La logique est de classer pour chaque résident les opportunités qu'il peut atteindre. Ce classement peut être par exemple dans l'ordre défini par les distances. Chque individu parcoure alors les opportunités et a à chaque rencontre une probabilité de s'arrêter (*Absorption*). Chaque absorption diminue la quantité d'opportunités disponibles aux autres individus jusqu'à la *Saturation*. L'affectation des opportunités est faite en fonction d'un ordre de *Priorité* des individus et nous considérons la moyenne des affectations sur un ensemble d'ordre tirés au sort (*Ergodique*). A partir de simulations sur des données synthétiques (c'est-à-dire générées par des processus connus), nous explorons les propriétés du modèle théorique.
+
+::: column-margin
+![](images/clipboard-2081448651.png){fig-align="center" width="200"}
+:::
+
+2.  Dans le second document, [Estimation à la Rochelle](larochelle.qmd) [@meaps2024a], nous ajustons MEAPS sur des données en le comparant aux modèles gravitaires. Un point important est l'hypothèse faire sur le processus générateur. La nature des données de flux et leur distribution fait privilégier une distribution de Poisson à la distribution log-normale habituellement choisie. Ceci conduit à privilégier la minimisation de l'entropie relative de Kullback-Leibler à la somme des erreurs au carré. En changeant de métrique on peut estimer des modèles par des procédures non linéaires. Nous comparons systématiquement les modèles gravitaires avec *MEAPS* augmenté de structures particulières sur les *odds-ratios* et, à moins de le normer localement et globalement, le modèle gravitaire ressort moins pertinent que *MEAPS*. En effet, deux propriétés importantes doivent être respectées : l'additivité locale et l'agrégation. Lorsque ces propriétés sont respectées, les modèles ont de bonnes performances hors échantillon. En utilisant une information infracommunale, il est possible d'augmenter la capacité prédictive des modèles, en particulier de MEAPS. Ceci permet également de projeter à une échelle infra-communale les flux simulés.
+
+::: column-margin
+![](images/clipboard-2239026405.png){width="200"}
+:::
+
+3.  Dans un troisième document, [Projections des trajets](trajets.qmd) [@meaps2024b], nous proposons une application de MEAPS à la Rochelle de la modélisation des trajets quotidiens entre le domicile et le travail. En ajoutant une modélisation des fréquences de trajets, de leur complexité (multi motifs), des modes de transport, déclinée pour différentes catégories de ménages, nous produisons une cartographie des émissions de CO~2~ au carreau 200m. Cette modélisation permet de reprendre la discussion entre densité et émissions de CO~2~, que nous retraçons dans la littérature pour conclure que ce lien est plus complexe qu'habituellement considéré. Il est en effet illusoire vouloir capturer la notion de "ville compacte" avec seulement une mesure de la densité ou d'autres métriques (les fameux 3Ds). Il est nécessaire de prendre en compte le lien entre la distribution spatiale des résidents et de leurs centre d'intérêts (ici leurs emplois) pour appréhender l'impact de la forme urbaine et donc disposer d'une modélisation plus riche.
+
+::: column-margin
+![](images/clipboard-674073573.png){width="200"}
+:::
+
+::: {.callout-tip .align-left icon="false"}
+## Licence {.unnumbered .unlisted}
+
+```{=html}
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Cette œuvre est mise à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licence Creative Commons Attribution 4.0 International</a>.
+```
+:::
+
+::: {.callout-tip .align-left icon="false"}
+## Remerciements {.unnumbered .unlisted}
+
+*Nous remercions Francesco Pirri et Pablo Vallier pour leur travail durant un stage à l'OFCE pendant l'été 2022 et une trop courte période d'assistant de recherche. Tanguy Enez et Jeanne Devineau ont pris le relais de Pablo et Francesco et ont significativement contribué à leur tour. Les discussions et les travaux conduits avec David Miet, Lucas Pouvreau et Valentin Stuhfault de Villes Vivantes ont été particulièrement fructueux pour l'application à la Rochelle, en partie financée par l'agglomération de la Rochelle. Nous remercions également Florence Nassiet et Bernard Habbouche ainsi que leurs collègues des services de l'agglomération de la Rochelle dont les encouragements et les questionnements nous aurons guidé dans ce travail. L'ensemble des calculs a été réalisé sur* nuvolos.cloud *dont le support technique s'est avéré indispensable. Tout le reste, et en particulier les erreurs, sont de notre fait.*
+:::
+
+::: {.callout-tip .align-left icon="false"}
+## Code, Shiny, Quarto {.unnumbered .unlisted}
+
+*Le code utile, principalement en C++, pour les calculs est regroupé dans un package R`{rmeaps}` accessible dans un dépôt public [github.com/maxime2506/rmeaps](https://github.com/Maxime2506/rmeaps).*
+
+*Une application shiny permet de reproduire les simulations synthétiques, accessible à [ofce.shinyapps.io/rmeaps](https://ofce.shinyapps.io/rmeaps) dont le code se trouve dans le dépôt github [github.com/xtimbeau/meaps](https://github.com/xtimbeau/meaps).*
+
+*Ces documents ont été produits avec [Quarto](https://quarto.org). Le document "[Aspects théoriques](theorie.qmd)" ne demande rien de plus pour être exécutée qu'un environnement supportant Quarto. La partie Simulations synthétiques est exécutable complètement à partir des fichiers présent dans le dossier `R` du dépôt github [github.com/xtimbeau/meaps](https://github.com/xtimbeau/meaps). Le document "[Estimation à la Rochelle](larochelle.qmd)" est exécutable en partie, la partie infracommunale nécessitant l'accès à des données spécifiques pour lesquelles nous étudions la possibilité de diffusion. N'hésitez pas à contacter les auteurs sur ce point.*
+
+*Nous utilisons de nombreux packages et logiciels libres dont* `tidyverse`, `data.table`, `matrixStats`, `R5`, `r5r`, `Rcpp`, `OpenMP`, `quarto`, `shiny`, `shinyWidgets`, `shinydashboard`, `future`, `furrr` et bien sûr `R` et `RStudio` de Posit.
+:::
+
+Contacts : [maxime.parodi\@sciencespo.fr](mailto:maxime.parodi@sciencespo.fr) ou [xavier.timbeau\@sciencespo.fr](mailto:xavier.timbeau@sciencespo.fr)

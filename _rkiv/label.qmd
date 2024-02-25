@@ -1,0 +1,17 @@
+---
+title: "cars"
+format: html
+---
+
+
+```{r, echo=FALSE}
+lb <- "fig-cars"  # label name
+```
+
+    
+See the @fig-cars.
+
+```{r}
+#| fig-cap: !expr lb
+plot(cars)
+```

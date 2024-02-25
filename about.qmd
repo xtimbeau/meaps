@@ -1,0 +1,10 @@
+---
+appendix-style: none
+---
+
+|                                                                                                                                                                                                                                                             |                                                              |
+|------------------------------------|------------------------------------|
+| [Maxime Parodi](https://www.ofce.sciences-po.fr/pages-chercheurs/page.php?id=27) est sociologue à l'OFCE                                                                                                                                                    | ![](images/clipboard-1247427341.png){width="33" height="40"} |
+| [Xavier Timbeau](https://www.ofce.sciences-po.fr/pages-chercheurs/page.php?id=37) est économiste et directeur principal de l'OFCE [{{< iconify fa6-brands linkedin size=18px >}}](https://www.linkedin.com/in/xavier-timbeau-b141b61a?originalSubdomain=fr) | ![](images/clipboard-2726063344.png){width="33" height="38"} |
+
+: {tbl-colwidths="\[75,25\]"}
