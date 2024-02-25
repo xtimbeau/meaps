@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MEAPS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/iconify-1.0.8/iconify-icon.min.js"></script>
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KF6Z4B486X"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
+</script>
+
+
+<meta property="og:title" content="MEAPS">
+<meta property="og:site_name" content="MEAPS">
+<meta name="twitter:title" content="MEAPS">
+<meta name="twitter:card" content="summary">
+<meta name="citation_fulltext_html_url" content="https://preview.meaps.fr//references.html">
+<meta name="citation_language" content="fr">
+<meta name="citation_reference" content="citation_title=Handbook of transport modelling;,citation_editor=David A. Hensher;,citation_editor=Kenneth J. Button;,citation_publication_date=2007-09-14;,citation_cover_date=2007-09-14;,citation_year=2007;,citation_fulltext_html_url=http://dx.doi.org/10.1108/9780857245670;,citation_doi=10.1108/9780857245670;,citation_journal_title=Handbooks in Transport;">
+<meta name="citation_reference" content="citation_title=A statistical theory of spatial distribution models;,citation_author=A. G. Wilson;,citation_publication_date=1967-11;,citation_cover_date=1967-11;,citation_year=1967;,citation_fulltext_html_url=http://dx.doi.org/10.1016/0041-1647(67)90035-4;,citation_issue=3;,citation_doi=10.1016/0041-1647(67)90035-4;,citation_volume=1;,citation_language=en;,citation_journal_title=Transportation Research;">
+<meta name="citation_reference" content="citation_title=Discrete choice analysis: Theory and application to travel demand;,citation_author=Moshe Ben-Akiva;,citation_author=Steven R. Lerman;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_language=en-US;,citation_series_title=Transportation series;">
+<meta name="citation_reference" content="citation_title=A comparative evaluation of trip distribution procedures;,citation_author=Kevin E. Heanue;,citation_author=Clyde E. Pyers;,citation_publication_date=1966;,citation_cover_date=1966;,citation_year=1966;,citation_issue=114;,citation_journal_title=Highway Reserach Record;">
+<meta name="citation_reference" content="citation_title=Intervening opportunities: A theory relating mobility and distance;,citation_author=Samuel A. Stouffer;,citation_publication_date=1940-12;,citation_cover_date=1940-12;,citation_year=1940;,citation_fulltext_html_url=http://dx.doi.org/10.2307/2084520;,citation_issue=6;,citation_doi=10.2307/2084520;,citation_volume=5;,citation_journal_title=American Sociological Review;">
+<meta name="citation_reference" content="citation_title=Modelling transport;,citation_author=Juan Dios Ortúzar;,citation_author=Luis G Willumsen;,citation_publication_date=2011;,citation_cover_date=2011;,citation_year=2011;">
+<meta name="citation_reference" content="citation_title=Prévision de la demande de transport;,citation_author=undefined Patrick Bonnel;,citation_publication_date=2001-12-01;,citation_cover_date=2001-12-01;,citation_year=2001;,citation_language=français;">
+<meta name="citation_reference" content="citation_title=A universal model for mobility and migration patterns;,citation_author=Filippo Simini;,citation_author=Marta C. González;,citation_author=Amos Maritan;,citation_author=Albert-László Barabási;,citation_publication_date=2012-02-26;,citation_cover_date=2012-02-26;,citation_year=2012;,citation_fulltext_html_url=http://dx.doi.org/10.1038/nature10856;,citation_issue=7392;,citation_doi=10.1038/nature10856;,citation_volume=484;,citation_language=en;,citation_journal_title=Nature;">
+<meta name="citation_reference" content="citation_title=Theorie economique de l’accessibilite urbaine;,citation_author=G. Koenig;,citation_publication_date=1974-03;,citation_cover_date=1974-03;,citation_year=1974;,citation_fulltext_html_url=http://dx.doi.org/10.2307/3500570;,citation_issue=2;,citation_doi=10.2307/3500570;,citation_volume=25;,citation_journal_title=Revue économique;">
+<meta name="citation_reference" content="citation_title=Indicators of urban accessibility: Theory and application;,citation_author=J. G. Koenig;,citation_publication_date=1980-06;,citation_cover_date=1980-06;,citation_year=1980;,citation_fulltext_html_url=http://dx.doi.org/10.1007/bf00167128;,citation_issue=2;,citation_doi=10.1007/bf00167128;,citation_volume=9;,citation_language=en;,citation_journal_title=Transportation;">
+<meta name="citation_reference" content="citation_title=Evidence-Based Transit and Land Use Sketch Planning Using Interactive Accessibility Methods on Combined Schedule and Headway-Based Networks;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Marco Linden;,citation_publication_date=2017-01;,citation_cover_date=2017-01;,citation_year=2017;,citation_fulltext_html_url=http://dx.doi.org/10.3141/2653-06;,citation_issue=1;,citation_doi=10.3141/2653-06;,citation_volume=2653;,citation_language=en;,citation_journal_title=Transportation Research Record: Journal of the Transportation Research Board;">
+<meta name="citation_reference" content="citation_title=Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Michael Van Eggermond;,citation_publication_date=2018-07-23;,citation_cover_date=2018-07-23;,citation_year=2018;,citation_fulltext_html_url=http://dx.doi.org/10.5198/jtlu.2018.1074;,citation_issue=1;,citation_doi=10.5198/jtlu.2018.1074;,citation_volume=11;,citation_journal_title=Journal of Transport and Land Use;">
+<meta name="citation_reference" content="citation_title=Getting Charlie off the MTA: a multiobjective optimization method to account for cost constraints in public transit accessibility metrics;,citation_author=Matthew Wigginton Conway;,citation_author=Anson F. Stewart;,citation_publication_date=2019-04-30;,citation_cover_date=2019-04-30;,citation_year=2019;,citation_fulltext_html_url=http://dx.doi.org/10.1080/13658816.2019.1605075;,citation_issue=9;,citation_doi=10.1080/13658816.2019.1605075;,citation_volume=33;,citation_language=en;,citation_journal_title=International Journal of Geographical Information Science;">
+<meta name="citation_reference" content="citation_title=r5r: Rapid realistic routing on multimodal transport networks with R5 in r;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva undefined;,citation_author=Daniel Herszenhut undefined;,citation_author=Carlos Kaue Vieira Braga undefined;,citation_author=Matthew Wigginton Conway undefined;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_doi=10.32866/001c.21262;">
+<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_publisher=https://www.openstreetmap.org;">
+<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;">
+<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6454112;">
+<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined MOBPERS;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires; https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;">
+<meta name="citation_reference" content="citation_title=Creating an executable paper is a journey through Open Science;,citation_author=Jana Lasser;,citation_publication_date=2020-08-19;,citation_cover_date=2020-08-19;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1038/s42005-020-00403-4;,citation_issue=1;,citation_doi=10.1038/s42005-020-00403-4;,citation_volume=3;,citation_language=en;,citation_journal_title=Communications Physics;">
+<meta name="citation_reference" content="citation_title=On Information and Sufficiency;,citation_author=S. Kullback;,citation_author=R. A. Leibler;,citation_publication_date=1951-03;,citation_cover_date=1951-03;,citation_year=1951;,citation_fulltext_html_url=http://dx.doi.org/10.1214/aoms/1177729694;,citation_issue=1;,citation_doi=10.1214/aoms/1177729694;,citation_volume=22;,citation_language=en;,citation_journal_title=The Annals of Mathematical Statistics;">
+<meta name="citation_reference" content="citation_title=An R-squared measure of goodness of fit for some common nonlinear regression models;,citation_author=A. Colin Cameron;,citation_author=Frank A. G. Windmeijer;,citation_publication_date=1997-04;,citation_cover_date=1997-04;,citation_year=1997;,citation_fulltext_html_url=http://dx.doi.org/10.1016/S0304-4076(96)01818-0;,citation_issue=2;,citation_doi=10.1016/s0304-4076(96)01818-0;,citation_volume=77;,citation_language=en;,citation_journal_title=Journal of Econometrics;">
+<meta name="citation_reference" content="citation_title=Estimer des flux de navetteurs avec un modèle gravitaire : application géomatique en région Provence-Alpes-Côte d’Azur (France)&amp;amp;amp;lt;sup&amp;gt;1&amp;lt;/sup&amp;gt;;,citation_author=Didier Josselin;,citation_author=Samuel Carpentier-Postel;,citation_author=Frédéric Audard;,citation_author=Safaâ Amarouch;,citation_author=Jean-Baptiste Durand;,citation_author=Nathalie Brachet;,citation_author=Mathieu Coulon;,citation_author=Louisette Garcin;,citation_publication_date=2020-09-01;,citation_cover_date=2020-09-01;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1139/geomat-2020-0009;,citation_issue=3;,citation_doi=10.1139/geomat-2020-0009;,citation_volume=74;,citation_language=fr;,citation_journal_title=Geomatica;">
+<meta name="citation_reference" content="citation_title=Toward a better understanding of the intervening opportunities model;,citation_author=Earl R. Ruiter;,citation_publication_date=1967;,citation_cover_date=1967;,citation_year=1967;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/0041164767900949;,citation_issue=1;,citation_doi=https://doi.org/10.1016/0041-1647(67)90094-9;,citation_volume=1;,citation_journal_title=Transportation Research;">
+<meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
+<meta name="citation_reference" content="citation_title=Spatial Flows and Spatial Patterns;,citation_author=A S Fotheringham;,citation_publication_date=1984-04-01;,citation_cover_date=1984-04-01;,citation_year=1984;,citation_fulltext_html_url=https://doi.org/10.1068/a160529;,citation_issue=4;,citation_doi=10.1068/a160529;,citation_volume=16;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
+<meta name="citation_reference" content="citation_title=Spatial Flows and Competing Central Places: Towards a General Theory of Hierarchical Interaction;,citation_author=T J Fik;,citation_author=G F Mulligan;,citation_publication_date=1990-04-01;,citation_cover_date=1990-04-01;,citation_year=1990;,citation_fulltext_html_url=https://doi.org/10.1068/a220527;,citation_issue=4;,citation_doi=10.1068/a220527;,citation_volume=22;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
+<meta name="citation_reference" content="citation_title=Human Mobility in a Continuum Approach;,citation_author=Filippo Simini;,citation_author=Amos Maritan;,citation_author=Zoltán Néda;,citation_publication_date=2013-03-28;,citation_cover_date=2013-03-28;,citation_year=2013;,citation_fulltext_html_url=https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0060069;,citation_issue=3;,citation_doi=10.1371/journal.pone.0060069;,citation_volume=8;,citation_language=en;,citation_journal_title=PLOS ONE;">
+<meta name="citation_reference" content="citation_title=Systematic comparison of trip distribution laws and models;,citation_author=Maxime Lenormand;,citation_author=Aleix Bassolas;,citation_author=José J. Ramasco;,citation_publication_date=2016-02-01;,citation_cover_date=2016-02-01;,citation_year=2016;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0966692315002422;,citation_doi=10.1016/j.jtrangeo.2015.12.008;,citation_volume=51;,citation_journal_title=Journal of Transport Geography;">
+<meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
+<meta name="citation_reference" content="citation_title=Limits of Predictability in Commuting Flows in the Absence of Data for Calibration;,citation_author=Yingxiang Yang;,citation_author=Carlos Herrera;,citation_author=Nathan Eagle;,citation_author=Marta C. González;,citation_publication_date=2014-07-11;,citation_cover_date=2014-07-11;,citation_year=2014;,citation_fulltext_html_url=https://www.nature.com/articles/srep05662;,citation_issue=1;,citation_doi=10.1038/srep05662;,citation_volume=4;,citation_language=en;,citation_journal_title=Scientific Reports;">
+<meta name="citation_reference" content="citation_title=A Method of Fitting the Gravity Model Based on the Poisson Distribution*;,citation_author=Robin Flowerdew;,citation_author=Murray Aitkin;,citation_publication_date=1982;,citation_cover_date=1982;,citation_year=1982;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-9787.1982.tb00744.x;,citation_issue=2;,citation_doi=10.1111/j.1467-9787.1982.tb00744.x;,citation_volume=22;,citation_language=en;,citation_journal_title=Journal of Regional Science;">
+<meta name="citation_reference" content="citation_title=Categorical data analysis;,citation_author=Alan Agresti;,citation_publication_date=2002-07-03;,citation_cover_date=2002-07-03;,citation_year=2002;,citation_fulltext_html_url=http://dx.doi.org/10.1002/0471249688;,citation_doi=10.1002/0471249688;,citation_journal_title=Wiley Series in Probability and Statistics;">
+<meta name="citation_reference" content="citation_title=The multivariate poisson-log normal distribution;,citation_author=J. Aitchison;,citation_author=C. H. Ho;,citation_publication_date=1989-12-01;,citation_cover_date=1989-12-01;,citation_year=1989;,citation_fulltext_html_url=https://doi.org/10.1093/biomet/76.4.643;,citation_issue=4;,citation_doi=10.1093/biomet/76.4.643;,citation_volume=76;,citation_journal_title=Biometrika;">
+<meta name="citation_reference" content="citation_title=MEAPS : Modéliser les flux de navetteurs;,citation_author=Maxime Parodi;,citation_author=Xavier Timbeau;,citation_publication_date=2023-05-02;,citation_cover_date=2023-05-02;,citation_year=2023;,citation_fulltext_html_url=https://preview.meaps.fr;,citation_issue=11-2023;,citation_journal_title=Document de travail de l’OFCE;">
+<meta name="citation_reference" content="citation_title=MEAPS&amp;amp;amp;gravitaire : Estimations à la rochelle;,citation_author=Maxime Parodi;,citation_author=Xavier Timbeau;,citation_publication_date=2024-02-02;,citation_cover_date=2024-02-02;,citation_year=2024;,citation_fulltext_html_url=https://preview.meaps.fr;,citation_issue=4-2024;,citation_journal_title=Document de travail de l’OFCE;">
+<meta name="citation_reference" content="citation_title=La ville compacte : Une solution pour réduire les émissions de gaz à effet de serre ?;,citation_author=Maxime Parodi;,citation_author=Xavier Timbeau;,citation_publication_date=2024-01-30;,citation_cover_date=2024-01-30;,citation_year=2024;,citation_fulltext_html_url=https://preview.meaps.fr;,citation_issue=5-2024;,citation_journal_title=Document de travail de l’OFCE;">
+<meta name="citation_reference" content="citation_title=Handbook of transport modelling;,citation_editor=David A. Hensher;,citation_editor=Kenneth J. Button;,citation_publication_date=2007-09-14;,citation_cover_date=2007-09-14;,citation_year=2007;,citation_fulltext_html_url=http://dx.doi.org/10.1108/9780857245670;,citation_doi=10.1108/9780857245670;,citation_journal_title=Handbooks in Transport;">
+<meta name="citation_reference" content="citation_title=La décomposition de l’empreinte carbone de la demande finale de la france par postes de consommation : Transport, alimentation, habitat, équipements et services;,citation_author=Manuel Baude;,citation_publication_date=2022-07-01;,citation_cover_date=2022-07-01;,citation_year=2022;,citation_fulltext_html_url=https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2022-07/document_travail_59_decomposition_empreinte_carbone_juillet2022.pdf;,citation_technical_report_institution=Ministère de la transition écologique et de la cohésion des territoires;,citation_technical_report_number=59;,citation_series_title=Document de travail;">
+<meta name="citation_reference" content="citation_title=Handbook of regional and urban economics;,citation_editor=Gilles Duranton;,citation_editor=J. Vernon Henderson;,citation_editor=William Strange;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_fulltext_html_url=https://EconPapers.repec.org/RePEc:eee:reghes:5;,citation_volume=5;">
+<meta name="citation_reference" content="citation_title=A statistical theory of spatial distribution models;,citation_author=A. G. Wilson;,citation_publication_date=1967-11;,citation_cover_date=1967-11;,citation_year=1967;,citation_fulltext_html_url=http://dx.doi.org/10.1016/0041-1647(67)90035-4;,citation_issue=3;,citation_doi=10.1016/0041-1647(67)90035-4;,citation_volume=1;,citation_language=en;,citation_journal_title=Transportation Research;">
+<meta name="citation_reference" content="citation_title=Discrete choice analysis: Theory and application to travel demand;,citation_author=Moshe Ben-Akiva;,citation_author=Steven R. Lerman;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_language=en-US;,citation_series_title=Transportation series;">
+<meta name="citation_reference" content="citation_title=A comparative evaluation of trip distribution procedures;,citation_author=Kevin E. Heanue;,citation_author=Clyde E. Pyers;,citation_publication_date=1966;,citation_cover_date=1966;,citation_year=1966;,citation_issue=114;,citation_journal_title=Highway Reserach Record;">
+<meta name="citation_reference" content="citation_title=Intervening opportunities: A theory relating mobility and distance;,citation_author=Samuel A. Stouffer;,citation_publication_date=1940-12;,citation_cover_date=1940-12;,citation_year=1940;,citation_fulltext_html_url=http://dx.doi.org/10.2307/2084520;,citation_issue=6;,citation_doi=10.2307/2084520;,citation_volume=5;,citation_journal_title=American Sociological Review;">
+<meta name="citation_reference" content="citation_title=Modelling transport;,citation_author=Juan Dios Ortúzar;,citation_author=Luis G Willumsen;,citation_publication_date=2011;,citation_cover_date=2011;,citation_year=2011;">
+<meta name="citation_reference" content="citation_title=Prévision de la demande de transport;,citation_author=undefined Patrick Bonnel;,citation_publication_date=2001-12-01;,citation_cover_date=2001-12-01;,citation_year=2001;,citation_language=français;">
+<meta name="citation_reference" content="citation_title=A universal model for mobility and migration patterns;,citation_author=Filippo Simini;,citation_author=Marta C. González;,citation_author=Amos Maritan;,citation_author=Albert-László Barabási;,citation_publication_date=2012-02-26;,citation_cover_date=2012-02-26;,citation_year=2012;,citation_fulltext_html_url=http://dx.doi.org/10.1038/nature10856;,citation_issue=7392;,citation_doi=10.1038/nature10856;,citation_volume=484;,citation_language=en;,citation_journal_title=Nature;">
+<meta name="citation_reference" content="citation_title=Theorie economique de l’accessibilite urbaine;,citation_author=G. Koenig;,citation_publication_date=1974-03;,citation_cover_date=1974-03;,citation_year=1974;,citation_fulltext_html_url=http://dx.doi.org/10.2307/3500570;,citation_issue=2;,citation_doi=10.2307/3500570;,citation_volume=25;,citation_journal_title=Revue économique;">
+<meta name="citation_reference" content="citation_title=Indicators of urban accessibility: Theory and application;,citation_author=J. G. Koenig;,citation_publication_date=1980-06;,citation_cover_date=1980-06;,citation_year=1980;,citation_fulltext_html_url=http://dx.doi.org/10.1007/bf00167128;,citation_issue=2;,citation_doi=10.1007/bf00167128;,citation_volume=9;,citation_language=en;,citation_journal_title=Transportation;">
+<meta name="citation_reference" content="citation_title=Evidence-Based Transit and Land Use Sketch Planning Using Interactive Accessibility Methods on Combined Schedule and Headway-Based Networks;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Marco Linden;,citation_publication_date=2017-01;,citation_cover_date=2017-01;,citation_year=2017;,citation_fulltext_html_url=http://dx.doi.org/10.3141/2653-06;,citation_issue=1;,citation_doi=10.3141/2653-06;,citation_volume=2653;,citation_language=en;,citation_journal_title=Transportation Research Record: Journal of the Transportation Research Board;">
+<meta name="citation_reference" content="citation_title=Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Michael Van Eggermond;,citation_publication_date=2018-07-23;,citation_cover_date=2018-07-23;,citation_year=2018;,citation_fulltext_html_url=http://dx.doi.org/10.5198/jtlu.2018.1074;,citation_issue=1;,citation_doi=10.5198/jtlu.2018.1074;,citation_volume=11;,citation_journal_title=Journal of Transport and Land Use;">
+<meta name="citation_reference" content="citation_title=Getting Charlie off the MTA: a multiobjective optimization method to account for cost constraints in public transit accessibility metrics;,citation_author=Matthew Wigginton Conway;,citation_author=Anson F. Stewart;,citation_publication_date=2019-04-30;,citation_cover_date=2019-04-30;,citation_year=2019;,citation_fulltext_html_url=http://dx.doi.org/10.1080/13658816.2019.1605075;,citation_issue=9;,citation_doi=10.1080/13658816.2019.1605075;,citation_volume=33;,citation_language=en;,citation_journal_title=International Journal of Geographical Information Science;">
+<meta name="citation_reference" content="citation_title=r5r: Rapid realistic routing on multimodal transport networks with R5 in r;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva undefined;,citation_author=Daniel Herszenhut undefined;,citation_author=Carlos Kaue Vieira Braga undefined;,citation_author=Matthew Wigginton Conway undefined;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_doi=10.32866/001c.21262;">
+<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_publisher=https://www.openstreetmap.org;">
+<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_author=undefined C200;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;">
+<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_author=undefined MOBPRO;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6454112;">
+<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined MOBPERS;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires; https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;">
+<meta name="citation_reference" content="citation_title=Creating an executable paper is a journey through Open Science;,citation_author=Jana Lasser;,citation_publication_date=2020-08-19;,citation_cover_date=2020-08-19;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1038/s42005-020-00403-4;,citation_issue=1;,citation_doi=10.1038/s42005-020-00403-4;,citation_volume=3;,citation_language=en;,citation_journal_title=Communications Physics;">
+<meta name="citation_reference" content="citation_title=On Information and Sufficiency;,citation_author=S. Kullback;,citation_author=R. A. Leibler;,citation_publication_date=1951-03;,citation_cover_date=1951-03;,citation_year=1951;,citation_fulltext_html_url=http://dx.doi.org/10.1214/aoms/1177729694;,citation_issue=1;,citation_doi=10.1214/aoms/1177729694;,citation_volume=22;,citation_language=en;,citation_journal_title=The Annals of Mathematical Statistics;">
+<meta name="citation_reference" content="citation_title=An R-squared measure of goodness of fit for some common nonlinear regression models;,citation_author=A. Colin Cameron;,citation_author=Frank A. G. Windmeijer;,citation_publication_date=1997-04;,citation_cover_date=1997-04;,citation_year=1997;,citation_fulltext_html_url=http://dx.doi.org/10.1016/S0304-4076(96)01818-0;,citation_issue=2;,citation_doi=10.1016/s0304-4076(96)01818-0;,citation_volume=77;,citation_language=en;,citation_journal_title=Journal of Econometrics;">
+<meta name="citation_reference" content="citation_title=Foreword;,citation_author=Gilles Duranton;,citation_author=Vernon Henderson;,citation_author=William Strange;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_fulltext_html_url=http://dx.doi.org/10.1016/b978-0-444-59517-1.09998-0;,citation_doi=10.1016/b978-0-444-59517-1.09998-0;,citation_inbook_title=undefined;">
+<meta name="citation_reference" content="citation_title=Compactness versus Sprawl: A Review of Recent Evidence from the United States;,citation_author=Reid Ewing;,citation_author=Shima Hamidi;,citation_publication_date=2015-11-01;,citation_cover_date=2015-11-01;,citation_year=2015;,citation_fulltext_html_url=https://doi.org/10.1177/0885412215595439;,citation_issue=4;,citation_doi=10.1177/0885412215595439;,citation_volume=30;,citation_language=en;,citation_journal_title=Journal of Planning Literature;">
+<meta name="citation_reference" content="citation_title=The carbon ‘carprint’ of suburbanization: New evidence from french cities;,citation_author=Camille Blaudin de Thé;,citation_author=Benjamin Carantino;,citation_author=Miren Lafourcade;,citation_language=en-US;">
+<meta name="citation_reference" content="citation_title=Compactness versus Sprawl: A Review of Recent Evidence from the United States;,citation_author=Reid Ewing;,citation_author=Shima Hamidi;,citation_publication_date=2015-11-01;,citation_cover_date=2015-11-01;,citation_year=2015;,citation_fulltext_html_url=https://doi.org/10.1177/0885412215595439;,citation_issue=4;,citation_doi=10.1177/0885412215595439;,citation_volume=30;,citation_language=en;,citation_journal_title=Journal of Planning Literature;">
+<meta name="citation_reference" content="citation_title=Urban form and driving: Evidence from US cities;,citation_author=Gilles Duranton;,citation_author=Matthew A. Turner;,citation_publication_date=2018-11;,citation_cover_date=2018-11;,citation_year=2018;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0094119018300871;,citation_doi=10.1016/j.jue.2018.10.003;,citation_volume=108;,citation_language=en;,citation_journal_title=Journal of Urban Economics;">
+<meta name="citation_reference" content="citation_title=The impact of urban form on vehicle ownership;,citation_author=Matthew J. Holian;,citation_publication_date=2020-01;,citation_cover_date=2020-01;,citation_year=2020;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0165176519303830;,citation_doi=10.1016/j.econlet.2019.108763;,citation_volume=186;,citation_language=en;,citation_journal_title=Economics Letters;">
+<meta name="citation_reference" content="citation_title=An empirical analysis of urban form, transport, and global warming;,citation_author=Fabio Grazi;,citation_author=Jeroen C. J. M. Van Den Bergh;,citation_author=Jos N. Van Ommeren;,citation_publication_date=2008-10-01;,citation_cover_date=2008-10-01;,citation_year=2008;,citation_fulltext_html_url=http://www.iaee.org/en/publications/ejarticle.aspx?id=2279;,citation_issue=4;,citation_doi=10.5547/ISSN0195-6574-EJ-Vol29-No4-5;,citation_volume=29;,citation_journal_title=The Energy Journal;">
+<meta name="citation_reference" content="citation_title=Does Compact Development Make People Drive Less?;,citation_author=Mark R. Stevens;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_fulltext_html_url=https://www.tandfonline.com/doi/epdf/10.1080/01944363.2016.1240044?needAccess=true&amp;amp;amp;role=button;,citation_issue=1;,citation_volume=38;,citation_language=en;,citation_journal_title=Journal of the American Planning Association;">
+<meta name="citation_reference" content="citation_title=Sustainability and Cities: Overcoming Automobile Dependence;,citation_author=Peter Newman;,citation_author=Jeffrey Kenworthy;,citation_publication_date=1999-02;,citation_cover_date=1999-02;,citation_year=1999;,citation_language=en;">
+<meta name="citation_reference" content="citation_title=Travel demand and the 3Ds: Density, diversity, and design;,citation_author=Robert Cervero;,citation_author=Kara Kockelman;,citation_publication_date=1997-09;,citation_cover_date=1997-09;,citation_year=1997;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S1361920997000096;,citation_issue=3;,citation_doi=10.1016/S1361-9209(97)00009-6;,citation_volume=2;,citation_language=en;,citation_journal_title=Transportation Research Part D: Transport and Environment;">
+<meta name="citation_reference" content="citation_title=Mixed Use by Default: How the Europeans (Don’t) Zone;,citation_author=Sonia Hirt;,citation_publication_date=2012-11-01;,citation_cover_date=2012-11-01;,citation_year=2012;,citation_fulltext_html_url=https://doi.org/10.1177/0885412212451029;,citation_issue=4;,citation_doi=10.1177/0885412212451029;,citation_volume=27;,citation_language=en;,citation_journal_title=Journal of Planning Literature;">
+<meta name="citation_reference" content="citation_title=Comparing the impacts of local land use and urban spatial structure on household VMT and GHG emissions;,citation_author=Sungwon Lee;,citation_author=Bumsoo Lee;,citation_publication_date=2020-04;,citation_cover_date=2020-04;,citation_year=2020;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0966692319304971;,citation_doi=10.1016/j.jtrangeo.2020.102694;,citation_volume=84;,citation_language=en;,citation_journal_title=Journal of Transport Geography;">
+<meta name="citation_reference" content="citation_title=Three Challenges for the Compact City as a Sustainable Urban Form: Household Consumption of Energy and Transport in Eight Residential Areas in the Greater Oslo Region;,citation_author=Erling Holden;,citation_author=Ingrid T. Norland;,citation_publication_date=2005-11-01;,citation_cover_date=2005-11-01;,citation_year=2005;,citation_fulltext_html_url=https://doi.org/10.1080/00420980500332064;,citation_issue=12;,citation_doi=10.1080/00420980500332064;,citation_volume=42;,citation_language=en;,citation_journal_title=Urban Studies;">
+<meta name="citation_reference" content="citation_title=Quelles interactions entre les marchés de la mobilité à courte et à longue distance&nbsp;?;,citation_author=Jean-Pierre Orfeuil;,citation_author=Danièle Soleyret;,citation_publication_date=2002-10-01;,citation_cover_date=2002-10-01;,citation_year=2002;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0761898002000134;,citation_doi=10.1016/S0761-8980(02)00013-4;,citation_volume=76;,citation_journal_title=Recherche - Transports - Sécurité;">
+<meta name="citation_reference" content="citation_title=La contrainte énergétique doit-elle réguler la ville ou les véhicules ? Mobilités urbaines et réalisme écologique;,citation_author=Marie-Hélène Massot;,citation_author=Jean-Pierre Orfeuil;,citation_publication_date=2007;,citation_cover_date=2007;,citation_year=2007;,citation_fulltext_html_url=https://www.persee.fr/doc/aru_0180-930x_2007_num_103_1_2710;,citation_issue=1;,citation_doi=10.3406/aru.2007.2710;,citation_volume=103;,citation_language=fre;,citation_journal_title=Les Annales de la Recherche Urbaine;">
+<meta name="citation_reference" content="citation_title=Forme urbaine et mobilités de loisirs : l’« effet barbecue » sur le grill;,citation_author=Sébastien Munafò;,citation_publication_date=2017-10-16;,citation_cover_date=2017-10-16;,citation_year=2017;,citation_fulltext_html_url=https://journals.openedition.org/cybergeo/28634;,citation_doi=10.4000/cybergeo.28634;,citation_language=fr;,citation_journal_title=Cybergeo: European Journal of Geography;">
+<meta name="citation_reference" content="citation_title=The compensation hypothesis in barcelona measured through the ecological footprint of mobility and housing;,citation_author=Ivan Muñiz;,citation_author=Daniel Calatayud;,citation_author=Roger Dobaño;,citation_publication_date=2013-05-01;,citation_cover_date=2013-05-01;,citation_year=2013;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S016920461300025X;,citation_doi=10.1016/j.landurbplan.2013.02.004;,citation_volume=113;,citation_journal_title=Landscape and Urban Planning;">
+<meta name="citation_reference" content="citation_title=Jobs-housing balancing and regional mobility;,citation_author=Robert Cervero;,citation_publication_date=1989-06-30;,citation_cover_date=1989-06-30;,citation_year=1989;,citation_fulltext_html_url=https://doi.org/10.1080/01944368908976014;,citation_issue=2;,citation_doi=10.1080/01944368908976014;,citation_volume=55;,citation_journal_title=Journal of the American Planning Association;">
+<meta name="citation_reference" content="citation_title=Planning the Built Environment and Land Use Towards Deep Decarbonization of the United States;,citation_author=David Hsu;,citation_author=Clinton J. Andrews;,citation_author=Albert T. Han;,citation_author=Carolyn G. Loh;,citation_author=Anna C. Osland;,citation_author=Christopher P. Zegras;,citation_publication_date=2023-08-01;,citation_cover_date=2023-08-01;,citation_year=2023;,citation_fulltext_html_url=https://doi.org/10.1177/08854122221097977;,citation_issue=3;,citation_doi=10.1177/08854122221097977;,citation_volume=38;,citation_language=en;,citation_journal_title=Journal of Planning Literature;">
+<meta name="citation_reference" content="citation_title=The compact city: A successful, desirable and achievable urban form?;,citation_editor=Mike Jenks;,citation_editor=Katie Williams;,citation_editor=Elizabeth Burton;,citation_publication_date=2003-09-02;,citation_cover_date=2003-09-02;,citation_year=2003;,citation_fulltext_html_url=http://dx.doi.org/10.4324/9780203362372-12;,citation_doi=10.4324/9780203362372-12;,citation_inbook_title=undefined;">
+<meta name="citation_reference" content="citation_title=Compact city: A plan for a liveable urban environment;,citation_author=G. B. Dantzig;,citation_author=G. B. Dantzig;,citation_author=T. L. Saaty;,citation_publication_date=1973;,citation_cover_date=1973;,citation_year=1973;,citation_fulltext_html_url=https://books.google.fr/books?id=PTeIQgAACAAJ;">
+<meta name="citation_reference" content="citation_title=The death and life of great american cities;,citation_author=J. Jacobs;,citation_publication_date=1961;,citation_cover_date=1961;,citation_year=1961;,citation_fulltext_html_url=https://books.google.fr/books?id=5FdHAAAAMAAJ;,citation_series_title=A vintage book;">
+<meta name="citation_reference" content="citation_title=Zoned out: Regulation, markets, and choices in transportation and metropolitan land use;,citation_author=J. Levine;,citation_publication_date=2010;,citation_cover_date=2010;,citation_year=2010;,citation_fulltext_html_url=https://books.google.fr/books?id=HTCl9W9rg3oC;">
+<meta name="citation_reference" content="citation_title=Sustainability and Cities: Overcoming Automobile Dependence;,citation_author=Peter Newman;,citation_author=Jeffrey Kenworthy;,citation_publication_date=1999-02;,citation_cover_date=1999-02;,citation_year=1999;,citation_language=en;">
+<meta name="citation_reference" content="citation_title=Cities and automobile dependence;,citation_author=Peter Newman;,citation_author=Jeffrey Kenworthy;,citation_publication_date=1989;,citation_cover_date=1989;,citation_year=1989;">
+<meta name="citation_reference" content="citation_title=Gasoline Consumption and Cities;,citation_author=Peter Newman;,citation_author=Jeffrey Kenworthy;,citation_publication_date=1989;,citation_cover_date=1989;,citation_year=1989;,citation_fulltext_html_url=https://www.tandfonline.com/doi/epdf/10.1080/01944368908975398?needAccess=true&amp;amp;amp;role=button;,citation_doi=10.1080/01944368908975398;,citation_volume=Winter 1989;,citation_language=en;,citation_journal_title=Journal of the Amrican Planning Association;">
+<meta name="citation_reference" content="citation_title=Testing newman and kenworthy’s theory of density and automobile dependence;,citation_author=Reid Ewing;,citation_author=Shima Hamidi;,citation_author=Guang Tian;,citation_author=David Proffitt;,citation_author=Stefania Tonin;,citation_author=Laura Fregolent;,citation_publication_date=2017-01-27;,citation_cover_date=2017-01-27;,citation_year=2017;,citation_doi=10.1177/0739456X16688767;,citation_volume=38;,citation_journal_title=Journal of Planning Education and Research;">
+<meta name="citation_reference" content="citation_title=Travel and the built environment;,citation_author=Reid Ewing;,citation_author=Robert Cervero;,citation_publication_date=2010-06-21;,citation_cover_date=2010-06-21;,citation_year=2010;,citation_fulltext_html_url=https://doi.org/10.1080/01944361003766766;,citation_issue=3;,citation_doi=10.1080/01944361003766766;,citation_volume=76;,citation_journal_title=Journal of the American Planning Association;">
+<meta name="citation_reference" content="citation_title=Are compact cities environmentally friendly?;,citation_author=Carl Gaigné;,citation_author=Stéphane Riou;,citation_author=Jacques-François Thisse;,citation_publication_date=2012;,citation_cover_date=2012;,citation_year=2012;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0094119012000186;,citation_issue=2-3;,citation_doi=10.1016/j.jue.2012.04.001;,citation_volume=72;,citation_language=en;,citation_journal_title=Journal of Urban Economics;">
+<meta name="citation_reference" content="citation_title=Review of International Modeling Literature: Transit, Land Use, and Auto Pricing Strategies to Reduce Vehicle Miles Traveled and Greenhouse Gas Emissions;,citation_author=Caroline Rodier;,citation_publication_date=2009-01-01;,citation_cover_date=2009-01-01;,citation_year=2009;,citation_fulltext_html_url=https://doi.org/10.3141/2132-01;,citation_issue=1;,citation_doi=10.3141/2132-01;,citation_volume=2132;,citation_language=en;,citation_journal_title=Transportation Research Record;">
+<meta name="citation_reference" content="citation_title=Is los angeles-style sprawl desirable?;,citation_author=Reid Ewing;,citation_publication_date=1997-03-31;,citation_cover_date=1997-03-31;,citation_year=1997;,citation_fulltext_html_url=https://doi.org/10.1080/01944369708975728;,citation_issue=1;,citation_doi=10.1080/01944369708975728;,citation_volume=63;,citation_journal_title=Journal of the American Planning Association;">
+<meta name="citation_reference" content="citation_title=Are compact cities a desirable planning goal?;,citation_author=Peter Gordon;,citation_author=Harry W. Richardson;,citation_publication_date=1997-03-31;,citation_cover_date=1997-03-31;,citation_year=1997;,citation_fulltext_html_url=https://doi.org/10.1080/01944369708975727;,citation_issue=1;,citation_doi=10.1080/01944369708975727;,citation_volume=63;,citation_journal_title=Journal of the American Planning Association;">
+<meta name="citation_reference" content="citation_title=A sustainable future through the compact city? Urban intensification in the united kingdom;,citation_author=Mike Jenks;,citation_author=Katie Williams;,citation_author=Elizabeth Burton;,citation_publication_date=1996-01-01;,citation_cover_date=1996-01-01;,citation_year=1996;,citation_volume=1;,citation_journal_title=Environments by Design;">
+<meta name="citation_reference" content="citation_title=Influence of Urban Form on Travel Behaviour in Four Neighbourhoods of Shanghai;,citation_author=Haixiao Pan;,citation_author=Qing Shen;,citation_author=Ming Zhang;,citation_publication_date=2009-02-01;,citation_cover_date=2009-02-01;,citation_year=2009;,citation_fulltext_html_url=https://doi.org/10.1177/0042098008099355;,citation_issue=2;,citation_doi=10.1177/0042098008099355;,citation_volume=46;,citation_language=en;,citation_journal_title=Urban Studies;">
+<meta name="citation_reference" content="citation_title=Introduction to the theory of complex systems;,citation_author=Stefan Thurner;,citation_author=Peter Klimek;,citation_author=Rudolf Hanel;,citation_publication_date=2018-11-22;,citation_cover_date=2018-11-22;,citation_year=2018;,citation_fulltext_html_url=http://dx.doi.org/10.1093/oso/9780198821939.001.0001;,citation_doi=10.1093/oso/9780198821939.001.0001;">
+<meta name="citation_reference" content="citation_title=Adapting cities to climate change: A systemic modelling approach;,citation_author=V. Masson;,citation_author=C. Marchadier;,citation_author=L. Adolphe;,citation_author=R. Aguejdad;,citation_author=P. Avner;,citation_author=M. Bonhomme;,citation_author=G. Bretagne;,citation_author=X. Briottet;,citation_author=B. Bueno;,citation_author=C. Munck;,citation_author=O. Doukari;,citation_author=S. Hallegatte;,citation_author=J. Hidalgo;,citation_author=T. Houet;,citation_author=J. Le Bras;,citation_author=A. Lemonsu;,citation_author=N. Long;,citation_author=M. -P. Moine;,citation_author=T. Morel;,citation_author=L. Nolorgues;,citation_author=G. Pigeon;,citation_author=J. -L. Salagnac;,citation_author=V. Viguié;,citation_author=K. Zibouche;,citation_publication_date=2014-12-01;,citation_cover_date=2014-12-01;,citation_year=2014;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S2212095514000212;,citation_doi=10.1016/j.uclim.2014.03.004;,citation_volume=10;,citation_journal_title=Urban Climate;,citation_series_title=ICUC8: The 8th international conference on urban climate and the 10th symposium on the urban environment;">
+<meta name="citation_reference" content="citation_title=The New Science of Cities;,citation_author=Michael Batty;,citation_publication_date=2013-11-01;,citation_cover_date=2013-11-01;,citation_year=2013;,citation_fulltext_html_url=https://direct.mit.edu/books/book/3422/The-New-Science-of-Cities;,citation_doi=10.7551/mitpress/9399.001.0001;,citation_language=en;">
+<meta name="citation_reference" content="citation_title=Introduction to urban science: Evidence and theory of cities as complex systems;,citation_author=Luís Bettencourt;,citation_publication_date=2021-01-01;,citation_cover_date=2021-01-01;,citation_year=2021;,citation_doi=10.7551/mitpress/13909.001.0001;">
+<meta name="citation_reference" content="citation_title=Le quart des ménages les plus aisés à l’origine de 35;,citation_author=undefined SDES;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2023-07/datalab_essentiel_314_emission_ges_mobilites_juillet2023_0.pdf;">
+<meta name="citation_reference" content="citation_title=12 Human Settlements, Infrastructure, and Spatial Planning;,citation_author=Karen C Seto;,citation_author=Shobhakar Dhakal;,citation_author=Anthony Bigio;,citation_author=Hilda Blanco;,citation_author=Gian Carlo Delgado;,citation_author=David Dewar;,citation_author=Luxin Huang;,citation_author=Atsushi Inaba;,citation_author=Arun Kansal;,citation_author=Shuaib Lwasa;,citation_author=James McMahon;,citation_author=Daniel B Müller;,citation_author=Jin Murakami;,citation_author=Harini Nagendra;,citation_author=Anu Ramaswami;,citation_author=Antonio Bento;,citation_author=Michele Betsill;,citation_author=Harriet Bulkeley;,citation_author=Abel Chavez;,citation_author=Peter Christensen;,citation_author=Felix Creutzig;,citation_author=Michail Fragkias;,citation_author=Burak Güneralp;,citation_author=Leiwen Jiang;,citation_author=Peter Marcotullio;,citation_author=David McCollum;,citation_author=Adam Millard-Ball;,citation_author=Paul Pichler;,citation_author=Serge Salat;,citation_author=Cecilia Tacoli;,citation_author=Helga Weisz;,citation_author=Timm Zwickel;,citation_author=Robert Cervero;,citation_author=Julio Torres Martinez;,citation_publication_date=2014;,citation_cover_date=2014;,citation_year=2014;,citation_fulltext_html_url=https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_chapter12.pdf;,citation_language=en;,citation_inbook_title=undefined;">
+<meta name="citation_reference" content="citation_title=Urban systems and other settlements;,citation_author=undefined Lwasa, S.;,citation_author=K. C. Seto;,citation_author=X. Bai;,citation_author=H. Blanco;,citation_author=K. R. Gurney;,citation_author=Ş. Kılkış;,citation_author=O. Lucon;,citation_author=J. Murakami;,citation_author=J. Pan;,citation_author=A. Sharifi;,citation_author=Y. Yamagata;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter08.pdf;,citation_inbook_title=undefined;">
+<meta name="citation_reference" content="citation_title=10. transport;,citation_author=P. Jaramillo;,citation_author=S. Kahn Ribeiro;,citation_author=P. Newman;,citation_author=S. Dhar;,citation_author=O. E. Diemuodeke;,citation_author=T. Kajino;,citation_author=D. S. Lee;,citation_author=S. B. Nugroho;,citation_author=X. Ou;,citation_author=A. Hammer Strømman;,citation_author=J. Whitehead;,citation_publication_date=2023-08-17;,citation_cover_date=2023-08-17;,citation_year=2023;,citation_fulltext_html_url=http://dx.doi.org/10.1017/9781009157926.012;,citation_doi=10.1017/9781009157926.012;,citation_inbook_title=undefined;">
+<meta name="citation_reference" content="citation_title=Post-growth planning;,citation_author=Federico Savini;,citation_author=António Ferreira;,citation_author=Kim Carlotta Schönfeld;,citation_publication_date=2022-03-23;,citation_cover_date=2022-03-23;,citation_year=2022;,citation_fulltext_html_url=http://dx.doi.org/10.4324/9781003160984;,citation_doi=10.4324/9781003160984;">
+<meta name="citation_reference" content="citation_title=Exploratory data analysis;,citation_author=John W. Tukey;,citation_publication_date=1977;,citation_cover_date=1977;,citation_year=1977;">
+<meta name="citation_reference" content="citation_title=The impact of residential density on vehicle usage and energy consumption;,citation_author=David Brownstone;,citation_author=Thomas F. Golob;,citation_publication_date=2009-01;,citation_cover_date=2009-01;,citation_year=2009;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0094119008001095;,citation_issue=1;,citation_doi=10.1016/j.jue.2008.09.002;,citation_volume=65;,citation_language=en;,citation_journal_title=Journal of Urban Economics;">
+<meta name="citation_reference" content="citation_title=A queuing model with state dependent service rates;,citation_author=R. W. Conway;,citation_author=W. L. Maxwell;,citation_publication_date=1962;,citation_cover_date=1962;,citation_year=1962;,citation_issue=2;,citation_volume=12;,citation_journal_title=Journal of Industrial Engineering;">
+<meta name="citation_reference" content="citation_title=The measurement of urban travel demand;,citation_author=Daniel McFadden;,citation_publication_date=1974-11;,citation_cover_date=1974-11;,citation_year=1974;,citation_fulltext_html_url=http://dx.doi.org/10.1016/0047-2727(74)90003-6;,citation_issue=4;,citation_doi=10.1016/0047-2727(74)90003-6;,citation_volume=3;,citation_language=en;,citation_journal_title=Journal of Public Economics;">
+<meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
+</head>
+
+<body class="floating nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="https://www.ofce.fr/" class="navbar-brand navbar-brand-logo">
+    <img src="./www/ofce_m.png" alt="OFCE" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text"><iconify-icon inline="" icon="game-icons:mesh-network"></iconify-icon> MEAPS</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./theorie.html"> 
+<span class="menu-text"><iconify-icon inline="" icon="fluent:clipboard-math-formula-16-regular"></iconify-icon> Théorie</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./larochelle.html"> <i class="bi bi-database-check" role="img">
+</i> 
+<span class="menu-text">Estimation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./trajets.html"> 
+<span class="menu-text"><iconify-icon inline="" icon="gis:statistic-map"></iconify-icon> Projection</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./references.html" aria-current="page"> <i class="bi bi-book" role="img">
+</i> 
+<span class="menu-text">Références</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> <i class="bi bi-person-circle" role="img">
+</i> 
+<span class="menu-text">A propos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/xtimbeau/meaps"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"> </span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Basculer en mode lecteur">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="références" class="level1 unnumbered">
+<h1 class="unnumbered">Références</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-agresti2002" class="csl-entry" role="listitem">
+Agresti, Alan. 2002. <span>«&nbsp;Categorical Data Analysis&nbsp;»</span>. <em>Wiley Series in Probability and Statistics</em>, juillet. <a href="https://doi.org/10.1002/0471249688">https://doi.org/10.1002/0471249688</a>.
+</div>
+<div id="ref-aitchison1989" class="csl-entry" role="listitem">
+Aitchison, J., et C. H. Ho. 1989. <span>«&nbsp;The multivariate Poisson-log normal distribution&nbsp;»</span>. <em>Biometrika</em> 76 (4): 643‑53. <a href="https://doi.org/10.1093/biomet/76.4.643">https://doi.org/10.1093/biomet/76.4.643</a>.
+</div>
+<div id="ref-batty2013" class="csl-entry" role="listitem">
+Batty, Michael. 2013. <em>The New Science of Cities</em>. The MIT Press. <a href="https://doi.org/10.7551/mitpress/9399.001.0001">https://doi.org/10.7551/mitpress/9399.001.0001</a>.
+</div>
+<div id="ref-empreinte2022" class="csl-entry" role="listitem">
+Baude, Manuel. 2022. <span>«&nbsp;La décomposition de l’empreinte carbone de la demande finale de la France par postes de consommation : transport, alimentation, habitat, équipements et services&nbsp;»</span>. 59. document de travail. Ministère de la transition écologique et de la cohésion des territoires. <a href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2022-07/document_travail_59_decomposition_empreinte_carbone_juillet2022.pdf">https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2022-07/document_travail_59_decomposition_empreinte_carbone_juillet2022.pdf</a>.
+</div>
+<div id="ref-ben-akiva2018" class="csl-entry" role="listitem">
+Ben-Akiva, Moshe, et Steven R. Lerman. 2018. <em>Discrete Choice Analysis: Theory and Application to Travel Demand</em>. Transportation Series. MIT Press.
+</div>
+<div id="ref-bettencourt2021" class="csl-entry" role="listitem">
+Bettencourt, Luís. 2021. <em>Introduction to Urban Science: Evidence and Theory of Cities as Complex Systems</em>. <a href="https://doi.org/10.7551/mitpress/13909.001.0001">https://doi.org/10.7551/mitpress/13909.001.0001</a>.
+</div>
+<div id="ref-blaudindethé" class="csl-entry" role="listitem">
+Blaudin de Thé, Camille, Benjamin Carantino, et Miren Lafourcade. s.&nbsp;d. <span>«&nbsp;The Carbon <span>‘</span>Carprint<span>’</span> of Suburbanization: New Evidence from French Cities&nbsp;»</span>.
+</div>
+<div id="ref-brownstone2009" class="csl-entry" role="listitem">
+Brownstone, David, et Thomas F. Golob. 2009. <span>«&nbsp;The Impact of Residential Density on Vehicle Usage and Energy Consumption&nbsp;»</span>. <em>Journal of Urban Economics</em> 65 (1): 91‑98. <a href="https://doi.org/10.1016/j.jue.2008.09.002">https://doi.org/10.1016/j.jue.2008.09.002</a>.
+</div>
+<div id="ref-C200" class="csl-entry" role="listitem">
+C200. 2022. <span>«&nbsp;Revenus, pauvreté et niveau de vie en 2017 - Données carroyées. Dispositif Fichier localisé social et fiscal (Filosofi)&nbsp;»</span>. INSEE; <a href="https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217" class="uri">https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217</a>.
+</div>
+<div id="ref-cervero1989" class="csl-entry" role="listitem">
+Cervero, Robert. 1989. <span>«&nbsp;Jobs-Housing Balancing and Regional Mobility&nbsp;»</span>. <em>Journal of the American Planning Association</em> 55 (2): 136‑50. <a href="https://doi.org/10.1080/01944368908976014">https://doi.org/10.1080/01944368908976014</a>.
+</div>
+<div id="ref-cervero1997" class="csl-entry" role="listitem">
+Cervero, Robert, et Kara Kockelman. 1997. <span>«&nbsp;Travel Demand and the 3Ds: Density, Diversity, and Design&nbsp;»</span>. <em>Transportation Research Part D: Transport and Environment</em> 2 (3): 199‑219. <a href="https://doi.org/10.1016/S1361-9209(97)00009-6">https://doi.org/10.1016/S1361-9209(97)00009-6</a>.
+</div>
+<div id="ref-colincameron1997" class="csl-entry" role="listitem">
+Colin Cameron, A., et Frank A. G. Windmeijer. 1997. <span>«&nbsp;An R-Squared Measure of Goodness of Fit for Some Common Nonlinear Regression Models&nbsp;»</span>. <em>Journal of Econometrics</em> 77 (2): 329‑42. <a href="https://doi.org/10.1016/s0304-4076(96)01818-0">https://doi.org/10.1016/s0304-4076(96)01818-0</a>.
+</div>
+<div id="ref-conway2017" class="csl-entry" role="listitem">
+Conway, Matthew Wigginton, Andrew Byrd, et Marco van der Linden. 2017. <span>«&nbsp;Evidence-Based Transit and Land Use Sketch Planning Using Interactive Accessibility Methods on Combined Schedule and Headway-Based Networks&nbsp;»</span>. <em>Transportation Research Record: Journal of the Transportation Research Board</em> 2653 (1): 45‑53. <a href="https://doi.org/10.3141/2653-06">https://doi.org/10.3141/2653-06</a>.
+</div>
+<div id="ref-conway2018" class="csl-entry" role="listitem">
+Conway, Matthew Wigginton, Andrew Byrd, et Michael Van Eggermond. 2018. <span>«&nbsp;Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning&nbsp;»</span>. <em>Journal of Transport and Land Use</em> 11 (1). <a href="https://doi.org/10.5198/jtlu.2018.1074">https://doi.org/10.5198/jtlu.2018.1074</a>.
+</div>
+<div id="ref-conway2019" class="csl-entry" role="listitem">
+Conway, Matthew Wigginton, et Anson F. Stewart. 2019. <span>«&nbsp;Getting Charlie Off the MTA: A Multiobjective Optimization Method to Account for Cost Constraints in Public Transit Accessibility Metrics&nbsp;»</span>. <em>International Journal of Geographical Information Science</em> 33 (9): 1759‑87. <a href="https://doi.org/10.1080/13658816.2019.1605075">https://doi.org/10.1080/13658816.2019.1605075</a>.
+</div>
+<div id="ref-Conway1962" class="csl-entry" role="listitem">
+Conway, R. W., et W. L. Maxwell. 1962. <span>«&nbsp;A queuing model with state dependent service rates&nbsp;»</span>. <em>Journal of Industrial Engineering</em> 12 (2): 132‑36.
+</div>
+<div id="ref-dantzig1973" class="csl-entry" role="listitem">
+Dantzig, G. B., G. B. Dantzig, et T. L. Saaty. 1973. <em>Compact City: A Plan for a Liveable Urban Environment</em>. W. H. Freeman. <a href="https://books.google.fr/books?id=PTeIQgAACAAJ">https://books.google.fr/books?id=PTeIQgAACAAJ</a>.
+</div>
+<div id="ref-de2011modelling" class="csl-entry" role="listitem">
+Dios Ortúzar, Juan de, et Luis G Willumsen. 2011. <em>Modelling transport</em>. John wiley &amp; sons.
+</div>
+<div id="ref-HRUE2015" class="csl-entry" role="listitem">
+Duranton, Gilles, J. Vernon Henderson, et William Strange, éd. 2015a. <em>Handbook of Regional and Urban Economics</em>. 1ʳᵉ éd. Vol. 5. Elsevier. <a href="https://EconPapers.repec.org/RePEc:eee:reghes:5">https://EconPapers.repec.org/RePEc:eee:reghes:5</a>.
+</div>
+<div id="ref-duranton2015" class="csl-entry" role="listitem">
+Duranton, Gilles, Vernon Henderson, et William Strange. 2015b. <span>«&nbsp;Foreword&nbsp;»</span>. In, xv‑xvi. Elsevier. <a href="https://doi.org/10.1016/b978-0-444-59517-1.09998-0">https://doi.org/10.1016/b978-0-444-59517-1.09998-0</a>.
+</div>
+<div id="ref-duranton2018" class="csl-entry" role="listitem">
+Duranton, Gilles, et Matthew A. Turner. 2018. <span>«&nbsp;Urban Form and Driving: Evidence from US Cities&nbsp;»</span>. <em>Journal of Urban Economics</em> 108 (novembre): 170‑91. <a href="https://doi.org/10.1016/j.jue.2018.10.003">https://doi.org/10.1016/j.jue.2018.10.003</a>.
+</div>
+<div id="ref-ewing1997" class="csl-entry" role="listitem">
+Ewing, Reid. 1997. <span>«&nbsp;Is Los Angeles-Style Sprawl Desirable?&nbsp;»</span> <em>Journal of the American Planning Association</em> 63 (1): 107‑26. <a href="https://doi.org/10.1080/01944369708975728">https://doi.org/10.1080/01944369708975728</a>.
+</div>
+<div id="ref-ewing2010" class="csl-entry" role="listitem">
+Ewing, Reid, et Robert Cervero. 2010. <span>«&nbsp;Travel and the Built Environment&nbsp;»</span>. <em>Journal of the American Planning Association</em> 76 (3): 265‑94. <a href="https://doi.org/10.1080/01944361003766766">https://doi.org/10.1080/01944361003766766</a>.
+</div>
+<div id="ref-ewing2015" class="csl-entry" role="listitem">
+Ewing, Reid, et Shima Hamidi. 2015a. <span>«&nbsp;Compactness Versus Sprawl: A Review of Recent Evidence from the United States&nbsp;»</span>. <em>Journal of Planning Literature</em> 30 (4): 413‑32. <a href="https://doi.org/10.1177/0885412215595439">https://doi.org/10.1177/0885412215595439</a>.
+</div>
+<div id="ref-ewing2015a" class="csl-entry" role="listitem">
+———. 2015b. <span>«&nbsp;Compactness Versus Sprawl: A Review of Recent Evidence from the United States&nbsp;»</span>. <em>Journal of Planning Literature</em> 30 (4): 413‑32. <a href="https://doi.org/10.1177/0885412215595439">https://doi.org/10.1177/0885412215595439</a>.
+</div>
+<div id="ref-ewing2017" class="csl-entry" role="listitem">
+Ewing, Reid, Shima Hamidi, Guang Tian, David Proffitt, Stefania Tonin, et Laura Fregolent. 2017. <span>«&nbsp;Testing Newman and Kenworthy<span>’</span>s Theory of Density and Automobile Dependence&nbsp;»</span>. <em>Journal of Planning Education and Research</em> 38 (janvier): 0739456X1668876. <a href="https://doi.org/10.1177/0739456X16688767">https://doi.org/10.1177/0739456X16688767</a>.
+</div>
+<div id="ref-fik1990" class="csl-entry" role="listitem">
+Fik, T J, et G F Mulligan. 1990. <span>«&nbsp;Spatial Flows and Competing Central Places: Towards a General Theory of Hierarchical Interaction&nbsp;»</span>. <em>Environment and Planning A: Economy and Space</em> 22 (4): 527‑49. <a href="https://doi.org/10.1068/a220527">https://doi.org/10.1068/a220527</a>.
+</div>
+<div id="ref-flowerdew1982" class="csl-entry" role="listitem">
+Flowerdew, Robin, et Murray Aitkin. 1982. <span>«&nbsp;A Method of Fitting the Gravity Model Based on the Poisson Distribution*&nbsp;»</span>. <em>Journal of Regional Science</em> 22 (2): 191‑202. <a href="https://doi.org/10.1111/j.1467-9787.1982.tb00744.x">https://doi.org/10.1111/j.1467-9787.1982.tb00744.x</a>.
+</div>
+<div id="ref-fotheringham1983a" class="csl-entry" role="listitem">
+Fotheringham, A S. 1983b. <span>«&nbsp;A New Set of Spatial-Interaction Models: The Theory of Competing Destinations&nbsp;»</span>. <em>Environment and Planning A: Economy and Space</em> 15 (1): 15‑36. <a href="https://doi.org/10.1177/0308518X8301500103">https://doi.org/10.1177/0308518X8301500103</a>.
+</div>
+<div id="ref-fotheringham1983" class="csl-entry" role="listitem">
+———. 1983a. <span>«&nbsp;A New Set of Spatial-Interaction Models: The Theory of Competing Destinations&nbsp;»</span>. <em>Environment and Planning A: Economy and Space</em> 15 (1): 15‑36. <a href="https://doi.org/10.1177/0308518X8301500103">https://doi.org/10.1177/0308518X8301500103</a>.
+</div>
+<div id="ref-fotheringham1984" class="csl-entry" role="listitem">
+———. 1984. <span>«&nbsp;Spatial Flows and Spatial Patterns&nbsp;»</span>. <em>Environment and Planning A: Economy and Space</em> 16 (4): 529‑43. <a href="https://doi.org/10.1068/a160529">https://doi.org/10.1068/a160529</a>.
+</div>
+<div id="ref-gaigné2012" class="csl-entry" role="listitem">
+Gaigné, Carl, Stéphane Riou, et Jacques-François Thisse. 2012. <span>«&nbsp;Are Compact Cities Environmentally Friendly?&nbsp;»</span> <em>Journal of Urban Economics</em> 72 (2-3): 123‑36. <a href="https://doi.org/10.1016/j.jue.2012.04.001">https://doi.org/10.1016/j.jue.2012.04.001</a>.
+</div>
+<div id="ref-gordon1997" class="csl-entry" role="listitem">
+Gordon, Peter, et Harry W. Richardson. 1997. <span>«&nbsp;Are Compact Cities a Desirable Planning Goal?&nbsp;»</span> <em>Journal of the American Planning Association</em> 63 (1): 95‑106. <a href="https://doi.org/10.1080/01944369708975727">https://doi.org/10.1080/01944369708975727</a>.
+</div>
+<div id="ref-grazi2008" class="csl-entry" role="listitem">
+Grazi, Fabio, Jeroen C. J. M. Van Den Bergh, et Jos N. Van Ommeren. 2008. <span>«&nbsp;An Empirical Analysis of Urban Form, Transport, and Global Warming&nbsp;»</span>. <em>The Energy Journal</em> 29 (4). <a href="https://doi.org/10.5547/ISSN0195-6574-EJ-Vol29-No4-5">https://doi.org/10.5547/ISSN0195-6574-EJ-Vol29-No4-5</a>.
+</div>
+<div id="ref-heanue1966" class="csl-entry" role="listitem">
+Heanue, Kevin E., et Clyde E. Pyers. 1966. <span>«&nbsp;A Comparative Evaluation of Trip Distribution Procedures&nbsp;»</span>. <em>Highway Reserach Record</em>, nᵒ 114: 20‑50.
+</div>
+<div id="ref-handbook2007" class="csl-entry" role="listitem">
+Hensher, David A., et Kenneth J. Button, éd. 2007. <span>«&nbsp;Handbook of Transport Modelling&nbsp;»</span>. <em>Handbooks in Transport</em>, septembre. <a href="https://doi.org/10.1108/9780857245670">https://doi.org/10.1108/9780857245670</a>.
+</div>
+<div id="ref-hirt2012" class="csl-entry" role="listitem">
+Hirt, Sonia. 2012. <span>«&nbsp;Mixed Use by Default: How the Europeans (Don<span>’</span>t) Zone&nbsp;»</span>. <em>Journal of Planning Literature</em> 27 (4): 375‑93. <a href="https://doi.org/10.1177/0885412212451029">https://doi.org/10.1177/0885412212451029</a>.
+</div>
+<div id="ref-holden2005" class="csl-entry" role="listitem">
+Holden, Erling, et Ingrid T. Norland. 2005. <span>«&nbsp;Three Challenges for the Compact City as a Sustainable Urban Form: Household Consumption of Energy and Transport in Eight Residential Areas in the Greater Oslo Region&nbsp;»</span>. <em>Urban Studies</em> 42 (12): 2145‑66. <a href="https://doi.org/10.1080/00420980500332064">https://doi.org/10.1080/00420980500332064</a>.
+</div>
+<div id="ref-holian2020" class="csl-entry" role="listitem">
+Holian, Matthew J. 2020. <span>«&nbsp;The Impact of Urban Form on Vehicle Ownership&nbsp;»</span>. <em>Economics Letters</em> 186 (janvier): 108763. <a href="https://doi.org/10.1016/j.econlet.2019.108763">https://doi.org/10.1016/j.econlet.2019.108763</a>.
+</div>
+<div id="ref-hsu2023" class="csl-entry" role="listitem">
+Hsu, David, Clinton J. Andrews, Albert T. Han, Carolyn G. Loh, Anna C. Osland, et Christopher P. Zegras. 2023. <span>«&nbsp;Planning the Built Environment and Land Use Towards Deep Decarbonization of the United States&nbsp;»</span>. <em>Journal of Planning Literature</em> 38 (3): 426‑41. <a href="https://doi.org/10.1177/08854122221097977">https://doi.org/10.1177/08854122221097977</a>.
+</div>
+<div id="ref-jacobs1961" class="csl-entry" role="listitem">
+Jacobs, J. 1961. <em>The Death and Life of Great American Cities</em>. A Vintage livre, pt. 1. Vintage Books. <a href="https://books.google.fr/books?id=5FdHAAAAMAAJ">https://books.google.fr/books?id=5FdHAAAAMAAJ</a>.
+</div>
+<div id="ref-transpor2023" class="csl-entry" role="listitem">
+Jaramillo, P., S. Kahn Ribeiro, P. Newman, S. Dhar, O. E. Diemuodeke, T. Kajino, D. S. Lee, et al. 2023. <span>«&nbsp;10. Transport&nbsp;»</span>. In, 1049‑1160. Cambridge University Press. <a href="https://doi.org/10.1017/9781009157926.012">https://doi.org/10.1017/9781009157926.012</a>.
+</div>
+<div id="ref-jenks1996" class="csl-entry" role="listitem">
+Jenks, Mike, Katie Williams, et Elizabeth Burton. 1996. <span>«&nbsp;A Sustainable Future through the Compact City? Urban Intensification in the United Kingdom&nbsp;»</span>. <em>Environments by Design</em> 1 (janvier): 5‑20.
+</div>
+<div id="ref-thecomp2003" class="csl-entry" role="listitem">
+———, éd. 2003. <span>«&nbsp;The Compact City: A Successful, Desirable and Achievable Urban Form?&nbsp;»</span> In, 54‑65. Routledge. <a href="https://doi.org/10.4324/9780203362372-12">https://doi.org/10.4324/9780203362372-12</a>.
+</div>
+<div id="ref-josselin2020" class="csl-entry" role="listitem">
+Josselin, Didier, Samuel Carpentier-Postel, Frédéric Audard, Safaâ Amarouch, Jean-Baptiste Durand, Nathalie Brachet, Mathieu Coulon, et Louisette Garcin. 2020. <span>«&nbsp;Estimer des flux de navetteurs avec un modèle gravitaire : application géomatique en région Provence-Alpes-Côte d<span>’</span>Azur (France)<span><sup>1</sup></span>&nbsp;»</span>. <em>Geomatica</em> 74 (3): 104‑30. <a href="https://doi.org/10.1139/geomat-2020-0009">https://doi.org/10.1139/geomat-2020-0009</a>.
+</div>
+<div id="ref-koenig1974" class="csl-entry" role="listitem">
+Koenig, G. 1974. <span>«&nbsp;Theorie economique de l’accessibilite urbaine&nbsp;»</span>. <em>Revue économique</em> 25 (2): 275. <a href="https://doi.org/10.2307/3500570">https://doi.org/10.2307/3500570</a>.
+</div>
+<div id="ref-koenig1980" class="csl-entry" role="listitem">
+Koenig, J. G. 1980. <span>«&nbsp;Indicators of Urban Accessibility: Theory and Application&nbsp;»</span>. <em>Transportation</em> 9 (2): 145‑72. <a href="https://doi.org/10.1007/bf00167128">https://doi.org/10.1007/bf00167128</a>.
+</div>
+<div id="ref-kullback1951" class="csl-entry" role="listitem">
+Kullback, S., et R. A. Leibler. 1951. <span>«&nbsp;On Information and Sufficiency&nbsp;»</span>. <em>The Annals of Mathematical Statistics</em> 22 (1): 79‑86. <a href="https://doi.org/10.1214/aoms/1177729694">https://doi.org/10.1214/aoms/1177729694</a>.
+</div>
+<div id="ref-lasser2020" class="csl-entry" role="listitem">
+Lasser, Jana. 2020. <span>«&nbsp;Creating an Executable Paper Is a Journey Through Open Science&nbsp;»</span>. <em>Communications Physics</em> 3 (1). <a href="https://doi.org/10.1038/s42005-020-00403-4">https://doi.org/10.1038/s42005-020-00403-4</a>.
+</div>
+<div id="ref-lee2020" class="csl-entry" role="listitem">
+Lee, Sungwon, et Bumsoo Lee. 2020. <span>«&nbsp;Comparing the Impacts of Local Land Use and Urban Spatial Structure on Household VMT and GHG Emissions&nbsp;»</span>. <em>Journal of Transport Geography</em> 84 (avril): 102694. <a href="https://doi.org/10.1016/j.jtrangeo.2020.102694">https://doi.org/10.1016/j.jtrangeo.2020.102694</a>.
+</div>
+<div id="ref-lenormand2016" class="csl-entry" role="listitem">
+Lenormand, Maxime, Aleix Bassolas, et José J. Ramasco. 2016. <span>«&nbsp;Systematic comparison of trip distribution laws and models&nbsp;»</span>. <em>Journal of Transport Geography</em> 51 (février): 158‑69. <a href="https://doi.org/10.1016/j.jtrangeo.2015.12.008">https://doi.org/10.1016/j.jtrangeo.2015.12.008</a>.
+</div>
+<div id="ref-levine2010" class="csl-entry" role="listitem">
+Levine, J. 2010. <em>Zoned Out: Regulation, Markets, and Choices in Transportation and Metropolitan Land Use</em>. Taylor &amp; Francis. <a href="https://books.google.fr/books?id=HTCl9W9rg3oC">https://books.google.fr/books?id=HTCl9W9rg3oC</a>.
+</div>
+<div id="ref-lwasas.2022" class="csl-entry" role="listitem">
+Lwasa, S., K. C. Seto, X. Bai, H. Blanco, K. R. Gurney, Ş. Kılkış, O. Lucon, et al. 2022. <span>«&nbsp;Urban Systems and Other Settlements&nbsp;»</span>. In. Cambridge, UK; New York, NY, USA: Cambridge University Press. <a href="https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter08.pdf">https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter08.pdf</a>.
+</div>
+<div id="ref-masson2014" class="csl-entry" role="listitem">
+Masson, V., C. Marchadier, L. Adolphe, R. Aguejdad, P. Avner, M. Bonhomme, G. Bretagne, et al. 2014. <span>«&nbsp;Adapting cities to climate change: A systemic modelling approach&nbsp;»</span>. <em>Urban Climate</em>, ICUC8: The 8th International Conference on Urban Climate et the 10th Symposium on the Urban Environment, 10 (décembre): 407‑29. <a href="https://doi.org/10.1016/j.uclim.2014.03.004">https://doi.org/10.1016/j.uclim.2014.03.004</a>.
+</div>
+<div id="ref-massot2007" class="csl-entry" role="listitem">
+Massot, Marie-Hélène, et Jean-Pierre Orfeuil. 2007. <span>«&nbsp;La contrainte énergétique doit-elle réguler la ville ou les véhicules ? Mobilités urbaines et réalisme écologique&nbsp;»</span>. <em>Les Annales de la Recherche Urbaine</em> 103 (1): 18‑29. <a href="https://doi.org/10.3406/aru.2007.2710">https://doi.org/10.3406/aru.2007.2710</a>.
+</div>
+<div id="ref-mcfadden1974d" class="csl-entry" role="listitem">
+McFadden, Daniel. 1974. <span>«&nbsp;The Measurement of Urban Travel Demand&nbsp;»</span>. <em>Journal of Public Economics</em> 3 (4): 303‑28. <a href="https://doi.org/10.1016/0047-2727(74)90003-6">https://doi.org/10.1016/0047-2727(74)90003-6</a>.
+</div>
+<div id="ref-MOBPERS" class="csl-entry" role="listitem">
+MOBPERS. 2021. <span>«&nbsp;EMP 2019 Résultats détaillés de l’enquête mobilité des personnes de 2019&nbsp;»</span>. SDES, Ministère de la transition écologique et de la cohésion des territoires; <a href="https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019" class="uri">https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019</a>.
+</div>
+<div id="ref-MOBPRO" class="csl-entry" role="listitem">
+MOBPRO. 2022. <span>«&nbsp;Mobilités professionnelles en 2019 : déplacements domicile - lieu de travail Recensement de la population - Base flux de mobilité&nbsp;»</span>. INSEE; <a href="https://www.insee.fr/fr/statistiques/6454112" class="uri">https://www.insee.fr/fr/statistiques/6454112</a>.
+</div>
+<div id="ref-munafò2017" class="csl-entry" role="listitem">
+Munafò, Sébastien. 2017. <span>«&nbsp;Forme urbaine et mobilités de loisirs : l<span>’</span>« effet barbecue » sur le grill&nbsp;»</span>. <em>Cybergeo: European Journal of Geography</em>, octobre. <a href="https://doi.org/10.4000/cybergeo.28634">https://doi.org/10.4000/cybergeo.28634</a>.
+</div>
+<div id="ref-muñiz2013" class="csl-entry" role="listitem">
+Muñiz, Ivan, Daniel Calatayud, et Roger Dobaño. 2013. <span>«&nbsp;The compensation hypothesis in Barcelona measured through the ecological footprint of mobility and housing&nbsp;»</span>. <em>Landscape and Urban Planning</em> 113 (mai): 113‑19. <a href="https://doi.org/10.1016/j.landurbplan.2013.02.004">https://doi.org/10.1016/j.landurbplan.2013.02.004</a>.
+</div>
+<div id="ref-newman1989b" class="csl-entry" role="listitem">
+Newman, Peter, et Jeffrey Kenworthy. 1989a. <em>Cities and Automobile Dependence</em>. Brookfield: Gower Technical.
+</div>
+<div id="ref-newman1989a" class="csl-entry" role="listitem">
+———. 1989b. <span>«&nbsp;Gasoline Consumption and Cities&nbsp;»</span>. <em>Journal of the Amrican Planning Association</em> Winter 1989: 24‑37. <a href="https://doi.org/10.1080/01944368908975398">https://doi.org/10.1080/01944368908975398</a>.
+</div>
+<div id="ref-newman1999" class="csl-entry" role="listitem">
+———. 1999. <em>Sustainability and Cities: Overcoming Automobile Dependence</em>. Island Press.
+</div>
+<div id="ref-OpenStreetMap" class="csl-entry" role="listitem">
+OpenStreetMap contributors. 2017. <span>«&nbsp;<span>Planet dump retrieved from https://planet.osm.org</span>&nbsp;»</span>. <a href="https://www.openstreetmap.org" class="uri">https://www.openstreetmap.org</a>.
+</div>
+<div id="ref-orfeuil2002" class="csl-entry" role="listitem">
+Orfeuil, Jean-Pierre, et Danièle Soleyret. 2002. <span>«&nbsp;Quelles interactions entre les marchés de la mobilité à courte et à longue distance&nbsp;?&nbsp;»</span> <em>Recherche - Transports - Sécurité</em> 76 (octobre): 208‑21. <a href="https://doi.org/10.1016/S0761-8980(02)00013-4">https://doi.org/10.1016/S0761-8980(02)00013-4</a>.
+</div>
+<div id="ref-pan2009" class="csl-entry" role="listitem">
+Pan, Haixiao, Qing Shen, et Ming Zhang. 2009. <span>«&nbsp;Influence of Urban Form on Travel Behaviour in Four Neighbourhoods of Shanghai&nbsp;»</span>. <em>Urban Studies</em> 46 (2): 275‑94. <a href="https://doi.org/10.1177/0042098008099355">https://doi.org/10.1177/0042098008099355</a>.
+</div>
+<div id="ref-meaps2023" class="csl-entry" role="listitem">
+Parodi, Maxime, et Xavier Timbeau. 2023. <span>«&nbsp;MEAPS : modéliser les flux de navetteurs&nbsp;»</span>. <em>Document de travail de l’OFCE</em>, nᵒ 11-2023 (mai). <a href="https://preview.meaps.fr">https://preview.meaps.fr</a>.
+</div>
+<div id="ref-meaps2024b" class="csl-entry" role="listitem">
+———. 2024a. <span>«&nbsp;La ville compacte : une solution pour réduire les émissions de gaz à effet de serre ?&nbsp;»</span> <em>Document de travail de l’OFCE</em>, nᵒ 5-2024 (janvier). <a href="https://preview.meaps.fr">https://preview.meaps.fr</a>.
+</div>
+<div id="ref-meaps2024a" class="csl-entry" role="listitem">
+———. 2024b. <span>«&nbsp;MEAPS&amp;Gravitaire : Estimations à la Rochelle&nbsp;»</span>. <em>Document de travail de l’OFCE</em>, nᵒ 4-2024 (février). <a href="https://preview.meaps.fr">https://preview.meaps.fr</a>.
+</div>
+<div id="ref-patrickbonnel2001" class="csl-entry" role="listitem">
+Patrick Bonnel. 2001. <span>«&nbsp;Prévision de la demande de transport&nbsp;»</span>. Thèse de doctorat, Lyon, France.
+</div>
+<div id="ref-r5r" class="csl-entry" role="listitem">
+Pereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, et Matthew Wigginton Conway. 2021. <span>«&nbsp;r5r: Rapid Realistic Routing on Multimodal Transport Networks with R5 in R&nbsp;»</span>. <a href="https://doi.org/10.32866/001c.21262">https://doi.org/10.32866/001c.21262</a>.
+</div>
+<div id="ref-rodier2009" class="csl-entry" role="listitem">
+Rodier, Caroline. 2009. <span>«&nbsp;Review of International Modeling Literature: Transit, Land Use, and Auto Pricing Strategies to Reduce Vehicle Miles Traveled and Greenhouse Gas Emissions&nbsp;»</span>. <em>Transportation Research Record</em> 2132 (1): 1‑12. <a href="https://doi.org/10.3141/2132-01">https://doi.org/10.3141/2132-01</a>.
+</div>
+<div id="ref-ruiter1967" class="csl-entry" role="listitem">
+Ruiter, Earl R. 1967. <span>«&nbsp;Toward a better understanding of the intervening opportunities model&nbsp;»</span>. <em>Transportation Research</em> 1 (1): 47‑56. https://doi.org/<a href="https://doi.org/10.1016/0041-1647(67)90094-9">https://doi.org/10.1016/0041-1647(67)90094-9</a>.
+</div>
+<div id="ref-savini2022" class="csl-entry" role="listitem">
+Savini, Federico, António Ferreira, et Kim Carlotta von Schönfeld. 2022. <em>Post-Growth Planning</em>. Routledge. <a href="https://doi.org/10.4324/9781003160984">https://doi.org/10.4324/9781003160984</a>.
+</div>
+<div id="ref-sdes2023" class="csl-entry" role="listitem">
+SDES. 2023. <span>«&nbsp;Le quart des ménages les plus aisés à l<span>’</span>origine de 35&nbsp;»</span>. <a href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2023-07/datalab_essentiel_314_emission_ges_mobilites_juillet2023_0.pdf">https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2023-07/datalab_essentiel_314_emission_ges_mobilites_juillet2023_0.pdf</a>.
+</div>
+<div id="ref-seto2014" class="csl-entry" role="listitem">
+Seto, Karen C, Shobhakar Dhakal, Anthony Bigio, Hilda Blanco, Gian Carlo Delgado, David Dewar, Luxin Huang, et al. 2014. <span>«&nbsp;12 Human Settlements, Infrastructure, and Spatial Planning&nbsp;»</span>. In. Cambridge, United Kingdom; New York, NY, USA: Cambridge University Press. <a href="https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_chapter12.pdf">https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_chapter12.pdf</a>.
+</div>
+<div id="ref-simini2012" class="csl-entry" role="listitem">
+Simini, Filippo, Marta C. González, Amos Maritan, et Albert-László Barabási. 2012. <span>«&nbsp;A Universal Model for Mobility and Migration Patterns&nbsp;»</span>. <em>Nature</em> 484 (7392): 96‑100. <a href="https://doi.org/10.1038/nature10856">https://doi.org/10.1038/nature10856</a>.
+</div>
+<div id="ref-simini2013" class="csl-entry" role="listitem">
+Simini, Filippo, Amos Maritan, et Zoltán Néda. 2013. <span>«&nbsp;Human Mobility in a Continuum Approach&nbsp;»</span>. <em>PLOS ONE</em> 8 (3): e60069. <a href="https://doi.org/10.1371/journal.pone.0060069">https://doi.org/10.1371/journal.pone.0060069</a>.
+</div>
+<div id="ref-stevens2017" class="csl-entry" role="listitem">
+Stevens, Mark R. 2017. <span>«&nbsp;Does Compact Development Make People Drive Less?&nbsp;»</span> <em>Journal of the American Planning Association</em> 38 (1): 7‑17. <a href="https://www.tandfonline.com/doi/epdf/10.1080/01944363.2016.1240044?needAccess=true&amp;role=button">https://www.tandfonline.com/doi/epdf/10.1080/01944363.2016.1240044?needAccess=true&amp;role=button</a>.
+</div>
+<div id="ref-stouffer1940" class="csl-entry" role="listitem">
+Stouffer, Samuel A. 1940. <span>«&nbsp;Intervening Opportunities: A Theory Relating Mobility and Distance&nbsp;»</span>. <em>American Sociological Review</em> 5 (6): 845. <a href="https://doi.org/10.2307/2084520">https://doi.org/10.2307/2084520</a>.
+</div>
+<div id="ref-thurner2018" class="csl-entry" role="listitem">
+Thurner, Stefan, Peter Klimek, et Rudolf Hanel. 2018. <em>Introduction to the Theory of Complex Systems</em>. Oxford University Press. <a href="https://doi.org/10.1093/oso/9780198821939.001.0001">https://doi.org/10.1093/oso/9780198821939.001.0001</a>.
+</div>
+<div id="ref-tukey77" class="csl-entry" role="listitem">
+Tukey, John W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley.
+</div>
+<div id="ref-wilson1967" class="csl-entry" role="listitem">
+Wilson, A. G. 1967. <span>«&nbsp;A Statistical Theory of Spatial Distribution Models&nbsp;»</span>. <em>Transportation Research</em> 1 (3): 253‑69. <a href="https://doi.org/10.1016/0041-1647(67)90035-4">https://doi.org/10.1016/0041-1647(67)90035-4</a>.
+</div>
+<div id="ref-yang2014" class="csl-entry" role="listitem">
+Yang, Yingxiang, Carlos Herrera, Nathan Eagle, et Marta C. González. 2014. <span>«&nbsp;Limits of Predictability in Commuting Flows in the Absence of Data for Calibration&nbsp;»</span>. <em>Scientific Reports</em> 4 (1): 5662. <a href="https://doi.org/10.1038/srep05662">https://doi.org/10.1038/srep05662</a>.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p><strong>CC BY 4.0</strong></p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
