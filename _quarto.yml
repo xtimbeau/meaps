@@ -57,13 +57,6 @@ bibliography:
 
 author-title: Auteurs
 
-filters:
-  - search-replace
-
-search-replace:
-  oe : "\u0153"
-  ae : "\u00e6"
-
 logo: www/ofce.png
 
 format:

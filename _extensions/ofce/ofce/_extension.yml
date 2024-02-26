@@ -32,14 +32,17 @@ contributes:
         - fr-nbsp
        # - custom-numbered-blocks
         - quotes
-       #- search-replace
+        - search-replace
         - collapse-callout
       collapse-callout:
         tip: true
       shortcodes:
         - fontawesome
         - downloadthis
-        - wordcount
+      search-replace:
+        oe : "\u0153"
+        ae : "\u00e6"
+      csl: csl/economie-et-statistique.csl
     html:
       theme: 
         - cosmo

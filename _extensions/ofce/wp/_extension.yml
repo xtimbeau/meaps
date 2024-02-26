@@ -32,7 +32,7 @@ contributes:
       filters:
         - nameref
         - quotes
-        # - search-replace
+        - search-replace
         - fr-nbsp
         - collapse-callout
       collapse-callout:
@@ -40,12 +40,16 @@ contributes:
       shortcodes:
         - fontawesome
         - downloadthis
-        - wordcount  
+        - wordcount 
+      search-replace:
+        oe : "\u0153"
+        ae : "\u00e6"
       google-scholar: true
       appendix-style: default
       appendix-cite-as: display
       citation: true
       license: CC BY
+      csl: csl/economie-et-statistique.csl
     html:
       theme: 
         - cosmo
