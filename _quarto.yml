@@ -14,7 +14,7 @@ website:
   repo-url: "https://github.com/xtimbeau/meaps/"
   google-analytics: "G-KF6Z4B486X"
   reader-mode: true
-  bread-crumbs: true
+  bread-crumbs: false
   page-footer:
       border: true
       center: "**CC BY 4.0**"

@@ -18,7 +18,7 @@ date-modified: today
 lang: fr
 wp: 5
 annee: 2024
-abstract: "Un résumé"
+abstract: "Un résumé. {{wordcount}} mots"
 keywords: 
   - mobilité
   - choix modal

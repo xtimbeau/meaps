@@ -35,6 +35,7 @@ contributes:
         # - search-replace
         - fr-nbsp
         - collapse-callout
+        - wordcount
       collapse-callout:
         tip: true
       shortcodes:
