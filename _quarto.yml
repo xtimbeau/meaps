@@ -30,7 +30,7 @@ website:
         file: index.qmd
       - text: "{{< iconify fluent clipboard-math-formula-16-regular >}} Théorie"
         file: theorie.qmd
-      - text: "Estimation"
+      - text: "Estimations"
         icon: database-check
         file: larochelle.qmd
       - text: "{{< iconify gis statistic-map >}} Projection"
