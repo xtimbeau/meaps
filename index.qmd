@@ -1,6 +1,7 @@
 ---
 appendix-style: none
 ---
+
 # MEAPS : Modèle Ergodique d'Absorption avec Priorité et Saturation {.unnumbered .unlisted}
 
 Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix. En partant du modèle des "*intervening opportunities*" de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un **M**odèle **E**rgodique d'**A**bsorption avec **P**riorité et **S**aturation qui permet de construire ces choix sur des fondements microscopiques explicites et flexibles -- qui peuvent s'adapter à une grande palette de situations. Ainsi, ce modèle s'accommode de différentes formulations des processus stochastiques microscopiques qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation.
