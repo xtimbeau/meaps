@@ -35,12 +35,12 @@ contributes:
         # - search-replace
         - fr-nbsp
         - collapse-callout
-        - wordcount
       collapse-callout:
         tip: true
       shortcodes:
         - fontawesome
         - downloadthis
+        - wordcount  
       google-scholar: true
       appendix-style: default
       appendix-cite-as: display

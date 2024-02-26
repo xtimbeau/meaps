@@ -39,6 +39,7 @@ contributes:
       shortcodes:
         - fontawesome
         - downloadthis
+        - wordcount
     html:
       theme: 
         - cosmo
