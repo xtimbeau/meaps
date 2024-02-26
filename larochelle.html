@@ -148,15 +148,15 @@ window.Quarto = {
 </script>
 
 <meta property="og:title" content="MEAPS - MEAPS &amp; gravitaire : estimations à La Rochelle">
-<meta property="og:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.">
+<meta property="og:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. {{wordcount}} mots.">
 <meta property="og:image" content="https://preview.meaps.fr/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta property="og:site_name" content="MEAPS">
 <meta name="twitter:title" content="MEAPS - MEAPS &amp; gravitaire : estimations à La Rochelle">
-<meta name="twitter:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.">
+<meta name="twitter:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. {{wordcount}} mots.">
 <meta name="twitter:image" content="https://preview.meaps.fr/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="MEAPS &amp;amp; gravitaire : estimations à La Rochelle">
-<meta name="citation_abstract" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.">
+<meta name="citation_abstract" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. {{wordcount}} mots.">
 <meta name="citation_keywords" content="modèle gravitaire,modèle radiatif,mobilités,glm,poisson,entropie relative">
 <meta name="citation_author" content="Maxime Parodi">
 <meta name="citation_author" content="Xavier Timbeau">
@@ -346,7 +346,7 @@ window.Quarto = {
     <nav id="TOC" role="doc-toc" class="toc-active">
    <p class="wp">
     Document de travail<br>de l’
-    <img src="_extensions/ofce/wp/ofce_m.png" width="30" height="15" style="margin:0px -4px">
+    <img src="site_libs/quarto-contrib/quarto-project/ofce/wp/ofce_m.png" width="30" height="15" style="margin:0px -4px">
     &nbsp;n°4-2024</p>
   
     <h2 id="toc-title">Sur cette page</h2>
@@ -450,7 +450,7 @@ window.Quarto = {
     <div class="quarto-title">
     <div class="abstract">
       <div class="quarto-title-meta-heading">Résumé</div>  
-      L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.
+      L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. {{wordcount}} mots.
     </div>
   </div>
   </header>
@@ -631,23 +631,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<div id="zffkpjfsks" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zffkpjfsks table {
+<div id="qvmnatmhah" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qvmnatmhah table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zffkpjfsks thead, #zffkpjfsks tbody, #zffkpjfsks tfoot, #zffkpjfsks tr, #zffkpjfsks td, #zffkpjfsks th {
+#qvmnatmhah thead, #qvmnatmhah tbody, #qvmnatmhah tfoot, #qvmnatmhah tr, #qvmnatmhah td, #qvmnatmhah th {
   border-style: none;
 }
 
-#zffkpjfsks p {
+#qvmnatmhah p {
   margin: 0;
   padding: 0;
 }
 
-#zffkpjfsks .gt_table {
+#qvmnatmhah .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -673,12 +673,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_caption {
+#qvmnatmhah .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zffkpjfsks .gt_title {
+#qvmnatmhah .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -690,7 +690,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#zffkpjfsks .gt_subtitle {
+#qvmnatmhah .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -702,7 +702,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#zffkpjfsks .gt_heading {
+#qvmnatmhah .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -714,13 +714,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_bottom_border {
+#qvmnatmhah .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_col_headings {
+#qvmnatmhah .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -735,7 +735,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_col_heading {
+#qvmnatmhah .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -755,7 +755,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#zffkpjfsks .gt_column_spanner_outer {
+#qvmnatmhah .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -767,15 +767,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#zffkpjfsks .gt_column_spanner_outer:first-child {
+#qvmnatmhah .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zffkpjfsks .gt_column_spanner_outer:last-child {
+#qvmnatmhah .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zffkpjfsks .gt_column_spanner {
+#qvmnatmhah .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -787,11 +787,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#zffkpjfsks .gt_spanner_row {
+#qvmnatmhah .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zffkpjfsks .gt_group_heading {
+#qvmnatmhah .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -817,7 +817,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#zffkpjfsks .gt_empty_group_heading {
+#qvmnatmhah .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -832,15 +832,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#zffkpjfsks .gt_from_md > :first-child {
+#qvmnatmhah .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zffkpjfsks .gt_from_md > :last-child {
+#qvmnatmhah .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zffkpjfsks .gt_row {
+#qvmnatmhah .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -859,7 +859,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#zffkpjfsks .gt_stub {
+#qvmnatmhah .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -872,7 +872,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#zffkpjfsks .gt_stub_row_group {
+#qvmnatmhah .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -886,15 +886,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#zffkpjfsks .gt_row_group_first td {
+#qvmnatmhah .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zffkpjfsks .gt_row_group_first th {
+#qvmnatmhah .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zffkpjfsks .gt_summary_row {
+#qvmnatmhah .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -904,16 +904,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#zffkpjfsks .gt_first_summary_row {
+#qvmnatmhah .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_first_summary_row.thick {
+#qvmnatmhah .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zffkpjfsks .gt_last_summary_row {
+#qvmnatmhah .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -923,7 +923,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_grand_summary_row {
+#qvmnatmhah .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -933,7 +933,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#zffkpjfsks .gt_first_grand_summary_row {
+#qvmnatmhah .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -943,7 +943,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_last_grand_summary_row_top {
+#qvmnatmhah .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -953,11 +953,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_striped {
+#qvmnatmhah .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zffkpjfsks .gt_table_body {
+#qvmnatmhah .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -966,7 +966,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_footnotes {
+#qvmnatmhah .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -980,7 +980,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_footnote {
+#qvmnatmhah .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -989,7 +989,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#zffkpjfsks .gt_sourcenotes {
+#qvmnatmhah .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1003,7 +1003,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#zffkpjfsks .gt_sourcenote {
+#qvmnatmhah .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1011,63 +1011,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#zffkpjfsks .gt_left {
+#qvmnatmhah .gt_left {
   text-align: left;
 }
 
-#zffkpjfsks .gt_center {
+#qvmnatmhah .gt_center {
   text-align: center;
 }
 
-#zffkpjfsks .gt_right {
+#qvmnatmhah .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zffkpjfsks .gt_font_normal {
+#qvmnatmhah .gt_font_normal {
   font-weight: normal;
 }
 
-#zffkpjfsks .gt_font_bold {
+#qvmnatmhah .gt_font_bold {
   font-weight: bold;
 }
 
-#zffkpjfsks .gt_font_italic {
+#qvmnatmhah .gt_font_italic {
   font-style: italic;
 }
 
-#zffkpjfsks .gt_super {
+#qvmnatmhah .gt_super {
   font-size: 65%;
 }
 
-#zffkpjfsks .gt_footnote_marks {
+#qvmnatmhah .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zffkpjfsks .gt_asterisk {
+#qvmnatmhah .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zffkpjfsks .gt_indent_1 {
+#qvmnatmhah .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zffkpjfsks .gt_indent_2 {
+#qvmnatmhah .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zffkpjfsks .gt_indent_3 {
+#qvmnatmhah .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zffkpjfsks .gt_indent_4 {
+#qvmnatmhah .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zffkpjfsks .gt_indent_5 {
+#qvmnatmhah .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1238,23 +1238,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-gravcom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="qckxmmaham" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qckxmmaham table {
+<div id="gigrmkyedl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gigrmkyedl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qckxmmaham thead, #qckxmmaham tbody, #qckxmmaham tfoot, #qckxmmaham tr, #qckxmmaham td, #qckxmmaham th {
+#gigrmkyedl thead, #gigrmkyedl tbody, #gigrmkyedl tfoot, #gigrmkyedl tr, #gigrmkyedl td, #gigrmkyedl th {
   border-style: none;
 }
 
-#qckxmmaham p {
+#gigrmkyedl p {
   margin: 0;
   padding: 0;
 }
 
-#qckxmmaham .gt_table {
+#gigrmkyedl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1280,12 +1280,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_caption {
+#gigrmkyedl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qckxmmaham .gt_title {
+#gigrmkyedl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1297,7 +1297,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#qckxmmaham .gt_subtitle {
+#gigrmkyedl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1309,7 +1309,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#qckxmmaham .gt_heading {
+#gigrmkyedl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1321,13 +1321,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_bottom_border {
+#gigrmkyedl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_col_headings {
+#gigrmkyedl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1342,7 +1342,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_col_heading {
+#gigrmkyedl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1362,7 +1362,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#qckxmmaham .gt_column_spanner_outer {
+#gigrmkyedl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1374,15 +1374,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#qckxmmaham .gt_column_spanner_outer:first-child {
+#gigrmkyedl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qckxmmaham .gt_column_spanner_outer:last-child {
+#gigrmkyedl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qckxmmaham .gt_column_spanner {
+#gigrmkyedl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1394,11 +1394,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#qckxmmaham .gt_spanner_row {
+#gigrmkyedl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qckxmmaham .gt_group_heading {
+#gigrmkyedl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1424,7 +1424,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#qckxmmaham .gt_empty_group_heading {
+#gigrmkyedl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1439,15 +1439,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#qckxmmaham .gt_from_md > :first-child {
+#gigrmkyedl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qckxmmaham .gt_from_md > :last-child {
+#gigrmkyedl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qckxmmaham .gt_row {
+#gigrmkyedl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1466,7 +1466,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#qckxmmaham .gt_stub {
+#gigrmkyedl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1479,7 +1479,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#qckxmmaham .gt_stub_row_group {
+#gigrmkyedl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1493,15 +1493,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#qckxmmaham .gt_row_group_first td {
+#gigrmkyedl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qckxmmaham .gt_row_group_first th {
+#gigrmkyedl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qckxmmaham .gt_summary_row {
+#gigrmkyedl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1511,16 +1511,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#qckxmmaham .gt_first_summary_row {
+#gigrmkyedl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_first_summary_row.thick {
+#gigrmkyedl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qckxmmaham .gt_last_summary_row {
+#gigrmkyedl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1530,7 +1530,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_grand_summary_row {
+#gigrmkyedl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1540,7 +1540,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#qckxmmaham .gt_first_grand_summary_row {
+#gigrmkyedl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1550,7 +1550,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_last_grand_summary_row_top {
+#gigrmkyedl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1560,11 +1560,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_striped {
+#gigrmkyedl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qckxmmaham .gt_table_body {
+#gigrmkyedl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1573,7 +1573,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_footnotes {
+#gigrmkyedl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1587,7 +1587,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_footnote {
+#gigrmkyedl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1596,7 +1596,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#qckxmmaham .gt_sourcenotes {
+#gigrmkyedl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1610,7 +1610,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#qckxmmaham .gt_sourcenote {
+#gigrmkyedl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1618,63 +1618,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#qckxmmaham .gt_left {
+#gigrmkyedl .gt_left {
   text-align: left;
 }
 
-#qckxmmaham .gt_center {
+#gigrmkyedl .gt_center {
   text-align: center;
 }
 
-#qckxmmaham .gt_right {
+#gigrmkyedl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qckxmmaham .gt_font_normal {
+#gigrmkyedl .gt_font_normal {
   font-weight: normal;
 }
 
-#qckxmmaham .gt_font_bold {
+#gigrmkyedl .gt_font_bold {
   font-weight: bold;
 }
 
-#qckxmmaham .gt_font_italic {
+#gigrmkyedl .gt_font_italic {
   font-style: italic;
 }
 
-#qckxmmaham .gt_super {
+#gigrmkyedl .gt_super {
   font-size: 65%;
 }
 
-#qckxmmaham .gt_footnote_marks {
+#gigrmkyedl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qckxmmaham .gt_asterisk {
+#gigrmkyedl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qckxmmaham .gt_indent_1 {
+#gigrmkyedl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qckxmmaham .gt_indent_2 {
+#gigrmkyedl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qckxmmaham .gt_indent_3 {
+#gigrmkyedl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qckxmmaham .gt_indent_4 {
+#gigrmkyedl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qckxmmaham .gt_indent_5 {
+#gigrmkyedl .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1896,23 +1896,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-biaisgrav-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="txaizlczso" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#txaizlczso table {
+<div id="cnveqrhmza" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cnveqrhmza table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#txaizlczso thead, #txaizlczso tbody, #txaizlczso tfoot, #txaizlczso tr, #txaizlczso td, #txaizlczso th {
+#cnveqrhmza thead, #cnveqrhmza tbody, #cnveqrhmza tfoot, #cnveqrhmza tr, #cnveqrhmza td, #cnveqrhmza th {
   border-style: none;
 }
 
-#txaizlczso p {
+#cnveqrhmza p {
   margin: 0;
   padding: 0;
 }
 
-#txaizlczso .gt_table {
+#cnveqrhmza .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1938,12 +1938,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#txaizlczso .gt_caption {
+#cnveqrhmza .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#txaizlczso .gt_title {
+#cnveqrhmza .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1955,7 +1955,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#txaizlczso .gt_subtitle {
+#cnveqrhmza .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1967,7 +1967,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#txaizlczso .gt_heading {
+#cnveqrhmza .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1979,13 +1979,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#txaizlczso .gt_bottom_border {
+#cnveqrhmza .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#txaizlczso .gt_col_headings {
+#cnveqrhmza .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2000,7 +2000,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#txaizlczso .gt_col_heading {
+#cnveqrhmza .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2020,7 +2020,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#txaizlczso .gt_column_spanner_outer {
+#cnveqrhmza .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2032,15 +2032,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#txaizlczso .gt_column_spanner_outer:first-child {
+#cnveqrhmza .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#txaizlczso .gt_column_spanner_outer:last-child {
+#cnveqrhmza .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#txaizlczso .gt_column_spanner {
+#cnveqrhmza .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2052,11 +2052,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#txaizlczso .gt_spanner_row {
+#cnveqrhmza .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#txaizlczso .gt_group_heading {
+#cnveqrhmza .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2082,7 +2082,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#txaizlczso .gt_empty_group_heading {
+#cnveqrhmza .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2097,15 +2097,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#txaizlczso .gt_from_md > :first-child {
+#cnveqrhmza .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#txaizlczso .gt_from_md > :last-child {
+#cnveqrhmza .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#txaizlczso .gt_row {
+#cnveqrhmza .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2124,7 +2124,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#txaizlczso .gt_stub {
+#cnveqrhmza .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2137,7 +2137,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#txaizlczso .gt_stub_row_group {
+#cnveqrhmza .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2151,15 +2151,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#txaizlczso .gt_row_group_first td {
+#cnveqrhmza .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#txaizlczso .gt_row_group_first th {
+#cnveqrhmza .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#txaizlczso .gt_summary_row {
+#cnveqrhmza .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2169,16 +2169,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#txaizlczso .gt_first_summary_row {
+#cnveqrhmza .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#txaizlczso .gt_first_summary_row.thick {
+#cnveqrhmza .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#txaizlczso .gt_last_summary_row {
+#cnveqrhmza .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2188,7 +2188,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#txaizlczso .gt_grand_summary_row {
+#cnveqrhmza .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2198,7 +2198,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#txaizlczso .gt_first_grand_summary_row {
+#cnveqrhmza .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2208,7 +2208,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#txaizlczso .gt_last_grand_summary_row_top {
+#cnveqrhmza .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2218,11 +2218,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#txaizlczso .gt_striped {
+#cnveqrhmza .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#txaizlczso .gt_table_body {
+#cnveqrhmza .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2231,7 +2231,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#txaizlczso .gt_footnotes {
+#cnveqrhmza .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2245,7 +2245,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#txaizlczso .gt_footnote {
+#cnveqrhmza .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2254,7 +2254,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#txaizlczso .gt_sourcenotes {
+#cnveqrhmza .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2268,7 +2268,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#txaizlczso .gt_sourcenote {
+#cnveqrhmza .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2276,63 +2276,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#txaizlczso .gt_left {
+#cnveqrhmza .gt_left {
   text-align: left;
 }
 
-#txaizlczso .gt_center {
+#cnveqrhmza .gt_center {
   text-align: center;
 }
 
-#txaizlczso .gt_right {
+#cnveqrhmza .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#txaizlczso .gt_font_normal {
+#cnveqrhmza .gt_font_normal {
   font-weight: normal;
 }
 
-#txaizlczso .gt_font_bold {
+#cnveqrhmza .gt_font_bold {
   font-weight: bold;
 }
 
-#txaizlczso .gt_font_italic {
+#cnveqrhmza .gt_font_italic {
   font-style: italic;
 }
 
-#txaizlczso .gt_super {
+#cnveqrhmza .gt_super {
   font-size: 65%;
 }
 
-#txaizlczso .gt_footnote_marks {
+#cnveqrhmza .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#txaizlczso .gt_asterisk {
+#cnveqrhmza .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#txaizlczso .gt_indent_1 {
+#cnveqrhmza .gt_indent_1 {
   text-indent: 5px;
 }
 
-#txaizlczso .gt_indent_2 {
+#cnveqrhmza .gt_indent_2 {
   text-indent: 10px;
 }
 
-#txaizlczso .gt_indent_3 {
+#cnveqrhmza .gt_indent_3 {
   text-indent: 15px;
 }
 
-#txaizlczso .gt_indent_4 {
+#cnveqrhmza .gt_indent_4 {
   text-indent: 20px;
 }
 
-#txaizlczso .gt_indent_5 {
+#cnveqrhmza .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2504,23 +2504,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-gravnonlineaire-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="iysmygwltl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#iysmygwltl table {
+<div id="szcojcwncb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#szcojcwncb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#iysmygwltl thead, #iysmygwltl tbody, #iysmygwltl tfoot, #iysmygwltl tr, #iysmygwltl td, #iysmygwltl th {
+#szcojcwncb thead, #szcojcwncb tbody, #szcojcwncb tfoot, #szcojcwncb tr, #szcojcwncb td, #szcojcwncb th {
   border-style: none;
 }
 
-#iysmygwltl p {
+#szcojcwncb p {
   margin: 0;
   padding: 0;
 }
 
-#iysmygwltl .gt_table {
+#szcojcwncb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2546,12 +2546,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_caption {
+#szcojcwncb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#iysmygwltl .gt_title {
+#szcojcwncb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2563,7 +2563,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#iysmygwltl .gt_subtitle {
+#szcojcwncb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2575,7 +2575,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#iysmygwltl .gt_heading {
+#szcojcwncb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2587,13 +2587,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_bottom_border {
+#szcojcwncb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_col_headings {
+#szcojcwncb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2608,7 +2608,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_col_heading {
+#szcojcwncb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2628,7 +2628,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#iysmygwltl .gt_column_spanner_outer {
+#szcojcwncb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2640,15 +2640,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#iysmygwltl .gt_column_spanner_outer:first-child {
+#szcojcwncb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iysmygwltl .gt_column_spanner_outer:last-child {
+#szcojcwncb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iysmygwltl .gt_column_spanner {
+#szcojcwncb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2660,11 +2660,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#iysmygwltl .gt_spanner_row {
+#szcojcwncb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#iysmygwltl .gt_group_heading {
+#szcojcwncb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2690,7 +2690,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#iysmygwltl .gt_empty_group_heading {
+#szcojcwncb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2705,15 +2705,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#iysmygwltl .gt_from_md > :first-child {
+#szcojcwncb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iysmygwltl .gt_from_md > :last-child {
+#szcojcwncb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iysmygwltl .gt_row {
+#szcojcwncb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2732,7 +2732,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#iysmygwltl .gt_stub {
+#szcojcwncb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2745,7 +2745,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#iysmygwltl .gt_stub_row_group {
+#szcojcwncb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2759,15 +2759,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#iysmygwltl .gt_row_group_first td {
+#szcojcwncb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#iysmygwltl .gt_row_group_first th {
+#szcojcwncb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#iysmygwltl .gt_summary_row {
+#szcojcwncb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2777,16 +2777,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#iysmygwltl .gt_first_summary_row {
+#szcojcwncb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_first_summary_row.thick {
+#szcojcwncb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#iysmygwltl .gt_last_summary_row {
+#szcojcwncb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2796,7 +2796,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_grand_summary_row {
+#szcojcwncb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2806,7 +2806,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#iysmygwltl .gt_first_grand_summary_row {
+#szcojcwncb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2816,7 +2816,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_last_grand_summary_row_top {
+#szcojcwncb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2826,11 +2826,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_striped {
+#szcojcwncb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iysmygwltl .gt_table_body {
+#szcojcwncb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2839,7 +2839,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_footnotes {
+#szcojcwncb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2853,7 +2853,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_footnote {
+#szcojcwncb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2862,7 +2862,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#iysmygwltl .gt_sourcenotes {
+#szcojcwncb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2876,7 +2876,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#iysmygwltl .gt_sourcenote {
+#szcojcwncb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2884,63 +2884,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#iysmygwltl .gt_left {
+#szcojcwncb .gt_left {
   text-align: left;
 }
 
-#iysmygwltl .gt_center {
+#szcojcwncb .gt_center {
   text-align: center;
 }
 
-#iysmygwltl .gt_right {
+#szcojcwncb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iysmygwltl .gt_font_normal {
+#szcojcwncb .gt_font_normal {
   font-weight: normal;
 }
 
-#iysmygwltl .gt_font_bold {
+#szcojcwncb .gt_font_bold {
   font-weight: bold;
 }
 
-#iysmygwltl .gt_font_italic {
+#szcojcwncb .gt_font_italic {
   font-style: italic;
 }
 
-#iysmygwltl .gt_super {
+#szcojcwncb .gt_super {
   font-size: 65%;
 }
 
-#iysmygwltl .gt_footnote_marks {
+#szcojcwncb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#iysmygwltl .gt_asterisk {
+#szcojcwncb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#iysmygwltl .gt_indent_1 {
+#szcojcwncb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#iysmygwltl .gt_indent_2 {
+#szcojcwncb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#iysmygwltl .gt_indent_3 {
+#szcojcwncb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#iysmygwltl .gt_indent_4 {
+#szcojcwncb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#iysmygwltl .gt_indent_5 {
+#szcojcwncb .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3060,23 +3060,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-meapsnonlineaire-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="frxxceubyz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#frxxceubyz table {
+<div id="qdsfgxehlm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qdsfgxehlm table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#frxxceubyz thead, #frxxceubyz tbody, #frxxceubyz tfoot, #frxxceubyz tr, #frxxceubyz td, #frxxceubyz th {
+#qdsfgxehlm thead, #qdsfgxehlm tbody, #qdsfgxehlm tfoot, #qdsfgxehlm tr, #qdsfgxehlm td, #qdsfgxehlm th {
   border-style: none;
 }
 
-#frxxceubyz p {
+#qdsfgxehlm p {
   margin: 0;
   padding: 0;
 }
 
-#frxxceubyz .gt_table {
+#qdsfgxehlm .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3102,12 +3102,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_caption {
+#qdsfgxehlm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#frxxceubyz .gt_title {
+#qdsfgxehlm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3119,7 +3119,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#frxxceubyz .gt_subtitle {
+#qdsfgxehlm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3131,7 +3131,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#frxxceubyz .gt_heading {
+#qdsfgxehlm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3143,13 +3143,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_bottom_border {
+#qdsfgxehlm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_col_headings {
+#qdsfgxehlm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3164,7 +3164,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_col_heading {
+#qdsfgxehlm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3184,7 +3184,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#frxxceubyz .gt_column_spanner_outer {
+#qdsfgxehlm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3196,15 +3196,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#frxxceubyz .gt_column_spanner_outer:first-child {
+#qdsfgxehlm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#frxxceubyz .gt_column_spanner_outer:last-child {
+#qdsfgxehlm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#frxxceubyz .gt_column_spanner {
+#qdsfgxehlm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3216,11 +3216,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#frxxceubyz .gt_spanner_row {
+#qdsfgxehlm .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#frxxceubyz .gt_group_heading {
+#qdsfgxehlm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3246,7 +3246,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#frxxceubyz .gt_empty_group_heading {
+#qdsfgxehlm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3261,15 +3261,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#frxxceubyz .gt_from_md > :first-child {
+#qdsfgxehlm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#frxxceubyz .gt_from_md > :last-child {
+#qdsfgxehlm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#frxxceubyz .gt_row {
+#qdsfgxehlm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3288,7 +3288,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#frxxceubyz .gt_stub {
+#qdsfgxehlm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3301,7 +3301,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#frxxceubyz .gt_stub_row_group {
+#qdsfgxehlm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3315,15 +3315,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#frxxceubyz .gt_row_group_first td {
+#qdsfgxehlm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#frxxceubyz .gt_row_group_first th {
+#qdsfgxehlm .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#frxxceubyz .gt_summary_row {
+#qdsfgxehlm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3333,16 +3333,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#frxxceubyz .gt_first_summary_row {
+#qdsfgxehlm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_first_summary_row.thick {
+#qdsfgxehlm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#frxxceubyz .gt_last_summary_row {
+#qdsfgxehlm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3352,7 +3352,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_grand_summary_row {
+#qdsfgxehlm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3362,7 +3362,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#frxxceubyz .gt_first_grand_summary_row {
+#qdsfgxehlm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3372,7 +3372,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_last_grand_summary_row_top {
+#qdsfgxehlm .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3382,11 +3382,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_striped {
+#qdsfgxehlm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#frxxceubyz .gt_table_body {
+#qdsfgxehlm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3395,7 +3395,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_footnotes {
+#qdsfgxehlm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3409,7 +3409,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_footnote {
+#qdsfgxehlm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3418,7 +3418,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#frxxceubyz .gt_sourcenotes {
+#qdsfgxehlm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3432,7 +3432,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#frxxceubyz .gt_sourcenote {
+#qdsfgxehlm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3440,63 +3440,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#frxxceubyz .gt_left {
+#qdsfgxehlm .gt_left {
   text-align: left;
 }
 
-#frxxceubyz .gt_center {
+#qdsfgxehlm .gt_center {
   text-align: center;
 }
 
-#frxxceubyz .gt_right {
+#qdsfgxehlm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#frxxceubyz .gt_font_normal {
+#qdsfgxehlm .gt_font_normal {
   font-weight: normal;
 }
 
-#frxxceubyz .gt_font_bold {
+#qdsfgxehlm .gt_font_bold {
   font-weight: bold;
 }
 
-#frxxceubyz .gt_font_italic {
+#qdsfgxehlm .gt_font_italic {
   font-style: italic;
 }
 
-#frxxceubyz .gt_super {
+#qdsfgxehlm .gt_super {
   font-size: 65%;
 }
 
-#frxxceubyz .gt_footnote_marks {
+#qdsfgxehlm .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#frxxceubyz .gt_asterisk {
+#qdsfgxehlm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#frxxceubyz .gt_indent_1 {
+#qdsfgxehlm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#frxxceubyz .gt_indent_2 {
+#qdsfgxehlm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#frxxceubyz .gt_indent_3 {
+#qdsfgxehlm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#frxxceubyz .gt_indent_4 {
+#qdsfgxehlm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#frxxceubyz .gt_indent_5 {
+#qdsfgxehlm .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3657,23 +3657,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-oob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="ytxmiznuhy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ytxmiznuhy table {
+<div id="rzlscuqnqs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rzlscuqnqs table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ytxmiznuhy thead, #ytxmiznuhy tbody, #ytxmiznuhy tfoot, #ytxmiznuhy tr, #ytxmiznuhy td, #ytxmiznuhy th {
+#rzlscuqnqs thead, #rzlscuqnqs tbody, #rzlscuqnqs tfoot, #rzlscuqnqs tr, #rzlscuqnqs td, #rzlscuqnqs th {
   border-style: none;
 }
 
-#ytxmiznuhy p {
+#rzlscuqnqs p {
   margin: 0;
   padding: 0;
 }
 
-#ytxmiznuhy .gt_table {
+#rzlscuqnqs .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3699,12 +3699,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_caption {
+#rzlscuqnqs .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ytxmiznuhy .gt_title {
+#rzlscuqnqs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3716,7 +3716,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#ytxmiznuhy .gt_subtitle {
+#rzlscuqnqs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3728,7 +3728,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#ytxmiznuhy .gt_heading {
+#rzlscuqnqs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3740,13 +3740,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_bottom_border {
+#rzlscuqnqs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_col_headings {
+#rzlscuqnqs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3761,7 +3761,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_col_heading {
+#rzlscuqnqs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3781,7 +3781,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#ytxmiznuhy .gt_column_spanner_outer {
+#rzlscuqnqs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3793,15 +3793,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#ytxmiznuhy .gt_column_spanner_outer:first-child {
+#rzlscuqnqs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ytxmiznuhy .gt_column_spanner_outer:last-child {
+#rzlscuqnqs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ytxmiznuhy .gt_column_spanner {
+#rzlscuqnqs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3813,11 +3813,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#ytxmiznuhy .gt_spanner_row {
+#rzlscuqnqs .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ytxmiznuhy .gt_group_heading {
+#rzlscuqnqs .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3843,7 +3843,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#ytxmiznuhy .gt_empty_group_heading {
+#rzlscuqnqs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3858,15 +3858,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#ytxmiznuhy .gt_from_md > :first-child {
+#rzlscuqnqs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ytxmiznuhy .gt_from_md > :last-child {
+#rzlscuqnqs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ytxmiznuhy .gt_row {
+#rzlscuqnqs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3885,7 +3885,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#ytxmiznuhy .gt_stub {
+#rzlscuqnqs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3898,7 +3898,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#ytxmiznuhy .gt_stub_row_group {
+#rzlscuqnqs .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3912,15 +3912,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#ytxmiznuhy .gt_row_group_first td {
+#rzlscuqnqs .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ytxmiznuhy .gt_row_group_first th {
+#rzlscuqnqs .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ytxmiznuhy .gt_summary_row {
+#rzlscuqnqs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3930,16 +3930,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#ytxmiznuhy .gt_first_summary_row {
+#rzlscuqnqs .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_first_summary_row.thick {
+#rzlscuqnqs .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ytxmiznuhy .gt_last_summary_row {
+#rzlscuqnqs .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3949,7 +3949,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_grand_summary_row {
+#rzlscuqnqs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3959,7 +3959,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#ytxmiznuhy .gt_first_grand_summary_row {
+#rzlscuqnqs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3969,7 +3969,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_last_grand_summary_row_top {
+#rzlscuqnqs .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3979,11 +3979,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_striped {
+#rzlscuqnqs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ytxmiznuhy .gt_table_body {
+#rzlscuqnqs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3992,7 +3992,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_footnotes {
+#rzlscuqnqs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4006,7 +4006,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_footnote {
+#rzlscuqnqs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4015,7 +4015,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#ytxmiznuhy .gt_sourcenotes {
+#rzlscuqnqs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4029,7 +4029,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#ytxmiznuhy .gt_sourcenote {
+#rzlscuqnqs .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4037,63 +4037,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#ytxmiznuhy .gt_left {
+#rzlscuqnqs .gt_left {
   text-align: left;
 }
 
-#ytxmiznuhy .gt_center {
+#rzlscuqnqs .gt_center {
   text-align: center;
 }
 
-#ytxmiznuhy .gt_right {
+#rzlscuqnqs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ytxmiznuhy .gt_font_normal {
+#rzlscuqnqs .gt_font_normal {
   font-weight: normal;
 }
 
-#ytxmiznuhy .gt_font_bold {
+#rzlscuqnqs .gt_font_bold {
   font-weight: bold;
 }
 
-#ytxmiznuhy .gt_font_italic {
+#rzlscuqnqs .gt_font_italic {
   font-style: italic;
 }
 
-#ytxmiznuhy .gt_super {
+#rzlscuqnqs .gt_super {
   font-size: 65%;
 }
 
-#ytxmiznuhy .gt_footnote_marks {
+#rzlscuqnqs .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ytxmiznuhy .gt_asterisk {
+#rzlscuqnqs .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ytxmiznuhy .gt_indent_1 {
+#rzlscuqnqs .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ytxmiznuhy .gt_indent_2 {
+#rzlscuqnqs .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ytxmiznuhy .gt_indent_3 {
+#rzlscuqnqs .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ytxmiznuhy .gt_indent_4 {
+#rzlscuqnqs .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ytxmiznuhy .gt_indent_5 {
+#rzlscuqnqs .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4351,23 +4351,23 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 <div aria-describedby="tbl-meapsR2-np-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="xiaevawlzm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xiaevawlzm table {
+<div id="ycdsqlfqqt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ycdsqlfqqt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xiaevawlzm thead, #xiaevawlzm tbody, #xiaevawlzm tfoot, #xiaevawlzm tr, #xiaevawlzm td, #xiaevawlzm th {
+#ycdsqlfqqt thead, #ycdsqlfqqt tbody, #ycdsqlfqqt tfoot, #ycdsqlfqqt tr, #ycdsqlfqqt td, #ycdsqlfqqt th {
   border-style: none;
 }
 
-#xiaevawlzm p {
+#ycdsqlfqqt p {
   margin: 0;
   padding: 0;
 }
 
-#xiaevawlzm .gt_table {
+#ycdsqlfqqt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4393,12 +4393,12 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-left-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_caption {
+#ycdsqlfqqt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xiaevawlzm .gt_title {
+#ycdsqlfqqt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4410,7 +4410,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-width: 0;
 }
 
-#xiaevawlzm .gt_subtitle {
+#ycdsqlfqqt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4422,7 +4422,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-width: 0;
 }
 
-#xiaevawlzm .gt_heading {
+#ycdsqlfqqt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4434,13 +4434,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_bottom_border {
+#ycdsqlfqqt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_col_headings {
+#ycdsqlfqqt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4455,7 +4455,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_col_heading {
+#ycdsqlfqqt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4475,7 +4475,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#xiaevawlzm .gt_column_spanner_outer {
+#ycdsqlfqqt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4487,15 +4487,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 4px;
 }
 
-#xiaevawlzm .gt_column_spanner_outer:first-child {
+#ycdsqlfqqt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xiaevawlzm .gt_column_spanner_outer:last-child {
+#ycdsqlfqqt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xiaevawlzm .gt_column_spanner {
+#ycdsqlfqqt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4507,11 +4507,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   width: 100%;
 }
 
-#xiaevawlzm .gt_spanner_row {
+#ycdsqlfqqt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xiaevawlzm .gt_group_heading {
+#ycdsqlfqqt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4537,7 +4537,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   text-align: left;
 }
 
-#xiaevawlzm .gt_empty_group_heading {
+#ycdsqlfqqt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4552,15 +4552,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: middle;
 }
 
-#xiaevawlzm .gt_from_md > :first-child {
+#ycdsqlfqqt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xiaevawlzm .gt_from_md > :last-child {
+#ycdsqlfqqt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xiaevawlzm .gt_row {
+#ycdsqlfqqt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4579,7 +4579,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#xiaevawlzm .gt_stub {
+#ycdsqlfqqt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4592,7 +4592,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#xiaevawlzm .gt_stub_row_group {
+#ycdsqlfqqt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4606,15 +4606,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: top;
 }
 
-#xiaevawlzm .gt_row_group_first td {
+#ycdsqlfqqt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xiaevawlzm .gt_row_group_first th {
+#ycdsqlfqqt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xiaevawlzm .gt_summary_row {
+#ycdsqlfqqt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4624,16 +4624,16 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#xiaevawlzm .gt_first_summary_row {
+#ycdsqlfqqt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_first_summary_row.thick {
+#ycdsqlfqqt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xiaevawlzm .gt_last_summary_row {
+#ycdsqlfqqt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4643,7 +4643,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_grand_summary_row {
+#ycdsqlfqqt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4653,7 +4653,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#xiaevawlzm .gt_first_grand_summary_row {
+#ycdsqlfqqt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4663,7 +4663,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_last_grand_summary_row_top {
+#ycdsqlfqqt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4673,11 +4673,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_striped {
+#ycdsqlfqqt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xiaevawlzm .gt_table_body {
+#ycdsqlfqqt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4686,7 +4686,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_footnotes {
+#ycdsqlfqqt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4700,7 +4700,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_footnote {
+#ycdsqlfqqt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4709,7 +4709,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#xiaevawlzm .gt_sourcenotes {
+#ycdsqlfqqt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4723,7 +4723,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#xiaevawlzm .gt_sourcenote {
+#ycdsqlfqqt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4731,63 +4731,63 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#xiaevawlzm .gt_left {
+#ycdsqlfqqt .gt_left {
   text-align: left;
 }
 
-#xiaevawlzm .gt_center {
+#ycdsqlfqqt .gt_center {
   text-align: center;
 }
 
-#xiaevawlzm .gt_right {
+#ycdsqlfqqt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xiaevawlzm .gt_font_normal {
+#ycdsqlfqqt .gt_font_normal {
   font-weight: normal;
 }
 
-#xiaevawlzm .gt_font_bold {
+#ycdsqlfqqt .gt_font_bold {
   font-weight: bold;
 }
 
-#xiaevawlzm .gt_font_italic {
+#ycdsqlfqqt .gt_font_italic {
   font-style: italic;
 }
 
-#xiaevawlzm .gt_super {
+#ycdsqlfqqt .gt_super {
   font-size: 65%;
 }
 
-#xiaevawlzm .gt_footnote_marks {
+#ycdsqlfqqt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xiaevawlzm .gt_asterisk {
+#ycdsqlfqqt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xiaevawlzm .gt_indent_1 {
+#ycdsqlfqqt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xiaevawlzm .gt_indent_2 {
+#ycdsqlfqqt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xiaevawlzm .gt_indent_3 {
+#ycdsqlfqqt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xiaevawlzm .gt_indent_4 {
+#ycdsqlfqqt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xiaevawlzm .gt_indent_5 {
+#ycdsqlfqqt .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4957,23 +4957,23 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 <div aria-describedby="tbl-meapsR2-p-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="dnzzwergyc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dnzzwergyc table {
+<div id="xlaaxkhefm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xlaaxkhefm table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dnzzwergyc thead, #dnzzwergyc tbody, #dnzzwergyc tfoot, #dnzzwergyc tr, #dnzzwergyc td, #dnzzwergyc th {
+#xlaaxkhefm thead, #xlaaxkhefm tbody, #xlaaxkhefm tfoot, #xlaaxkhefm tr, #xlaaxkhefm td, #xlaaxkhefm th {
   border-style: none;
 }
 
-#dnzzwergyc p {
+#xlaaxkhefm p {
   margin: 0;
   padding: 0;
 }
 
-#dnzzwergyc .gt_table {
+#xlaaxkhefm .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4999,12 +4999,12 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-left-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_caption {
+#xlaaxkhefm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dnzzwergyc .gt_title {
+#xlaaxkhefm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5016,7 +5016,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-width: 0;
 }
 
-#dnzzwergyc .gt_subtitle {
+#xlaaxkhefm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5028,7 +5028,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-width: 0;
 }
 
-#dnzzwergyc .gt_heading {
+#xlaaxkhefm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5040,13 +5040,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_bottom_border {
+#xlaaxkhefm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_col_headings {
+#xlaaxkhefm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5061,7 +5061,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_col_heading {
+#xlaaxkhefm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5081,7 +5081,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#dnzzwergyc .gt_column_spanner_outer {
+#xlaaxkhefm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5093,15 +5093,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 4px;
 }
 
-#dnzzwergyc .gt_column_spanner_outer:first-child {
+#xlaaxkhefm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dnzzwergyc .gt_column_spanner_outer:last-child {
+#xlaaxkhefm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dnzzwergyc .gt_column_spanner {
+#xlaaxkhefm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5113,11 +5113,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   width: 100%;
 }
 
-#dnzzwergyc .gt_spanner_row {
+#xlaaxkhefm .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dnzzwergyc .gt_group_heading {
+#xlaaxkhefm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5143,7 +5143,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   text-align: left;
 }
 
-#dnzzwergyc .gt_empty_group_heading {
+#xlaaxkhefm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5158,15 +5158,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: middle;
 }
 
-#dnzzwergyc .gt_from_md > :first-child {
+#xlaaxkhefm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dnzzwergyc .gt_from_md > :last-child {
+#xlaaxkhefm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dnzzwergyc .gt_row {
+#xlaaxkhefm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5185,7 +5185,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#dnzzwergyc .gt_stub {
+#xlaaxkhefm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5198,7 +5198,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#dnzzwergyc .gt_stub_row_group {
+#xlaaxkhefm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5212,15 +5212,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: top;
 }
 
-#dnzzwergyc .gt_row_group_first td {
+#xlaaxkhefm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dnzzwergyc .gt_row_group_first th {
+#xlaaxkhefm .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dnzzwergyc .gt_summary_row {
+#xlaaxkhefm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5230,16 +5230,16 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#dnzzwergyc .gt_first_summary_row {
+#xlaaxkhefm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_first_summary_row.thick {
+#xlaaxkhefm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dnzzwergyc .gt_last_summary_row {
+#xlaaxkhefm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5249,7 +5249,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_grand_summary_row {
+#xlaaxkhefm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5259,7 +5259,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#dnzzwergyc .gt_first_grand_summary_row {
+#xlaaxkhefm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5269,7 +5269,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_last_grand_summary_row_top {
+#xlaaxkhefm .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5279,11 +5279,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_striped {
+#xlaaxkhefm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dnzzwergyc .gt_table_body {
+#xlaaxkhefm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5292,7 +5292,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_footnotes {
+#xlaaxkhefm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5306,7 +5306,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_footnote {
+#xlaaxkhefm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -5315,7 +5315,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#dnzzwergyc .gt_sourcenotes {
+#xlaaxkhefm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5329,7 +5329,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#dnzzwergyc .gt_sourcenote {
+#xlaaxkhefm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5337,63 +5337,63 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#dnzzwergyc .gt_left {
+#xlaaxkhefm .gt_left {
   text-align: left;
 }
 
-#dnzzwergyc .gt_center {
+#xlaaxkhefm .gt_center {
   text-align: center;
 }
 
-#dnzzwergyc .gt_right {
+#xlaaxkhefm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dnzzwergyc .gt_font_normal {
+#xlaaxkhefm .gt_font_normal {
   font-weight: normal;
 }
 
-#dnzzwergyc .gt_font_bold {
+#xlaaxkhefm .gt_font_bold {
   font-weight: bold;
 }
 
-#dnzzwergyc .gt_font_italic {
+#xlaaxkhefm .gt_font_italic {
   font-style: italic;
 }
 
-#dnzzwergyc .gt_super {
+#xlaaxkhefm .gt_super {
   font-size: 65%;
 }
 
-#dnzzwergyc .gt_footnote_marks {
+#xlaaxkhefm .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dnzzwergyc .gt_asterisk {
+#xlaaxkhefm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dnzzwergyc .gt_indent_1 {
+#xlaaxkhefm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dnzzwergyc .gt_indent_2 {
+#xlaaxkhefm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dnzzwergyc .gt_indent_3 {
+#xlaaxkhefm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dnzzwergyc .gt_indent_4 {
+#xlaaxkhefm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dnzzwergyc .gt_indent_5 {
+#xlaaxkhefm .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -6014,7 +6014,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","loop":false,"openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
