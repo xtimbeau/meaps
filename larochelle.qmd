@@ -271,8 +271,7 @@ scot_data <- bd_read("scot_data")
 tbl_scot <- bd_read("tbl_scot")
 ```
 
-:::: {#tbl-scot} 
-
+::: {#tbl-scot}
 ::: {.content-visible when-format="html"}
 ```{r}
 if(knitr::is_html_output())
@@ -280,7 +279,7 @@ if(knitr::is_html_output())
 ```
 :::
 
-::: {.content-visible when-format="pdf" layout-nrow=2}
+::: {.content-visible when-format="pdf" layout-nrow="2"}
 ```{r}
   t1 <- scot_data |> 
     select(scot, nflux, N, nCOMMUNE, nDCLT, dist, dist_sd) |> 
@@ -315,8 +314,7 @@ if(knitr::is_html_output())
 :::
 
 Description des échantillons d'estimation et de test
-
-::::
+:::
 
 Afin de produire des intervalles de confiance, nous rééchantillonons les données d'estimation (*bootstrap*). Nous utilisons le fichier détail du recensement, en tirant avec remise les individus du territoire concerné, avec comme probabilité leur poids dans l'échantillon divisé par la somme des poids. Pour les individus ayant des poids proche de 5, lié au plan de sondage du recensement pour les communes de moins de 10 000 habitants, nous les décomposons en 5 individus de poids divisé par 5. Cela permet d'éviter des accumulations autour des multiples de 5 dans la distribution ré-échantillonnée.
 
@@ -1110,7 +1108,7 @@ Les estimations que nous présentons ici aboutissent à plusieurs résultats imp
 
 4.  les paramètres du modèle gravitaire sont difficilement interprétables. Ils dépendent en effet de la configuration spatiale spécifique et de l'échelle d'observation. MEAPS permet une approche structurelle aux fondements bien définis qui donne aux paramètres une signification plus générale.
 
-## Références {.unlisted .unnumbered}
+## Références {.unnumbered}
 
 ::: {#refs}
 :::
