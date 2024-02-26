@@ -24,7 +24,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
+  margin-bottom: 1em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -302,7 +302,7 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 <p>Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l’influence de la distance sur les choix. En partant du modèle des <span style="white-space:nowrap">« </span><em>intervening opportunities</em><span style="white-space:nowrap"> »</span> de <span class="citation" data-cites="stouffer1940">Stouffer (<a href="#ref-stouffer1940" role="doc-biblioref">1940</a>)</span> et du modèle radiatif de <span class="citation" data-cites="simini2012">Simini et al. (<a href="#ref-simini2012" role="doc-biblioref">2012</a>)</span>, nous construisons un <strong>M</strong>odèle <strong>E</strong>rgodique d’<strong>A</strong>bsorption avec <strong>P</strong>riorité et <strong>S</strong>aturation qui permet de construire ces choix sur des fondements microscopiques explicites et <span style="white-space:nowrap">flexibles –</span> qui peuvent s’adapter à une grande palette de situations. Ainsi, ce modèle s’accommode de différentes formulations des processus stochastiques microscopiques qui permettent d’estimer des paramètres fondamentaux et de leur donner une interprétation.</p>
 <p>Autour de ce modèle nous avons produit trois <span style="white-space:nowrap">documents :</span></p>
 <ol type="1">
-<li>Dans le premier document, <a href="./theorie.html">Aspects théoriques</a> <span class="citation" data-cites="meaps2023">(<a href="#ref-meaps2023" role="doc-biblioref">Parodi et Timbeau 2023</a>)</span>, nous définissons le modèle et nous en dérivons quelques propriétés théoriques. La logique est de classer pour chaque résident les opportunités qu’il peut atteindre. Ce classement peut être par exemple dans l’ordre défini par les distances. Chque individu parcoure alors les opportunités et a à chaque rencontre une probabilité de s’arrêter (<em>Absorption</em>). Chaque absorption diminue la quantité d’opportunités disponibles aux autres individus jusqu’à la <em>Saturation</em>. L’affectation des opportunités est faite en fonction d’un ordre de <em>Priorité</em> des individus et nous considérons la moyenne des affectations sur un ensemble d’ordre tirés au sort (<em>Ergodique</em>). A partir de simulations sur des données synthétiques (c’est-à-dire générées par des processus connus), nous explorons les propriétés du modèle théorique.</li>
+<li>Dans le premier document, <a href="./theorie.html">Aspects théoriques</a> <span class="citation" data-cites="meaps2023"> (<a href="#ref-meaps2023" role="doc-biblioref">Parodi et Timbeau, 2023</a>)</span>, nous définissons le modèle et nous en dérivons quelques propriétés théoriques. La logique est de classer pour chaque résident les opportunités qu’il peut atteindre. Ce classement peut être par exemple dans l’ordre défini par les distances. Chque individu parcoure alors les opportunités et a à chaque rencontre une probabilité de s’arrêter (<em>Absorption</em>). Chaque absorption diminue la quantité d’opportunités disponibles aux autres individus jusqu’à la <em>Saturation</em>. L’affectation des opportunités est faite en fonction d’un ordre de <em>Priorité</em> des individus et nous considérons la moyenne des affectations sur un ensemble d’ordre tirés au sort (<em>Ergodique</em>). A partir de simulations sur des données synthétiques (c’est-à-dire générées par des processus connus), nous explorons les propriétés du modèle théorique.</li>
 </ol>
 
 <div class="no-row-height column-margin column-container"><div class="">
@@ -312,13 +312,13 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 </figure>
 </div>
 </div></div><ol start="2" type="1">
-<li>Dans le second document, <a href="./larochelle.html">Estimation à la Rochelle</a> <span class="citation" data-cites="meaps2024a">(<a href="#ref-meaps2024a" role="doc-biblioref">Parodi et Timbeau 2024b</a>)</span>, nous ajustons MEAPS sur des données en le comparant aux modèles gravitaires. Un point important est l’hypothèse faire sur le processus générateur. La nature des données de flux et leur distribution fait privilégier une distribution de Poisson à la distribution log-normale habituellement choisie. Ceci conduit à privilégier la minimisation de l’entropie relative de Kullback-Leibler à la somme des erreurs au carré. En changeant de métrique on peut estimer des modèles par des procédures non linéaires. Nous comparons systématiquement les modèles gravitaires avec <em>MEAPS</em> augmenté de structures particulières sur les <em>odds-ratios</em> et, à moins de le normer localement et globalement, le modèle gravitaire ressort moins pertinent que <em>MEAPS</em>. En effet, deux propriétés importantes doivent être <span style="white-space:nowrap">respectées :</span> l’additivité locale et l’agrégation. Lorsque ces propriétés sont respectées, les modèles ont de bonnes performances hors échantillon. En utilisant une information infracommunale, il est possible d’augmenter la capacité prédictive des modèles, en particulier de MEAPS. Ceci permet également de projeter à une échelle infra-communale les flux simulés.</li>
+<li>Dans le second document, <a href="./larochelle.html">Estimation à la Rochelle</a> <span class="citation" data-cites="meaps2024a"> (<a href="#ref-meaps2024a" role="doc-biblioref">Parodi et Timbeau, 2024a</a>)</span>, nous ajustons MEAPS sur des données en le comparant aux modèles gravitaires. Un point important est l’hypothèse faire sur le processus générateur. La nature des données de flux et leur distribution fait privilégier une distribution de Poisson à la distribution log-normale habituellement choisie. Ceci conduit à privilégier la minimisation de l’entropie relative de Kullback-Leibler à la somme des erreurs au carré. En changeant de métrique on peut estimer des modèles par des procédures non linéaires. Nous comparons systématiquement les modèles gravitaires avec <em>MEAPS</em> augmenté de structures particulières sur les <em>odds-ratios</em> et, à moins de le normer localement et globalement, le modèle gravitaire ressort moins pertinent que <em>MEAPS</em>. En effet, deux propriétés importantes doivent être <span style="white-space:nowrap">respectées :</span> l’additivité locale et l’agrégation. Lorsque ces propriétés sont respectées, les modèles ont de bonnes performances hors échantillon. En utilisant une information infracommunale, il est possible d’augmenter la capacité prédictive des modèles, en particulier de MEAPS. Ceci permet également de projeter à une échelle infra-communale les flux simulés.</li>
 </ol>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p><a href="images/clipboard-2239026405.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/clipboard-2239026405.png" class="img-fluid" width="200"></a></p>
 </div></div><ol start="3" type="1">
-<li>Dans un troisième document, <a href="./trajets.html">Projections des trajets</a> <span class="citation" data-cites="meaps2024b">(<a href="#ref-meaps2024b" role="doc-biblioref">Parodi et Timbeau 2024a</a>)</span>, nous proposons une application de MEAPS à la Rochelle de la modélisation des trajets quotidiens entre le domicile et le travail. En ajoutant une modélisation des fréquences de trajets, de leur complexité (multi motifs), des modes de transport, déclinée pour différentes catégories de ménages, nous produisons une cartographie des émissions de CO<sub>2</sub> au carreau 200m. Cette modélisation permet de reprendre la discussion entre densité et émissions de CO<sub>2</sub>, que nous retraçons dans la littérature pour conclure que ce lien est plus complexe qu’habituellement considéré. Il est en effet illusoire vouloir capturer la notion de <span style="white-space:nowrap">« </span>ville compacte<span style="white-space:nowrap"> »</span> avec seulement une mesure de la densité ou d’autres métriques (les fameux 3Ds). Il est nécessaire de prendre en compte le lien entre la distribution spatiale des résidents et de leurs centre d’intérêts (ici leurs emplois) pour appréhender l’impact de la forme urbaine et donc disposer d’une modélisation plus riche.</li>
+<li>Dans un troisième document, <a href="./trajets.html">Projections des trajets</a> <span class="citation" data-cites="meaps2024b"> (<a href="#ref-meaps2024b" role="doc-biblioref">Parodi et Timbeau, 2024b</a>)</span>, nous proposons une application de MEAPS à la Rochelle de la modélisation des trajets quotidiens entre le domicile et le travail. En ajoutant une modélisation des fréquences de trajets, de leur complexité (multi motifs), des modes de transport, déclinée pour différentes catégories de ménages, nous produisons une cartographie des émissions de CO<sub>2</sub> au carreau 200m. Cette modélisation permet de reprendre la discussion entre densité et émissions de CO<sub>2</sub>, que nous retraçons dans la littérature pour conclure que ce lien est plus complexe qu’habituellement considéré. Il est en effet illusoire vouloir capturer la notion de <span style="white-space:nowrap">« </span>ville compacte<span style="white-space:nowrap"> »</span> avec seulement une mesure de la densité ou d’autres métriques (les fameux 3Ds). Il est nécessaire de prendre en compte le lien entre la distribution spatiale des résidents et de leurs centre d’intérêts (ici leurs emplois) pour appréhender l’impact de la forme urbaine et donc disposer d’une modélisation plus riche.</li>
 </ol>
 
 <div class="no-row-height column-margin column-container"><div class="">
@@ -368,27 +368,24 @@ Code, Shiny, Quarto
 <p><span style="white-space:nowrap">Contacts :</span> <a href="mailto:maxime.parodi@sciencespo.fr">maxime.parodi@sciencespo.fr</a> ou <a href="mailto:xavier.timbeau@sciencespo.fr">xavier.timbeau@sciencespo.fr</a></p>
 
 
-<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden">
-
-</div>
-</section>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
 <div id="ref-meaps2023" class="csl-entry" role="listitem">
-Parodi, Maxime, et Xavier Timbeau. 2023. <span>«&nbsp;MEAPS : modéliser les flux de navetteurs&nbsp;»</span>. <em>Document de travail de l’OFCE</em>, nᵒ 11-2023 (mai). <a href="https://preview.meaps.fr">https://preview.meaps.fr</a>.
-</div>
-<div id="ref-meaps2024b" class="csl-entry" role="listitem">
-———. 2024a. <span>«&nbsp;La ville compacte : une solution pour réduire les émissions de gaz à effet de serre ?&nbsp;»</span> <em>Document de travail de l’OFCE</em>, nᵒ 5-2024 (janvier). <a href="https://preview.meaps.fr">https://preview.meaps.fr</a>.
+Parodi M., Timbeau X. <span>«&nbsp;MEAPS : modéliser les flux de navetteurs&nbsp;»</span>. <em>Document de travail de l’OFCE</em> [En ligne]. 2 mai 2023. n°11-2023,. Disponible sur : &lt; <a href="https://preview.meaps.fr">https://preview.meaps.fr</a> &gt;
 </div>
 <div id="ref-meaps2024a" class="csl-entry" role="listitem">
-———. 2024b. <span>«&nbsp;MEAPS&amp;Gravitaire : Estimations à la Rochelle&nbsp;»</span>. <em>Document de travail de l’OFCE</em>, nᵒ 4-2024 (février). <a href="https://preview.meaps.fr">https://preview.meaps.fr</a>.
+Parodi M., Timbeau X. <span>«&nbsp;MEAPS&amp;Gravitaire : Estimations à la Rochelle&nbsp;»</span>. <em>Document de travail de l’OFCE</em> [En ligne]. 2 février 2024a. n°4-2024,. Disponible sur : &lt; <a href="https://preview.meaps.fr">https://preview.meaps.fr</a> &gt;
+</div>
+<div id="ref-meaps2024b" class="csl-entry" role="listitem">
+Parodi M., Timbeau X. <span>«&nbsp;La ville compacte : une solution pour réduire les émissions de gaz à effet de serre ?&nbsp;»</span> <em>Document de travail de l’OFCE</em> [En ligne]. 30 janvier 2024b. n°5-2024,. Disponible sur : &lt; <a href="https://preview.meaps.fr">https://preview.meaps.fr</a> &gt;
 </div>
 <div id="ref-simini2012" class="csl-entry" role="listitem">
-Simini, Filippo, Marta C. González, Amos Maritan, et Albert-László Barabási. 2012. <span>«&nbsp;A Universal Model for Mobility and Migration Patterns&nbsp;»</span>. <em>Nature</em> 484 (7392): 96‑100. <a href="https://doi.org/10.1038/nature10856">https://doi.org/10.1038/nature10856</a>.
+Simini F., González M. C., Maritan A., Barabási A.-L. <span>«&nbsp;A universal model for mobility and migration patterns&nbsp;»</span>. <em>Nature</em> [En ligne]. 26 février 2012. Vol. 484, n°7392, p.&nbsp;96‑100. Disponible sur : &lt; https://doi.org/<a href="https://doi.org/10.1038/nature10856">10.1038/nature10856</a> &gt;
 </div>
 <div id="ref-stouffer1940" class="csl-entry" role="listitem">
-Stouffer, Samuel A. 1940. <span>«&nbsp;Intervening Opportunities: A Theory Relating Mobility and Distance&nbsp;»</span>. <em>American Sociological Review</em> 5 (6): 845. <a href="https://doi.org/10.2307/2084520">https://doi.org/10.2307/2084520</a>.
+Stouffer S. A. <span>«&nbsp;Intervening Opportunities: A Theory Relating Mobility and Distance&nbsp;»</span>. <em>American Sociological Review</em> [En ligne]. décembre 1940. Vol. 5, n°6, p.&nbsp;845. Disponible sur : &lt; https://doi.org/<a href="https://doi.org/10.2307/2084520">10.2307/2084520</a> &gt;
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -778,6 +775,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://utteranc.es/client.js" repo="xtimbeau/meaps" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -792,7 +791,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
