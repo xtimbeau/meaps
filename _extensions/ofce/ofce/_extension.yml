@@ -42,7 +42,7 @@ contributes:
       search-replace:
         oe : "\u0153"
         ae : "\u00e6"
-      csl: csl/economie-et-statistique.csl
+      csl: csl/revue-francaise-de-gestion.csl
     html:
       theme: 
         - cosmo

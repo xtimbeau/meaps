@@ -128,12 +128,16 @@
         <choose>
           <if variable="URL" match="any">
             <text variable="URL" prefix="En ligne : " suffix=" "/>
-            <text value="consulté le" prefix="[" suffix=" "/>
-            <date variable="accessed" form="text" suffix="">
-              <date-part name="day"/>
-              <date-part name="month"/>
-              <date-part name="year"/>
-            </date>
+            <choose>
+              <if variable="accessed" match="any">
+                <text value="consulté le" prefix="[" suffix=" "/>
+                <date variable="accessed" form="text" suffix="">
+                  <date-part name="day"/>
+                  <date-part name="month"/>
+                  <date-part name="year"/>
+                </date>
+             </if>
+            </choose>
           </if>
         </choose>
       </if>
