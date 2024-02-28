@@ -147,15 +147,15 @@ window.Quarto = {
 </script>
 
 <meta property="og:title" content="MEAPS - Modéliser les flux des navetteurs : MEAPS">
-<meta property="og:description" content="Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l’influence de la distance sur les choix. En s’inspirant du modèle des ‹intervening opportunities› de Stouffer (1940) et du modèle radiatif de Simini et al. (2012), nous construisons un modèle ergodique d’absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s’accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d’estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO2 à La Rochelle.  r  wordcountaddin::word_count('theorie.qmd') mots.">
+<meta property="og:description" content="Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l’influence de la distance sur les choix. En s’inspirant du modèle des ‹intervening opportunities› de Stouffer (1940) et du modèle radiatif de Simini et al. (2012), nous construisons un modèle ergodique d’absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s’accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d’estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO2 à La Rochelle.">
 <meta property="og:image" content="https://preview.meaps.fr/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta property="og:site_name" content="MEAPS">
 <meta name="twitter:title" content="MEAPS - Modéliser les flux des navetteurs : MEAPS">
-<meta name="twitter:description" content="Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l’influence de la distance sur les choix. En s’inspirant du modèle des ‹intervening opportunities› de Stouffer (1940) et du modèle radiatif de Simini et al. (2012), nous construisons un modèle ergodique d’absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s’accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d’estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO2 à La Rochelle.  r  wordcountaddin::word_count('theorie.qmd') mots.">
+<meta name="twitter:description" content="Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l’influence de la distance sur les choix. En s’inspirant du modèle des ‹intervening opportunities› de Stouffer (1940) et du modèle radiatif de Simini et al. (2012), nous construisons un modèle ergodique d’absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s’accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d’estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO2 à La Rochelle.">
 <meta name="twitter:image" content="https://preview.meaps.fr/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="Modéliser les flux des navetteurs : MEAPS">
-<meta name="citation_abstract" content="Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l&amp;amp;#039;influence de la distance sur les choix. En s'inspirant du modèle des 'intervening opportunities' de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s'accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO~2~ à La Rochelle. &amp;lt;br&amp;gt; 13645 mots.">
+<meta name="citation_abstract" content="Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l&amp;amp;#039;influence de la distance sur les choix. En s'inspirant du modèle des 'intervening opportunities' de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s'accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO~2~ à La Rochelle.">
 <meta name="citation_keywords" content="modèle gravitaire,modèle radiatif,mobilités">
 <meta name="citation_author" content="Maxime Parodi">
 <meta name="citation_author" content="Xavier Timbeau">
@@ -166,12 +166,35 @@ window.Quarto = {
 <meta name="citation_fulltext_html_url" content="https://preview.meaps.fr">
 <meta name="citation_language" content="fr">
 <meta name="citation_journal_title" content="Document de travail de l&amp;amp;#039;OFCE n°2023-11">
+<meta name="citation_reference" content="citation_title=Handbook of transport modelling;,citation_editor=David A. Hensher;,citation_editor=Kenneth J. Button;,citation_publication_date=2007-09-14;,citation_cover_date=2007-09-14;,citation_year=2007;,citation_fulltext_html_url=http://dx.doi.org/10.1108/9780857245670;,citation_doi=10.1108/9780857245670;,citation_journal_title=Handbooks in Transport;">
+<meta name="citation_reference" content="citation_title=A statistical theory of spatial distribution models;,citation_author=A. G. Wilson;,citation_publication_date=1967-11;,citation_cover_date=1967-11;,citation_year=1967;,citation_fulltext_html_url=http://dx.doi.org/10.1016/0041-1647(67)90035-4;,citation_issue=3;,citation_doi=10.1016/0041-1647(67)90035-4;,citation_volume=1;,citation_language=en;,citation_journal_title=Transportation Research;">
+<meta name="citation_reference" content="citation_title=Discrete choice analysis: Theory and application to travel demand;,citation_author=Moshe Ben-Akiva;,citation_author=Steven R. Lerman;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_language=en-US;,citation_series_title=Transportation series;">
+<meta name="citation_reference" content="citation_title=A comparative evaluation of trip distribution procedures;,citation_author=Kevin E. Heanue;,citation_author=Clyde E. Pyers;,citation_publication_date=1966;,citation_cover_date=1966;,citation_year=1966;,citation_issue=114;,citation_journal_title=Highway Reserach Record;">
+<meta name="citation_reference" content="citation_title=Intervening opportunities: A theory relating mobility and distance;,citation_author=Samuel A. Stouffer;,citation_publication_date=1940-12;,citation_cover_date=1940-12;,citation_year=1940;,citation_fulltext_html_url=http://dx.doi.org/10.2307/2084520;,citation_issue=6;,citation_doi=10.2307/2084520;,citation_volume=5;,citation_journal_title=American Sociological Review;">
+<meta name="citation_reference" content="citation_title=Modelling transport;,citation_author=Juan Dios Ortúzar;,citation_author=Luis G Willumsen;,citation_publication_date=2011;,citation_cover_date=2011;,citation_year=2011;">
+<meta name="citation_reference" content="citation_title=Prévision de la demande de transport;,citation_author=undefined Patrick Bonnel;,citation_publication_date=2001-12-01;,citation_cover_date=2001-12-01;,citation_year=2001;,citation_language=français;">
+<meta name="citation_reference" content="citation_title=A universal model for mobility and migration patterns;,citation_author=Filippo Simini;,citation_author=Marta C. González;,citation_author=Amos Maritan;,citation_author=Albert-László Barabási;,citation_publication_date=2012-02-26;,citation_cover_date=2012-02-26;,citation_year=2012;,citation_fulltext_html_url=http://dx.doi.org/10.1038/nature10856;,citation_issue=7392;,citation_doi=10.1038/nature10856;,citation_volume=484;,citation_language=en;,citation_journal_title=Nature;">
+<meta name="citation_reference" content="citation_title=Theorie economique de l’accessibilite urbaine;,citation_author=G. Koenig;,citation_publication_date=1974-03;,citation_cover_date=1974-03;,citation_year=1974;,citation_fulltext_html_url=http://dx.doi.org/10.2307/3500570;,citation_issue=2;,citation_doi=10.2307/3500570;,citation_volume=25;,citation_journal_title=Revue économique;">
+<meta name="citation_reference" content="citation_title=Indicators of urban accessibility: Theory and application;,citation_author=J. G. Koenig;,citation_publication_date=1980-06;,citation_cover_date=1980-06;,citation_year=1980;,citation_fulltext_html_url=http://dx.doi.org/10.1007/bf00167128;,citation_issue=2;,citation_doi=10.1007/bf00167128;,citation_volume=9;,citation_language=en;,citation_journal_title=Transportation;">
+<meta name="citation_reference" content="citation_title=Evidence-Based Transit and Land Use Sketch Planning Using Interactive Accessibility Methods on Combined Schedule and Headway-Based Networks;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Marco Linden;,citation_publication_date=2017-01;,citation_cover_date=2017-01;,citation_year=2017;,citation_fulltext_html_url=http://dx.doi.org/10.3141/2653-06;,citation_issue=1;,citation_doi=10.3141/2653-06;,citation_volume=2653;,citation_language=en;,citation_journal_title=Transportation Research Record: Journal of the Transportation Research Board;">
+<meta name="citation_reference" content="citation_title=Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Michael Van Eggermond;,citation_publication_date=2018-07-23;,citation_cover_date=2018-07-23;,citation_year=2018;,citation_fulltext_html_url=http://dx.doi.org/10.5198/jtlu.2018.1074;,citation_issue=1;,citation_doi=10.5198/jtlu.2018.1074;,citation_volume=11;,citation_journal_title=Journal of Transport and Land Use;">
+<meta name="citation_reference" content="citation_title=Getting Charlie off the MTA: a multiobjective optimization method to account for cost constraints in public transit accessibility metrics;,citation_author=Matthew Wigginton Conway;,citation_author=Anson F. Stewart;,citation_publication_date=2019-04-30;,citation_cover_date=2019-04-30;,citation_year=2019;,citation_fulltext_html_url=http://dx.doi.org/10.1080/13658816.2019.1605075;,citation_issue=9;,citation_doi=10.1080/13658816.2019.1605075;,citation_volume=33;,citation_language=en;,citation_journal_title=International Journal of Geographical Information Science;">
+<meta name="citation_reference" content="citation_title=r5r: Rapid realistic routing on multimodal transport networks with R5 in r;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva undefined;,citation_author=Daniel Herszenhut undefined;,citation_author=Carlos Kaue Vieira Braga undefined;,citation_author=Matthew Wigginton Conway undefined;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_doi=10.32866/001c.21262;">
+<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_publisher=https://www.openstreetmap.org;">
+<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;">
+<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6454112;">
+<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined MOBPERS;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires; https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;">
+<meta name="citation_reference" content="citation_title=Creating an executable paper is a journey through Open Science;,citation_author=Jana Lasser;,citation_publication_date=2020-08-19;,citation_cover_date=2020-08-19;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1038/s42005-020-00403-4;,citation_issue=1;,citation_doi=10.1038/s42005-020-00403-4;,citation_volume=3;,citation_language=en;,citation_journal_title=Communications Physics;">
+<meta name="citation_reference" content="citation_title=On Information and Sufficiency;,citation_author=S. Kullback;,citation_author=R. A. Leibler;,citation_publication_date=1951-03;,citation_cover_date=1951-03;,citation_year=1951;,citation_fulltext_html_url=http://dx.doi.org/10.1214/aoms/1177729694;,citation_issue=1;,citation_doi=10.1214/aoms/1177729694;,citation_volume=22;,citation_language=en;,citation_journal_title=The Annals of Mathematical Statistics;">
+<meta name="citation_reference" content="citation_title=An R-squared measure of goodness of fit for some common nonlinear regression models;,citation_author=A. Colin Cameron;,citation_author=Frank A. G. Windmeijer;,citation_publication_date=1997-04;,citation_cover_date=1997-04;,citation_year=1997;,citation_fulltext_html_url=http://dx.doi.org/10.1016/S0304-4076(96)01818-0;,citation_issue=2;,citation_doi=10.1016/s0304-4076(96)01818-0;,citation_volume=77;,citation_language=en;,citation_journal_title=Journal of Econometrics;">
 <meta name="citation_reference" content="citation_title=Estimer des flux de navetteurs avec un modèle gravitaire : application géomatique en région Provence-Alpes-Côte d’Azur (France)&amp;amp;amp;lt;sup&amp;gt;1&amp;lt;/sup&amp;gt;;,citation_author=Didier Josselin;,citation_author=Samuel Carpentier-Postel;,citation_author=Frédéric Audard;,citation_author=Safaâ Amarouch;,citation_author=Jean-Baptiste Durand;,citation_author=Nathalie Brachet;,citation_author=Mathieu Coulon;,citation_author=Louisette Garcin;,citation_publication_date=2020-09-01;,citation_cover_date=2020-09-01;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1139/geomat-2020-0009;,citation_issue=3;,citation_doi=10.1139/geomat-2020-0009;,citation_volume=74;,citation_language=fr;,citation_journal_title=Geomatica;">
 <meta name="citation_reference" content="citation_title=Toward a better understanding of the intervening opportunities model;,citation_author=Earl R. Ruiter;,citation_publication_date=1967;,citation_cover_date=1967;,citation_year=1967;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/0041164767900949;,citation_issue=1;,citation_doi=https://doi.org/10.1016/0041-1647(67)90094-9;,citation_volume=1;,citation_journal_title=Transportation Research;">
+<meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Spatial Flows and Spatial Patterns;,citation_author=A S Fotheringham;,citation_publication_date=1984-04-01;,citation_cover_date=1984-04-01;,citation_year=1984;,citation_fulltext_html_url=https://doi.org/10.1068/a160529;,citation_issue=4;,citation_doi=10.1068/a160529;,citation_volume=16;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Spatial Flows and Competing Central Places: Towards a General Theory of Hierarchical Interaction;,citation_author=T J Fik;,citation_author=G F Mulligan;,citation_publication_date=1990-04-01;,citation_cover_date=1990-04-01;,citation_year=1990;,citation_fulltext_html_url=https://doi.org/10.1068/a220527;,citation_issue=4;,citation_doi=10.1068/a220527;,citation_volume=22;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Human Mobility in a Continuum Approach;,citation_author=Filippo Simini;,citation_author=Amos Maritan;,citation_author=Zoltán Néda;,citation_publication_date=2013-03-28;,citation_cover_date=2013-03-28;,citation_year=2013;,citation_fulltext_html_url=https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0060069;,citation_issue=3;,citation_doi=10.1371/journal.pone.0060069;,citation_volume=8;,citation_language=en;,citation_journal_title=PLOS ONE;">
 <meta name="citation_reference" content="citation_title=Systematic comparison of trip distribution laws and models;,citation_author=Maxime Lenormand;,citation_author=Aleix Bassolas;,citation_author=José J. Ramasco;,citation_publication_date=2016-02-01;,citation_cover_date=2016-02-01;,citation_year=2016;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0966692315002422;,citation_doi=10.1016/j.jtrangeo.2015.12.008;,citation_volume=51;,citation_journal_title=Journal of Transport Geography;">
+<meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Limits of Predictability in Commuting Flows in the Absence of Data for Calibration;,citation_author=Yingxiang Yang;,citation_author=Carlos Herrera;,citation_author=Nathan Eagle;,citation_author=Marta C. González;,citation_publication_date=2014-07-11;,citation_cover_date=2014-07-11;,citation_year=2014;,citation_fulltext_html_url=https://www.nature.com/articles/srep05662;,citation_issue=1;,citation_doi=10.1038/srep05662;,citation_volume=4;,citation_language=en;,citation_journal_title=Scientific Reports;">
 <meta name="citation_reference" content="citation_title=A Method of Fitting the Gravity Model Based on the Poisson Distribution*;,citation_author=Robin Flowerdew;,citation_author=Murray Aitkin;,citation_publication_date=1982;,citation_cover_date=1982;,citation_year=1982;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-9787.1982.tb00744.x;,citation_issue=2;,citation_doi=10.1111/j.1467-9787.1982.tb00744.x;,citation_volume=22;,citation_language=en;,citation_journal_title=Journal of Regional Science;">
 <meta name="citation_reference" content="citation_title=Categorical data analysis;,citation_author=Alan Agresti;,citation_publication_date=2002-07-03;,citation_cover_date=2002-07-03;,citation_year=2002;,citation_fulltext_html_url=http://dx.doi.org/10.1002/0471249688;,citation_doi=10.1002/0471249688;,citation_journal_title=Wiley Series in Probability and Statistics;">
@@ -195,10 +218,10 @@ window.Quarto = {
 <meta name="citation_reference" content="citation_title=Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Michael Van Eggermond;,citation_publication_date=2018-07-23;,citation_cover_date=2018-07-23;,citation_year=2018;,citation_fulltext_html_url=http://dx.doi.org/10.5198/jtlu.2018.1074;,citation_issue=1;,citation_doi=10.5198/jtlu.2018.1074;,citation_volume=11;,citation_journal_title=Journal of Transport and Land Use;">
 <meta name="citation_reference" content="citation_title=Getting Charlie off the MTA: a multiobjective optimization method to account for cost constraints in public transit accessibility metrics;,citation_author=Matthew Wigginton Conway;,citation_author=Anson F. Stewart;,citation_publication_date=2019-04-30;,citation_cover_date=2019-04-30;,citation_year=2019;,citation_fulltext_html_url=http://dx.doi.org/10.1080/13658816.2019.1605075;,citation_issue=9;,citation_doi=10.1080/13658816.2019.1605075;,citation_volume=33;,citation_language=en;,citation_journal_title=International Journal of Geographical Information Science;">
 <meta name="citation_reference" content="citation_title=r5r: Rapid realistic routing on multimodal transport networks with R5 in r;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva undefined;,citation_author=Daniel Herszenhut undefined;,citation_author=Carlos Kaue Vieira Braga undefined;,citation_author=Matthew Wigginton Conway undefined;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_doi=10.32866/001c.21262;">
-<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_fulltext_html_url=https://www.openstreetmap.org;">
-<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_author=undefined INSEE;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;,citation_publisher=INSEE;">
-<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_author=undefined INSEE;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.insee.fr/fr/statistiques/6454112;,citation_publisher=INSEE;">
-<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined SDES;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_fulltext_html_url=https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires;">
+<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_publisher=https://www.openstreetmap.org;">
+<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_author=undefined C200;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;">
+<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_author=undefined MOBPRO;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6454112;">
+<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined MOBPERS;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires; https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;">
 <meta name="citation_reference" content="citation_title=Creating an executable paper is a journey through Open Science;,citation_author=Jana Lasser;,citation_publication_date=2020-08-19;,citation_cover_date=2020-08-19;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1038/s42005-020-00403-4;,citation_issue=1;,citation_doi=10.1038/s42005-020-00403-4;,citation_volume=3;,citation_language=en;,citation_journal_title=Communications Physics;">
 <meta name="citation_reference" content="citation_title=On Information and Sufficiency;,citation_author=S. Kullback;,citation_author=R. A. Leibler;,citation_publication_date=1951-03;,citation_cover_date=1951-03;,citation_year=1951;,citation_fulltext_html_url=http://dx.doi.org/10.1214/aoms/1177729694;,citation_issue=1;,citation_doi=10.1214/aoms/1177729694;,citation_volume=22;,citation_language=en;,citation_journal_title=The Annals of Mathematical Statistics;">
 <meta name="citation_reference" content="citation_title=An R-squared measure of goodness of fit for some common nonlinear regression models;,citation_author=A. Colin Cameron;,citation_author=Frank A. G. Windmeijer;,citation_publication_date=1997-04;,citation_cover_date=1997-04;,citation_year=1997;,citation_fulltext_html_url=http://dx.doi.org/10.1016/S0304-4076(96)01818-0;,citation_issue=2;,citation_doi=10.1016/s0304-4076(96)01818-0;,citation_volume=77;,citation_language=en;,citation_journal_title=Journal of Econometrics;">
@@ -250,6 +273,8 @@ window.Quarto = {
 <meta name="citation_reference" content="citation_title=The measurement of urban travel demand;,citation_author=Daniel McFadden;,citation_publication_date=1974-11;,citation_cover_date=1974-11;,citation_year=1974;,citation_fulltext_html_url=http://dx.doi.org/10.1016/0047-2727(74)90003-6;,citation_issue=4;,citation_doi=10.1016/0047-2727(74)90003-6;,citation_volume=3;,citation_language=en;,citation_journal_title=Journal of Public Economics;">
 <meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=The carbon ‘carprint’ of urbanization: New evidence from french cities;,citation_author=Camille Blaudin de Thé;,citation_author=Benjamin Carantino;,citation_author=Miren Lafourcade;,citation_publication_date=2021-07-01;,citation_cover_date=2021-07-01;,citation_year=2021;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0166046221000533;,citation_doi=10.1016/j.regsciurbeco.2021.103693;,citation_volume=89;,citation_journal_title=Regional Science and Urban Economics;">
+<meta name="citation_reference" content="citation_title=SCoT La Rochelle Aunis : les émissions moyennes des habitants du territoire pour leurs mobilités quotidiennes;,citation_author=Paul Lempérière;,citation_author=David Miet;,citation_author=Maxime Parodi;,citation_author=Lucas Pouvreau;,citation_author=Valentin Stulhfauth;,citation_author=Xavier Timbeau;,citation_publication_date=2023-04-11;,citation_cover_date=2023-04-11;,citation_year=2023;,citation_fulltext_html_url=https://publications.vv.energy/la-rochelle-aunis-carbone.html;,citation_language=fr;">
+<meta name="citation_reference" content="citation_title=(PDF) a sustainable future through the compact city? Urban intensification in the united kingdom;,citation_fulltext_html_url=https://www.researchgate.net/publication/293314926_A_Sustainable_Future_through_the_Compact_City_Urban_Intensification_in_the_United_Kingdom;">
 </head>
 
 <body class="floating nav-fixed slimcontent">
@@ -322,7 +347,7 @@ window.Quarto = {
     <nav id="TOC" role="doc-toc" class="toc-active">
    <p class="wp">
     Document de travail<br>de l’
-    <img src="site_libs/quarto-contrib/quarto-project/ofce/wp/ofce_m.png" width="30" height="15" style="margin:0px -4px">
+    <img src="_extensions/ofce/wp/ofce_m.png" width="30" height="15" style="margin:0px -4px">
     &nbsp;n°11-2023</p>
   
     <h2 id="toc-title">Sur cette page</h2>
@@ -350,7 +375,7 @@ window.Quarto = {
   <li><a href="#tension-localisée-par-emploi" id="toc-tension-localisée-par-emploi" class="nav-link" data-scroll-target="#tension-localisée-par-emploi"><span class="header-section-number">4.5</span> Tension localisée par emploi</a></li>
   <li><a href="#simulation-synthétiques-dans-shiny" id="toc-simulation-synthétiques-dans-shiny" class="nav-link" data-scroll-target="#simulation-synthétiques-dans-shiny"><span class="header-section-number">4.6</span> Simulation synthétiques dans Shiny</a></li>
   </ul></li>
-  <li><a href="#références" id="toc-références" class="nav-link" data-scroll-target="#références">Références</a></li>
+  <li><a href="#références-bibliographiques" id="toc-références-bibliographiques" class="nav-link" data-scroll-target="#références-bibliographiques">Références bibliographiques</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Autres formats</h2><ul><li><a href="theorie.pdf"><i class="bi bi-file-pdf"></i>PDF (wp)</a></li></ul></div></nav>
 </nav>
@@ -407,7 +432,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Modifié le</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">27 février 2024</p>
+        <p class="date-modified">28 février 2024</p>
       </div>
     </div>
     
@@ -424,7 +449,7 @@ window.Quarto = {
     <div class="quarto-title">
     <div class="abstract">
       <div class="quarto-title-meta-heading">Résumé</div>  
-      Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l’influence de la distance sur les choix. En s’inspirant du modèle <span style="white-space:nowrap">des ‹</span>intervening opportunities› de <span class="citation" data-cites="stouffer1940">Stouffer (<a href="#ref-stouffer1940" role="doc-biblioref">1940</a>)</span> et du modèle radiatif de <span class="citation" data-cites="simini2012">Simini <em>et al.</em> (<a href="#ref-simini2012" role="doc-biblioref">2012</a>)</span>, nous construisons un modèle ergodique d’absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s’accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d’estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO<sub>2</sub> à La Rochelle. <br> 13645 mots.
+      Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l’influence de la distance sur les choix. En s’inspirant du modèle <span style="white-space:nowrap">des ‹</span>intervening opportunities› de <span class="citation" data-cites="stouffer1940">Stouffer (<a href="#ref-stouffer1940" role="doc-biblioref">1940</a>)</span> et du modèle radiatif de <span class="citation" data-cites="simini2012">Simini <em>et al.</em> (<a href="#ref-simini2012" role="doc-biblioref">2012</a>)</span>, nous construisons un modèle ergodique d’absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s’accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d’estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO<sub>2</sub> à La Rochelle.
     </div>
   </div>
   </header>
@@ -650,23 +675,23 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
 <div aria-describedby="tbl-distances-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="jkecyogvbn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jkecyogvbn table {
+<div id="yibmdvfpkk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yibmdvfpkk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jkecyogvbn thead, #jkecyogvbn tbody, #jkecyogvbn tfoot, #jkecyogvbn tr, #jkecyogvbn td, #jkecyogvbn th {
+#yibmdvfpkk thead, #yibmdvfpkk tbody, #yibmdvfpkk tfoot, #yibmdvfpkk tr, #yibmdvfpkk td, #yibmdvfpkk th {
   border-style: none;
 }
 
-#jkecyogvbn p {
+#yibmdvfpkk p {
   margin: 0;
   padding: 0;
 }
 
-#jkecyogvbn .gt_table {
+#yibmdvfpkk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -692,12 +717,12 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-left-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_caption {
+#yibmdvfpkk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jkecyogvbn .gt_title {
+#yibmdvfpkk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -709,7 +734,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-width: 0;
 }
 
-#jkecyogvbn .gt_subtitle {
+#yibmdvfpkk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -721,7 +746,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-top-width: 0;
 }
 
-#jkecyogvbn .gt_heading {
+#yibmdvfpkk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -733,13 +758,13 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_bottom_border {
+#yibmdvfpkk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_col_headings {
+#yibmdvfpkk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -754,7 +779,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_col_heading {
+#yibmdvfpkk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -774,7 +799,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   overflow-x: hidden;
 }
 
-#jkecyogvbn .gt_column_spanner_outer {
+#yibmdvfpkk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -786,15 +811,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 4px;
 }
 
-#jkecyogvbn .gt_column_spanner_outer:first-child {
+#yibmdvfpkk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jkecyogvbn .gt_column_spanner_outer:last-child {
+#yibmdvfpkk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jkecyogvbn .gt_column_spanner {
+#yibmdvfpkk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -806,11 +831,11 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   width: 100%;
 }
 
-#jkecyogvbn .gt_spanner_row {
+#yibmdvfpkk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jkecyogvbn .gt_group_heading {
+#yibmdvfpkk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -836,7 +861,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   text-align: left;
 }
 
-#jkecyogvbn .gt_empty_group_heading {
+#yibmdvfpkk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -851,15 +876,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   vertical-align: middle;
 }
 
-#jkecyogvbn .gt_from_md > :first-child {
+#yibmdvfpkk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jkecyogvbn .gt_from_md > :last-child {
+#yibmdvfpkk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jkecyogvbn .gt_row {
+#yibmdvfpkk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -878,7 +903,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   overflow-x: hidden;
 }
 
-#jkecyogvbn .gt_stub {
+#yibmdvfpkk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -891,7 +916,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jkecyogvbn .gt_stub_row_group {
+#yibmdvfpkk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -905,15 +930,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   vertical-align: top;
 }
 
-#jkecyogvbn .gt_row_group_first td {
+#yibmdvfpkk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jkecyogvbn .gt_row_group_first th {
+#yibmdvfpkk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jkecyogvbn .gt_summary_row {
+#yibmdvfpkk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -923,16 +948,16 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jkecyogvbn .gt_first_summary_row {
+#yibmdvfpkk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_first_summary_row.thick {
+#yibmdvfpkk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jkecyogvbn .gt_last_summary_row {
+#yibmdvfpkk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -942,7 +967,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_grand_summary_row {
+#yibmdvfpkk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -952,7 +977,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jkecyogvbn .gt_first_grand_summary_row {
+#yibmdvfpkk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -962,7 +987,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-top-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_last_grand_summary_row_top {
+#yibmdvfpkk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -972,11 +997,11 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_striped {
+#yibmdvfpkk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jkecyogvbn .gt_table_body {
+#yibmdvfpkk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -985,7 +1010,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_footnotes {
+#yibmdvfpkk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -999,7 +1024,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_footnote {
+#yibmdvfpkk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1008,7 +1033,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jkecyogvbn .gt_sourcenotes {
+#yibmdvfpkk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1022,7 +1047,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jkecyogvbn .gt_sourcenote {
+#yibmdvfpkk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1030,63 +1055,63 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jkecyogvbn .gt_left {
+#yibmdvfpkk .gt_left {
   text-align: left;
 }
 
-#jkecyogvbn .gt_center {
+#yibmdvfpkk .gt_center {
   text-align: center;
 }
 
-#jkecyogvbn .gt_right {
+#yibmdvfpkk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jkecyogvbn .gt_font_normal {
+#yibmdvfpkk .gt_font_normal {
   font-weight: normal;
 }
 
-#jkecyogvbn .gt_font_bold {
+#yibmdvfpkk .gt_font_bold {
   font-weight: bold;
 }
 
-#jkecyogvbn .gt_font_italic {
+#yibmdvfpkk .gt_font_italic {
   font-style: italic;
 }
 
-#jkecyogvbn .gt_super {
+#yibmdvfpkk .gt_super {
   font-size: 65%;
 }
 
-#jkecyogvbn .gt_footnote_marks {
+#yibmdvfpkk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jkecyogvbn .gt_asterisk {
+#yibmdvfpkk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jkecyogvbn .gt_indent_1 {
+#yibmdvfpkk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jkecyogvbn .gt_indent_2 {
+#yibmdvfpkk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jkecyogvbn .gt_indent_3 {
+#yibmdvfpkk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jkecyogvbn .gt_indent_4 {
+#yibmdvfpkk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jkecyogvbn .gt_indent_5 {
+#yibmdvfpkk .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1171,23 +1196,23 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
 <div aria-describedby="tbl-fluxpoles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="jthpyetuze" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jthpyetuze table {
+<div id="sslovqtzzh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#sslovqtzzh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jthpyetuze thead, #jthpyetuze tbody, #jthpyetuze tfoot, #jthpyetuze tr, #jthpyetuze td, #jthpyetuze th {
+#sslovqtzzh thead, #sslovqtzzh tbody, #sslovqtzzh tfoot, #sslovqtzzh tr, #sslovqtzzh td, #sslovqtzzh th {
   border-style: none;
 }
 
-#jthpyetuze p {
+#sslovqtzzh p {
   margin: 0;
   padding: 0;
 }
 
-#jthpyetuze .gt_table {
+#sslovqtzzh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1213,12 +1238,12 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-left-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_caption {
+#sslovqtzzh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jthpyetuze .gt_title {
+#sslovqtzzh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1230,7 +1255,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-width: 0;
 }
 
-#jthpyetuze .gt_subtitle {
+#sslovqtzzh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1242,7 +1267,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-top-width: 0;
 }
 
-#jthpyetuze .gt_heading {
+#sslovqtzzh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1254,13 +1279,13 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_bottom_border {
+#sslovqtzzh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_col_headings {
+#sslovqtzzh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1275,7 +1300,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_col_heading {
+#sslovqtzzh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1295,7 +1320,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   overflow-x: hidden;
 }
 
-#jthpyetuze .gt_column_spanner_outer {
+#sslovqtzzh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1307,15 +1332,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 4px;
 }
 
-#jthpyetuze .gt_column_spanner_outer:first-child {
+#sslovqtzzh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jthpyetuze .gt_column_spanner_outer:last-child {
+#sslovqtzzh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jthpyetuze .gt_column_spanner {
+#sslovqtzzh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1327,11 +1352,11 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   width: 100%;
 }
 
-#jthpyetuze .gt_spanner_row {
+#sslovqtzzh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jthpyetuze .gt_group_heading {
+#sslovqtzzh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1357,7 +1382,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   text-align: left;
 }
 
-#jthpyetuze .gt_empty_group_heading {
+#sslovqtzzh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1372,15 +1397,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   vertical-align: middle;
 }
 
-#jthpyetuze .gt_from_md > :first-child {
+#sslovqtzzh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jthpyetuze .gt_from_md > :last-child {
+#sslovqtzzh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jthpyetuze .gt_row {
+#sslovqtzzh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1399,7 +1424,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   overflow-x: hidden;
 }
 
-#jthpyetuze .gt_stub {
+#sslovqtzzh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1412,7 +1437,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jthpyetuze .gt_stub_row_group {
+#sslovqtzzh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1426,15 +1451,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   vertical-align: top;
 }
 
-#jthpyetuze .gt_row_group_first td {
+#sslovqtzzh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jthpyetuze .gt_row_group_first th {
+#sslovqtzzh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jthpyetuze .gt_summary_row {
+#sslovqtzzh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1444,16 +1469,16 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jthpyetuze .gt_first_summary_row {
+#sslovqtzzh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_first_summary_row.thick {
+#sslovqtzzh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jthpyetuze .gt_last_summary_row {
+#sslovqtzzh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1463,7 +1488,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_grand_summary_row {
+#sslovqtzzh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1473,7 +1498,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jthpyetuze .gt_first_grand_summary_row {
+#sslovqtzzh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1483,7 +1508,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-top-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_last_grand_summary_row_top {
+#sslovqtzzh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1493,11 +1518,11 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_striped {
+#sslovqtzzh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jthpyetuze .gt_table_body {
+#sslovqtzzh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1506,7 +1531,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_footnotes {
+#sslovqtzzh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1520,7 +1545,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_footnote {
+#sslovqtzzh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1529,7 +1554,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jthpyetuze .gt_sourcenotes {
+#sslovqtzzh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1543,7 +1568,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#jthpyetuze .gt_sourcenote {
+#sslovqtzzh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1551,63 +1576,63 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#jthpyetuze .gt_left {
+#sslovqtzzh .gt_left {
   text-align: left;
 }
 
-#jthpyetuze .gt_center {
+#sslovqtzzh .gt_center {
   text-align: center;
 }
 
-#jthpyetuze .gt_right {
+#sslovqtzzh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jthpyetuze .gt_font_normal {
+#sslovqtzzh .gt_font_normal {
   font-weight: normal;
 }
 
-#jthpyetuze .gt_font_bold {
+#sslovqtzzh .gt_font_bold {
   font-weight: bold;
 }
 
-#jthpyetuze .gt_font_italic {
+#sslovqtzzh .gt_font_italic {
   font-style: italic;
 }
 
-#jthpyetuze .gt_super {
+#sslovqtzzh .gt_super {
   font-size: 65%;
 }
 
-#jthpyetuze .gt_footnote_marks {
+#sslovqtzzh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jthpyetuze .gt_asterisk {
+#sslovqtzzh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jthpyetuze .gt_indent_1 {
+#sslovqtzzh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jthpyetuze .gt_indent_2 {
+#sslovqtzzh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jthpyetuze .gt_indent_3 {
+#sslovqtzzh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jthpyetuze .gt_indent_4 {
+#sslovqtzzh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jthpyetuze .gt_indent_5 {
+#sslovqtzzh .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1671,23 +1696,23 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
 <div aria-describedby="tbl-fluxpoles2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="zoipjtxcxt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zoipjtxcxt table {
+<div id="vvykqkvgxr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vvykqkvgxr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zoipjtxcxt thead, #zoipjtxcxt tbody, #zoipjtxcxt tfoot, #zoipjtxcxt tr, #zoipjtxcxt td, #zoipjtxcxt th {
+#vvykqkvgxr thead, #vvykqkvgxr tbody, #vvykqkvgxr tfoot, #vvykqkvgxr tr, #vvykqkvgxr td, #vvykqkvgxr th {
   border-style: none;
 }
 
-#zoipjtxcxt p {
+#vvykqkvgxr p {
   margin: 0;
   padding: 0;
 }
 
-#zoipjtxcxt .gt_table {
+#vvykqkvgxr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1713,12 +1738,12 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-left-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_caption {
+#vvykqkvgxr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zoipjtxcxt .gt_title {
+#vvykqkvgxr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1730,7 +1755,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-width: 0;
 }
 
-#zoipjtxcxt .gt_subtitle {
+#vvykqkvgxr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1742,7 +1767,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-top-width: 0;
 }
 
-#zoipjtxcxt .gt_heading {
+#vvykqkvgxr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1754,13 +1779,13 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_bottom_border {
+#vvykqkvgxr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_col_headings {
+#vvykqkvgxr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1775,7 +1800,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_col_heading {
+#vvykqkvgxr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1795,7 +1820,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   overflow-x: hidden;
 }
 
-#zoipjtxcxt .gt_column_spanner_outer {
+#vvykqkvgxr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1807,15 +1832,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 4px;
 }
 
-#zoipjtxcxt .gt_column_spanner_outer:first-child {
+#vvykqkvgxr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zoipjtxcxt .gt_column_spanner_outer:last-child {
+#vvykqkvgxr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zoipjtxcxt .gt_column_spanner {
+#vvykqkvgxr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1827,11 +1852,11 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   width: 100%;
 }
 
-#zoipjtxcxt .gt_spanner_row {
+#vvykqkvgxr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zoipjtxcxt .gt_group_heading {
+#vvykqkvgxr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1857,7 +1882,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   text-align: left;
 }
 
-#zoipjtxcxt .gt_empty_group_heading {
+#vvykqkvgxr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1872,15 +1897,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   vertical-align: middle;
 }
 
-#zoipjtxcxt .gt_from_md > :first-child {
+#vvykqkvgxr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zoipjtxcxt .gt_from_md > :last-child {
+#vvykqkvgxr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zoipjtxcxt .gt_row {
+#vvykqkvgxr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1899,7 +1924,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   overflow-x: hidden;
 }
 
-#zoipjtxcxt .gt_stub {
+#vvykqkvgxr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1912,7 +1937,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#zoipjtxcxt .gt_stub_row_group {
+#vvykqkvgxr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1926,15 +1951,15 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   vertical-align: top;
 }
 
-#zoipjtxcxt .gt_row_group_first td {
+#vvykqkvgxr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zoipjtxcxt .gt_row_group_first th {
+#vvykqkvgxr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zoipjtxcxt .gt_summary_row {
+#vvykqkvgxr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1944,16 +1969,16 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#zoipjtxcxt .gt_first_summary_row {
+#vvykqkvgxr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_first_summary_row.thick {
+#vvykqkvgxr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zoipjtxcxt .gt_last_summary_row {
+#vvykqkvgxr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1963,7 +1988,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_grand_summary_row {
+#vvykqkvgxr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1973,7 +1998,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#zoipjtxcxt .gt_first_grand_summary_row {
+#vvykqkvgxr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1983,7 +2008,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-top-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_last_grand_summary_row_top {
+#vvykqkvgxr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1993,11 +2018,11 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_striped {
+#vvykqkvgxr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zoipjtxcxt .gt_table_body {
+#vvykqkvgxr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2006,7 +2031,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-bottom-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_footnotes {
+#vvykqkvgxr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2020,7 +2045,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_footnote {
+#vvykqkvgxr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2029,7 +2054,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#zoipjtxcxt .gt_sourcenotes {
+#vvykqkvgxr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2043,7 +2068,7 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   border-right-color: #D3D3D3;
 }
 
-#zoipjtxcxt .gt_sourcenote {
+#vvykqkvgxr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2051,63 +2076,63 @@ P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i
   padding-right: 5px;
 }
 
-#zoipjtxcxt .gt_left {
+#vvykqkvgxr .gt_left {
   text-align: left;
 }
 
-#zoipjtxcxt .gt_center {
+#vvykqkvgxr .gt_center {
   text-align: center;
 }
 
-#zoipjtxcxt .gt_right {
+#vvykqkvgxr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zoipjtxcxt .gt_font_normal {
+#vvykqkvgxr .gt_font_normal {
   font-weight: normal;
 }
 
-#zoipjtxcxt .gt_font_bold {
+#vvykqkvgxr .gt_font_bold {
   font-weight: bold;
 }
 
-#zoipjtxcxt .gt_font_italic {
+#vvykqkvgxr .gt_font_italic {
   font-style: italic;
 }
 
-#zoipjtxcxt .gt_super {
+#vvykqkvgxr .gt_super {
   font-size: 65%;
 }
 
-#zoipjtxcxt .gt_footnote_marks {
+#vvykqkvgxr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zoipjtxcxt .gt_asterisk {
+#vvykqkvgxr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zoipjtxcxt .gt_indent_1 {
+#vvykqkvgxr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zoipjtxcxt .gt_indent_2 {
+#vvykqkvgxr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zoipjtxcxt .gt_indent_3 {
+#vvykqkvgxr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zoipjtxcxt .gt_indent_4 {
+#vvykqkvgxr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zoipjtxcxt .gt_indent_5 {
+#vvykqkvgxr .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2207,23 +2232,23 @@ f(d) = e^{d/\delta}
 <div aria-describedby="tbl-fluxgrav-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="ymhkaruqwc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ymhkaruqwc table {
+<div id="qkfkueejsi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qkfkueejsi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ymhkaruqwc thead, #ymhkaruqwc tbody, #ymhkaruqwc tfoot, #ymhkaruqwc tr, #ymhkaruqwc td, #ymhkaruqwc th {
+#qkfkueejsi thead, #qkfkueejsi tbody, #qkfkueejsi tfoot, #qkfkueejsi tr, #qkfkueejsi td, #qkfkueejsi th {
   border-style: none;
 }
 
-#ymhkaruqwc p {
+#qkfkueejsi p {
   margin: 0;
   padding: 0;
 }
 
-#ymhkaruqwc .gt_table {
+#qkfkueejsi .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2249,12 +2274,12 @@ f(d) = e^{d/\delta}
   border-left-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_caption {
+#qkfkueejsi .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ymhkaruqwc .gt_title {
+#qkfkueejsi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2266,7 +2291,7 @@ f(d) = e^{d/\delta}
   border-bottom-width: 0;
 }
 
-#ymhkaruqwc .gt_subtitle {
+#qkfkueejsi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2278,7 +2303,7 @@ f(d) = e^{d/\delta}
   border-top-width: 0;
 }
 
-#ymhkaruqwc .gt_heading {
+#qkfkueejsi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2290,13 +2315,13 @@ f(d) = e^{d/\delta}
   border-right-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_bottom_border {
+#qkfkueejsi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_col_headings {
+#qkfkueejsi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2311,7 +2336,7 @@ f(d) = e^{d/\delta}
   border-right-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_col_heading {
+#qkfkueejsi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2331,7 +2356,7 @@ f(d) = e^{d/\delta}
   overflow-x: hidden;
 }
 
-#ymhkaruqwc .gt_column_spanner_outer {
+#qkfkueejsi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2343,15 +2368,15 @@ f(d) = e^{d/\delta}
   padding-right: 4px;
 }
 
-#ymhkaruqwc .gt_column_spanner_outer:first-child {
+#qkfkueejsi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ymhkaruqwc .gt_column_spanner_outer:last-child {
+#qkfkueejsi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ymhkaruqwc .gt_column_spanner {
+#qkfkueejsi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2363,11 +2388,11 @@ f(d) = e^{d/\delta}
   width: 100%;
 }
 
-#ymhkaruqwc .gt_spanner_row {
+#qkfkueejsi .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ymhkaruqwc .gt_group_heading {
+#qkfkueejsi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2393,7 +2418,7 @@ f(d) = e^{d/\delta}
   text-align: left;
 }
 
-#ymhkaruqwc .gt_empty_group_heading {
+#qkfkueejsi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2408,15 +2433,15 @@ f(d) = e^{d/\delta}
   vertical-align: middle;
 }
 
-#ymhkaruqwc .gt_from_md > :first-child {
+#qkfkueejsi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ymhkaruqwc .gt_from_md > :last-child {
+#qkfkueejsi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ymhkaruqwc .gt_row {
+#qkfkueejsi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2435,7 +2460,7 @@ f(d) = e^{d/\delta}
   overflow-x: hidden;
 }
 
-#ymhkaruqwc .gt_stub {
+#qkfkueejsi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2448,7 +2473,7 @@ f(d) = e^{d/\delta}
   padding-right: 5px;
 }
 
-#ymhkaruqwc .gt_stub_row_group {
+#qkfkueejsi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2462,15 +2487,15 @@ f(d) = e^{d/\delta}
   vertical-align: top;
 }
 
-#ymhkaruqwc .gt_row_group_first td {
+#qkfkueejsi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ymhkaruqwc .gt_row_group_first th {
+#qkfkueejsi .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ymhkaruqwc .gt_summary_row {
+#qkfkueejsi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2480,16 +2505,16 @@ f(d) = e^{d/\delta}
   padding-right: 5px;
 }
 
-#ymhkaruqwc .gt_first_summary_row {
+#qkfkueejsi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_first_summary_row.thick {
+#qkfkueejsi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ymhkaruqwc .gt_last_summary_row {
+#qkfkueejsi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2499,7 +2524,7 @@ f(d) = e^{d/\delta}
   border-bottom-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_grand_summary_row {
+#qkfkueejsi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2509,7 +2534,7 @@ f(d) = e^{d/\delta}
   padding-right: 5px;
 }
 
-#ymhkaruqwc .gt_first_grand_summary_row {
+#qkfkueejsi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2519,7 +2544,7 @@ f(d) = e^{d/\delta}
   border-top-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_last_grand_summary_row_top {
+#qkfkueejsi .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2529,11 +2554,11 @@ f(d) = e^{d/\delta}
   border-bottom-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_striped {
+#qkfkueejsi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ymhkaruqwc .gt_table_body {
+#qkfkueejsi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2542,7 +2567,7 @@ f(d) = e^{d/\delta}
   border-bottom-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_footnotes {
+#qkfkueejsi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2556,7 +2581,7 @@ f(d) = e^{d/\delta}
   border-right-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_footnote {
+#qkfkueejsi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2565,7 +2590,7 @@ f(d) = e^{d/\delta}
   padding-right: 5px;
 }
 
-#ymhkaruqwc .gt_sourcenotes {
+#qkfkueejsi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2579,7 +2604,7 @@ f(d) = e^{d/\delta}
   border-right-color: #D3D3D3;
 }
 
-#ymhkaruqwc .gt_sourcenote {
+#qkfkueejsi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2587,63 +2612,63 @@ f(d) = e^{d/\delta}
   padding-right: 5px;
 }
 
-#ymhkaruqwc .gt_left {
+#qkfkueejsi .gt_left {
   text-align: left;
 }
 
-#ymhkaruqwc .gt_center {
+#qkfkueejsi .gt_center {
   text-align: center;
 }
 
-#ymhkaruqwc .gt_right {
+#qkfkueejsi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ymhkaruqwc .gt_font_normal {
+#qkfkueejsi .gt_font_normal {
   font-weight: normal;
 }
 
-#ymhkaruqwc .gt_font_bold {
+#qkfkueejsi .gt_font_bold {
   font-weight: bold;
 }
 
-#ymhkaruqwc .gt_font_italic {
+#qkfkueejsi .gt_font_italic {
   font-style: italic;
 }
 
-#ymhkaruqwc .gt_super {
+#qkfkueejsi .gt_super {
   font-size: 65%;
 }
 
-#ymhkaruqwc .gt_footnote_marks {
+#qkfkueejsi .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ymhkaruqwc .gt_asterisk {
+#qkfkueejsi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ymhkaruqwc .gt_indent_1 {
+#qkfkueejsi .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ymhkaruqwc .gt_indent_2 {
+#qkfkueejsi .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ymhkaruqwc .gt_indent_3 {
+#qkfkueejsi .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ymhkaruqwc .gt_indent_4 {
+#qkfkueejsi .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ymhkaruqwc .gt_indent_5 {
+#qkfkueejsi .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2756,23 +2781,23 @@ Normalisé, δ = 0.68</span></th>
 <div aria-describedby="tbl-fluxgrav2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="ojeiwqzslk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ojeiwqzslk table {
+<div id="nibgkmnmts" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nibgkmnmts table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ojeiwqzslk thead, #ojeiwqzslk tbody, #ojeiwqzslk tfoot, #ojeiwqzslk tr, #ojeiwqzslk td, #ojeiwqzslk th {
+#nibgkmnmts thead, #nibgkmnmts tbody, #nibgkmnmts tfoot, #nibgkmnmts tr, #nibgkmnmts td, #nibgkmnmts th {
   border-style: none;
 }
 
-#ojeiwqzslk p {
+#nibgkmnmts p {
   margin: 0;
   padding: 0;
 }
 
-#ojeiwqzslk .gt_table {
+#nibgkmnmts .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2798,12 +2823,12 @@ Normalisé, δ = 0.68</span></th>
   border-left-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_caption {
+#nibgkmnmts .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ojeiwqzslk .gt_title {
+#nibgkmnmts .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2815,7 +2840,7 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-width: 0;
 }
 
-#ojeiwqzslk .gt_subtitle {
+#nibgkmnmts .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2827,7 +2852,7 @@ Normalisé, δ = 0.68</span></th>
   border-top-width: 0;
 }
 
-#ojeiwqzslk .gt_heading {
+#nibgkmnmts .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2839,13 +2864,13 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_bottom_border {
+#nibgkmnmts .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_col_headings {
+#nibgkmnmts .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2860,7 +2885,7 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_col_heading {
+#nibgkmnmts .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2880,7 +2905,7 @@ Normalisé, δ = 0.68</span></th>
   overflow-x: hidden;
 }
 
-#ojeiwqzslk .gt_column_spanner_outer {
+#nibgkmnmts .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2892,15 +2917,15 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 4px;
 }
 
-#ojeiwqzslk .gt_column_spanner_outer:first-child {
+#nibgkmnmts .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ojeiwqzslk .gt_column_spanner_outer:last-child {
+#nibgkmnmts .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ojeiwqzslk .gt_column_spanner {
+#nibgkmnmts .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2912,11 +2937,11 @@ Normalisé, δ = 0.68</span></th>
   width: 100%;
 }
 
-#ojeiwqzslk .gt_spanner_row {
+#nibgkmnmts .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ojeiwqzslk .gt_group_heading {
+#nibgkmnmts .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2942,7 +2967,7 @@ Normalisé, δ = 0.68</span></th>
   text-align: left;
 }
 
-#ojeiwqzslk .gt_empty_group_heading {
+#nibgkmnmts .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2957,15 +2982,15 @@ Normalisé, δ = 0.68</span></th>
   vertical-align: middle;
 }
 
-#ojeiwqzslk .gt_from_md > :first-child {
+#nibgkmnmts .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ojeiwqzslk .gt_from_md > :last-child {
+#nibgkmnmts .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ojeiwqzslk .gt_row {
+#nibgkmnmts .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2984,7 +3009,7 @@ Normalisé, δ = 0.68</span></th>
   overflow-x: hidden;
 }
 
-#ojeiwqzslk .gt_stub {
+#nibgkmnmts .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2997,7 +3022,7 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#ojeiwqzslk .gt_stub_row_group {
+#nibgkmnmts .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3011,15 +3036,15 @@ Normalisé, δ = 0.68</span></th>
   vertical-align: top;
 }
 
-#ojeiwqzslk .gt_row_group_first td {
+#nibgkmnmts .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ojeiwqzslk .gt_row_group_first th {
+#nibgkmnmts .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ojeiwqzslk .gt_summary_row {
+#nibgkmnmts .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3029,16 +3054,16 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#ojeiwqzslk .gt_first_summary_row {
+#nibgkmnmts .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_first_summary_row.thick {
+#nibgkmnmts .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ojeiwqzslk .gt_last_summary_row {
+#nibgkmnmts .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3048,7 +3073,7 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_grand_summary_row {
+#nibgkmnmts .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3058,7 +3083,7 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#ojeiwqzslk .gt_first_grand_summary_row {
+#nibgkmnmts .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3068,7 +3093,7 @@ Normalisé, δ = 0.68</span></th>
   border-top-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_last_grand_summary_row_top {
+#nibgkmnmts .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3078,11 +3103,11 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_striped {
+#nibgkmnmts .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ojeiwqzslk .gt_table_body {
+#nibgkmnmts .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3091,7 +3116,7 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_footnotes {
+#nibgkmnmts .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3105,7 +3130,7 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_footnote {
+#nibgkmnmts .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3114,7 +3139,7 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#ojeiwqzslk .gt_sourcenotes {
+#nibgkmnmts .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3128,7 +3153,7 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#ojeiwqzslk .gt_sourcenote {
+#nibgkmnmts .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3136,63 +3161,63 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#ojeiwqzslk .gt_left {
+#nibgkmnmts .gt_left {
   text-align: left;
 }
 
-#ojeiwqzslk .gt_center {
+#nibgkmnmts .gt_center {
   text-align: center;
 }
 
-#ojeiwqzslk .gt_right {
+#nibgkmnmts .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ojeiwqzslk .gt_font_normal {
+#nibgkmnmts .gt_font_normal {
   font-weight: normal;
 }
 
-#ojeiwqzslk .gt_font_bold {
+#nibgkmnmts .gt_font_bold {
   font-weight: bold;
 }
 
-#ojeiwqzslk .gt_font_italic {
+#nibgkmnmts .gt_font_italic {
   font-style: italic;
 }
 
-#ojeiwqzslk .gt_super {
+#nibgkmnmts .gt_super {
   font-size: 65%;
 }
 
-#ojeiwqzslk .gt_footnote_marks {
+#nibgkmnmts .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ojeiwqzslk .gt_asterisk {
+#nibgkmnmts .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ojeiwqzslk .gt_indent_1 {
+#nibgkmnmts .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ojeiwqzslk .gt_indent_2 {
+#nibgkmnmts .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ojeiwqzslk .gt_indent_3 {
+#nibgkmnmts .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ojeiwqzslk .gt_indent_4 {
+#nibgkmnmts .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ojeiwqzslk .gt_indent_5 {
+#nibgkmnmts .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3295,7 +3320,7 @@ Normalisé, δ = 0.68</span></th>
 </figure>
 </div>
 </div>
-<p>Le modèle <em>MEAPS</em> conserve une configuration identique dans le cas de pôles satellitaires éloignés du centre, parce que la configuration reste symétrique et qu’aucun rang n’est modifié. En revanche, le modèle gravitaire renvoie une réponse très différente de celle du cas de <span style="white-space:nowrap">référence :</span> les habitants des satellites se tournent plus vers les emplois de leur satellite respectif et les flux entre pôles satellites et le pôle central se réduisent. Cette propriété du modèle gravitaire est <span style="white-space:nowrap">attendue :</span> la fonction <span class="math inline">f</span> donne un poids plus faible aux emplois plus distants. A la limite où cet éloignement devient particulièrement grand, les flux entre pôles satellites et le pôle central vont se tarir presque entièrement. Le paramètre estimé sur la simulation <em>MEAPS</em> est de l’ordre de 0.68, ce qui est l’ordre de grandeur du rayon du pôle central (0,5). Pour une distance de quelques fois 0.68, les flux entre pôles seront quasi nul. La réponse de <em>MEAPS</em> parait ici plus adaptée à ce que l’on observe. Lorsque des communes sont satellites d’un pôle central à une distance de quelques dizaines de kilomètres, il existe des flux vers cette commune pour occuper des emplois, et le fait que la commune soit plus éloignée de quelques kilomètres ne tarit pas drastiquement ces flux. On s’attend à une faible sensibilité de la distance <em>à cette échelle</em>. Nous verrons lors de l’application à l’agglomération de la Rochelle, en utilisant des données décrivant les flux entre commune de résidence et commune d’emploi (issues de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span>) que <em>MEAPS</em> permet une meilleure représentation de la réalité que le modèle gravitaire.</p>
+<p>Le modèle <em>MEAPS</em> conserve une configuration identique dans le cas de pôles satellitaires éloignés du centre, parce que la configuration reste symétrique et qu’aucun rang n’est modifié. En revanche, le modèle gravitaire renvoie une réponse très différente de celle du cas de <span style="white-space:nowrap">référence :</span> les habitants des satellites se tournent plus vers les emplois de leur satellite respectif et les flux entre pôles satellites et le pôle central se réduisent. Cette propriété du modèle gravitaire est <span style="white-space:nowrap">attendue :</span> la fonction <span class="math inline">f</span> donne un poids plus faible aux emplois plus distants. A la limite où cet éloignement devient particulièrement grand, les flux entre pôles satellites et le pôle central vont se tarir presque entièrement. Le paramètre estimé sur la simulation <em>MEAPS</em> est de l’ordre de 0.68, ce qui est l’ordre de grandeur du rayon du pôle central (0,5). Pour une distance de quelques fois 0.68, les flux entre pôles seront quasi nul. La réponse de <em>MEAPS</em> parait ici plus adaptée à ce que l’on observe. Lorsque des communes sont satellites d’un pôle central à une distance de quelques dizaines de kilomètres, il existe des flux vers cette commune pour occuper des emplois, et le fait que la commune soit plus éloignée de quelques kilomètres ne tarit pas drastiquement ces flux. On s’attend à une faible sensibilité de la distance <em>à cette échelle</em>. Nous verrons lors de l’application à l’agglomération de la Rochelle, en utilisant des données décrivant les flux entre commune de résidence et commune d’emploi (issues de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span>) que <em>MEAPS</em> permet une meilleure représentation de la réalité que le modèle gravitaire.</p>
 <p>Si l’on reconduit la procédure d’estimation du paramètre <span class="math inline">\delta</span> sur la configuration géographique où les pôles satellite sont éloignés on aboutit à <span class="math inline">\delta \approx</span> 0.95. Cette valeur est très différente du paramètre précédent, ce qui montre à la fois la <span style="white-space:nowrap">« </span>plasticité<span style="white-space:nowrap"> »</span> du modèle gravitaire et son manque de fiabilité, comme si la force <span style="white-space:nowrap">« </span>gravitationnelle<span style="white-space:nowrap"> »</span> pouvait changer du tout au tout à chaque nouvelle donnée (<a href="#tbl-fluxgrav3" class="quarto-xref">tableau&nbsp;6</a>).</p>
 <div class="cell">
 <div id="tbl-fluxgrav3" class="cell quarto-float anchored">
@@ -3306,23 +3331,23 @@ Normalisé, δ = 0.68</span></th>
 <div aria-describedby="tbl-fluxgrav3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="wbwtgpyhda" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wbwtgpyhda table {
+<div id="puqygxlgbu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#puqygxlgbu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wbwtgpyhda thead, #wbwtgpyhda tbody, #wbwtgpyhda tfoot, #wbwtgpyhda tr, #wbwtgpyhda td, #wbwtgpyhda th {
+#puqygxlgbu thead, #puqygxlgbu tbody, #puqygxlgbu tfoot, #puqygxlgbu tr, #puqygxlgbu td, #puqygxlgbu th {
   border-style: none;
 }
 
-#wbwtgpyhda p {
+#puqygxlgbu p {
   margin: 0;
   padding: 0;
 }
 
-#wbwtgpyhda .gt_table {
+#puqygxlgbu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3348,12 +3373,12 @@ Normalisé, δ = 0.68</span></th>
   border-left-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_caption {
+#puqygxlgbu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wbwtgpyhda .gt_title {
+#puqygxlgbu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3365,7 +3390,7 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-width: 0;
 }
 
-#wbwtgpyhda .gt_subtitle {
+#puqygxlgbu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3377,7 +3402,7 @@ Normalisé, δ = 0.68</span></th>
   border-top-width: 0;
 }
 
-#wbwtgpyhda .gt_heading {
+#puqygxlgbu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3389,13 +3414,13 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_bottom_border {
+#puqygxlgbu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_col_headings {
+#puqygxlgbu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3410,7 +3435,7 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_col_heading {
+#puqygxlgbu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3430,7 +3455,7 @@ Normalisé, δ = 0.68</span></th>
   overflow-x: hidden;
 }
 
-#wbwtgpyhda .gt_column_spanner_outer {
+#puqygxlgbu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3442,15 +3467,15 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 4px;
 }
 
-#wbwtgpyhda .gt_column_spanner_outer:first-child {
+#puqygxlgbu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wbwtgpyhda .gt_column_spanner_outer:last-child {
+#puqygxlgbu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wbwtgpyhda .gt_column_spanner {
+#puqygxlgbu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3462,11 +3487,11 @@ Normalisé, δ = 0.68</span></th>
   width: 100%;
 }
 
-#wbwtgpyhda .gt_spanner_row {
+#puqygxlgbu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wbwtgpyhda .gt_group_heading {
+#puqygxlgbu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3492,7 +3517,7 @@ Normalisé, δ = 0.68</span></th>
   text-align: left;
 }
 
-#wbwtgpyhda .gt_empty_group_heading {
+#puqygxlgbu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3507,15 +3532,15 @@ Normalisé, δ = 0.68</span></th>
   vertical-align: middle;
 }
 
-#wbwtgpyhda .gt_from_md > :first-child {
+#puqygxlgbu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wbwtgpyhda .gt_from_md > :last-child {
+#puqygxlgbu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wbwtgpyhda .gt_row {
+#puqygxlgbu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3534,7 +3559,7 @@ Normalisé, δ = 0.68</span></th>
   overflow-x: hidden;
 }
 
-#wbwtgpyhda .gt_stub {
+#puqygxlgbu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3547,7 +3572,7 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#wbwtgpyhda .gt_stub_row_group {
+#puqygxlgbu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3561,15 +3586,15 @@ Normalisé, δ = 0.68</span></th>
   vertical-align: top;
 }
 
-#wbwtgpyhda .gt_row_group_first td {
+#puqygxlgbu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wbwtgpyhda .gt_row_group_first th {
+#puqygxlgbu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wbwtgpyhda .gt_summary_row {
+#puqygxlgbu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3579,16 +3604,16 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#wbwtgpyhda .gt_first_summary_row {
+#puqygxlgbu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_first_summary_row.thick {
+#puqygxlgbu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wbwtgpyhda .gt_last_summary_row {
+#puqygxlgbu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3598,7 +3623,7 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_grand_summary_row {
+#puqygxlgbu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3608,7 +3633,7 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#wbwtgpyhda .gt_first_grand_summary_row {
+#puqygxlgbu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3618,7 +3643,7 @@ Normalisé, δ = 0.68</span></th>
   border-top-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_last_grand_summary_row_top {
+#puqygxlgbu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3628,11 +3653,11 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_striped {
+#puqygxlgbu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wbwtgpyhda .gt_table_body {
+#puqygxlgbu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3641,7 +3666,7 @@ Normalisé, δ = 0.68</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_footnotes {
+#puqygxlgbu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3655,7 +3680,7 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_footnote {
+#puqygxlgbu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3664,7 +3689,7 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#wbwtgpyhda .gt_sourcenotes {
+#puqygxlgbu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3678,7 +3703,7 @@ Normalisé, δ = 0.68</span></th>
   border-right-color: #D3D3D3;
 }
 
-#wbwtgpyhda .gt_sourcenote {
+#puqygxlgbu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3686,63 +3711,63 @@ Normalisé, δ = 0.68</span></th>
   padding-right: 5px;
 }
 
-#wbwtgpyhda .gt_left {
+#puqygxlgbu .gt_left {
   text-align: left;
 }
 
-#wbwtgpyhda .gt_center {
+#puqygxlgbu .gt_center {
   text-align: center;
 }
 
-#wbwtgpyhda .gt_right {
+#puqygxlgbu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wbwtgpyhda .gt_font_normal {
+#puqygxlgbu .gt_font_normal {
   font-weight: normal;
 }
 
-#wbwtgpyhda .gt_font_bold {
+#puqygxlgbu .gt_font_bold {
   font-weight: bold;
 }
 
-#wbwtgpyhda .gt_font_italic {
+#puqygxlgbu .gt_font_italic {
   font-style: italic;
 }
 
-#wbwtgpyhda .gt_super {
+#puqygxlgbu .gt_super {
   font-size: 65%;
 }
 
-#wbwtgpyhda .gt_footnote_marks {
+#puqygxlgbu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wbwtgpyhda .gt_asterisk {
+#puqygxlgbu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wbwtgpyhda .gt_indent_1 {
+#puqygxlgbu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wbwtgpyhda .gt_indent_2 {
+#puqygxlgbu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wbwtgpyhda .gt_indent_3 {
+#puqygxlgbu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wbwtgpyhda .gt_indent_4 {
+#puqygxlgbu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wbwtgpyhda .gt_indent_5 {
+#puqygxlgbu .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3860,23 +3885,23 @@ Normalisé, δ = 0.95</span></th>
 <div aria-describedby="tbl-fluxpond-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="xuckiyplol" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xuckiyplol table {
+<div id="iekiphfwfg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iekiphfwfg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xuckiyplol thead, #xuckiyplol tbody, #xuckiyplol tfoot, #xuckiyplol tr, #xuckiyplol td, #xuckiyplol th {
+#iekiphfwfg thead, #iekiphfwfg tbody, #iekiphfwfg tfoot, #iekiphfwfg tr, #iekiphfwfg td, #iekiphfwfg th {
   border-style: none;
 }
 
-#xuckiyplol p {
+#iekiphfwfg p {
   margin: 0;
   padding: 0;
 }
 
-#xuckiyplol .gt_table {
+#iekiphfwfg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3902,12 +3927,12 @@ Normalisé, δ = 0.95</span></th>
   border-left-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_caption {
+#iekiphfwfg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xuckiyplol .gt_title {
+#iekiphfwfg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3919,7 +3944,7 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-width: 0;
 }
 
-#xuckiyplol .gt_subtitle {
+#iekiphfwfg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3931,7 +3956,7 @@ Normalisé, δ = 0.95</span></th>
   border-top-width: 0;
 }
 
-#xuckiyplol .gt_heading {
+#iekiphfwfg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3943,13 +3968,13 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_bottom_border {
+#iekiphfwfg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_col_headings {
+#iekiphfwfg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3964,7 +3989,7 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_col_heading {
+#iekiphfwfg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3984,7 +4009,7 @@ Normalisé, δ = 0.95</span></th>
   overflow-x: hidden;
 }
 
-#xuckiyplol .gt_column_spanner_outer {
+#iekiphfwfg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3996,15 +4021,15 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 4px;
 }
 
-#xuckiyplol .gt_column_spanner_outer:first-child {
+#iekiphfwfg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xuckiyplol .gt_column_spanner_outer:last-child {
+#iekiphfwfg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xuckiyplol .gt_column_spanner {
+#iekiphfwfg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4016,11 +4041,11 @@ Normalisé, δ = 0.95</span></th>
   width: 100%;
 }
 
-#xuckiyplol .gt_spanner_row {
+#iekiphfwfg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xuckiyplol .gt_group_heading {
+#iekiphfwfg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4046,7 +4071,7 @@ Normalisé, δ = 0.95</span></th>
   text-align: left;
 }
 
-#xuckiyplol .gt_empty_group_heading {
+#iekiphfwfg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4061,15 +4086,15 @@ Normalisé, δ = 0.95</span></th>
   vertical-align: middle;
 }
 
-#xuckiyplol .gt_from_md > :first-child {
+#iekiphfwfg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xuckiyplol .gt_from_md > :last-child {
+#iekiphfwfg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xuckiyplol .gt_row {
+#iekiphfwfg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4088,7 +4113,7 @@ Normalisé, δ = 0.95</span></th>
   overflow-x: hidden;
 }
 
-#xuckiyplol .gt_stub {
+#iekiphfwfg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4101,7 +4126,7 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xuckiyplol .gt_stub_row_group {
+#iekiphfwfg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4115,15 +4140,15 @@ Normalisé, δ = 0.95</span></th>
   vertical-align: top;
 }
 
-#xuckiyplol .gt_row_group_first td {
+#iekiphfwfg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xuckiyplol .gt_row_group_first th {
+#iekiphfwfg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xuckiyplol .gt_summary_row {
+#iekiphfwfg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4133,16 +4158,16 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xuckiyplol .gt_first_summary_row {
+#iekiphfwfg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_first_summary_row.thick {
+#iekiphfwfg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xuckiyplol .gt_last_summary_row {
+#iekiphfwfg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4152,7 +4177,7 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_grand_summary_row {
+#iekiphfwfg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4162,7 +4187,7 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xuckiyplol .gt_first_grand_summary_row {
+#iekiphfwfg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4172,7 +4197,7 @@ Normalisé, δ = 0.95</span></th>
   border-top-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_last_grand_summary_row_top {
+#iekiphfwfg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4182,11 +4207,11 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_striped {
+#iekiphfwfg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xuckiyplol .gt_table_body {
+#iekiphfwfg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4195,7 +4220,7 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_footnotes {
+#iekiphfwfg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4209,7 +4234,7 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_footnote {
+#iekiphfwfg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4218,7 +4243,7 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xuckiyplol .gt_sourcenotes {
+#iekiphfwfg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4232,7 +4257,7 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xuckiyplol .gt_sourcenote {
+#iekiphfwfg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4240,63 +4265,63 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xuckiyplol .gt_left {
+#iekiphfwfg .gt_left {
   text-align: left;
 }
 
-#xuckiyplol .gt_center {
+#iekiphfwfg .gt_center {
   text-align: center;
 }
 
-#xuckiyplol .gt_right {
+#iekiphfwfg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xuckiyplol .gt_font_normal {
+#iekiphfwfg .gt_font_normal {
   font-weight: normal;
 }
 
-#xuckiyplol .gt_font_bold {
+#iekiphfwfg .gt_font_bold {
   font-weight: bold;
 }
 
-#xuckiyplol .gt_font_italic {
+#iekiphfwfg .gt_font_italic {
   font-style: italic;
 }
 
-#xuckiyplol .gt_super {
+#iekiphfwfg .gt_super {
   font-size: 65%;
 }
 
-#xuckiyplol .gt_footnote_marks {
+#iekiphfwfg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xuckiyplol .gt_asterisk {
+#iekiphfwfg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xuckiyplol .gt_indent_1 {
+#iekiphfwfg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xuckiyplol .gt_indent_2 {
+#iekiphfwfg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xuckiyplol .gt_indent_3 {
+#iekiphfwfg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xuckiyplol .gt_indent_4 {
+#iekiphfwfg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xuckiyplol .gt_indent_5 {
+#iekiphfwfg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4450,7 +4475,7 @@ Normalisé, δ = 0.95</span></th>
 </div>
 </div>
 <p>Une propriété intéressante des matrices du <a href="#tbl-fluxpond" class="quarto-xref">tableau&nbsp;7</a> est que les 9 matrices <span class="math inline">3 \times 3</span> forment un espace vectoriel de dimension 4<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. Ceci est attendu, puisque les contraintes réduisent la dimension de 9 (<span class="math inline">=3\times 3</span>) à 4, puisqu’il y a 3 contraintes dans chaque dimension (lignes et colonnes) et qu’une est redondante (si les somme sur chaque ligne sont nulles, alors la somme de tous les cœfficients est nulle et donc si les sommes sur deux colonnes sont nulles, la troisième l’est nécessairement). Cela indique que, au moins localement (au voisinage de la matrice de flux calculée dans le <a href="#tbl-fluxpoles" class="quarto-xref">tableau&nbsp;2</a>), il est possible de modifier les probabilités d’absorption pour atteindre n’importe quelle matrice de flux. A l’approximation linéaire près, il est donc possible de reproduire n’importe quelle structure de flux agrégés par un jeu de paramètres saturant exactement la dimension de cette structure de flux. Cette propriété permet d’envisager différentes approches d’estimations, suivant les données dont on dispose et du nombre de degrés de liberté que l’on est prêt à consacrer à la reproduction des données.</p>
-<div class="no-row-height column-margin column-container"><p><sup>8</sup>&nbsp;Les valeurs propres de la matrice <span class="math inline">9 \times 9</span> constituée des 9 vecteurs colonnes des 9 matrices <span style="white-space:nowrap">« </span>dérivées<span style="white-space:nowrap"> »</span> sont (133.3, 97.3, -28.6, 22.0, 0, 0, 0, 0, 0). Les 5 valeurs propres nulles et les 4 non nulles permettent de conclure que la dimension de l’espace vectoriel engendré par les 9 matrices est 4.</p></div><p>Le temps de calcul peut être assez long du fait de la nécessité de répéter un grand nombre de tirages, mais la section suivante (<a href="#sec-ergemp" class="quarto-xref">section&nbsp;4.4</a>) montre que ce nombre peut rester raisonnable. Une estimation de ce type est mise en œuvre par une procédure itérative dans le document <a href="./larochelle.html">Estimations à la Rochelle</a>, permettant de reproduire à l’aide de <em>MEAPS</em> les données issues de l’enquête mobilités professionnelles <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> avec un schéma de calcul qui peut se mettre facilement en œuvre.</p>
+<div class="no-row-height column-margin column-container"><p><sup>8</sup>&nbsp;Les valeurs propres de la matrice <span class="math inline">9 \times 9</span> constituée des 9 vecteurs colonnes des 9 matrices <span style="white-space:nowrap">« </span>dérivées<span style="white-space:nowrap"> »</span> sont (133.3, 97.3, -28.6, 22.0, 0, 0, 0, 0, 0). Les 5 valeurs propres nulles et les 4 non nulles permettent de conclure que la dimension de l’espace vectoriel engendré par les 9 matrices est 4.</p></div><p>Le temps de calcul peut être assez long du fait de la nécessité de répéter un grand nombre de tirages, mais la section suivante (<a href="#sec-ergemp" class="quarto-xref">section&nbsp;4.4</a>) montre que ce nombre peut rester raisonnable. Une estimation de ce type est mise en œuvre par une procédure itérative dans le document <a href="./larochelle.html">Estimations à la Rochelle</a>, permettant de reproduire à l’aide de <em>MEAPS</em> les données issues de l’enquête mobilités professionnelles <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> avec un schéma de calcul qui peut se mettre facilement en œuvre.</p>
 </section>
 <section id="sec-ergemp" class="level3 page-columns page-full" data-number="4.4">
 <h3 data-number="4.4" class="anchored" data-anchor-id="sec-ergemp"><span class="header-section-number">4.4</span> Ergodicité en pratique</h3>
@@ -4481,23 +4506,23 @@ Normalisé, δ = 0.95</span></th>
 <div aria-describedby="tbl-fluxpoles_conf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="xjblallhne" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xjblallhne table {
+<div id="tdmvqkotwh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tdmvqkotwh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xjblallhne thead, #xjblallhne tbody, #xjblallhne tfoot, #xjblallhne tr, #xjblallhne td, #xjblallhne th {
+#tdmvqkotwh thead, #tdmvqkotwh tbody, #tdmvqkotwh tfoot, #tdmvqkotwh tr, #tdmvqkotwh td, #tdmvqkotwh th {
   border-style: none;
 }
 
-#xjblallhne p {
+#tdmvqkotwh p {
   margin: 0;
   padding: 0;
 }
 
-#xjblallhne .gt_table {
+#tdmvqkotwh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4523,12 +4548,12 @@ Normalisé, δ = 0.95</span></th>
   border-left-color: #D3D3D3;
 }
 
-#xjblallhne .gt_caption {
+#tdmvqkotwh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xjblallhne .gt_title {
+#tdmvqkotwh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4540,7 +4565,7 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-width: 0;
 }
 
-#xjblallhne .gt_subtitle {
+#tdmvqkotwh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4552,7 +4577,7 @@ Normalisé, δ = 0.95</span></th>
   border-top-width: 0;
 }
 
-#xjblallhne .gt_heading {
+#tdmvqkotwh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4564,13 +4589,13 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xjblallhne .gt_bottom_border {
+#tdmvqkotwh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xjblallhne .gt_col_headings {
+#tdmvqkotwh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4585,7 +4610,7 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xjblallhne .gt_col_heading {
+#tdmvqkotwh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4605,7 +4630,7 @@ Normalisé, δ = 0.95</span></th>
   overflow-x: hidden;
 }
 
-#xjblallhne .gt_column_spanner_outer {
+#tdmvqkotwh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4617,15 +4642,15 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 4px;
 }
 
-#xjblallhne .gt_column_spanner_outer:first-child {
+#tdmvqkotwh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xjblallhne .gt_column_spanner_outer:last-child {
+#tdmvqkotwh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xjblallhne .gt_column_spanner {
+#tdmvqkotwh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4637,11 +4662,11 @@ Normalisé, δ = 0.95</span></th>
   width: 100%;
 }
 
-#xjblallhne .gt_spanner_row {
+#tdmvqkotwh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xjblallhne .gt_group_heading {
+#tdmvqkotwh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4667,7 +4692,7 @@ Normalisé, δ = 0.95</span></th>
   text-align: left;
 }
 
-#xjblallhne .gt_empty_group_heading {
+#tdmvqkotwh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4682,15 +4707,15 @@ Normalisé, δ = 0.95</span></th>
   vertical-align: middle;
 }
 
-#xjblallhne .gt_from_md > :first-child {
+#tdmvqkotwh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xjblallhne .gt_from_md > :last-child {
+#tdmvqkotwh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xjblallhne .gt_row {
+#tdmvqkotwh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4709,7 +4734,7 @@ Normalisé, δ = 0.95</span></th>
   overflow-x: hidden;
 }
 
-#xjblallhne .gt_stub {
+#tdmvqkotwh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4722,7 +4747,7 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xjblallhne .gt_stub_row_group {
+#tdmvqkotwh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4736,15 +4761,15 @@ Normalisé, δ = 0.95</span></th>
   vertical-align: top;
 }
 
-#xjblallhne .gt_row_group_first td {
+#tdmvqkotwh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xjblallhne .gt_row_group_first th {
+#tdmvqkotwh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xjblallhne .gt_summary_row {
+#tdmvqkotwh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4754,16 +4779,16 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xjblallhne .gt_first_summary_row {
+#tdmvqkotwh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xjblallhne .gt_first_summary_row.thick {
+#tdmvqkotwh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xjblallhne .gt_last_summary_row {
+#tdmvqkotwh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4773,7 +4798,7 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#xjblallhne .gt_grand_summary_row {
+#tdmvqkotwh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4783,7 +4808,7 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xjblallhne .gt_first_grand_summary_row {
+#tdmvqkotwh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4793,7 +4818,7 @@ Normalisé, δ = 0.95</span></th>
   border-top-color: #D3D3D3;
 }
 
-#xjblallhne .gt_last_grand_summary_row_top {
+#tdmvqkotwh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4803,11 +4828,11 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#xjblallhne .gt_striped {
+#tdmvqkotwh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xjblallhne .gt_table_body {
+#tdmvqkotwh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4816,7 +4841,7 @@ Normalisé, δ = 0.95</span></th>
   border-bottom-color: #D3D3D3;
 }
 
-#xjblallhne .gt_footnotes {
+#tdmvqkotwh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4830,7 +4855,7 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xjblallhne .gt_footnote {
+#tdmvqkotwh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4839,7 +4864,7 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xjblallhne .gt_sourcenotes {
+#tdmvqkotwh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4853,7 +4878,7 @@ Normalisé, δ = 0.95</span></th>
   border-right-color: #D3D3D3;
 }
 
-#xjblallhne .gt_sourcenote {
+#tdmvqkotwh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4861,63 +4886,63 @@ Normalisé, δ = 0.95</span></th>
   padding-right: 5px;
 }
 
-#xjblallhne .gt_left {
+#tdmvqkotwh .gt_left {
   text-align: left;
 }
 
-#xjblallhne .gt_center {
+#tdmvqkotwh .gt_center {
   text-align: center;
 }
 
-#xjblallhne .gt_right {
+#tdmvqkotwh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xjblallhne .gt_font_normal {
+#tdmvqkotwh .gt_font_normal {
   font-weight: normal;
 }
 
-#xjblallhne .gt_font_bold {
+#tdmvqkotwh .gt_font_bold {
   font-weight: bold;
 }
 
-#xjblallhne .gt_font_italic {
+#tdmvqkotwh .gt_font_italic {
   font-style: italic;
 }
 
-#xjblallhne .gt_super {
+#tdmvqkotwh .gt_super {
   font-size: 65%;
 }
 
-#xjblallhne .gt_footnote_marks {
+#tdmvqkotwh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xjblallhne .gt_asterisk {
+#tdmvqkotwh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xjblallhne .gt_indent_1 {
+#tdmvqkotwh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xjblallhne .gt_indent_2 {
+#tdmvqkotwh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xjblallhne .gt_indent_3 {
+#tdmvqkotwh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xjblallhne .gt_indent_4 {
+#tdmvqkotwh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xjblallhne .gt_indent_5 {
+#tdmvqkotwh .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -5015,8 +5040,8 @@ Normalisé, δ = 0.95</span></th>
 </div>
 </section>
 </section>
-<section id="références" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="références">Références</h2>
+<section id="références-bibliographiques" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="références-bibliographiques">Références bibliographiques</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-ben-akiva2018" class="csl-entry" role="listitem">
 Ben-Akiva M., Lerman S.R. (2018). <em>Discrete choice analysis: theory and application to travel demand</em>, MIT Press (Transportation Series).
@@ -5036,9 +5061,6 @@ Fotheringham A.S. (1984). <span>«&nbsp;<a href="https://doi.org/10.1068/a160529
 <div id="ref-heanue1966" class="csl-entry" role="listitem">
 Heanue K.E., Pyers C.E. (1966). <span>«&nbsp;A Comparative Evaluation of Trip Distribution Procedures&nbsp;»</span>, <em>Highway Reserach Record</em>, n° 114, p.&nbsp;20‑50.
 </div>
-<div id="ref-MOBPRO" class="csl-entry" role="listitem">
-INSEE (2022). <span>«&nbsp;<a href="https://www.insee.fr/fr/statistiques/6454112">Mobilités professionnelles en 2019 : déplacements domicile - lieu de travail Recensement de la population - Base flux de mobilité</a>&nbsp;»</span>,.
-</div>
 <div id="ref-lasser2020" class="csl-entry" role="listitem">
 Lasser J. (2020). <span>«&nbsp;<a href="https://doi.org/10.1038/s42005-020-00403-4">Creating an executable paper is a journey through Open Science</a>&nbsp;»</span>, <em>Communications Physics</em>, <em>3</em>, n° 1.
 </div>
@@ -5047,6 +5069,9 @@ Lenormand M., Bassolas A., Ramasco J.J. (2016). <span>«&nbsp;<a href="https://d
 </div>
 <div id="ref-mcfadden1974d" class="csl-entry" role="listitem">
 McFadden D. (1974). <span>«&nbsp;<a href="https://doi.org/10.1016/0047-2727(74)90003-6">The measurement of urban travel demand</a>&nbsp;»</span>, <em>Journal of Public Economics</em>, <em>3</em>, n° 4, p.&nbsp;303‑328.
+</div>
+<div id="ref-MOBPRO" class="csl-entry" role="listitem">
+MOBPRO (2022). <span>«&nbsp;Mobilités professionnelles en 2019 : déplacements domicile - lieu de travail Recensement de la population - Base flux de mobilité&nbsp;»</span>,.
 </div>
 <div id="ref-patrickbonnel2001" class="csl-entry" role="listitem">
 Patrick Bonnel (2001). <em>Prévision de la demande de transport</em>, thèse de doctorat, Lyon, France.
@@ -5081,7 +5106,31 @@ Wilson A.G. (1967). <span>«&nbsp;<a href="https://doi.org/10.1016/0041-1647(67)
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Réutilisation</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.fr">CC BY 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">Veuillez citer ce travail comme suit&nbsp;:</div><div id="ref-parodi2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Réutilisation</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.fr">CC BY 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@article{parodi2023,
+  author = {Parodi, Maxime and Timbeau, Xavier},
+  title = {Modéliser les flux des navetteurs : MEAPS},
+  journal = {Document de travail de l’OFCE n°2023-11},
+  date = {2023-05-02},
+  url = {https://preview.meaps.fr},
+  langid = {fr},
+  abstract = {Le modèle gravitaire utilisé pour distribuer les trajets
+    entre une origine et une destination représente mal l’influence de
+    la distance sur les choix. En s’inspirant du modèle des “intervening
+    opportunities” de @stouffer1940 et du modèle radiatif de
+    @simini2012, nous construisons un modèle ergodique d’absorption avec
+    priorité et saturation (MEAPS) qui permet de construire ces choix
+    sur des fondements microscopiques clairs et flexibles. Le modèle
+    s’accommode de différentes formulations des processus stochastiques
+    fondamentaux qui permettent d’estimer des paramètres fondamentaux et
+    de leur donner une interprétation. Nous validons le modèle théorique
+    sur des données synthétiques, puis dans deux documents associés,
+    nous proposons une estimation de MEAPS et une comparaison détaillée
+    avec le modèle gravitaire et ses variantes les plus communes. Nous
+    utilisons ensuite cette modélisation pour construire une carte en
+    haute résolution des émissions de
+    CO\textasciitilde2\textasciitilde{} à La Rochelle.}
+}
+</code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">Veuillez citer ce travail comme suit&nbsp;:</div><div id="ref-parodi2023" class="csl-entry quarto-appendix-citeas" role="listitem">
 Parodi M., Timbeau X. (2023). <span>«&nbsp;<a href="https://preview.meaps.fr">Modéliser les flux des navetteurs :
 MEAPS</a>&nbsp;»</span>, <em>Document de travail de l’OFCE n°2023-11</em>.
 </div></div></section></div></main> <!-- /main -->
@@ -5472,8 +5521,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="xtimbeau/meaps" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
-</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -5488,7 +5535,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","loop":false,"selector":".lightbox","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","descPosition":"bottom","openEffect":"zoom","loop":false});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
