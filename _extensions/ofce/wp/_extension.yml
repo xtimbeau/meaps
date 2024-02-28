@@ -32,7 +32,7 @@ contributes:
       filters:
         - nameref
         - quotes
-        # - search-replace
+        - search-replace
         - fr-nbsp
         - collapse-callout
       collapse-callout:
@@ -40,11 +40,16 @@ contributes:
       shortcodes:
         - fontawesome
         - downloadthis
+        - wordcount 
+      search-replace:
+        oe : "\u0153"
+        ae : "\u00e6"
       google-scholar: true
       appendix-style: default
-      appendix-cite-as: display
+      appendix-cite-as: [display, bibtex]
       citation: true
       license: CC BY
+      csl: csl/revue-francaise-de-gestion.csl
     html:
       theme: 
         - cosmo

@@ -643,7 +643,7 @@ if(is_html_output())
 `r knit(text=shiny)`
 :::
 
-## Références {.unlisted .unnumbered}
+## Références bibliographiques {.unnumbered}
 
 ::: {#refs}
 :::

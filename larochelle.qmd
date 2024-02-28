@@ -1108,7 +1108,7 @@ Les estimations que nous présentons ici aboutissent à plusieurs résultats imp
 
 4.  les paramètres du modèle gravitaire sont difficilement interprétables. Ils dépendent en effet de la configuration spatiale spécifique et de l'échelle d'observation. MEAPS permet une approche structurelle aux fondements bien définis qui donne aux paramètres une signification plus générale.
 
-## Références {.unnumbered}
+## Références bibliographiques {.unnumbered}
 
 ::: {#refs}
 :::

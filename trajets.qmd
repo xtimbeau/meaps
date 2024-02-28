@@ -161,11 +161,11 @@ L'approche par modélisation, validation des briques par des (quasi-) expérienc
 
 Les briques de la modélisation structurelle que nous allons mettre en place sont multiples et s'inspirent de la construction du modèle à 4 étapes [@handbook2007; @patrickbonnel2001]. Les quatre étapes sont : la génération du nombre de trajets en partance de chaque origine (les résidences), et des trajets qui arrivent à chaque destination (les emplois, les aménités). La deuxième étape distribue ces trajets sur l'ensemble des paires origine-destination. La troisième étape est celle du choix modal de chacun des trajets et la quatrième vise à déterminer le tracé du trajet, compte tenu de l'origine, de la destination et du mode de transport.
 
-Notre méthodologie, développée dans @meaps2023, reprend cette approche. La première étape consiste à localiser les résidents (à partir des données carroyées de l'INSEE [@C200]), les emplois (à partir de @MOBPRO et des fichiers fonciers pour une imputation infra-communale). Nous calculons ensuite les distances et les temps de trajets pour les 4 modes considérés (marche, vélo, transport en commun, voiture, mais pas de trajets multimodaux hors ceux avec la marche à pied) – ce qui anticipe l'étape 4 – entre toutes les résidences (les origines) et tous les emplois (les destinations). Par analogie avec un modèle radiatif [@stouffer1940; @simini2012], MEAPS nous permet de répartir les flux de "navetteurs" et d'affecter à chaque résident une distribution de probabilité sur le lieu où il travaille sur la base des distances, du nombre de résidents et de la quantité d'emploi sur le territoire considéré. Ce modèle radiatif est augmenté d'un processus de saturation et de priorité (MEAPS) de façon à assurer de façon explicite et paramétrable que chaque résident occupe un emploi et un seul et que tous les emplois sont occupés. Nous avons montré dans @meaps2023 que ce modèle permettait de mieux rendre compte des flux e navetteurs entre communes mesurés par MOBPRO que le modèle gravitaire par la prise en compte de la géographie des résidents, des emplois et des réseaux, du moins sur le territoire de La Rochelle.
+Notre méthodologie, développée dans @meaps2023, reprend cette approche. La première étape consiste à localiser les résidents (à partir des données carroyées de l'INSEE [@C200]), les emplois (à partir de @MOBPRO (MOBPRO) et des fichiers fonciers pour une imputation infra-communale). Nous calculons ensuite les distances et les temps de trajets pour les 4 modes considérés (marche, vélo, transport en commun, voiture, mais pas de trajets multimodaux hors ceux avec la marche à pied) – ce qui anticipe l'étape 4 – entre toutes les résidences (les origines) et tous les emplois (les destinations). Par analogie avec un modèle radiatif [@stouffer1940; @simini2012], MEAPS nous permet de répartir les flux de "navetteurs" et d'affecter à chaque résident une distribution de probabilité sur le lieu où il travaille sur la base des distances, du nombre de résidents et de la quantité d'emploi sur le territoire considéré. Ce modèle radiatif est augmenté d'un processus de saturation et de priorité (MEAPS) de façon à assurer de façon explicite et paramétrable que chaque résident occupe un emploi et un seul et que tous les emplois sont occupés. Nous avons montré dans @meaps2023 que ce modèle permettait de mieux rendre compte des flux e navetteurs entre communes mesurés par MOBPRO que le modèle gravitaire par la prise en compte de la géographie des résidents, des emplois et des réseaux, du moins sur le territoire de La Rochelle.
 
-Il n'en reste pas moins que si @meaps2023 permet de reproduire @MOBPRO et d'en proposer une interpolation à la maille du carreau INSPIRE à 200m, il faut utiliser plus d'informations pour déterminer la quantité globale de déplacements, c'est-à-dire le nombre de kilomètres parcourus annuellement par un résident moyen d'un carreau donné. L'approche par MEAPS ne donne en effet que le flux (ou une probabilité) de personnes d'une résidence vers un emploi, à une distance donnée, mais sans préciser la fréquence de ces déplacements. Cette information n'est pas dans @MOBPRO et rend approximatif la détermination des kilomètres parcourus sur cette seule base. Nous proposons ici une approche qui résout cette indétermination en modélisant le nombre de trajets et en introduisant des caractéristiques socio-économique des individus, ce qui permet d'ajouter une couche supplémentaire à l'analyse spatiale par MEAPS.
+Il n'en reste pas moins que si @meaps2023 permet de reproduire MOBPRO et d'en proposer une interpolation à la maille du carreau INSPIRE à 200m, il faut utiliser plus d'informations pour déterminer la quantité globale de déplacements, c'est-à-dire le nombre de kilomètres parcourus annuellement par un résident moyen d'un carreau donné. L'approche par MEAPS ne donne en effet que le flux (ou une probabilité) de personnes d'une résidence vers un emploi, à une distance donnée, mais sans préciser la fréquence de ces déplacements. Cette information n'est pas dans MOBPRO et rend approximatif la détermination des kilomètres parcourus sur cette seule base. Nous proposons ici une approche qui résout cette indétermination en modélisant le nombre de trajets et en introduisant des caractéristiques socio-économique des individus, ce qui permet d'ajouter une couche supplémentaire à l'analyse spatiale par MEAPS.
 
-Pour ce faire, il faut examiner les pratiques de mobilité des Français. Nous nous appuyons ici sur l'enquête mobilité des personnes @MOBPERS (EMP 2019). Cette enquête ne permet pas d'analyses locales, parce que l'échantillon est trop petit et le tirage aléatoire n'a pas été conçu pour un tel usage. Elle permet en revanche d'associer les caractéristiques des individus, de leur ménage, de leur équipement en véhicule aux trajets effectués pour différents motifs. Il est alors possible de modéliser leurs pratiques de mobilités selon ces caractéristiques. En associant la méthode MEAPS à cette analyse, on pourra alors évaluer au carreau les kilomètres parcourus par chaque résident et procéder à des agrégations à tous les niveaux souhaités en exploitant au maximum l'information contenue dans EMP 2019, dans @MOBPRO, dans la localisation fine des résidents, selon leurs caractéristiques socio-économique et des emplois et dans la géographie des réseaux.
+Pour ce faire, il faut examiner les pratiques de mobilité des Français. Nous nous appuyons ici sur l'enquête mobilité des personnes @MOBPERS (EMP 2019). Cette enquête ne permet pas d'analyses locales, parce que l'échantillon est trop petit et le tirage aléatoire n'a pas été conçu pour un tel usage. Elle permet en revanche d'associer les caractéristiques des individus, de leur ménage, de leur équipement en véhicule aux trajets effectués pour différents motifs. Il est alors possible de modéliser leurs pratiques de mobilités selon ces caractéristiques. En associant la méthode MEAPS à cette analyse, on pourra alors évaluer au carreau les kilomètres parcourus par chaque résident et procéder à des agrégations à tous les niveaux souhaités en exploitant au maximum l'information contenue dans EMP 2019, dans MOBPRO, dans la localisation fine des résidents, selon leurs caractéristiques socio-économique et des emplois et dans la géographie des réseaux.
 
 La modélisation retenue suppose que les réseaux, la position des habitants, des emplois ou des aménités est considérée comme exogène. Endogénéiser ces éléments, sous contrainte du respect des zonages et des règlements d'urbanisme, compliquerait exagérément la modélisation. Il faudrait introduire des dynamiques longues, celles de la localisation des habitants, de la construction de nouveaux logements, de la création de nouvelles zones d'activité, qui s'imbriquent avec d'autres plus courtes comme les flux résidence-emplois ou les modes de transport. Il est difficile – voire impossible – de calibrer les paramètres qui président aux dynamiques longues, pour lesquelles on dispose de peu d'éléments. Cela conduit également à distinguer des horizons temporels variés dans lesquels on modélise des dynamiques transitoires multipliant les informations à représenter. En fixant ces éléments de dynamique longue, on simplifie la représentation en renvoyant l'analyse de ces dimensions à l'élaboration de scénarios exogènes qui ignorent les causalités entre par exemple une nouvelle ligne de transport et le développement des zones d'activité.
 
@@ -186,7 +186,7 @@ km^m_{ijk} & = Nombre\ de\ boucles \times longueur\ d'une\ boucle \times part\ m
 \end{aligned}
 $$ {#eq-kmmod}
 
-Comme nous connaissons la composition sociale de chaque carreau de résidents, le nombre de kilomètres parcourus par un individu moyen résident en *i* et travaillant en *j*, noté $km^m_{ij}$, s'obtient simplement en calculant la moyenne pondérée sur les caractéristiques des résidents en *i* de @eq-kmmod. En notant $prop_{ik}$ la proportion de la catégorie k au sein du carreau $i$, on a :
+Comme nous connaissons la composition sociale de chaque carreau de résidents, le nombre de kilomètres parcourus par un individu moyen résident en *i* et travaillant en *j*, noté $km^m_{ij}$, s'obtient simplement en calculant la moyenne pondérée sur les caractéristiques des résidents en *i* de l'@eq-kmmod. En notant $prop_{ik}$ la proportion de la catégorie k au sein du carreau $i$, on a :
 
 $$
 \begin{aligned}
@@ -268,7 +268,7 @@ L'enquête mobilité des personnes nous sert de source, conjointement à MOBPRO,
 
 [^5]: https://www.insee.fr/fr/information/6439600
 
-Comme on peut le constater au @tbl-empkm, entre une "commune très dense" et une "commune peu dense", il y a un ratio de un peu moins que 1 à 2 pour les kilomètres parcourus annuellement, pour le motif principal travail.
+Comme on peut le constater sur le @tbl-empkm, entre une "commune très dense" et une "commune peu dense", il y a un ratio de un peu moins que 1 à 2 pour les kilomètres parcourus annuellement, pour le motif principal travail.
 
 ```{r}
 #| label: tbl-empkm
@@ -282,7 +282,7 @@ co2_emp$table[[1]] |>
 
 ### De la fréquence des boucles
 
-A ce stade, notre objectif est d'estimer la fréquence journalière des boucles à partir des comportements constatés dans EMP 2019. Nous limitons ici notre examen aux boucles effectuées pour le travail, ce pourquoi nous étudions uniquement les comportements des actifs. Par ailleurs, nous avons exclus l'Ile-de-France car les pratiques de mobilités y sont spécifiques (plus de transport en commun) et les résidents s'écartent de la population moyenne (plus de jeunes actifs diplômés). Cela risquerait de produire un effet de composition (Yule-Simpson) qui biaiserait les résultats. La distribution de la fréquence peut être observée à partir d'un *rootogram*, selon la suggestion de John Tukey [@tukey77]. On voit alors sur le graphique @fig-distrib-bcl que cette distribution est moins dispersée que ce que prévoit la distribution "classique" de Poisson. Il y a une forte concentration sur la valeur 1, ce qui ne constitue pas une surpri se : la plupart des actifs font quotidiennement une unique boucle domicile-travail. Ensuite, certains font deux boucles, vraisemblablement parce qu'ils rentrent chez eux pour déjeuner. D'autres encore ne vont pas aller à leur travail pour diverses raisons (vacances, maladie, week-end...), mais la fréquence observée est inférieure à ce que prévoit une distribution de Poisson. Enfin, de rares actifs font plus de deux boucles domicile-travail au cours d'une journée. Dans l'ensemble, la distribution est peu dispersée, bien moins qu'attendue dans le cas de Poisson.
+A ce stade, notre objectif est d'estimer la fréquence journalière des boucles à partir des comportements constatés dans EMP 2019. Nous limitons ici notre examen aux boucles effectuées pour le travail, ce pourquoi nous étudions uniquement les comportements des actifs. Par ailleurs, nous avons exclus l'Ile-de-France car les pratiques de mobilités y sont spécifiques (plus de transport en commun) et les résidents s'écartent de la population moyenne (plus de jeunes actifs diplômés). Cela risquerait de produire un effet de composition (Yule-Simpson) qui biaiserait les résultats. La distribution de la fréquence peut être observée à partir d'un *rootogram*, selon la suggestion de John Tukey [@tukey77]. On voit alors sur le @fig-distrib-bcl que cette distribution est moins dispersée que ce que prévoit la distribution "classique" de Poisson. Il y a une forte concentration sur la valeur 1, ce qui ne constitue pas une surpri se : la plupart des actifs font quotidiennement une unique boucle domicile-travail. Ensuite, certains font deux boucles, vraisemblablement parce qu'ils rentrent chez eux pour déjeuner. D'autres encore ne vont pas aller à leur travail pour diverses raisons (vacances, maladie, week-end...), mais la fréquence observée est inférieure à ce que prévoit une distribution de Poisson. Enfin, de rares actifs font plus de deux boucles domicile-travail au cours d'une journée. Dans l'ensemble, la distribution est peu dispersée, bien moins qu'attendue dans le cas de Poisson.
 
 ```{r}
 #| label: fig-distrib-bcl
@@ -292,8 +292,8 @@ bd_read("distribution_nb_boucles") |>
    rootogram(type = "hanging", 
                   shade = TRUE, 
                   scale = "sqrt", 
-                  main_gp = gpar(fontsize = 15),
-                                   main = "Distribution de la fréquence des boucles pour les actifs, hors Ile-de-France",
+                  main_gp = gpar(fontsize = 12),
+                                   main = "",
                                    xlab = "Nombre de boucles domicile-travail au cours d'une journée",
                                    ylab = "Fréquence (racine carrée)")
 
@@ -361,7 +361,7 @@ modelsummary::modelsummary(models = MOD_simple,
                            )
 ```
 
-Comme on peut le constater au @tbl-logit-simple et comme on pouvait s'y attendre, les ménages avec enfants effectuent plus souvent des boucles complexes.
+Comme on peut le constater sur le @tbl-logit-simple et comme on pouvait s'y attendre, les ménages avec enfants effectuent plus souvent des boucles complexes.
 
 ### Longueur des détours et multiplicateur de distance
 
@@ -379,13 +379,13 @@ K = L / d
 K = 2 + \gamma
 $$ {#eq-relations-k}
 
-On s'attend à ce que *K* dépende de la complexité de la boucle (plus la boucle est complexe, plus *K* est grand) et de la distance *d* (plus la distance est grande, plus *K* est petit). La @fig-boucles illustre ces intuitions en comparant les boucles A et B. L'emploi est plus éloigné dans le cas de la boucle B que dans la boucle A. Le trajet B consiste à faire un détour proportionnellement plus faible pour le motif course ou école. Le facteur multiplicateur *K* sera supérieur à 2 dans les deux cas, mais devrait être plus grand pour A que pour B ($K^A \geq K^B \geq 2$).
+On s'attend à ce que *K* dépende de la complexité de la boucle (plus la boucle est complexe, plus *K* est grand) et de la distance *d* (plus la distance est grande, plus *K* est petit). Le @fig-boucles illustre ces intuitions en comparant les boucles A et B. L'emploi est plus éloigné dans le cas de la boucle B que dans la boucle A. Le trajet B consiste à faire un détour proportionnellement plus faible pour le motif course ou école. Le facteur multiplicateur *K* sera supérieur à 2 dans les deux cas, mais devrait être plus grand pour A que pour B ($K^A \geq K^B \geq 2$).
 
 Le facteur *K* a plusieurs intérêts dans notre perspective. Tout d'abord, le fait de définir pour chaque boucle un motif principal conduit à attribuer à tort les kilomètres supplémentaires liés aux détours au motif principal. Le facteur *K* permet d'identifier la part de ces kilomètres supplémentaires et, donc, pourrait permettre de réaffecter ces kilomètres aux autres motifs. Pour l'instant, nous n'avons pas opéré une telle réaffectation : non seulement cela ne changerait les résultats qu'à la marge, mais également nous nous intéressons plus aux kilomètres parcourues totaux qu'aux motifs.
 
 Ensuite, le facteur *K* ne nous sert pas uniquement pour évaluer l'importance des détours par rapport au trajet direct domicile-travail, mais il nous permet aussi, en sens inverse, d'inférer la distance domicile-travail à partir de la longueur de la boucle. Il se trouve que c'est une difficulté dans l'enquête EMP 2019 : nous connaissons la distance parcourue pour chacun des trajets et, donc, nous pouvons connaître la longueur de chaque boucle effectuée, mais nous n'avons pas d'information directe sur la distance domicile-travail. Nous en sommes réduits à devoir l'inférer.
 
-Heureusement, on peut identifier partiellement le lien entre ces deux distances. Dans le cas d'une boucle simple, le motif principal est le motif de l'aller et le retour a pour motif le bien nommé "retour au domicile". La distance parcourue est alors de 2 fois la distance domicile-travail (K=2). Dans le cas d'une boucle complexe, il n'est pas toujours possible d'inférer la distance domicile-travail. Ce n'est possible que si le premier trajet de la boucle va directement au travail ou si le dernier trajet revient directement du travail. La @fig-boucles permet d'illustrer cela. On peut repérer la distance domicile-travail par les trait bleus dans les cas B, C et D. Les boucles B et D sont des boucles complexes, mais telles que le premier ou le dernier trajet sont des trajets domicile-travail. On peut donc poser que la distance domicile-travail est égale à la distance bleue. En revanche, pour une boucle complexe comme la boucle A, où il n'y a pas de trajets directs domicile travail, on ne peut pas déduire la distance domicile-travail, ni le facteur *K*.
+Heureusement, on peut identifier partiellement le lien entre ces deux distances. Dans le cas d'une boucle simple, le motif principal est le motif de l'aller et le retour a pour motif le bien nommé "retour au domicile". La distance parcourue est alors de 2 fois la distance domicile-travail (K=2). Dans le cas d'une boucle complexe, il n'est pas toujours possible d'inférer la distance domicile-travail. Ce n'est possible que si le premier trajet de la boucle va directement au travail ou si le dernier trajet revient directement du travail. Le @fig-boucles permet d'illustrer cela. On peut repérer la distance domicile-travail par les trait bleus dans les cas B, C et D. Les boucles B et D sont des boucles complexes, mais telles que le premier ou le dernier trajet sont des trajets domicile-travail. On peut donc poser que la distance domicile-travail est égale à la distance bleue. En revanche, pour une boucle complexe comme la boucle A, où il n'y a pas de trajets directs domicile travail, on ne peut pas déduire la distance domicile-travail, ni le facteur *K*.
 
 ![4 boucles domicile travail](images/boucles.svg){#fig-boucles fig-align="center" width="500"}
 
@@ -462,21 +462,35 @@ broom::tidy(MOD_rum_tc) |>
   fmt_number(c(estimate, std.error, statistic, p.value), decimals = 1)
 ```
 
-On peut voir au @tbl-rum-tc les estimations du modèle dans le cas où il y a des transports en commun. Le modèle à un $R^2$ de McFadden de `r mfr2`. Le modèle sans la possibilité de transports en commun n'est pas très différent.
-
-<!--# graph des probas des modes selon la distance -->
+On peut voir dans le @tbl-rum-tc les estimations du modèle dans le cas où il y a des transports en commun. Le modèle à un $R^2$ de McFadden de `r mfr2`. Le modèle sans la possibilité de transports en commun n'est pas très différent.
 
 ## Projection du modèle sur l'agglomération de la Rochelle
 
 Nous avons effectué la projection du modèle sur le territoire de La Rochelle au carreau INSPIRE de 200m. La procédure consiste à appliquer l'@eq-kmmod en imputant au carreau 200m les variables nécessaires. Ces variables sont celles qui nourrissent les différents modèles et qui sont répertoriées dans le @tbl-facteurs.
 
-La carte @fig-km-nav montre, par exemple, l'estimation du nombre moyen de kilomètres parcourus annuellement par un navetteur résidant dans chaque carreau d'habitation. Comme attendu, plus l'on s'éloigne des zones urbanisées, plus ce nombre de kilomètres augmente. Il est d'une certaine manière une traduction chiffrée de la dépendance à la voiture puisque, avec les modèles de comportements, nous avons pris ici en compte l'adaptation des comportements due à l'éloignement aux emplois.
+Le @fig-km-nav montre, par exemple, l'estimation du nombre moyen de kilomètres parcourus annuellement par un navetteur résidant dans chaque carreau d'habitation. Comme attendu, plus l'on s'éloigne des zones urbanisées, plus ce nombre de kilomètres augmente. Il est d'une certaine manière une traduction chiffrée de la dépendance à la voiture puisque, avec les modèles de comportements, nous avons pris ici en compte l'adaptation des comportements due à l'éloignement aux emplois.
+
+```{r }
+carte_kmnav <- bd_read("Km voiture au c200")
+fdc <- qs::qread("output/decor_carte.sqs")
+gg_carte_km <- ggplot() + fdc + 
+    geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
+    scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral")
+
+```
 
 ::: {#fig-km-nav}
-::: {.column-screen .content-visible when-format="html"}
-```{r}
+::: {.content-visible when-format="html"}
+::: panel-tabset
+## carte statique
 
-carte_kmnav <- bd_read("Km voiture au c200")
+```{r}
+gg_carte_km
+```
+
+## carte interactive
+
+```{r}
 
 if(knitr::is_html_output()) {
   centre <- carte_kmnav |>
@@ -526,28 +540,33 @@ if(knitr::is_latex_output()) {
     geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
     scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral")
     }
-
 ```
+:::
 :::
 
 ::: {.content-visible when-format="pdf"}
 ```{r}
-
-carte_kmnav <- bd_read("Km voiture au c200")
-
-if(knitr::is_latex_output()) {
-  fdc <- qs::qread("output/decor_carte.sqs")
-  ggplot() + fdc + 
-    geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
-    scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral")
-    }
+  gg_carte_km
 ```
 :::
 
 Km parcourus en voiture par un navetteur pour ses déplacements professionels
 :::
 
-## Scénarios de densification
+En appliquant un ratio émissions de CO~2~ aux kilomètres, on peut construire une carte localisée des émissions de CO~2~, ainsi que des analyses en variantes. Certains de ces scénarios sont développés dans @lempérière2023 dans le cadre de l'application à la Rochelle.
+
+### Prix, émission et densité
+
+La carte représentée sur le @fig-km-nav sert de base au @fig-prixkm. Chaque point de ce graphique est un point de la carte précédente. La taille du point indique le nombre d'actifs et c'est ainsi proportionel à la densité, puisque chaque carreau 200m a une taille fixe (4 hectares) ; la couleur représente le prix des transactions immobilières au m² pour l'année 2019 -- avec un lissage pour tenir compte du faible échantillonage à cette résolution spatiale. L'axe des y représente les kilomètres moyens parcourus par les actifs de chaque carreau pour leurs déplacements professionnels. Enfin, l'axe des x représente le niveau de vie (c'est-à-dire le revenu divisé par les unités de consommation) moyen des ménages de chaque carreau. La courbe en gris agrège les différents carreaux en pondérant par la population et illustre le lien entre kilomètre et niveau de vie.
+
+```{r}
+#| label: fig-prixkm
+#| fig-cap: revenus, kilomètre, densité et nivea de vie, La Rochelle
+bd_read("lrdistrev")
+
+```
+
+### Scénarios de densification
 
 L'intérêt de cette modélisation ne réside pas uniquement dans le fait de pouvoir synthétiser les pratiques de mobilités observées à une maille fine, mais également dans la possibilité de prédire l'évolution de ces pratiques en fonction de certains changements, de certains scénarios de modification urbaine. Ici, pour éclairer le lien entre densité urbaine et émission de gaz à effet de serre, nous avons simulé tout un ensemble de scénarios de densification et estimé les conséquences sur les kilomètres effectués en voiture par les navetteurs.
 
@@ -574,11 +593,11 @@ carte_elaskmpop
 
 Cette carte conforte l'intuition commune qui associe une forte densité urbaine à une réduction des kilomètres parcourus en voiture et, donc, une réduction des émissions de gaz à effet de serre. Il est possible de préciser cette relation en examinant pour chacun des scénarios le lien entre l'élasticité des kilomètres rapportés au choc démographique et l'élasticité de la densité articulée (ou, terme que nous préférons, la densité ressentie) rapportés à ce même choc démographique.
 
-## De la densité aux kilomètres
+### De la densité aux kilomètres
 
-Le graphique @fig-elas-km-pwd montre l'élasticité des kilomètres rapportés au choc démographique et l'élasticité de la densité ressentie rapportée à ce même choc. Nous aurions pu présenter le même graphique avec la densité urbaine au sens usuel mais, dans ce cas, le graphique aurait été simplement moins intéressant puisque l'élasticité de la densité urbaine est une constante dans tous les scénarios. Ce graphique aurait été unidimensionnel en écrasant la dispersion selon l'axe des abscisses. Mais il aurait fourni la même information sur l'élasticité des kilomètres parcourus en voiture sur la population.
+Le @fig-elas-km-pwd montre l'élasticité des kilomètres rapportés au choc démographique et l'élasticité de la densité ressentie rapportée à ce même choc. Nous aurions pu présenter le même graphique avec la densité urbaine au sens usuel mais, dans ce cas, le graphique aurait été simplement moins intéressant puisque l'élasticité de la densité urbaine est une constante dans tous les scénarios. Ce graphique aurait été unidimensionnel en écrasant la dispersion selon l'axe des abscisses. Mais il aurait fourni la même information sur l'élasticité des kilomètres parcourus en voiture sur la population.
 
-Comme on peut le constater sur le graphique @fig-elas-km-pwd, l'élasticité des kilomètres peut être aussi bien positive que négative. Pour un même choc démographique, une même variation de la densité urbaine, on peut avoir une dégradation du bilan kilométrique ou une amélioration. Une densification -- au sens usuel -- dans un des IRIS situés en haut du graphique conduit à dégrader le bilan kilométrique. Il s'agit des IRIS correspondant aux communes rurales, celles qui ont été identifiées comme éloignés des emplois. Et, inversement, une densification dans un des IRIS du bas du graphique améliore le bilan kilométrique par actif.
+Comme on peut le constater sur le @fig-elas-km-pwd, l'élasticité des kilomètres peut être aussi bien positive que négative. Pour un même choc démographique, une même variation de la densité urbaine, on peut avoir une dégradation du bilan kilométrique ou une amélioration. Une densification -- au sens usuel -- dans un des IRIS situés en haut du graphique conduit à dégrader le bilan kilométrique. Il s'agit des IRIS correspondant aux communes rurales, celles qui ont été identifiées comme éloignés des emplois. Et, inversement, une densification dans un des IRIS du bas du graphique améliore le bilan kilométrique par actif.
 
 Il est intéressant de relier cette simple analyse aux variations de l'élasticité de la densité ressentie[^7]. On observe tout d'abord que l'élasticité de la densité peut être négative. En effet, lorsque l'on augmente le nombre d'individu dans une zone peu dense, deux effets contradictoires se superposent : d'un côté, on augmente la densité de cette zone, mais d'un autre côté, on augmente la probabilité qu'un individu pris au hasard soit un individu de cette zone peu dense, ce qui a pour effet de diminuer l'espérance de densité. Quand ce deuxième effet domine, la densité ressentie diminue. C'est ce qui se produit pour une partie des IRIS situés en haut du graphique : le choc démographique augmente de fait le nombre de ruraux et diminue donc la densité ressentie. Il apparaît donc plus clairement un lien entre densification ressentie et amélioration du bilan kilométrique par actif.
 
@@ -599,7 +618,7 @@ graph_km_dens +
 
 ```
 
-## Références {.unlisted .unnumbered}
+## Références bibliographiques {.unnumbered}
 
 ::: {#refs}
 :::
