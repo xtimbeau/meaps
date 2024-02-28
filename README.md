@@ -8,6 +8,6 @@ Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et 
 
 Les documents de travail sont accessibles à [preview.meaps.fr](https://preview.meaps.fr)
 
-> Le dépôt contient les code nécessaire à la construction du document MEAPS. Il est réalisé avec quarto version 1.4.
+> Le dépôt contient les code nécessaire à la construction du document MEAPS. Il est réalisé avec quarto version 1.4.500.
 >
 > La plupart des éléments sont exécutables à l'exception de la partie appliquée à la Rochelle qui demande un accès à des données sources non libres.

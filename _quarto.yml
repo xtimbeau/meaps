@@ -15,6 +15,11 @@ website:
   google-analytics: "G-KF6Z4B486X"
   reader-mode: true
   bread-crumbs: true
+  comments:
+    utterances:
+      repo: "xtimbeau/meaps"
+      label: "comment"
+      theme: "github-light"
   page-footer:
       border: true
       center: "**CC BY 4.0**"
@@ -51,13 +56,6 @@ bibliography:
   - references_meaps.bib
 
 author-title: Auteurs
-
-filters:
-  - search-replace
-
-search-replace:
-  oe : "\u0153"
-  ae : "\u00e6"
 
 logo: www/ofce.png
 
