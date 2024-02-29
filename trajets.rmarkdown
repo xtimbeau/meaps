@@ -45,6 +45,7 @@ bibliography:
 source("R/rinit.r")
 ```
 
+
 ## L'impératif d'un habitat sobre
 
 Réduire les émissions de gaz à effet de serre est aujourd'hui un objectif central des politiques publiques. Or, un tel objectif ne peut être atteint sans agir à différents niveaux et dans de nombreux domaines. Notamment, il ne va pas suffire de remplacer, au sein de notre système de production d'énergie, les sources fossiles par des sources renouvelables. Il faut aussi développer une stratégie de sobriété énergétique, de manière à réduire le coût de la bascule vers des énergies propres, à limiter l'empreinte environnementale liée à ces investissements dans le système énergétique actuel et, également, à éviter de produire de manière indirecte des émissions de gaz à effet de serre.
@@ -266,6 +267,7 @@ L'enquête mobilité des personnes nous sert de source, conjointement à MOBPRO,
 
 Comme on peut le constater sur le @tbl-empkm, entre une "commune très dense" et une "commune peu dense", il y a un ratio de un peu moins que 1 à 2 pour les kilomètres parcourus annuellement, pour le motif principal travail.
 
+
 ```{r}
 #| label: tbl-empkm 
 #| #| tbl-cap: Nombre de kilomètres parcourus par an selon EMP2019 
@@ -275,9 +277,11 @@ co2_emp$table[[1]] |>
   gt::tab_options(table.font.size = 12)
 ```
 
+
 ### De la fréquence des boucles
 
 A ce stade, notre objectif est d'estimer la fréquence journalière des boucles à partir des comportements constatés dans EMP 2019. Nous limitons ici notre examen aux boucles effectuées pour le travail, ce pourquoi nous étudions uniquement les comportements des actifs. Par ailleurs, nous avons exclus l'Ile-de-France car les pratiques de mobilités y sont spécifiques (plus de transport en commun) et les résidents s'écartent de la population moyenne (plus de jeunes actifs diplômés). Cela risquerait de produire un effet de composition (Yule-Simpson) qui biaiserait les résultats. La distribution de la fréquence peut être observée à partir d'un *rootogram*, selon la suggestion de John Tukey [@tukey77]. On voit alors sur le graphique @fig-distrib-bcl que cette distribution est moins dispersée que ce que prévoit la distribution "classique" de Poisson. Il y a une forte concentration sur la valeur 1, ce qui ne constitue pas une surprise : la plupart des actifs font quotidiennement une unique boucle domicile-travail. Ensuite, certains font deux boucles, vraisemblablement parce qu'ils rentrent chez eux pour déjeuner. D'autres encore ne vont pas aller à leur travail pour diverses raisons (vacances, maladie, week-end...), mais la fréquence observée est inférieure à ce que prévoit une distribution de Poisson. Enfin, de rares actifs font plus de deux boucles domicile-travail au cours d'une journée. Dans l'ensemble, la distribution est peu dispersée, bien moins qu'attendue dans le cas de Poisson.
+
 
 ```{r}
 #| label: fig-distrib-bcl
@@ -293,6 +297,7 @@ bd_read("distribution_nb_boucles") |>
                                    ylab = "Fréquence (racine carrée)")
 
 ```
+
 
 Pour tenir compte de cette sous-dispersion, nous avons modélisé cette distribution à partir de la distribution de Conway-Maxwell-Poisson [@Conway1962], qui ajoute au modèle de Poisson un paramètre pour ajuster la dispersion. Elle s'écrit comme suit :
 
@@ -310,6 +315,7 @@ $$
 log(nb^{bcl}_k) = \alpha + \gamma \times log(L^{bcl}_k) + \delta \times dens_{res, k} + \tau \times voiture_k + \varepsilon_k \\avec \\ \varepsilon_k \sim CMP(\lambda, \nu)
 $$ {#eq-reg-cmp}
 
+
 ```{r}
 #| label: tbl-reg-cmp
 #| tbl-cap: Régression de Conway-Maxwell-Poisson sur le nombre de boucles journalières domicile-travail
@@ -324,6 +330,7 @@ modelsummary::modelsummary(models = list('CMP'=MOD_cmp),
                                            "DENSITECOM_RESPeu dense"="Commune peu dense",
                                            "voitureTRUE"="A une voiture"))
 ```
+
 
 Le @tbl-reg-cmp présente les résultats des estimations. Le paramètre de dispersion $\nu$ est très significativement différent de 1 et vaut environ `r round(nu, digits = 1)`. Il y a bien sous-dispersion de la distribution. Ensuite, comme on peut le voir, la longueur de la boucle joue un rôle négatif, comme on pouvait s'y attendre : plus la distance domicile-travail est importante, moins un actif va envisager de multiplier les allers-et-retours. Disposer d'une voiture fait que l'on hésite moins à faire des allers-et-retours. Enfin, résider dans une commune peu dense conduit un peu plus à multiplier le nombre de boucles.
 
@@ -341,6 +348,7 @@ $$
 logit(Prob^{simple}_k) = \alpha + \beta \times typmen_k +\varepsilon_k \\ avec\ \varepsilon_k \sim Binomial
 $$ {#eq-logit-bcl-simple}
 
+
 ```{r}
 #| label: tbl-logit-simple
 #| tbl-cap: Régression logistique sur la chance qu'une boucle soit simple
@@ -355,6 +363,7 @@ modelsummary::modelsummary(models = MOD_simple,
                                            "Couple avec enfant(s)", "Autres")
                            )
 ```
+
 
 Comme on peut le constater sur le @tbl-logit-simple et comme on pouvait s'y attendre, les ménages avec enfants effectuent plus souvent des boucles complexes.
 
@@ -392,6 +401,7 @@ log(\gamma_l) = \alpha + \beta \times log(1 + d_l) + \varepsilon_l
 \\ en\ minimisant \sum_l \left\lvert{\varepsilon_l}\right\lvert
 $$ {#eq-prop-detours}
 
+
 ```{r}
 #| label: tbl-reg-detours
 #| tbl-cap: Estimation de la proportion des détours en fonction de la distance domicile-travail
@@ -403,7 +413,9 @@ K_pred <- 2 + exp(predict(mod_detours, data_bcl)) - 0.01
 broom::tidy(mod_detours) |> gt()
 ```
 
+
 Le modèle a un $R^2$ de `r round(cor(K_pred, data_bcl$K)^2, digit = 2)`. Le graphique @fig-dist2K montre l'allure de notre estimation médiane par rapport aux données issues de l'EMP.
+
 
 ```{r}
 #| label: fig-dist2K
@@ -417,6 +429,7 @@ tibble(distance = 0:600/10, z = predict(mod_detours, tibble(distance = distance)
   scale_y_log10(limits = c(1,10), breaks = c(1,2, 3, 5, 10)) +
   xlim(0,60) + ylim(2,10)
 ```
+
 
 On notera que les détours sont surtout importants – en proportion – à faibles distances et, comme nous l'avons vu précédemment, demeurent assez peu fréquents. L'un dans l'autre, le rôle joué par les détours dans notre modélisation reste relativement modeste.
 
@@ -440,6 +453,7 @@ $$ {#eq-utility}
 
 Nous nous en tenons, pour l'heure, à la modélisation la plus simple en faisant l'hypothèse que les erreurs sont distribuées selon une loi de Gumbel, conformément à la première formulation du modèle RUM par McFadden . Ceci revient à supposer que ces erreurs sont indépendantes et homoscédastiques et permet de se ramener à un simple modèle logistique multinomiale.
 
+
 ```{r}
 #| label: tbl-rum-tc
 #| tbl-cap: Estimation des paramètres du modèle d'utilité aléatoire avec transport en commun
@@ -457,7 +471,9 @@ broom::tidy(MOD_rum_tc) |>
   fmt_number(c(estimate, std.error, statistic, p.value), decimals = 1)
 ```
 
+
 On peut voir dans le @tbl-rum-tc les estimations du modèle dans le cas où il y a des transports en commun. Le modèle à un $R^2$ de McFadden de `r mfr2`. Le modèle sans la possibilité de transports en commun n'est pas très différent.
+
 
 ```{r}
 library(RColorBrewer)
@@ -466,11 +482,13 @@ part_modale +
   theme_ofce()
 ```
 
+
 ## Projection du modèle sur l'agglomération de la Rochelle
 
 Nous avons effectué la projection du modèle sur le territoire de La Rochelle au carreau INSPIRE de 200m. La procédure consiste à appliquer l'@eq-kmmod en imputant au carreau 200m les variables nécessaires. Ces variables sont celles qui nourrissent les différents modèles et qui sont répertoriées dans le @tbl-facteurs.
 
 Le @fig-km-nav montre, par exemple, l'estimation du nombre moyen de kilomètres parcourus annuellement par un navetteur résidant dans chaque carreau d'habitation. Comme attendu, plus l'on s'éloigne des zones urbanisées, plus ce nombre de kilomètres augmente. Il est d'une certaine manière une traduction chiffrée de la dépendance à la voiture puisque, avec les modèles de comportements, nous avons pris ici en compte l'adaptation des comportements due à l'éloignement aux emplois.
+
 
 ```{r }
 carte_kmnav <- bd_read("Km voiture au c200")
@@ -481,16 +499,20 @@ gg_carte_km <- ggplot() + fdc +
 
 ```
 
+
 ::: {#fig-km-nav}
 ::: {.content-visible when-format="html"}
 ::: panel-tabset
 ## carte statique
 
+
 ```{r}
 gg_carte_km
 ```
 
+
 ## carte interactive
+
 
 ```{r}
 
@@ -543,13 +565,16 @@ if(knitr::is_latex_output()) {
     scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral")
     }
 ```
+
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
+
 ```{r}
   gg_carte_km
 ```
+
 :::
 
 Km parcourus en voiture par un navetteur pour ses déplacements professionels
@@ -563,12 +588,14 @@ La carte représentée sur le @fig-km-nav sert de base au @fig-prixkm. Chaque po
 
 La courbe en gris agrège les différents carreaux en pondérant par la population de chaque carreau et illustre le lien entre kilomètre et niveau de vie. Le nombre de kilomètres est le plus bas pour les ménages les plus pauvres – la contrainte budgétaire les oblige certainement – et les ménages les plus aisés. Pour un niveau de vie donné, la dispersion est très grande, mais le lien apparaît significatif pour autant. Les classes moyennes (ni les plus riches, ni les plus pauvres).
 
+
 ```{r}
 #| label: fig-prixkm
 #| fig-cap: revenus, kilomètre, densité et nivea de vie, La Rochelle
 bd_read("lrdistrev")
 
 ```
+
 
 ### Scénarios de densification
 
@@ -586,6 +613,7 @@ On notera enfin que les 100 actifs ajoutés ont à chaque fois les mêmes caract
 
 La carte @fig-elas-km-pop fait clairement apparaître que le nombre de kilomètres parcourus en voiture par les navetteurs sur le territoire varie selon l'endroit où se produit la densification de population. L'élasticité du nombre de kilomètres sur la population totale (soit le ratio de la variation du nombre de kilomètres rapportée à l'ampleur du choc démographique) est négative au cœur de l'aire urbaine, dans le centre de La Rochelle, et devient positive à mesure qu'on s'en éloigne.
 
+
 ```{r}
 #| label: fig-elas-km-pop
 #| fig-cap: Elasticité de km voiture sur la population totale pour 100 nouveaux navetteurs dans l'IRIS
@@ -594,6 +622,7 @@ carte_elaskmpop <- bd_read("Carte élasticité km voiture sur pop")
 
 carte_elaskmpop
 ```
+
 
 Cette carte conforte l'intuition commune qui associe une forte densité urbaine à une réduction des kilomètres parcourus en voiture et, donc, une réduction des émissions de gaz à effet de serre. Il est possible de préciser cette relation en examinant pour chacun des scénarios le lien entre l'élasticité des kilomètres rapportés au choc démographique et l'élasticité de la densité articulée (ou, terme que nous préférons, la densité ressentie) rapportés à ce même choc démographique.
 
@@ -611,6 +640,7 @@ Dans le cadran en bas à droite du graphique, on a une autre composante attendue
 
 Il y a enfin un dernier cadran non vide, situé en bas à gauche, où le choc démographique n'a pas d'impact fort sur la densité ressentie tout en améliorant le bilan. Il s'agit de la première couronne autour de La Rochelle. Ainsi, un choc démographique dans cette zone précise a la particularité de ne pas être ressentie comme une densification tout en permettant une forte réduction des émissions de gaz à effet de serre. De nombreux opposants à la densification associent celle-ci à l'image de résidents entassées dans des tours, image qu'ils jugent repoussante. Or ce cadran montre qu'il existe des formes de densification écologique qui ne sont pas ressenties comme des fortes densifications.
 
+
 ```{r}
 #| label: fig-elas-km-pwd
 #| fig-cap: Elasticité de km voiture en fonction de la densité ressentie 
@@ -621,7 +651,9 @@ graph_km_dens +
   theme_ofce()
 ```
 
+
 ## Références bibliographiques {.unnumbered}
 
 ::: {#refs}
 :::
+
