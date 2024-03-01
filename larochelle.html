@@ -147,15 +147,15 @@ window.Quarto = {
 </script>
 
 <meta property="og:title" content="MEAPS - MEAPS &amp; gravitaire : estimations à La Rochelle">
-<meta property="og:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.">
+<meta property="og:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.  r  wordcountaddin::word_count('larochelle.qmd') mots.">
 <meta property="og:image" content="https://preview.meaps.fr/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta property="og:site_name" content="MEAPS">
 <meta name="twitter:title" content="MEAPS - MEAPS &amp; gravitaire : estimations à La Rochelle">
-<meta name="twitter:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.">
+<meta name="twitter:description" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.  r  wordcountaddin::word_count('larochelle.qmd') mots.">
 <meta name="twitter:image" content="https://preview.meaps.fr/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="MEAPS &amp;amp; gravitaire : estimations à La Rochelle">
-<meta name="citation_abstract" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.">
+<meta name="citation_abstract" content="L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. &amp;amp;lt;br&amp;gt; 12261 mots.">
 <meta name="citation_keywords" content="modèle gravitaire,modèle radiatif,mobilités,glm,poisson,entropie relative">
 <meta name="citation_author" content="Maxime Parodi">
 <meta name="citation_author" content="Xavier Timbeau">
@@ -166,35 +166,12 @@ window.Quarto = {
 <meta name="citation_fulltext_html_url" content="https://preview.meaps.fr">
 <meta name="citation_language" content="fr">
 <meta name="citation_journal_title" content="Document de travail de l&amp;amp;#039;OFCE n°2024-4">
-<meta name="citation_reference" content="citation_title=Handbook of transport modelling;,citation_editor=David A. Hensher;,citation_editor=Kenneth J. Button;,citation_publication_date=2007-09-14;,citation_cover_date=2007-09-14;,citation_year=2007;,citation_fulltext_html_url=http://dx.doi.org/10.1108/9780857245670;,citation_doi=10.1108/9780857245670;,citation_journal_title=Handbooks in Transport;">
-<meta name="citation_reference" content="citation_title=A statistical theory of spatial distribution models;,citation_author=A. G. Wilson;,citation_publication_date=1967-11;,citation_cover_date=1967-11;,citation_year=1967;,citation_fulltext_html_url=http://dx.doi.org/10.1016/0041-1647(67)90035-4;,citation_issue=3;,citation_doi=10.1016/0041-1647(67)90035-4;,citation_volume=1;,citation_language=en;,citation_journal_title=Transportation Research;">
-<meta name="citation_reference" content="citation_title=Discrete choice analysis: Theory and application to travel demand;,citation_author=Moshe Ben-Akiva;,citation_author=Steven R. Lerman;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_language=en-US;,citation_series_title=Transportation series;">
-<meta name="citation_reference" content="citation_title=A comparative evaluation of trip distribution procedures;,citation_author=Kevin E. Heanue;,citation_author=Clyde E. Pyers;,citation_publication_date=1966;,citation_cover_date=1966;,citation_year=1966;,citation_issue=114;,citation_journal_title=Highway Reserach Record;">
-<meta name="citation_reference" content="citation_title=Intervening opportunities: A theory relating mobility and distance;,citation_author=Samuel A. Stouffer;,citation_publication_date=1940-12;,citation_cover_date=1940-12;,citation_year=1940;,citation_fulltext_html_url=http://dx.doi.org/10.2307/2084520;,citation_issue=6;,citation_doi=10.2307/2084520;,citation_volume=5;,citation_journal_title=American Sociological Review;">
-<meta name="citation_reference" content="citation_title=Modelling transport;,citation_author=Juan Dios Ortúzar;,citation_author=Luis G Willumsen;,citation_publication_date=2011;,citation_cover_date=2011;,citation_year=2011;">
-<meta name="citation_reference" content="citation_title=Prévision de la demande de transport;,citation_author=undefined Patrick Bonnel;,citation_publication_date=2001-12-01;,citation_cover_date=2001-12-01;,citation_year=2001;,citation_language=français;">
-<meta name="citation_reference" content="citation_title=A universal model for mobility and migration patterns;,citation_author=Filippo Simini;,citation_author=Marta C. González;,citation_author=Amos Maritan;,citation_author=Albert-László Barabási;,citation_publication_date=2012-02-26;,citation_cover_date=2012-02-26;,citation_year=2012;,citation_fulltext_html_url=http://dx.doi.org/10.1038/nature10856;,citation_issue=7392;,citation_doi=10.1038/nature10856;,citation_volume=484;,citation_language=en;,citation_journal_title=Nature;">
-<meta name="citation_reference" content="citation_title=Theorie economique de l’accessibilite urbaine;,citation_author=G. Koenig;,citation_publication_date=1974-03;,citation_cover_date=1974-03;,citation_year=1974;,citation_fulltext_html_url=http://dx.doi.org/10.2307/3500570;,citation_issue=2;,citation_doi=10.2307/3500570;,citation_volume=25;,citation_journal_title=Revue économique;">
-<meta name="citation_reference" content="citation_title=Indicators of urban accessibility: Theory and application;,citation_author=J. G. Koenig;,citation_publication_date=1980-06;,citation_cover_date=1980-06;,citation_year=1980;,citation_fulltext_html_url=http://dx.doi.org/10.1007/bf00167128;,citation_issue=2;,citation_doi=10.1007/bf00167128;,citation_volume=9;,citation_language=en;,citation_journal_title=Transportation;">
-<meta name="citation_reference" content="citation_title=Evidence-Based Transit and Land Use Sketch Planning Using Interactive Accessibility Methods on Combined Schedule and Headway-Based Networks;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Marco Linden;,citation_publication_date=2017-01;,citation_cover_date=2017-01;,citation_year=2017;,citation_fulltext_html_url=http://dx.doi.org/10.3141/2653-06;,citation_issue=1;,citation_doi=10.3141/2653-06;,citation_volume=2653;,citation_language=en;,citation_journal_title=Transportation Research Record: Journal of the Transportation Research Board;">
-<meta name="citation_reference" content="citation_title=Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Michael Van Eggermond;,citation_publication_date=2018-07-23;,citation_cover_date=2018-07-23;,citation_year=2018;,citation_fulltext_html_url=http://dx.doi.org/10.5198/jtlu.2018.1074;,citation_issue=1;,citation_doi=10.5198/jtlu.2018.1074;,citation_volume=11;,citation_journal_title=Journal of Transport and Land Use;">
-<meta name="citation_reference" content="citation_title=Getting Charlie off the MTA: a multiobjective optimization method to account for cost constraints in public transit accessibility metrics;,citation_author=Matthew Wigginton Conway;,citation_author=Anson F. Stewart;,citation_publication_date=2019-04-30;,citation_cover_date=2019-04-30;,citation_year=2019;,citation_fulltext_html_url=http://dx.doi.org/10.1080/13658816.2019.1605075;,citation_issue=9;,citation_doi=10.1080/13658816.2019.1605075;,citation_volume=33;,citation_language=en;,citation_journal_title=International Journal of Geographical Information Science;">
-<meta name="citation_reference" content="citation_title=r5r: Rapid realistic routing on multimodal transport networks with R5 in r;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva undefined;,citation_author=Daniel Herszenhut undefined;,citation_author=Carlos Kaue Vieira Braga undefined;,citation_author=Matthew Wigginton Conway undefined;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_doi=10.32866/001c.21262;">
-<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_publisher=https://www.openstreetmap.org;">
-<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;">
-<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6454112;">
-<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined MOBPERS;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires; https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;">
-<meta name="citation_reference" content="citation_title=Creating an executable paper is a journey through Open Science;,citation_author=Jana Lasser;,citation_publication_date=2020-08-19;,citation_cover_date=2020-08-19;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1038/s42005-020-00403-4;,citation_issue=1;,citation_doi=10.1038/s42005-020-00403-4;,citation_volume=3;,citation_language=en;,citation_journal_title=Communications Physics;">
-<meta name="citation_reference" content="citation_title=On Information and Sufficiency;,citation_author=S. Kullback;,citation_author=R. A. Leibler;,citation_publication_date=1951-03;,citation_cover_date=1951-03;,citation_year=1951;,citation_fulltext_html_url=http://dx.doi.org/10.1214/aoms/1177729694;,citation_issue=1;,citation_doi=10.1214/aoms/1177729694;,citation_volume=22;,citation_language=en;,citation_journal_title=The Annals of Mathematical Statistics;">
-<meta name="citation_reference" content="citation_title=An R-squared measure of goodness of fit for some common nonlinear regression models;,citation_author=A. Colin Cameron;,citation_author=Frank A. G. Windmeijer;,citation_publication_date=1997-04;,citation_cover_date=1997-04;,citation_year=1997;,citation_fulltext_html_url=http://dx.doi.org/10.1016/S0304-4076(96)01818-0;,citation_issue=2;,citation_doi=10.1016/s0304-4076(96)01818-0;,citation_volume=77;,citation_language=en;,citation_journal_title=Journal of Econometrics;">
 <meta name="citation_reference" content="citation_title=Estimer des flux de navetteurs avec un modèle gravitaire : application géomatique en région Provence-Alpes-Côte d’Azur (France)&amp;amp;amp;lt;sup&amp;gt;1&amp;lt;/sup&amp;gt;;,citation_author=Didier Josselin;,citation_author=Samuel Carpentier-Postel;,citation_author=Frédéric Audard;,citation_author=Safaâ Amarouch;,citation_author=Jean-Baptiste Durand;,citation_author=Nathalie Brachet;,citation_author=Mathieu Coulon;,citation_author=Louisette Garcin;,citation_publication_date=2020-09-01;,citation_cover_date=2020-09-01;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1139/geomat-2020-0009;,citation_issue=3;,citation_doi=10.1139/geomat-2020-0009;,citation_volume=74;,citation_language=fr;,citation_journal_title=Geomatica;">
 <meta name="citation_reference" content="citation_title=Toward a better understanding of the intervening opportunities model;,citation_author=Earl R. Ruiter;,citation_publication_date=1967;,citation_cover_date=1967;,citation_year=1967;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/0041164767900949;,citation_issue=1;,citation_doi=https://doi.org/10.1016/0041-1647(67)90094-9;,citation_volume=1;,citation_journal_title=Transportation Research;">
-<meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Spatial Flows and Spatial Patterns;,citation_author=A S Fotheringham;,citation_publication_date=1984-04-01;,citation_cover_date=1984-04-01;,citation_year=1984;,citation_fulltext_html_url=https://doi.org/10.1068/a160529;,citation_issue=4;,citation_doi=10.1068/a160529;,citation_volume=16;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Spatial Flows and Competing Central Places: Towards a General Theory of Hierarchical Interaction;,citation_author=T J Fik;,citation_author=G F Mulligan;,citation_publication_date=1990-04-01;,citation_cover_date=1990-04-01;,citation_year=1990;,citation_fulltext_html_url=https://doi.org/10.1068/a220527;,citation_issue=4;,citation_doi=10.1068/a220527;,citation_volume=22;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Human Mobility in a Continuum Approach;,citation_author=Filippo Simini;,citation_author=Amos Maritan;,citation_author=Zoltán Néda;,citation_publication_date=2013-03-28;,citation_cover_date=2013-03-28;,citation_year=2013;,citation_fulltext_html_url=https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0060069;,citation_issue=3;,citation_doi=10.1371/journal.pone.0060069;,citation_volume=8;,citation_language=en;,citation_journal_title=PLOS ONE;">
 <meta name="citation_reference" content="citation_title=Systematic comparison of trip distribution laws and models;,citation_author=Maxime Lenormand;,citation_author=Aleix Bassolas;,citation_author=José J. Ramasco;,citation_publication_date=2016-02-01;,citation_cover_date=2016-02-01;,citation_year=2016;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0966692315002422;,citation_doi=10.1016/j.jtrangeo.2015.12.008;,citation_volume=51;,citation_journal_title=Journal of Transport Geography;">
-<meta name="citation_reference" content="citation_title=A New Set of Spatial-Interaction Models: The Theory of Competing Destinations;,citation_author=A S Fotheringham;,citation_publication_date=1983-01-01;,citation_cover_date=1983-01-01;,citation_year=1983;,citation_fulltext_html_url=https://doi.org/10.1177/0308518X8301500103;,citation_issue=1;,citation_doi=10.1177/0308518X8301500103;,citation_volume=15;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
 <meta name="citation_reference" content="citation_title=Limits of Predictability in Commuting Flows in the Absence of Data for Calibration;,citation_author=Yingxiang Yang;,citation_author=Carlos Herrera;,citation_author=Nathan Eagle;,citation_author=Marta C. González;,citation_publication_date=2014-07-11;,citation_cover_date=2014-07-11;,citation_year=2014;,citation_fulltext_html_url=https://www.nature.com/articles/srep05662;,citation_issue=1;,citation_doi=10.1038/srep05662;,citation_volume=4;,citation_language=en;,citation_journal_title=Scientific Reports;">
 <meta name="citation_reference" content="citation_title=A Method of Fitting the Gravity Model Based on the Poisson Distribution*;,citation_author=Robin Flowerdew;,citation_author=Murray Aitkin;,citation_publication_date=1982;,citation_cover_date=1982;,citation_year=1982;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-9787.1982.tb00744.x;,citation_issue=2;,citation_doi=10.1111/j.1467-9787.1982.tb00744.x;,citation_volume=22;,citation_language=en;,citation_journal_title=Journal of Regional Science;">
 <meta name="citation_reference" content="citation_title=Categorical data analysis;,citation_author=Alan Agresti;,citation_publication_date=2002-07-03;,citation_cover_date=2002-07-03;,citation_year=2002;,citation_fulltext_html_url=http://dx.doi.org/10.1002/0471249688;,citation_doi=10.1002/0471249688;,citation_journal_title=Wiley Series in Probability and Statistics;">
@@ -213,15 +190,15 @@ window.Quarto = {
 <meta name="citation_reference" content="citation_title=Prévision de la demande de transport;,citation_author=undefined Patrick Bonnel;,citation_publication_date=2001-12-01;,citation_cover_date=2001-12-01;,citation_year=2001;,citation_language=français;">
 <meta name="citation_reference" content="citation_title=A universal model for mobility and migration patterns;,citation_author=Filippo Simini;,citation_author=Marta C. González;,citation_author=Amos Maritan;,citation_author=Albert-László Barabási;,citation_publication_date=2012-02-26;,citation_cover_date=2012-02-26;,citation_year=2012;,citation_fulltext_html_url=http://dx.doi.org/10.1038/nature10856;,citation_issue=7392;,citation_doi=10.1038/nature10856;,citation_volume=484;,citation_language=en;,citation_journal_title=Nature;">
 <meta name="citation_reference" content="citation_title=Theorie economique de l’accessibilite urbaine;,citation_author=G. Koenig;,citation_publication_date=1974-03;,citation_cover_date=1974-03;,citation_year=1974;,citation_fulltext_html_url=http://dx.doi.org/10.2307/3500570;,citation_issue=2;,citation_doi=10.2307/3500570;,citation_volume=25;,citation_journal_title=Revue économique;">
-<meta name="citation_reference" content="citation_title=Indicators of urban accessibility: Theory and application;,citation_author=J. G. Koenig;,citation_publication_date=1980-06;,citation_cover_date=1980-06;,citation_year=1980;,citation_fulltext_html_url=http://dx.doi.org/10.1007/bf00167128;,citation_issue=2;,citation_doi=10.1007/bf00167128;,citation_volume=9;,citation_language=en;,citation_journal_title=Transportation;">
+<meta name="citation_reference" content="citation_title=Indicators of urban accessibility: Theory and application;,citation_author=G. Koenig;,citation_publication_date=1980-06;,citation_cover_date=1980-06;,citation_year=1980;,citation_fulltext_html_url=http://dx.doi.org/10.1007/bf00167128;,citation_issue=2;,citation_doi=10.1007/bf00167128;,citation_volume=9;,citation_language=en;,citation_journal_title=Transportation;">
 <meta name="citation_reference" content="citation_title=Evidence-Based Transit and Land Use Sketch Planning Using Interactive Accessibility Methods on Combined Schedule and Headway-Based Networks;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Marco Linden;,citation_publication_date=2017-01;,citation_cover_date=2017-01;,citation_year=2017;,citation_fulltext_html_url=http://dx.doi.org/10.3141/2653-06;,citation_issue=1;,citation_doi=10.3141/2653-06;,citation_volume=2653;,citation_language=en;,citation_journal_title=Transportation Research Record: Journal of the Transportation Research Board;">
 <meta name="citation_reference" content="citation_title=Accounting for uncertainty and variation in accessibility metrics for public transport sketch planning;,citation_author=Matthew Wigginton Conway;,citation_author=Andrew Byrd;,citation_author=Michael Van Eggermond;,citation_publication_date=2018-07-23;,citation_cover_date=2018-07-23;,citation_year=2018;,citation_fulltext_html_url=http://dx.doi.org/10.5198/jtlu.2018.1074;,citation_issue=1;,citation_doi=10.5198/jtlu.2018.1074;,citation_volume=11;,citation_journal_title=Journal of Transport and Land Use;">
 <meta name="citation_reference" content="citation_title=Getting Charlie off the MTA: a multiobjective optimization method to account for cost constraints in public transit accessibility metrics;,citation_author=Matthew Wigginton Conway;,citation_author=Anson F. Stewart;,citation_publication_date=2019-04-30;,citation_cover_date=2019-04-30;,citation_year=2019;,citation_fulltext_html_url=http://dx.doi.org/10.1080/13658816.2019.1605075;,citation_issue=9;,citation_doi=10.1080/13658816.2019.1605075;,citation_volume=33;,citation_language=en;,citation_journal_title=International Journal of Geographical Information Science;">
 <meta name="citation_reference" content="citation_title=r5r: Rapid realistic routing on multimodal transport networks with R5 in r;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva undefined;,citation_author=Daniel Herszenhut undefined;,citation_author=Carlos Kaue Vieira Braga undefined;,citation_author=Matthew Wigginton Conway undefined;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_doi=10.32866/001c.21262;">
-<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_publisher=https://www.openstreetmap.org;">
-<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_author=undefined C200;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;">
-<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_author=undefined MOBPRO;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=INSEE; https://www.insee.fr/fr/statistiques/6454112;">
-<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined MOBPERS;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires; https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;">
+<meta name="citation_reference" content="citation_title=Planet dump retrieved from https://planet.osm.org;,citation_author=OpenStreetMap contributors;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_fulltext_html_url=https://www.openstreetmap.org;">
+<meta name="citation_reference" content="citation_title=Revenus, pauvreté et niveau de vie en 2017 - données carroyées. Dispositif fichier localisé social et fiscal (filosofi);,citation_author=undefined INSEE;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217;,citation_publisher=INSEE;">
+<meta name="citation_reference" content="citation_title=Mobilités professionnelles en 2019 : Déplacements domicile - lieu de travail recensement de la population - base flux de mobilité;,citation_author=undefined INSEE;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.insee.fr/fr/statistiques/6454112;,citation_publisher=INSEE;">
+<meta name="citation_reference" content="citation_title=EMP 2019 résultats détaillés de l’enquête mobilité des personnes de 2019;,citation_author=undefined SDES;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_fulltext_html_url=https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019;,citation_publisher=SDES, Ministère de la transition écologique et de la cohésion des territoires;">
 <meta name="citation_reference" content="citation_title=Creating an executable paper is a journey through Open Science;,citation_author=Jana Lasser;,citation_publication_date=2020-08-19;,citation_cover_date=2020-08-19;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1038/s42005-020-00403-4;,citation_issue=1;,citation_doi=10.1038/s42005-020-00403-4;,citation_volume=3;,citation_language=en;,citation_journal_title=Communications Physics;">
 <meta name="citation_reference" content="citation_title=On Information and Sufficiency;,citation_author=S. Kullback;,citation_author=R. A. Leibler;,citation_publication_date=1951-03;,citation_cover_date=1951-03;,citation_year=1951;,citation_fulltext_html_url=http://dx.doi.org/10.1214/aoms/1177729694;,citation_issue=1;,citation_doi=10.1214/aoms/1177729694;,citation_volume=22;,citation_language=en;,citation_journal_title=The Annals of Mathematical Statistics;">
 <meta name="citation_reference" content="citation_title=An R-squared measure of goodness of fit for some common nonlinear regression models;,citation_author=A. Colin Cameron;,citation_author=Frank A. G. Windmeijer;,citation_publication_date=1997-04;,citation_cover_date=1997-04;,citation_year=1997;,citation_fulltext_html_url=http://dx.doi.org/10.1016/S0304-4076(96)01818-0;,citation_issue=2;,citation_doi=10.1016/s0304-4076(96)01818-0;,citation_volume=77;,citation_language=en;,citation_journal_title=Journal of Econometrics;">
@@ -434,7 +411,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Modifié le</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">28 février 2024</p>
+        <p class="date-modified">1 mars 2024</p>
       </div>
     </div>
     
@@ -451,7 +428,7 @@ window.Quarto = {
     <div class="quarto-title">
     <div class="abstract">
       <div class="quarto-title-meta-heading">Résumé</div>  
-      L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement.
+      L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’etimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. <br> 12261 mots.
     </div>
   </div>
   </header>
@@ -595,7 +572,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <h3 data-number="1.4" class="anchored" data-anchor-id="sec-odds"><span class="header-section-number">1.4</span> Extension de MEAPS avec des <em>odds-ratios</em></h3>
 <p>Pour permettre une spécification plus fine, c’est-à-dire en ajoutant des paramètres, de <em>MEAPS</em>, nous introduisons pour chaque paire (<em>i</em>, <em>j</em>) un paramètre qui modifie la probabilité d’absorption de l’individu <em>i</em> par l’emploi <em>j</em>. On définit <span class="math inline">c_{abs}</span> comme la chance d’absorption, définie comme <span class="math inline">c_{abs} = p_{abs}/(1-p_{abs})</span> . Dans le <em>MEAPS</em> de référence, présenté plus haut, cette chance d’absorption est identique pour tous les emplois considérés par un individu et elle ne dépend que de la probabilité de fuite. Un moyen simple d’injecter de l’information dans le modèle consiste alors à modifier cette chance d’absorption selon les individus et les emplois qu’ils considèrent. Les modifications des probabilités d’absorption peuvent alors être paramétrées par des <em>odds-ratios</em> (des ratios de chances relatives) <span class="math inline">\omicron_{ij}</span> de telle manière que la nouvelle chance d’absorption de i en j soit égale à <span class="math inline">\tilde{c}_{abs,ij} = \omicron_{ij} \times c_{abs}</span>. L’<em>odds-ratio</em> <span class="math inline">\omicron_{ij}</span> est un paramètre entre <span class="math inline">0</span> et <span class="math inline">+\infty</span> et <em>i</em> et <em>j</em> indexent les communes de départ et d’arrivée. La nouvelle probabilité d’absorption s’écrit alors à partir de la chance d’absorption de référence et de l’<em>odds-ratio</em> comme <span style="white-space:nowrap">suit :</span></p>
 <p><span class="math display"> \tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}}  </span></p>
-<p>Une première stratégie de calage de <em>MEAPS</em> consiste à calculer autant d’<em>odds-ratios</em> qu’il y a de paires communes résidentes - communes d’emplois de manière à reproduire le plus fidèlement possible les flux agrégés de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span>. Cette méthode conduit à saturer le modèle puisque l’on estime un nombre de paramètres proche ou égal au nombre de degrés de liberté imposé par <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span>. Cette stratégie d’apprentissage est analogue à ce qui se fait en <em>machine learning</em> du fait de la démultiplication du nombre de paramètres à estimer. La limite de cette approche est le sur-ajustement (<em>overfitting</em>) qu’elle induit. Celle-ci est habituellement corrigée en ajoutant une pénalité à la complexité du modèle au sein de la fonction d’optimisation. Cela peut également se faire par <em>pruning</em>, en éliminant <em>a posteriori</em> les paramètres dont la contribution à l’explication des données est inférieure à un seuil.</p>
+<p>Une première stratégie de calage de <em>MEAPS</em> consiste à calculer autant d’<em>odds-ratios</em> qu’il y a de paires communes résidentes - communes d’emplois de manière à reproduire le plus fidèlement possible les flux agrégés de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span>. Cette méthode conduit à saturer le modèle puisque l’on estime un nombre de paramètres proche ou égal au nombre de degrés de liberté imposé par <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span>. Cette stratégie d’apprentissage est analogue à ce qui se fait en <em>machine learning</em> du fait de la démultiplication du nombre de paramètres à estimer. La limite de cette approche est le sur-ajustement (<em>overfitting</em>) qu’elle induit. Celle-ci est habituellement corrigée en ajoutant une pénalité à la complexité du modèle au sein de la fonction d’optimisation. Cela peut également se faire par <em>pruning</em>, en éliminant <em>a posteriori</em> les paramètres dont la contribution à l’explication des données est inférieure à un seuil.</p>
 <p>Les paramètres issues de cette approche contiennent une information qui peut ensuite être exploitée. Les <em>odds-ratios</em> s’interprètent alors relativement <span style="white-space:nowrap">simplement :</span> ceux qui sont supérieurs à 1 indiquent que le flux de mobilités professionnelles correspondant sont plus fréquents que ce que prévoit le modèle de <span style="white-space:nowrap">référence ;</span> et inversement pour les <em>odds-ratios</em> inférieurs à 1.</p>
 <p>Une seconde stratégie est une estimation non linéaire. On choisit une structure pour les <em>odds-ratios</em>, en les paramétrisant par une des données disponibles (par exemple <span class="math inline">\omicron_{ij)} = O(d_{ij})</span>, la fonction <span class="math inline">O</span> étant paramétrisée par un ou plusieurs paramètres <span class="math inline">\theta</span>. En définissant une fonction objectif (par exemple, l’entropie relative de Kullback Leibler), on peut estimer <span class="math inline">\theta</span> :</p>
 <p><span class="math display">
@@ -632,23 +609,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<div id="xzxggxoyhy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xzxggxoyhy table {
+<div id="gomgwhwrsc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gomgwhwrsc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xzxggxoyhy thead, #xzxggxoyhy tbody, #xzxggxoyhy tfoot, #xzxggxoyhy tr, #xzxggxoyhy td, #xzxggxoyhy th {
+#gomgwhwrsc thead, #gomgwhwrsc tbody, #gomgwhwrsc tfoot, #gomgwhwrsc tr, #gomgwhwrsc td, #gomgwhwrsc th {
   border-style: none;
 }
 
-#xzxggxoyhy p {
+#gomgwhwrsc p {
   margin: 0;
   padding: 0;
 }
 
-#xzxggxoyhy .gt_table {
+#gomgwhwrsc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -674,12 +651,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_caption {
+#gomgwhwrsc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xzxggxoyhy .gt_title {
+#gomgwhwrsc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -691,7 +668,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#xzxggxoyhy .gt_subtitle {
+#gomgwhwrsc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -703,7 +680,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#xzxggxoyhy .gt_heading {
+#gomgwhwrsc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -715,13 +692,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_bottom_border {
+#gomgwhwrsc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_col_headings {
+#gomgwhwrsc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -736,7 +713,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_col_heading {
+#gomgwhwrsc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -756,7 +733,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#xzxggxoyhy .gt_column_spanner_outer {
+#gomgwhwrsc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -768,15 +745,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#xzxggxoyhy .gt_column_spanner_outer:first-child {
+#gomgwhwrsc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xzxggxoyhy .gt_column_spanner_outer:last-child {
+#gomgwhwrsc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xzxggxoyhy .gt_column_spanner {
+#gomgwhwrsc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -788,11 +765,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#xzxggxoyhy .gt_spanner_row {
+#gomgwhwrsc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xzxggxoyhy .gt_group_heading {
+#gomgwhwrsc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -818,7 +795,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#xzxggxoyhy .gt_empty_group_heading {
+#gomgwhwrsc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -833,15 +810,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#xzxggxoyhy .gt_from_md > :first-child {
+#gomgwhwrsc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xzxggxoyhy .gt_from_md > :last-child {
+#gomgwhwrsc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xzxggxoyhy .gt_row {
+#gomgwhwrsc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -860,7 +837,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#xzxggxoyhy .gt_stub {
+#gomgwhwrsc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -873,7 +850,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#xzxggxoyhy .gt_stub_row_group {
+#gomgwhwrsc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -887,15 +864,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#xzxggxoyhy .gt_row_group_first td {
+#gomgwhwrsc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xzxggxoyhy .gt_row_group_first th {
+#gomgwhwrsc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xzxggxoyhy .gt_summary_row {
+#gomgwhwrsc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -905,16 +882,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#xzxggxoyhy .gt_first_summary_row {
+#gomgwhwrsc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_first_summary_row.thick {
+#gomgwhwrsc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xzxggxoyhy .gt_last_summary_row {
+#gomgwhwrsc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -924,7 +901,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_grand_summary_row {
+#gomgwhwrsc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -934,7 +911,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#xzxggxoyhy .gt_first_grand_summary_row {
+#gomgwhwrsc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -944,7 +921,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_last_grand_summary_row_top {
+#gomgwhwrsc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -954,11 +931,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_striped {
+#gomgwhwrsc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xzxggxoyhy .gt_table_body {
+#gomgwhwrsc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -967,7 +944,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_footnotes {
+#gomgwhwrsc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -981,7 +958,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_footnote {
+#gomgwhwrsc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -990,7 +967,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#xzxggxoyhy .gt_sourcenotes {
+#gomgwhwrsc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1004,7 +981,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#xzxggxoyhy .gt_sourcenote {
+#gomgwhwrsc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1012,63 +989,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#xzxggxoyhy .gt_left {
+#gomgwhwrsc .gt_left {
   text-align: left;
 }
 
-#xzxggxoyhy .gt_center {
+#gomgwhwrsc .gt_center {
   text-align: center;
 }
 
-#xzxggxoyhy .gt_right {
+#gomgwhwrsc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xzxggxoyhy .gt_font_normal {
+#gomgwhwrsc .gt_font_normal {
   font-weight: normal;
 }
 
-#xzxggxoyhy .gt_font_bold {
+#gomgwhwrsc .gt_font_bold {
   font-weight: bold;
 }
 
-#xzxggxoyhy .gt_font_italic {
+#gomgwhwrsc .gt_font_italic {
   font-style: italic;
 }
 
-#xzxggxoyhy .gt_super {
+#gomgwhwrsc .gt_super {
   font-size: 65%;
 }
 
-#xzxggxoyhy .gt_footnote_marks {
+#gomgwhwrsc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xzxggxoyhy .gt_asterisk {
+#gomgwhwrsc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xzxggxoyhy .gt_indent_1 {
+#gomgwhwrsc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xzxggxoyhy .gt_indent_2 {
+#gomgwhwrsc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xzxggxoyhy .gt_indent_3 {
+#gomgwhwrsc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xzxggxoyhy .gt_indent_4 {
+#gomgwhwrsc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xzxggxoyhy .gt_indent_5 {
+#gomgwhwrsc .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1239,23 +1216,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-gravcom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="lnewjxoeaz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lnewjxoeaz table {
+<div id="ebogkdkctk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ebogkdkctk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lnewjxoeaz thead, #lnewjxoeaz tbody, #lnewjxoeaz tfoot, #lnewjxoeaz tr, #lnewjxoeaz td, #lnewjxoeaz th {
+#ebogkdkctk thead, #ebogkdkctk tbody, #ebogkdkctk tfoot, #ebogkdkctk tr, #ebogkdkctk td, #ebogkdkctk th {
   border-style: none;
 }
 
-#lnewjxoeaz p {
+#ebogkdkctk p {
   margin: 0;
   padding: 0;
 }
 
-#lnewjxoeaz .gt_table {
+#ebogkdkctk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1281,12 +1258,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_caption {
+#ebogkdkctk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lnewjxoeaz .gt_title {
+#ebogkdkctk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1298,7 +1275,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#lnewjxoeaz .gt_subtitle {
+#ebogkdkctk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1310,7 +1287,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#lnewjxoeaz .gt_heading {
+#ebogkdkctk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1322,13 +1299,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_bottom_border {
+#ebogkdkctk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_col_headings {
+#ebogkdkctk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1343,7 +1320,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_col_heading {
+#ebogkdkctk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1363,7 +1340,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#lnewjxoeaz .gt_column_spanner_outer {
+#ebogkdkctk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1375,15 +1352,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#lnewjxoeaz .gt_column_spanner_outer:first-child {
+#ebogkdkctk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lnewjxoeaz .gt_column_spanner_outer:last-child {
+#ebogkdkctk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lnewjxoeaz .gt_column_spanner {
+#ebogkdkctk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1395,11 +1372,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#lnewjxoeaz .gt_spanner_row {
+#ebogkdkctk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lnewjxoeaz .gt_group_heading {
+#ebogkdkctk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1425,7 +1402,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#lnewjxoeaz .gt_empty_group_heading {
+#ebogkdkctk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1440,15 +1417,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#lnewjxoeaz .gt_from_md > :first-child {
+#ebogkdkctk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lnewjxoeaz .gt_from_md > :last-child {
+#ebogkdkctk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lnewjxoeaz .gt_row {
+#ebogkdkctk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1467,7 +1444,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#lnewjxoeaz .gt_stub {
+#ebogkdkctk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1480,7 +1457,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#lnewjxoeaz .gt_stub_row_group {
+#ebogkdkctk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1494,15 +1471,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#lnewjxoeaz .gt_row_group_first td {
+#ebogkdkctk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lnewjxoeaz .gt_row_group_first th {
+#ebogkdkctk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lnewjxoeaz .gt_summary_row {
+#ebogkdkctk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1512,16 +1489,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#lnewjxoeaz .gt_first_summary_row {
+#ebogkdkctk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_first_summary_row.thick {
+#ebogkdkctk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lnewjxoeaz .gt_last_summary_row {
+#ebogkdkctk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1531,7 +1508,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_grand_summary_row {
+#ebogkdkctk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1541,7 +1518,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#lnewjxoeaz .gt_first_grand_summary_row {
+#ebogkdkctk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1551,7 +1528,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_last_grand_summary_row_top {
+#ebogkdkctk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1561,11 +1538,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_striped {
+#ebogkdkctk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lnewjxoeaz .gt_table_body {
+#ebogkdkctk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1574,7 +1551,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_footnotes {
+#ebogkdkctk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1588,7 +1565,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_footnote {
+#ebogkdkctk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1597,7 +1574,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#lnewjxoeaz .gt_sourcenotes {
+#ebogkdkctk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1611,7 +1588,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#lnewjxoeaz .gt_sourcenote {
+#ebogkdkctk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1619,63 +1596,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#lnewjxoeaz .gt_left {
+#ebogkdkctk .gt_left {
   text-align: left;
 }
 
-#lnewjxoeaz .gt_center {
+#ebogkdkctk .gt_center {
   text-align: center;
 }
 
-#lnewjxoeaz .gt_right {
+#ebogkdkctk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lnewjxoeaz .gt_font_normal {
+#ebogkdkctk .gt_font_normal {
   font-weight: normal;
 }
 
-#lnewjxoeaz .gt_font_bold {
+#ebogkdkctk .gt_font_bold {
   font-weight: bold;
 }
 
-#lnewjxoeaz .gt_font_italic {
+#ebogkdkctk .gt_font_italic {
   font-style: italic;
 }
 
-#lnewjxoeaz .gt_super {
+#ebogkdkctk .gt_super {
   font-size: 65%;
 }
 
-#lnewjxoeaz .gt_footnote_marks {
+#ebogkdkctk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lnewjxoeaz .gt_asterisk {
+#ebogkdkctk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lnewjxoeaz .gt_indent_1 {
+#ebogkdkctk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lnewjxoeaz .gt_indent_2 {
+#ebogkdkctk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lnewjxoeaz .gt_indent_3 {
+#ebogkdkctk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lnewjxoeaz .gt_indent_4 {
+#ebogkdkctk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lnewjxoeaz .gt_indent_5 {
+#ebogkdkctk .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1897,23 +1874,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-biaisgrav-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="asunhehfsv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#asunhehfsv table {
+<div id="ewqwtakxhe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ewqwtakxhe table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#asunhehfsv thead, #asunhehfsv tbody, #asunhehfsv tfoot, #asunhehfsv tr, #asunhehfsv td, #asunhehfsv th {
+#ewqwtakxhe thead, #ewqwtakxhe tbody, #ewqwtakxhe tfoot, #ewqwtakxhe tr, #ewqwtakxhe td, #ewqwtakxhe th {
   border-style: none;
 }
 
-#asunhehfsv p {
+#ewqwtakxhe p {
   margin: 0;
   padding: 0;
 }
 
-#asunhehfsv .gt_table {
+#ewqwtakxhe .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1939,12 +1916,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_caption {
+#ewqwtakxhe .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#asunhehfsv .gt_title {
+#ewqwtakxhe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1956,7 +1933,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#asunhehfsv .gt_subtitle {
+#ewqwtakxhe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1968,7 +1945,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#asunhehfsv .gt_heading {
+#ewqwtakxhe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1980,13 +1957,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_bottom_border {
+#ewqwtakxhe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_col_headings {
+#ewqwtakxhe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2001,7 +1978,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_col_heading {
+#ewqwtakxhe .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2021,7 +1998,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#asunhehfsv .gt_column_spanner_outer {
+#ewqwtakxhe .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2033,15 +2010,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#asunhehfsv .gt_column_spanner_outer:first-child {
+#ewqwtakxhe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#asunhehfsv .gt_column_spanner_outer:last-child {
+#ewqwtakxhe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#asunhehfsv .gt_column_spanner {
+#ewqwtakxhe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2053,11 +2030,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#asunhehfsv .gt_spanner_row {
+#ewqwtakxhe .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#asunhehfsv .gt_group_heading {
+#ewqwtakxhe .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2083,7 +2060,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#asunhehfsv .gt_empty_group_heading {
+#ewqwtakxhe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2098,15 +2075,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#asunhehfsv .gt_from_md > :first-child {
+#ewqwtakxhe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#asunhehfsv .gt_from_md > :last-child {
+#ewqwtakxhe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#asunhehfsv .gt_row {
+#ewqwtakxhe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2125,7 +2102,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#asunhehfsv .gt_stub {
+#ewqwtakxhe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2138,7 +2115,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#asunhehfsv .gt_stub_row_group {
+#ewqwtakxhe .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2152,15 +2129,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#asunhehfsv .gt_row_group_first td {
+#ewqwtakxhe .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#asunhehfsv .gt_row_group_first th {
+#ewqwtakxhe .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#asunhehfsv .gt_summary_row {
+#ewqwtakxhe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2170,16 +2147,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#asunhehfsv .gt_first_summary_row {
+#ewqwtakxhe .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_first_summary_row.thick {
+#ewqwtakxhe .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#asunhehfsv .gt_last_summary_row {
+#ewqwtakxhe .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2189,7 +2166,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_grand_summary_row {
+#ewqwtakxhe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2199,7 +2176,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#asunhehfsv .gt_first_grand_summary_row {
+#ewqwtakxhe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2209,7 +2186,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_last_grand_summary_row_top {
+#ewqwtakxhe .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2219,11 +2196,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_striped {
+#ewqwtakxhe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#asunhehfsv .gt_table_body {
+#ewqwtakxhe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2232,7 +2209,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_footnotes {
+#ewqwtakxhe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2246,7 +2223,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_footnote {
+#ewqwtakxhe .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2255,7 +2232,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#asunhehfsv .gt_sourcenotes {
+#ewqwtakxhe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2269,7 +2246,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#asunhehfsv .gt_sourcenote {
+#ewqwtakxhe .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2277,63 +2254,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#asunhehfsv .gt_left {
+#ewqwtakxhe .gt_left {
   text-align: left;
 }
 
-#asunhehfsv .gt_center {
+#ewqwtakxhe .gt_center {
   text-align: center;
 }
 
-#asunhehfsv .gt_right {
+#ewqwtakxhe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#asunhehfsv .gt_font_normal {
+#ewqwtakxhe .gt_font_normal {
   font-weight: normal;
 }
 
-#asunhehfsv .gt_font_bold {
+#ewqwtakxhe .gt_font_bold {
   font-weight: bold;
 }
 
-#asunhehfsv .gt_font_italic {
+#ewqwtakxhe .gt_font_italic {
   font-style: italic;
 }
 
-#asunhehfsv .gt_super {
+#ewqwtakxhe .gt_super {
   font-size: 65%;
 }
 
-#asunhehfsv .gt_footnote_marks {
+#ewqwtakxhe .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#asunhehfsv .gt_asterisk {
+#ewqwtakxhe .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#asunhehfsv .gt_indent_1 {
+#ewqwtakxhe .gt_indent_1 {
   text-indent: 5px;
 }
 
-#asunhehfsv .gt_indent_2 {
+#ewqwtakxhe .gt_indent_2 {
   text-indent: 10px;
 }
 
-#asunhehfsv .gt_indent_3 {
+#ewqwtakxhe .gt_indent_3 {
   text-indent: 15px;
 }
 
-#asunhehfsv .gt_indent_4 {
+#ewqwtakxhe .gt_indent_4 {
   text-indent: 20px;
 }
 
-#asunhehfsv .gt_indent_5 {
+#ewqwtakxhe .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2505,23 +2482,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-gravnonlineaire-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="famadxtnnf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#famadxtnnf table {
+<div id="nljnffxxzv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nljnffxxzv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#famadxtnnf thead, #famadxtnnf tbody, #famadxtnnf tfoot, #famadxtnnf tr, #famadxtnnf td, #famadxtnnf th {
+#nljnffxxzv thead, #nljnffxxzv tbody, #nljnffxxzv tfoot, #nljnffxxzv tr, #nljnffxxzv td, #nljnffxxzv th {
   border-style: none;
 }
 
-#famadxtnnf p {
+#nljnffxxzv p {
   margin: 0;
   padding: 0;
 }
 
-#famadxtnnf .gt_table {
+#nljnffxxzv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2547,12 +2524,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_caption {
+#nljnffxxzv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#famadxtnnf .gt_title {
+#nljnffxxzv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2564,7 +2541,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#famadxtnnf .gt_subtitle {
+#nljnffxxzv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2576,7 +2553,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#famadxtnnf .gt_heading {
+#nljnffxxzv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2588,13 +2565,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_bottom_border {
+#nljnffxxzv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_col_headings {
+#nljnffxxzv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2609,7 +2586,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_col_heading {
+#nljnffxxzv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2629,7 +2606,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#famadxtnnf .gt_column_spanner_outer {
+#nljnffxxzv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2641,15 +2618,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#famadxtnnf .gt_column_spanner_outer:first-child {
+#nljnffxxzv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#famadxtnnf .gt_column_spanner_outer:last-child {
+#nljnffxxzv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#famadxtnnf .gt_column_spanner {
+#nljnffxxzv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2661,11 +2638,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#famadxtnnf .gt_spanner_row {
+#nljnffxxzv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#famadxtnnf .gt_group_heading {
+#nljnffxxzv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2691,7 +2668,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#famadxtnnf .gt_empty_group_heading {
+#nljnffxxzv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2706,15 +2683,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#famadxtnnf .gt_from_md > :first-child {
+#nljnffxxzv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#famadxtnnf .gt_from_md > :last-child {
+#nljnffxxzv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#famadxtnnf .gt_row {
+#nljnffxxzv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2733,7 +2710,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#famadxtnnf .gt_stub {
+#nljnffxxzv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2746,7 +2723,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#famadxtnnf .gt_stub_row_group {
+#nljnffxxzv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2760,15 +2737,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#famadxtnnf .gt_row_group_first td {
+#nljnffxxzv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#famadxtnnf .gt_row_group_first th {
+#nljnffxxzv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#famadxtnnf .gt_summary_row {
+#nljnffxxzv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2778,16 +2755,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#famadxtnnf .gt_first_summary_row {
+#nljnffxxzv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_first_summary_row.thick {
+#nljnffxxzv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#famadxtnnf .gt_last_summary_row {
+#nljnffxxzv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2797,7 +2774,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_grand_summary_row {
+#nljnffxxzv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2807,7 +2784,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#famadxtnnf .gt_first_grand_summary_row {
+#nljnffxxzv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2817,7 +2794,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_last_grand_summary_row_top {
+#nljnffxxzv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2827,11 +2804,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_striped {
+#nljnffxxzv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#famadxtnnf .gt_table_body {
+#nljnffxxzv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2840,7 +2817,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_footnotes {
+#nljnffxxzv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2854,7 +2831,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_footnote {
+#nljnffxxzv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2863,7 +2840,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#famadxtnnf .gt_sourcenotes {
+#nljnffxxzv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2877,7 +2854,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#famadxtnnf .gt_sourcenote {
+#nljnffxxzv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2885,63 +2862,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#famadxtnnf .gt_left {
+#nljnffxxzv .gt_left {
   text-align: left;
 }
 
-#famadxtnnf .gt_center {
+#nljnffxxzv .gt_center {
   text-align: center;
 }
 
-#famadxtnnf .gt_right {
+#nljnffxxzv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#famadxtnnf .gt_font_normal {
+#nljnffxxzv .gt_font_normal {
   font-weight: normal;
 }
 
-#famadxtnnf .gt_font_bold {
+#nljnffxxzv .gt_font_bold {
   font-weight: bold;
 }
 
-#famadxtnnf .gt_font_italic {
+#nljnffxxzv .gt_font_italic {
   font-style: italic;
 }
 
-#famadxtnnf .gt_super {
+#nljnffxxzv .gt_super {
   font-size: 65%;
 }
 
-#famadxtnnf .gt_footnote_marks {
+#nljnffxxzv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#famadxtnnf .gt_asterisk {
+#nljnffxxzv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#famadxtnnf .gt_indent_1 {
+#nljnffxxzv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#famadxtnnf .gt_indent_2 {
+#nljnffxxzv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#famadxtnnf .gt_indent_3 {
+#nljnffxxzv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#famadxtnnf .gt_indent_4 {
+#nljnffxxzv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#famadxtnnf .gt_indent_5 {
+#nljnffxxzv .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3061,23 +3038,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-meapsnonlineaire-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="hfzigmcdsc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hfzigmcdsc table {
+<div id="nbrpfwwigk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nbrpfwwigk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hfzigmcdsc thead, #hfzigmcdsc tbody, #hfzigmcdsc tfoot, #hfzigmcdsc tr, #hfzigmcdsc td, #hfzigmcdsc th {
+#nbrpfwwigk thead, #nbrpfwwigk tbody, #nbrpfwwigk tfoot, #nbrpfwwigk tr, #nbrpfwwigk td, #nbrpfwwigk th {
   border-style: none;
 }
 
-#hfzigmcdsc p {
+#nbrpfwwigk p {
   margin: 0;
   padding: 0;
 }
 
-#hfzigmcdsc .gt_table {
+#nbrpfwwigk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3103,12 +3080,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_caption {
+#nbrpfwwigk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hfzigmcdsc .gt_title {
+#nbrpfwwigk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3120,7 +3097,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#hfzigmcdsc .gt_subtitle {
+#nbrpfwwigk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3132,7 +3109,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#hfzigmcdsc .gt_heading {
+#nbrpfwwigk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3144,13 +3121,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_bottom_border {
+#nbrpfwwigk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_col_headings {
+#nbrpfwwigk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3165,7 +3142,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_col_heading {
+#nbrpfwwigk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3185,7 +3162,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#hfzigmcdsc .gt_column_spanner_outer {
+#nbrpfwwigk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3197,15 +3174,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#hfzigmcdsc .gt_column_spanner_outer:first-child {
+#nbrpfwwigk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hfzigmcdsc .gt_column_spanner_outer:last-child {
+#nbrpfwwigk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hfzigmcdsc .gt_column_spanner {
+#nbrpfwwigk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3217,11 +3194,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#hfzigmcdsc .gt_spanner_row {
+#nbrpfwwigk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hfzigmcdsc .gt_group_heading {
+#nbrpfwwigk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3247,7 +3224,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#hfzigmcdsc .gt_empty_group_heading {
+#nbrpfwwigk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3262,15 +3239,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#hfzigmcdsc .gt_from_md > :first-child {
+#nbrpfwwigk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hfzigmcdsc .gt_from_md > :last-child {
+#nbrpfwwigk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hfzigmcdsc .gt_row {
+#nbrpfwwigk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3289,7 +3266,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#hfzigmcdsc .gt_stub {
+#nbrpfwwigk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3302,7 +3279,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#hfzigmcdsc .gt_stub_row_group {
+#nbrpfwwigk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3316,15 +3293,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#hfzigmcdsc .gt_row_group_first td {
+#nbrpfwwigk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hfzigmcdsc .gt_row_group_first th {
+#nbrpfwwigk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hfzigmcdsc .gt_summary_row {
+#nbrpfwwigk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3334,16 +3311,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#hfzigmcdsc .gt_first_summary_row {
+#nbrpfwwigk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_first_summary_row.thick {
+#nbrpfwwigk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hfzigmcdsc .gt_last_summary_row {
+#nbrpfwwigk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3353,7 +3330,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_grand_summary_row {
+#nbrpfwwigk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3363,7 +3340,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#hfzigmcdsc .gt_first_grand_summary_row {
+#nbrpfwwigk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3373,7 +3350,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_last_grand_summary_row_top {
+#nbrpfwwigk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3383,11 +3360,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_striped {
+#nbrpfwwigk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hfzigmcdsc .gt_table_body {
+#nbrpfwwigk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3396,7 +3373,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_footnotes {
+#nbrpfwwigk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3410,7 +3387,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_footnote {
+#nbrpfwwigk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3419,7 +3396,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#hfzigmcdsc .gt_sourcenotes {
+#nbrpfwwigk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3433,7 +3410,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#hfzigmcdsc .gt_sourcenote {
+#nbrpfwwigk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3441,63 +3418,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#hfzigmcdsc .gt_left {
+#nbrpfwwigk .gt_left {
   text-align: left;
 }
 
-#hfzigmcdsc .gt_center {
+#nbrpfwwigk .gt_center {
   text-align: center;
 }
 
-#hfzigmcdsc .gt_right {
+#nbrpfwwigk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hfzigmcdsc .gt_font_normal {
+#nbrpfwwigk .gt_font_normal {
   font-weight: normal;
 }
 
-#hfzigmcdsc .gt_font_bold {
+#nbrpfwwigk .gt_font_bold {
   font-weight: bold;
 }
 
-#hfzigmcdsc .gt_font_italic {
+#nbrpfwwigk .gt_font_italic {
   font-style: italic;
 }
 
-#hfzigmcdsc .gt_super {
+#nbrpfwwigk .gt_super {
   font-size: 65%;
 }
 
-#hfzigmcdsc .gt_footnote_marks {
+#nbrpfwwigk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hfzigmcdsc .gt_asterisk {
+#nbrpfwwigk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hfzigmcdsc .gt_indent_1 {
+#nbrpfwwigk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hfzigmcdsc .gt_indent_2 {
+#nbrpfwwigk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hfzigmcdsc .gt_indent_3 {
+#nbrpfwwigk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hfzigmcdsc .gt_indent_4 {
+#nbrpfwwigk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hfzigmcdsc .gt_indent_5 {
+#nbrpfwwigk .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3658,23 +3635,23 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div aria-describedby="tbl-oob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="nxnugmlxca" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nxnugmlxca table {
+<div id="cuqcsdfaks" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cuqcsdfaks table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nxnugmlxca thead, #nxnugmlxca tbody, #nxnugmlxca tfoot, #nxnugmlxca tr, #nxnugmlxca td, #nxnugmlxca th {
+#cuqcsdfaks thead, #cuqcsdfaks tbody, #cuqcsdfaks tfoot, #cuqcsdfaks tr, #cuqcsdfaks td, #cuqcsdfaks th {
   border-style: none;
 }
 
-#nxnugmlxca p {
+#cuqcsdfaks p {
   margin: 0;
   padding: 0;
 }
 
-#nxnugmlxca .gt_table {
+#cuqcsdfaks .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3700,12 +3677,12 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-left-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_caption {
+#cuqcsdfaks .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nxnugmlxca .gt_title {
+#cuqcsdfaks .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3717,7 +3694,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-width: 0;
 }
 
-#nxnugmlxca .gt_subtitle {
+#cuqcsdfaks .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3729,7 +3706,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-width: 0;
 }
 
-#nxnugmlxca .gt_heading {
+#cuqcsdfaks .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3741,13 +3718,13 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_bottom_border {
+#cuqcsdfaks .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_col_headings {
+#cuqcsdfaks .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3762,7 +3739,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_col_heading {
+#cuqcsdfaks .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3782,7 +3759,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#nxnugmlxca .gt_column_spanner_outer {
+#cuqcsdfaks .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3794,15 +3771,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 4px;
 }
 
-#nxnugmlxca .gt_column_spanner_outer:first-child {
+#cuqcsdfaks .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nxnugmlxca .gt_column_spanner_outer:last-child {
+#cuqcsdfaks .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nxnugmlxca .gt_column_spanner {
+#cuqcsdfaks .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3814,11 +3791,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   width: 100%;
 }
 
-#nxnugmlxca .gt_spanner_row {
+#cuqcsdfaks .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nxnugmlxca .gt_group_heading {
+#cuqcsdfaks .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3844,7 +3821,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   text-align: left;
 }
 
-#nxnugmlxca .gt_empty_group_heading {
+#cuqcsdfaks .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3859,15 +3836,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: middle;
 }
 
-#nxnugmlxca .gt_from_md > :first-child {
+#cuqcsdfaks .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nxnugmlxca .gt_from_md > :last-child {
+#cuqcsdfaks .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nxnugmlxca .gt_row {
+#cuqcsdfaks .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3886,7 +3863,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   overflow-x: hidden;
 }
 
-#nxnugmlxca .gt_stub {
+#cuqcsdfaks .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3899,7 +3876,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#nxnugmlxca .gt_stub_row_group {
+#cuqcsdfaks .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3913,15 +3890,15 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   vertical-align: top;
 }
 
-#nxnugmlxca .gt_row_group_first td {
+#cuqcsdfaks .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nxnugmlxca .gt_row_group_first th {
+#cuqcsdfaks .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nxnugmlxca .gt_summary_row {
+#cuqcsdfaks .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3931,16 +3908,16 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#nxnugmlxca .gt_first_summary_row {
+#cuqcsdfaks .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_first_summary_row.thick {
+#cuqcsdfaks .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nxnugmlxca .gt_last_summary_row {
+#cuqcsdfaks .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3950,7 +3927,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_grand_summary_row {
+#cuqcsdfaks .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3960,7 +3937,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#nxnugmlxca .gt_first_grand_summary_row {
+#cuqcsdfaks .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3970,7 +3947,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-top-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_last_grand_summary_row_top {
+#cuqcsdfaks .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3980,11 +3957,11 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_striped {
+#cuqcsdfaks .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nxnugmlxca .gt_table_body {
+#cuqcsdfaks .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3993,7 +3970,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-bottom-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_footnotes {
+#cuqcsdfaks .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4007,7 +3984,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_footnote {
+#cuqcsdfaks .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4016,7 +3993,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#nxnugmlxca .gt_sourcenotes {
+#cuqcsdfaks .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4030,7 +4007,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   border-right-color: #D3D3D3;
 }
 
-#nxnugmlxca .gt_sourcenote {
+#cuqcsdfaks .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4038,63 +4015,63 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
   padding-right: 5px;
 }
 
-#nxnugmlxca .gt_left {
+#cuqcsdfaks .gt_left {
   text-align: left;
 }
 
-#nxnugmlxca .gt_center {
+#cuqcsdfaks .gt_center {
   text-align: center;
 }
 
-#nxnugmlxca .gt_right {
+#cuqcsdfaks .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nxnugmlxca .gt_font_normal {
+#cuqcsdfaks .gt_font_normal {
   font-weight: normal;
 }
 
-#nxnugmlxca .gt_font_bold {
+#cuqcsdfaks .gt_font_bold {
   font-weight: bold;
 }
 
-#nxnugmlxca .gt_font_italic {
+#cuqcsdfaks .gt_font_italic {
   font-style: italic;
 }
 
-#nxnugmlxca .gt_super {
+#cuqcsdfaks .gt_super {
   font-size: 65%;
 }
 
-#nxnugmlxca .gt_footnote_marks {
+#cuqcsdfaks .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nxnugmlxca .gt_asterisk {
+#cuqcsdfaks .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nxnugmlxca .gt_indent_1 {
+#cuqcsdfaks .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nxnugmlxca .gt_indent_2 {
+#cuqcsdfaks .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nxnugmlxca .gt_indent_3 {
+#cuqcsdfaks .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nxnugmlxca .gt_indent_4 {
+#cuqcsdfaks .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nxnugmlxca .gt_indent_5 {
+#cuqcsdfaks .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4198,14 +4175,14 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 </section>
 <section id="a-justements-en-utilisant-une-information-infra-communale" class="level2 page-columns page-full" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="a-justements-en-utilisant-une-information-infra-communale"><span class="header-section-number">4</span> A justements en utilisant une information infra-communale</h2>
-<p>On dispose d’une information au carreau 200m qui peut être est pertinente pour reproduire les données de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span>, bien que celles-ci sont connues entre commune. En effet, on peut localiser les emplois et les résidents plus finement, au carreau, calculer les temps de parcours entre les paires de carreau et injecter cette information géographique dans le modèle. On peut en attendre une meilleure prise en compte des configurations notamment pour les communes voisines. La distance entre les centroïdes peut masquer une densité d’habitation importante à la frontière entre deux communes, on inversement négliger la structure bi-polaire d’une commune et donc des flux qui se répartissent entre deux voisins proches. En utilisant cette représentation géographique à une échelle plus fine, on peut proposer des paramètrisations plus robustes et dont la signification est plus grande.</p>
+<p>On dispose d’une information au carreau 200m qui peut être est pertinente pour reproduire les données de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span>, bien que celles-ci sont connues entre commune. En effet, on peut localiser les emplois et les résidents plus finement, au carreau, calculer les temps de parcours entre les paires de carreau et injecter cette information géographique dans le modèle. On peut en attendre une meilleure prise en compte des configurations notamment pour les communes voisines. La distance entre les centroïdes peut masquer une densité d’habitation importante à la frontière entre deux communes, on inversement négliger la structure bi-polaire d’une commune et donc des flux qui se répartissent entre deux voisins proches. En utilisant cette représentation géographique à une échelle plus fine, on peut proposer des paramètrisations plus robustes et dont la signification est plus grande.</p>
 <p>Cette approche pose généralement un problème difficile d’optimisation algorithmique. Une approche brutale, qui consiste à minimiser une fonction de perte mesurant l’écart entre les flux estimés et les flux observés, se heurte à la grande dimension de l’espace des paramètres. En outre, comme toujours dans ce type d’exercice statistique, l’enjeu consiste à extraire des données disponibles des enseignements généraux en délaissant ce qui relève de la particularité d’un jeu de données. C’est toute la difficulté du surapprentissage (<em>overfitting</em>) que nous avons évoquée.</p>
 <p>Une seconde approche, plus parcimonieuse, consiste à définir une forme fonctionnelle pour les <em>odds-ratios</em> ou encore à regrouper les <em>odds-ratios</em> en quelques <em>clusters</em> pour ensuite n’évaluer qu’un petit nombre de paramètres. Ceci suppose de modéliser la structuration des <em>odds-ratios</em> à partir d’<em>a priori</em> sur les dimensions pertinentes.</p>
 <section id="données-infracommunales" class="level3 page-columns page-full" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="données-infracommunales"><span class="header-section-number">4.1</span> Données infracommunales</h3>
 <section id="sec-emplois" class="level4 page-columns page-full">
 <h4 class="anchored" data-anchor-id="sec-emplois">Emplois, résidents au carreau Inspire 200m</h4>
-<p>La carte de la zone considérée est représentée sur la <a href="#fig-zoneslr" class="quarto-xref">graphique&nbsp;4</a>. L’analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour des lieux de résidence. Cette carte est construite à partir des données carroyées de <span class="citation" data-cites="C200">C200 (<a href="#ref-C200" role="doc-biblioref">2022</a>)</span> à la résolution du carreau 200m Inspire<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. Nous ajoutons à ces données la localisation de l’emploi sur la même grille en utilisant les fichiers fonciers et les données d’emplois localisés de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span>. La méthode consiste à imputer par code NAF les emplois de chaque commune selon <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> aux surfaces professionnelles à la parcelle issues des fichiers fonciers. Cela permet ensuite de localiser au carreau 200m les emplois. Cette méthode est assez grossière, puisqu’en particulier la ratio personne/surface n’est pas constant d’une entreprise à l’autre, mais elle fournit une bonne première approximation d’autant que l’extrapolation ne dépasse pas l’échelle de la commune. Elle est en tout cas très supérieure à une imputation uniforme.</p>
+<p>La carte de la zone considérée est représentée sur la <a href="#fig-zoneslr" class="quarto-xref">graphique&nbsp;4</a>. L’analyse est limitée aux résidents du périmètre du Schéma de COhérence Territoriale (SCOT) et considère les emplois dans un rayon 33 kilomètres autour des lieux de résidence. Cette carte est construite à partir des données carroyées de <span class="citation" data-cites="C200">INSEE (<a href="#ref-C200" role="doc-biblioref">2022b</a>)</span> à la résolution du carreau 200m Inspire<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. Nous ajoutons à ces données la localisation de l’emploi sur la même grille en utilisant les fichiers fonciers et les données d’emplois localisés de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span>. La méthode consiste à imputer par code NAF les emplois de chaque commune selon <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> aux surfaces professionnelles à la parcelle issues des fichiers fonciers. Cela permet ensuite de localiser au carreau 200m les emplois. Cette méthode est assez grossière, puisqu’en particulier la ratio personne/surface n’est pas constant d’une entreprise à l’autre, mais elle fournit une bonne première approximation d’autant que l’extrapolation ne dépasse pas l’échelle de la commune. Elle est en tout cas très supérieure à une imputation uniforme.</p>
 <div class="no-row-height column-margin column-container"><p><sup>8</sup>&nbsp;INfrastructure for SPatial InfoRmation in Europe est depuis 2007 une directive pour la production de données spatialisées. Inspire définit une grille de carroyage et son système de projection harmonisée. C’est ce qui suit l’INSEE dans la diffusion des données carroyées. Voir https://inspire-geoportal.ec.europa.eu pour la définition de la grille et des jeux de données.</p></div><div class="cell">
 <div class="cell-output-display">
 <div id="fig-zoneslr" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Localisation des résidents et des emplois" data-fig-pos="htb">
@@ -4225,7 +4202,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <h4 class="anchored" data-anchor-id="sec-distancesparmode">Calcul des distances par mode</h4>
 <p>Un ingrédient important de l’analyse du territoire est la prise en compte des distances entre chaque paire possible résidence/emploi. Contrairement à l’analyse synthétique, nous ne nous contentons pas de la distance euclidienne.</p>
 <p>Pour ce faire nous calculons à partir d’un calculateur d’itinéraire (R<sup>5</sup> de Conveyal <span class="citation" data-cites="conway2017 conway2018 conway2019">(<a href="#ref-conway2017" role="doc-biblioref">Conway, Byrd et Linden, 2017</a>&nbsp;; <a href="#ref-conway2018" role="doc-biblioref">Conway, Byrd et Van Eggermond, 2018</a>&nbsp;; <a href="#ref-conway2019" role="doc-biblioref">Conway et Stewart, 2019</a>)</span> en utilisant le package <code>{r5r}</code> <span class="citation" data-cites="r5r">(<a href="#ref-r5r" role="doc-biblioref">Pereira <em>et al.</em>, 2021</a>)</span> les distances et surtout les temps de transport pour quatre modes (voiture, vélo, transport en commun, marche à pied). Les temps de transport calculés pour chaque paire de carreaux de résidence et d’emploi, en retenant le centre des carreaux, tiennent compte des différentes contraintes de circulation (vitesses limites pour la voiture, sens de circulation, pénalité pour changement de direction, accès autorisé ou restreint suivant le mode, stress à vélo). Concernant les déplacements en voiture, nous ne prenons pas en compte à ce stade la congestion. Concernant les transports en commun, le niveau de détail est assez grand, puisque les fréquences de circulations des véhicules ainsi que les correspondances sont prises en compte. Dans certaines villes, il est possible d’accéder à une information sur les temps de parcours effectifs (mesurant ainsi la congestion ou la disponibilité du réseau) en complément des horaires théoriques. Ces informations ne sont pas disponible pour l’agglomération de la Rochelle et donc cette possibilité n’est pas explorée. L’accès aux données GTFS impose quelques limites, comme par exemple la non prise en compte des réseaux scolaires ou d’autres réseaux locaux ou privés non publiés sous ce format. La modification du réseau de transport comme l’ouverture d’une ligne ou l’accroissement de fréquence est pris en compte en modifiant la matrice des distances et temps par mode entre chaque carreau de résidence et chaque carreau de destination. Dans le cas de l’agglomération de la Rochelle, le nombre de paires calculés est de l’ordre de 16&nbsp;millions.</p>
-<p>A partir des temps de trajets par mode, nous appliquons un modèle de choix discret, <em>Random Utility Model</em> (RUM) à la McFadden, estimé sur l’enquête mobilité des personnes <span class="citation" data-cites="MOBPERS">MOBPERS (<a href="#ref-MOBPERS" role="doc-biblioref">2021</a>)</span> en utilisant les données de mobilités professionnelles <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> pour caler les flux commune à commune. L’estimation de ce modèle est détaillée dans un autre document (référence à insérer).</p>
+<p>A partir des temps de trajets par mode, nous appliquons un modèle de choix discret, <em>Random Utility Model</em> (RUM) à la McFadden, estimé sur l’enquête mobilité des personnes <span class="citation" data-cites="MOBPERS">SDES (<a href="#ref-MOBPERS" role="doc-biblioref">2021</a>)</span> en utilisant les données de mobilités professionnelles <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> pour caler les flux commune à commune. L’estimation de ce modèle est détaillée dans un autre document (référence à insérer).</p>
 <p>Les distances entre chaque paire de cases permettent de calculer un indicateur d’accessibilité qui joue un rôle central dans le modèle radiatif, et donc dans <em>MEAPS</em>, en remplaçant la distance par la somme des opportunités en deçà d’un seuil de temps. Les cartes du <a href="#fig-accessibilite" class="quarto-xref">graphique&nbsp;5</a> représentent les temps pour accéder à un seuil d’emplois en utilisant différents modes de transport.</p>
 <div id="fig-accessibilite" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -4241,7 +4218,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="larochelle_files/figure-html/unnamed-chunk-31-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" data-glightbox="description: .lightbox-desc-12"><img src="larochelle_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
+<p><a href="larochelle_files/figure-html/unnamed-chunk-30-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" data-glightbox="description: .lightbox-desc-12"><img src="larochelle_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
 </figure>
 </div>
 </div>
@@ -4252,7 +4229,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="larochelle_files/figure-html/unnamed-chunk-32-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" data-glightbox="description: .lightbox-desc-13"><img src="larochelle_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
+<p><a href="larochelle_files/figure-html/unnamed-chunk-31-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" data-glightbox="description: .lightbox-desc-13"><img src="larochelle_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
 </figure>
 </div>
 </div>
@@ -4263,7 +4240,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="larochelle_files/figure-html/unnamed-chunk-33-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" data-glightbox="description: .lightbox-desc-14"><img src="larochelle_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
+<p><a href="larochelle_files/figure-html/unnamed-chunk-32-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" data-glightbox="description: .lightbox-desc-14"><img src="larochelle_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
 </figure>
 </div>
 </div>
@@ -4274,7 +4251,7 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="larochelle_files/figure-html/unnamed-chunk-34-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" data-glightbox="description: .lightbox-desc-15"><img src="larochelle_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
+<p><a href="larochelle_files/figure-html/unnamed-chunk-33-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" data-glightbox="description: .lightbox-desc-15"><img src="larochelle_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" style="width:100.0%" data-fig-pos="htb"></a></p>
 </figure>
 </div>
 </div>
@@ -4335,14 +4312,14 @@ KL_i(p,q_{ref}) = \sum_{ij}p_{ij} \times [log(p_{ij}) -log( \frac{n_i \times e_j
 </section>
 <section id="sec-estnp" class="level3 page-columns page-full" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="sec-estnp"><span class="header-section-number">4.2</span> Modèle <span style="white-space:nowrap">saturé :</span> estimation d’autant d’<em>odds-ratios</em> que de paires de commune</h3>
-<p>A ce stade, nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons les <em>odds-ratios</em> <span class="math inline">\omicron^k_{ij}</span> qui permettraient de combler l’écart entre les prévisions de MEAPS effectuées avec un ensemble d’<em>odds-ratios</em> <span class="math inline">\omicron^{k-1}_{ij}</span> et les données observées de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> en utilisant la formule suivante où <span class="math inline">\beta</span> est un paramètre d’amortissement inférieur à 1 et positif et où <span class="math inline">k</span> indexe les <span style="white-space:nowrap">itérations :</span></p>
+<p>A ce stade, nous utilisons un algorithme naïf pour trouver une solution au problème posé. Nous calculons les <em>odds-ratios</em> <span class="math inline">\omicron^k_{ij}</span> qui permettraient de combler l’écart entre les prévisions de MEAPS effectuées avec un ensemble d’<em>odds-ratios</em> <span class="math inline">\omicron^{k-1}_{ij}</span> et les données observées de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> en utilisant la formule suivante où <span class="math inline">\beta</span> est un paramètre d’amortissement inférieur à 1 et positif et où <span class="math inline">k</span> indexe les <span style="white-space:nowrap">itérations :</span></p>
 <p><span id="eq-algest"><span class="math display">
 \omicron^k_{ij} = \biggl(\frac{\tilde{c}^k_{abs}}{
 c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 \tag{18}</span></span></p>
 <p>Nous modifions alors les <span class="math inline">\omicron_{ij}</span> en fonction des écarts observés. Cela conduit à chercher un point fixe.</p>
 <p>L’algorithme naïf est relativement efficace. Il converge en quelques dizaines d’itérations, s’avère stable et fait diminuer l’entropie relative. Il devra être affiné dans le futur afin de permettre une descente de gradient qui permet de minimiser explicitement l’entropie relative. L’algorithme naïf permet de réduire cette entropie relative sans assurer qu’elle est minimale.</p>
-<p>Cet algorithme a été utilisé avec différentes contraintes sur les paramètres. Le <a href="#tbl-meapsR2-np" class="quarto-xref">tableau&nbsp;7</a> indique la qualité de l’ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d’absorption sont déterminées uniquement par les fuites par commune de résidence. C’est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le <span class="math inline">R^2_{KL}</span> vaut 88% ce qui est un ajustement élevé. La seconde configuration est celle où l’on ajuste des <span class="math inline">\omicron_{ij}</span> uniquement pour les termes diagonaux (<span class="math inline">i=j</span>). Cette configuration ajuste donc un <em>odd-ratio</em> pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d’absorption interne (<a href="#fig-carteodd" class="quarto-xref">graphique&nbsp;11</a>), ce qui indique que le choix de résidence n’est pas indépendant de celui d’activité. Pour la commune la plus importante (La Rochelle), en revanche, l’<em>odd-ratio</em> <span class="math inline">\omicron_{17300, 17300}</span> est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des <span class="math inline">\omicron_{ij}</span> librement. La première de ces deux configurations limite les <span class="math inline">\omicron_{ij}</span> estimés à ceux représentant un total cumulé des flux mesurés par <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> égal à 99.4%, soit 1&nbsp;854 <span class="math inline">\omicron_{ij}</span> . La seconde configuration estime tous les <span class="math inline">\omicron_{ij}</span> sans limite (soit 2&nbsp;033 paramètres pour 72 communes de résidence et 210 communes d’activité, avec un grand nombre de liaisons non considérées parce que nulles).</p>
+<p>Cet algorithme a été utilisé avec différentes contraintes sur les paramètres. Le <a href="#tbl-meapsR2-np" class="quarto-xref">tableau&nbsp;7</a> indique la qualité de l’ajustement obtenu dans ces différentes configurations. La première est celle où les probabilités d’absorption sont déterminées uniquement par les fuites par commune de résidence. C’est la configuration la plus parcimonieuse en termes de paramètres et qui sert de référence. Le <span class="math inline">R^2_{KL}</span> vaut 88% ce qui est un ajustement élevé. La seconde configuration est celle où l’on ajuste des <span class="math inline">\omicron_{ij}</span> uniquement pour les termes diagonaux (<span class="math inline">i=j</span>). Cette configuration ajuste donc un <em>odd-ratio</em> pour les résidents qui travaillent dans leur commune de résidence. Dans un certain nombre de communes, cet ajustement conduit à augmenter la probabilité d’absorption interne (<a href="#fig-carteodd" class="quarto-xref">graphique&nbsp;11</a>), ce qui indique que le choix de résidence n’est pas indépendant de celui d’activité. Pour la commune la plus importante (La Rochelle), en revanche, l’<em>odd-ratio</em> <span class="math inline">\omicron_{17300, 17300}</span> est proche de 1. Les deux configurations suivantes laissent beaucoup plus de degrés de liberté en estimant des <span class="math inline">\omicron_{ij}</span> librement. La première de ces deux configurations limite les <span class="math inline">\omicron_{ij}</span> estimés à ceux représentant un total cumulé des flux mesurés par <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> égal à 99.4%, soit 1&nbsp;854 <span class="math inline">\omicron_{ij}</span> . La seconde configuration estime tous les <span class="math inline">\omicron_{ij}</span> sans limite (soit 2&nbsp;033 paramètres pour 72 communes de résidence et 210 communes d’activité, avec un grand nombre de liaisons non considérées parce que nulles).</p>
 <div class="cell">
 <div id="tbl-meapsR2-np" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -4352,23 +4329,23 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 <div aria-describedby="tbl-meapsR2-np-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="vnysjvuehr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#vnysjvuehr table {
+<div id="piqmotwvwn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#piqmotwvwn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#vnysjvuehr thead, #vnysjvuehr tbody, #vnysjvuehr tfoot, #vnysjvuehr tr, #vnysjvuehr td, #vnysjvuehr th {
+#piqmotwvwn thead, #piqmotwvwn tbody, #piqmotwvwn tfoot, #piqmotwvwn tr, #piqmotwvwn td, #piqmotwvwn th {
   border-style: none;
 }
 
-#vnysjvuehr p {
+#piqmotwvwn p {
   margin: 0;
   padding: 0;
 }
 
-#vnysjvuehr .gt_table {
+#piqmotwvwn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4394,12 +4371,12 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-left-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_caption {
+#piqmotwvwn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#vnysjvuehr .gt_title {
+#piqmotwvwn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4411,7 +4388,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-width: 0;
 }
 
-#vnysjvuehr .gt_subtitle {
+#piqmotwvwn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4423,7 +4400,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-width: 0;
 }
 
-#vnysjvuehr .gt_heading {
+#piqmotwvwn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4435,13 +4412,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_bottom_border {
+#piqmotwvwn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_col_headings {
+#piqmotwvwn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4456,7 +4433,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_col_heading {
+#piqmotwvwn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4476,7 +4453,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#vnysjvuehr .gt_column_spanner_outer {
+#piqmotwvwn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4488,15 +4465,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 4px;
 }
 
-#vnysjvuehr .gt_column_spanner_outer:first-child {
+#piqmotwvwn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vnysjvuehr .gt_column_spanner_outer:last-child {
+#piqmotwvwn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vnysjvuehr .gt_column_spanner {
+#piqmotwvwn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4508,11 +4485,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   width: 100%;
 }
 
-#vnysjvuehr .gt_spanner_row {
+#piqmotwvwn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#vnysjvuehr .gt_group_heading {
+#piqmotwvwn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4538,7 +4515,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   text-align: left;
 }
 
-#vnysjvuehr .gt_empty_group_heading {
+#piqmotwvwn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4553,15 +4530,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: middle;
 }
 
-#vnysjvuehr .gt_from_md > :first-child {
+#piqmotwvwn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vnysjvuehr .gt_from_md > :last-child {
+#piqmotwvwn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vnysjvuehr .gt_row {
+#piqmotwvwn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4580,7 +4557,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#vnysjvuehr .gt_stub {
+#piqmotwvwn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4593,7 +4570,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#vnysjvuehr .gt_stub_row_group {
+#piqmotwvwn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4607,15 +4584,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: top;
 }
 
-#vnysjvuehr .gt_row_group_first td {
+#piqmotwvwn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vnysjvuehr .gt_row_group_first th {
+#piqmotwvwn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#vnysjvuehr .gt_summary_row {
+#piqmotwvwn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4625,16 +4602,16 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#vnysjvuehr .gt_first_summary_row {
+#piqmotwvwn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_first_summary_row.thick {
+#piqmotwvwn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vnysjvuehr .gt_last_summary_row {
+#piqmotwvwn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4644,7 +4621,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_grand_summary_row {
+#piqmotwvwn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4654,7 +4631,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#vnysjvuehr .gt_first_grand_summary_row {
+#piqmotwvwn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4664,7 +4641,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_last_grand_summary_row_top {
+#piqmotwvwn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4674,11 +4651,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_striped {
+#piqmotwvwn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vnysjvuehr .gt_table_body {
+#piqmotwvwn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4687,7 +4664,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_footnotes {
+#piqmotwvwn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4701,7 +4678,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_footnote {
+#piqmotwvwn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4710,7 +4687,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#vnysjvuehr .gt_sourcenotes {
+#piqmotwvwn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4724,7 +4701,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#vnysjvuehr .gt_sourcenote {
+#piqmotwvwn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4732,63 +4709,63 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#vnysjvuehr .gt_left {
+#piqmotwvwn .gt_left {
   text-align: left;
 }
 
-#vnysjvuehr .gt_center {
+#piqmotwvwn .gt_center {
   text-align: center;
 }
 
-#vnysjvuehr .gt_right {
+#piqmotwvwn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vnysjvuehr .gt_font_normal {
+#piqmotwvwn .gt_font_normal {
   font-weight: normal;
 }
 
-#vnysjvuehr .gt_font_bold {
+#piqmotwvwn .gt_font_bold {
   font-weight: bold;
 }
 
-#vnysjvuehr .gt_font_italic {
+#piqmotwvwn .gt_font_italic {
   font-style: italic;
 }
 
-#vnysjvuehr .gt_super {
+#piqmotwvwn .gt_super {
   font-size: 65%;
 }
 
-#vnysjvuehr .gt_footnote_marks {
+#piqmotwvwn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#vnysjvuehr .gt_asterisk {
+#piqmotwvwn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vnysjvuehr .gt_indent_1 {
+#piqmotwvwn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vnysjvuehr .gt_indent_2 {
+#piqmotwvwn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vnysjvuehr .gt_indent_3 {
+#piqmotwvwn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vnysjvuehr .gt_indent_4 {
+#piqmotwvwn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vnysjvuehr .gt_indent_5 {
+#piqmotwvwn .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4864,7 +4841,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 </div>
 </div>
 </div>
-<p>Notons que l’échantillon des mobilités donné par <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> pour l’agglomération de la Rochelle est très particulier. Une commune (La Rochelle, dont le code géographique est 17300) représente presque 29% des flux de mobilité (de La Rochelle lieu de résidence vers La Rochelle lieu d’emploi). C’est donc un schéma monocentrique, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit. La résolution spatiale de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> ne nous permet pas d’en détailler la structure plus fine.</p>
+<p>Notons que l’échantillon des mobilités donné par <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> pour l’agglomération de la Rochelle est très particulier. Une commune (La Rochelle, dont le code géographique est 17300) représente presque 29% des flux de mobilité (de La Rochelle lieu de résidence vers La Rochelle lieu d’emploi). C’est donc un schéma monocentrique, où à la fois les résidents et les emplois sont concentrés sur un territoire réduit. La résolution spatiale de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> ne nous permet pas d’en détailler la structure plus fine.</p>
 <p>Pour les 20 plus grandes communes de l’agglomération de la <span style="white-space:nowrap">Rochelle –</span> qui comptent chacune plus de <span style="white-space:nowrap">1 000</span> résidents en <span style="white-space:nowrap">activité –</span> on peut représenter les <em>odds-ratios</em> estimés dans la configuration 100% des flux par rapport aux chances calculées dans le cas où tous les <span class="math inline">\omicron_{ij}</span> sont égaux à 1 (des <em>odds-ratios</em> effectifs) en fonction de la distance entre la commune de destination et la commune de résidence<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>. Ce diagramme, analogue à un spectre, peut aussi être construit par commune de destination, la distance <span class="math inline">d</span> étant la distance aux différentes communes de résidence <a href="#fig-spectreE" class="quarto-xref">graphique&nbsp;10</a>. L’élément le plus frappant est que les <em>odds-ratios</em> de <span class="math inline">i</span> à <span class="math inline">i</span> sont généralement supérieur à 1 (<a href="#fig-spectreR" class="quarto-xref">graphique&nbsp;9</a>), à l’exception de la commune de la Rochelle. Il n’émerge pas de structure particulière par rapport à la distance, si ce n’est des <em>odds-ratios</em> élevés pour des distances importantes</p>
 <div class="no-row-height column-margin column-container"><p><sup>10</sup>&nbsp;La distance est construite comme la distance moyenne pondérée entre les résidents de la commune de départ et les emplois de la commune d’arrivée. La pondération est le produit des emplois et des résidents pour chaque paire, normalisé à 1.</p></div><div class="cell">
 <div class="cell-output-display">
@@ -4921,7 +4898,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 <li><p>Un paramètre pour tous les termes diagonaux et un paramètre pour les communes voisines d’emploi, c’est-à-dire un terme correctif reliant une commune de résidence aux communes voisines. Une commune est voisine d’une autre si au moins 5% des trajets pondérés par les emplois et les résidents ont une distance kilométrique inférieure à 3&nbsp;km. Cette définition permet d’exclure des communes limitrophes mais dont les pôles principaux sont distants. Formellement, <span class="math inline">\omicron_{ii} = o_d</span>; <span class="math inline">\omicron_{ij\in \mathcal{V}(i)} = o_v</span> et <span class="math inline">\omicron_{i, j \neq i, j \notin \mathcal{V}(i)} = 1</span>.</p></li>
 <li><p>Un cœfficient pour la distance et un paramètre pour la distance de <span style="white-space:nowrap">« </span>bascule<span style="white-space:nowrap"> »</span>. Formellement, en dessous d’une distance <span class="math inline">d_c</span> , on définit un <span class="math inline">\omicron_{ij \in d_{i,j} \leq d_c} = o</span> et <span class="math inline">\omicron_{ij \in d_{i,j} &gt; d_c} = 1</span>. Cette forme partage la même idée que le premier modèle, mais estime la notion de proximité au lieu de reposer sur le découpage administratif.</p></li>
 </ol>
-<p>Chacune de ces options mesure un biais intra-communal qui peut s’expliquer par un choix conjoint de localisation de résidence et d’emploi. <em>MEAPS</em> offre ici la possibilité de mesurer l’intensité de ce phénomène par rapport à l’hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu’elles concernent la géographie du <span style="white-space:nowrap">territoire –&nbsp;sa</span> structure en pôles ou en satellite&nbsp;–, la formation des prix de l’immobilier, le réseau de transport ou la nature de l’activité économique. On pourrait également chercher à exploiter l’information <span style="white-space:nowrap">sectorielle –&nbsp;disponible</span> dans <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> au niveau de 5 secteurs&nbsp;– ou l’information sociale ou <span style="white-space:nowrap">démographique –&nbsp;disponible</span> au niveau communal ou de l’IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
+<p>Chacune de ces options mesure un biais intra-communal qui peut s’expliquer par un choix conjoint de localisation de résidence et d’emploi. <em>MEAPS</em> offre ici la possibilité de mesurer l’intensité de ce phénomène par rapport à l’hypothèse où les emplois sont considérés indépendamment de la localisation et sont tous parfaitement substituables. Il sera intéressant de comparer les territoires de ce point de vue et de repérer et quantifier des spécificités locales, qu’elles concernent la géographie du <span style="white-space:nowrap">territoire –&nbsp;sa</span> structure en pôles ou en satellite&nbsp;–, la formation des prix de l’immobilier, le réseau de transport ou la nature de l’activité économique. On pourrait également chercher à exploiter l’information <span style="white-space:nowrap">sectorielle –&nbsp;disponible</span> dans <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> au niveau de 5 secteurs&nbsp;– ou l’information sociale ou <span style="white-space:nowrap">démographique –&nbsp;disponible</span> au niveau communal ou de l’IRIS mais qui peut être exploitée également à un niveau plus fin avec Fidéli<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
 <div class="no-row-height column-margin column-container"><p><sup>11</sup>&nbsp;Fichiers démographiques sur les logements et les individus, INSEE, https://www.insee.fr/fr/metadonnees/source/serie/s1019.</p></div><p>A ces formes fonctionnelles pour <em>MEAPS</em>, nous ajoutons deux formes fonctionnelles pour le modèle gravitaire&nbsp;:</p>
 <ol start="4" type="1">
 <li>un modèle gravitaire suivant la définition <a href="#eq-gravitaire" class="quarto-xref">équation&nbsp;1</a> où <span class="math inline">f(d)= e^{d/\delta}</span>. Un seul paramètre <span class="math inline">\delta</span> est estimé.</li>
@@ -4944,7 +4921,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Dans les simulations synthétiques présentées dans le document <span style="white-space:nowrap">« </span><a href="./theorie.html">Aspects théoriques</a><span style="white-space:nowrap"> »</span> les flux sont simulés avec une granularité individuelle. Chaque emploi ou chaque individu est localisé et les distances sont calculées entre ces localisations et les flux par individu sont simulés. L’agrégation spatiale à la maille hexagonale se fait ensuite. Dans le cas des données que nous utilisons pour La Rochelle, les carreaux ne sont pas occupés par un seul résident actif ou un seul emploi. Il y a des paquets pour lesquels il n’est pas nécessaire de refaire les simulations individu par individu ou emploi par emploi. Nous les avons donc regroupés et simuler en conséquences dans MEAPS. Cela pose cependant un problème puisque le choix d’un ordre de priorité s’exerce maintenant sur des individus en paquets de taille différente, un faible nombre de ces paquets étant de taille très supérieure à la médiane des autres. Ainsi, lorsqu’un paquet de taille importante est à son tour de choisir, il peut saturer des emplois en une seule passe. Pour résoudre ce problème, nous procédons à un émiettage dans lesquels les paquets de plus grande taille sont divisés en paquets plus petits. Pour un seuil d’émiettage de 20 individus (le flux le plus important de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> pour La Rochelle est de 18&nbsp;000) , on augmente le nombre de paquets d’environ 50% ce qui permet de conserver un problème de taille globale raisonnable tout en réduisant le problème de granularité des paquets. De plus, les paquets sont tirés au sort dans leur ordre de priorité en tenant compte de leur taille afin d’éviter une sur-représentation des paquets de petite taille dans les ordres de priorité.</p>
+<p>Dans les simulations synthétiques présentées dans le document <span style="white-space:nowrap">« </span><a href="./theorie.html">Aspects théoriques</a><span style="white-space:nowrap"> »</span> les flux sont simulés avec une granularité individuelle. Chaque emploi ou chaque individu est localisé et les distances sont calculées entre ces localisations et les flux par individu sont simulés. L’agrégation spatiale à la maille hexagonale se fait ensuite. Dans le cas des données que nous utilisons pour La Rochelle, les carreaux ne sont pas occupés par un seul résident actif ou un seul emploi. Il y a des paquets pour lesquels il n’est pas nécessaire de refaire les simulations individu par individu ou emploi par emploi. Nous les avons donc regroupés et simuler en conséquences dans MEAPS. Cela pose cependant un problème puisque le choix d’un ordre de priorité s’exerce maintenant sur des individus en paquets de taille différente, un faible nombre de ces paquets étant de taille très supérieure à la médiane des autres. Ainsi, lorsqu’un paquet de taille importante est à son tour de choisir, il peut saturer des emplois en une seule passe. Pour résoudre ce problème, nous procédons à un émiettage dans lesquels les paquets de plus grande taille sont divisés en paquets plus petits. Pour un seuil d’émiettage de 20 individus (le flux le plus important de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> pour La Rochelle est de 18&nbsp;000) , on augmente le nombre de paquets d’environ 50% ce qui permet de conserver un problème de taille globale raisonnable tout en réduisant le problème de granularité des paquets. De plus, les paquets sont tirés au sort dans leur ordre de priorité en tenant compte de leur taille afin d’éviter une sur-représentation des paquets de petite taille dans les ordres de priorité.</p>
 </div>
 </div>
 </div>
@@ -4958,23 +4935,23 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 <div aria-describedby="tbl-meapsR2-p-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<div id="lgeuwptkra" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lgeuwptkra table {
+<div id="owvkwlugop" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#owvkwlugop table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lgeuwptkra thead, #lgeuwptkra tbody, #lgeuwptkra tfoot, #lgeuwptkra tr, #lgeuwptkra td, #lgeuwptkra th {
+#owvkwlugop thead, #owvkwlugop tbody, #owvkwlugop tfoot, #owvkwlugop tr, #owvkwlugop td, #owvkwlugop th {
   border-style: none;
 }
 
-#lgeuwptkra p {
+#owvkwlugop p {
   margin: 0;
   padding: 0;
 }
 
-#lgeuwptkra .gt_table {
+#owvkwlugop .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -5000,12 +4977,12 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-left-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_caption {
+#owvkwlugop .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lgeuwptkra .gt_title {
+#owvkwlugop .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5017,7 +4994,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-width: 0;
 }
 
-#lgeuwptkra .gt_subtitle {
+#owvkwlugop .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5029,7 +5006,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-width: 0;
 }
 
-#lgeuwptkra .gt_heading {
+#owvkwlugop .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5041,13 +5018,13 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_bottom_border {
+#owvkwlugop .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_col_headings {
+#owvkwlugop .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5062,7 +5039,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_col_heading {
+#owvkwlugop .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5082,7 +5059,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#lgeuwptkra .gt_column_spanner_outer {
+#owvkwlugop .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5094,15 +5071,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 4px;
 }
 
-#lgeuwptkra .gt_column_spanner_outer:first-child {
+#owvkwlugop .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lgeuwptkra .gt_column_spanner_outer:last-child {
+#owvkwlugop .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lgeuwptkra .gt_column_spanner {
+#owvkwlugop .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5114,11 +5091,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   width: 100%;
 }
 
-#lgeuwptkra .gt_spanner_row {
+#owvkwlugop .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lgeuwptkra .gt_group_heading {
+#owvkwlugop .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5144,7 +5121,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   text-align: left;
 }
 
-#lgeuwptkra .gt_empty_group_heading {
+#owvkwlugop .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5159,15 +5136,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: middle;
 }
 
-#lgeuwptkra .gt_from_md > :first-child {
+#owvkwlugop .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lgeuwptkra .gt_from_md > :last-child {
+#owvkwlugop .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lgeuwptkra .gt_row {
+#owvkwlugop .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5186,7 +5163,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   overflow-x: hidden;
 }
 
-#lgeuwptkra .gt_stub {
+#owvkwlugop .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5199,7 +5176,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#lgeuwptkra .gt_stub_row_group {
+#owvkwlugop .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5213,15 +5190,15 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   vertical-align: top;
 }
 
-#lgeuwptkra .gt_row_group_first td {
+#owvkwlugop .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lgeuwptkra .gt_row_group_first th {
+#owvkwlugop .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lgeuwptkra .gt_summary_row {
+#owvkwlugop .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5231,16 +5208,16 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#lgeuwptkra .gt_first_summary_row {
+#owvkwlugop .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_first_summary_row.thick {
+#owvkwlugop .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lgeuwptkra .gt_last_summary_row {
+#owvkwlugop .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5250,7 +5227,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_grand_summary_row {
+#owvkwlugop .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5260,7 +5237,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#lgeuwptkra .gt_first_grand_summary_row {
+#owvkwlugop .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5270,7 +5247,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-top-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_last_grand_summary_row_top {
+#owvkwlugop .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5280,11 +5257,11 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_striped {
+#owvkwlugop .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lgeuwptkra .gt_table_body {
+#owvkwlugop .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5293,7 +5270,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-bottom-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_footnotes {
+#owvkwlugop .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5307,7 +5284,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_footnote {
+#owvkwlugop .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -5316,7 +5293,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#lgeuwptkra .gt_sourcenotes {
+#owvkwlugop .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5330,7 +5307,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   border-right-color: #D3D3D3;
 }
 
-#lgeuwptkra .gt_sourcenote {
+#owvkwlugop .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5338,63 +5315,63 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
   padding-right: 5px;
 }
 
-#lgeuwptkra .gt_left {
+#owvkwlugop .gt_left {
   text-align: left;
 }
 
-#lgeuwptkra .gt_center {
+#owvkwlugop .gt_center {
   text-align: center;
 }
 
-#lgeuwptkra .gt_right {
+#owvkwlugop .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lgeuwptkra .gt_font_normal {
+#owvkwlugop .gt_font_normal {
   font-weight: normal;
 }
 
-#lgeuwptkra .gt_font_bold {
+#owvkwlugop .gt_font_bold {
   font-weight: bold;
 }
 
-#lgeuwptkra .gt_font_italic {
+#owvkwlugop .gt_font_italic {
   font-style: italic;
 }
 
-#lgeuwptkra .gt_super {
+#owvkwlugop .gt_super {
   font-size: 65%;
 }
 
-#lgeuwptkra .gt_footnote_marks {
+#owvkwlugop .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lgeuwptkra .gt_asterisk {
+#owvkwlugop .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lgeuwptkra .gt_indent_1 {
+#owvkwlugop .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lgeuwptkra .gt_indent_2 {
+#owvkwlugop .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lgeuwptkra .gt_indent_3 {
+#owvkwlugop .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lgeuwptkra .gt_indent_4 {
+#owvkwlugop .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lgeuwptkra .gt_indent_5 {
+#owvkwlugop .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -5468,7 +5445,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 </div>
 <p>Les estimations des modèles 1 à 3, dans lesquelles on explore un terme diagonal sous différentes formes, renforcent le diagnostic de biais communal noté dans les estimations non paramétriques. Il y a en moyenne 4 fois plus de chance de choisir un emploi (<a href="#tbl-meapsR2-p" class="quarto-xref">tableau&nbsp;8</a>, lignes 1 et 2) dans la commune de résidence. L’estimation du modèle 2 montre que les communes voisines ne connaissent pas un biais comparable, bien que la chance de choisir un emploi dans celles-ci soit supérieure à 1.</p>
 <p>L’estimation du modèle 3 indique qu’apparemment la distance explique mieux le biais communal que le découpage administratif et il convient plutôt de voir celui-ci comme un biais de proximité. En effet, le cœfficient d’ajustement est supérieur de plus d’un point à celui obtenu avec le premier modèle, en perdant uniquement 1 degré de liberté. La distance de bascule est faible, autour de 9 minutes, ce qui suggère que le périmètre communal est trop large pour capturer cet effet. La chance à plus courte distance est également nettement plus élevée puisqu’au lieu d’être approximativement de 4 elle est approximativement de 19, soit plus de 4 fois plus.</p>
-<p>Il convient à ce stade d’être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d’emplois au carreau 200m dont la précision est convaincante. Mais les flux dans <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> ne sont connus que pour les communes d’origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d’établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> ou de données issues de traçages numériques.</p>
+<p>Il convient à ce stade d’être prudent sur cette estimation, puisque la résolution des données est largement inférieure au seuil qui a été trouvé. La simulation est basée sur des distances et des localisations d’emplois au carreau 200m dont la précision est convaincante. Mais les flux dans <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> ne sont connus que pour les communes d’origine et de départ et donc avec une résolution spatiale plus faible. La multiplication des observations peut palier à cette faible résolution spatiale, mais cela demandera d’établir une analyse des distances et des localisations sur des territoires plus grands et plus nombreux. Pour avancer, il faudrait recourir à des données de flux plus finement localisées, par exemple à partir de Fidéli<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> ou de données issues de traçages numériques.</p>
 <div class="no-row-height column-margin column-container"><p><sup>13</sup>&nbsp;A partir de Fidéli, on peut préciser la localisation de chaque individu et utiliser l’information sur la commune dans laquelle il travaille. On ne peut pas en revanche localiser plus précisément la localisation de l’emploi occupé.</p></div><div class="cell">
 <div class="cell-output-display">
 <div id="fig-actvsfit-p" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="*MEAPS* observés versus estimés, estimations paramétriques" data-fig-pos="htb">
@@ -5499,7 +5476,7 @@ c^{mobpro}_{abs}}\biggr)^\beta \times \omicron^{k-1}_{ij}
 </div>
 </div>
 </div>
-<p>La <a href="#fig-distrdist" class="quarto-xref">graphique&nbsp;14</a> confirme ce diagnostic. On y compare la distrbution cumulée en fonction de la distance kilométrique pondérée entre chaque commune pour différentes estimations, les flux de <span class="citation" data-cites="MOBPRO">MOBPRO (<a href="#ref-MOBPRO" role="doc-biblioref">2022</a>)</span> étant utilisé comme référence. Les performances des modèles sont comparables pour les courtes distances (i.e la commune de la Rochelle vers elle-même). Le modèle gravitaire avec ou sans Furness pêche sur les distances intermédiaires et donne trop de poids aux distances très longues. Les estimations paramétriques à partir de <em>MEAPS</em> parviennent bien à reproduire la distribution cumulée des distances, notamment le modèle paramétrique 3. qui retient la distance au carreau 200m comme forme fonctionnelle.</p>
+<p>La <a href="#fig-distrdist" class="quarto-xref">graphique&nbsp;14</a> confirme ce diagnostic. On y compare la distrbution cumulée en fonction de la distance kilométrique pondérée entre chaque commune pour différentes estimations, les flux de <span class="citation" data-cites="MOBPRO">INSEE (<a href="#ref-MOBPRO" role="doc-biblioref">2022a</a>)</span> étant utilisé comme référence. Les performances des modèles sont comparables pour les courtes distances (i.e la commune de la Rochelle vers elle-même). Le modèle gravitaire avec ou sans Furness pêche sur les distances intermédiaires et donne trop de poids aux distances très longues. Les estimations paramétriques à partir de <em>MEAPS</em> parviennent bien à reproduire la distribution cumulée des distances, notamment le modèle paramétrique 3. qui retient la distance au carreau 200m comme forme fonctionnelle.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-distrdist" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Distributions empiriques cumulées des distances" data-fig-pos="htb">
@@ -5535,9 +5512,6 @@ Agresti A. (2002). <span>«&nbsp;<a href="https://doi.org/10.1002/0471249688">Ca
 <div id="ref-aitchison1989" class="csl-entry" role="listitem">
 Aitchison J., Ho C.H. (1989). <span>«&nbsp;<a href="https://doi.org/10.1093/biomet/76.4.643">The multivariate Poisson-log normal distribution</a>&nbsp;»</span>, <em>Biometrika</em>, <em>76</em>, n° 4, p.&nbsp;643‑653.
 </div>
-<div id="ref-C200" class="csl-entry" role="listitem">
-C200 (2022). <span>«&nbsp;Revenus, pauvreté et niveau de vie en 2017 - Données carroyées. Dispositif Fichier localisé social et fiscal (Filosofi)&nbsp;»</span>,.
-</div>
 <div id="ref-colincameron1997" class="csl-entry" role="listitem">
 Colin Cameron A., Windmeijer F.A.G. (1997). <span>«&nbsp;<a href="https://doi.org/10.1016/s0304-4076(96)01818-0">An R-squared measure of goodness of fit for some common nonlinear regression models</a>&nbsp;»</span>, <em>Journal of Econometrics</em>, <em>77</em>, n° 2, p.&nbsp;329‑342.
 </div>
@@ -5559,6 +5533,12 @@ Flowerdew R., Aitkin M. (1982). <span>«&nbsp;<a href="https://doi.org/10.1111/j
 <div id="ref-fotheringham1983" class="csl-entry" role="listitem">
 Fotheringham A.S. (1983). <span>«&nbsp;<a href="https://doi.org/10.1177/0308518X8301500103">A New Set of Spatial-Interaction Models: The Theory of Competing Destinations</a>&nbsp;»</span>, <em>Environment and Planning A: Economy and Space</em>, <em>15</em>, n° 1, p.&nbsp;15‑36.
 </div>
+<div id="ref-C200" class="csl-entry" role="listitem">
+INSEE (2022b). <span>«&nbsp;<a href="https://www.insee.fr/fr/statistiques/6214811?sommaire=6215217">Revenus, pauvreté et niveau de vie en 2017 - Données carroyées. Dispositif Fichier localisé social et fiscal (Filosofi)</a>&nbsp;»</span>,.
+</div>
+<div id="ref-MOBPRO" class="csl-entry" role="listitem">
+INSEE (2022a). <span>«&nbsp;<a href="https://www.insee.fr/fr/statistiques/6454112">Mobilités professionnelles en 2019 : déplacements domicile - lieu de travail Recensement de la population - Base flux de mobilité</a>&nbsp;»</span>,.
+</div>
 <div id="ref-josselin2020" class="csl-entry" role="listitem">
 Josselin D., Carpentier-Postel S., Audard F., Amarouch S., Durand J.-B., Brachet N., Coulon M., Garcin L. (2020). <span>«&nbsp;<a href="https://doi.org/10.1139/geomat-2020-0009">Estimer des flux de navetteurs avec un modèle gravitaire : application géomatique en région Provence-Alpes-Côte d<span>’</span>Azur (France)<span><sup>1</sup></span></a>&nbsp;»</span>, <em>Geomatica</em>, <em>74</em>, n° 3, p.&nbsp;104‑130.
 </div>
@@ -5568,14 +5548,11 @@ Kullback S., Leibler R.A. (1951). <span>«&nbsp;<a href="https://doi.org/10.1214
 <div id="ref-lenormand2016" class="csl-entry" role="listitem">
 Lenormand M., Bassolas A., Ramasco J.J. (2016). <span>«&nbsp;<a href="https://doi.org/10.1016/j.jtrangeo.2015.12.008">Systematic comparison of trip distribution laws and models</a>&nbsp;»</span>, <em>Journal of Transport Geography</em>, <em>51</em>, p.&nbsp;158‑169.
 </div>
-<div id="ref-MOBPERS" class="csl-entry" role="listitem">
-MOBPERS (2021). <span>«&nbsp;EMP 2019 Résultats détaillés de l’enquête mobilité des personnes de 2019&nbsp;»</span>,.
-</div>
-<div id="ref-MOBPRO" class="csl-entry" role="listitem">
-MOBPRO (2022). <span>«&nbsp;Mobilités professionnelles en 2019 : déplacements domicile - lieu de travail Recensement de la population - Base flux de mobilité&nbsp;»</span>,.
-</div>
 <div id="ref-r5r" class="csl-entry" role="listitem">
 Pereira R.H.M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, Matthew Wigginton Conway (2021). <span>«&nbsp;<a href="https://doi.org/10.32866/001c.21262">r5r: Rapid Realistic Routing on Multimodal Transport Networks with R5 in R</a>&nbsp;»</span>,.
+</div>
+<div id="ref-MOBPERS" class="csl-entry" role="listitem">
+SDES (2021). <span>«&nbsp;<a href="https://www.statistiques.developpement-durable.gouv.fr/resultats-detailles-de-lenquete-mobilite-des-personnes-de-2019">EMP 2019 Résultats détaillés de l’enquête mobilité des personnes de 2019</a>&nbsp;»</span>,.
 </div>
 </div>
 
@@ -5632,7 +5609,8 @@ Pereira R.H.M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, Mat
     enfin, en utilisant une information infracommunale on peut améliorer
     la qualité de l’ajustement de MEAPS et produire une intrapolation
     des flux à une résolution plus importante que celle des données de
-    flux issues du recensement.}
+    flux issues du recensement. \textless br\textgreater{} `r
+    wordcountaddin::word\_count(“larochelle.qmd”)` mots.}
 }
 </code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">Veuillez citer ce travail comme suit&nbsp;:</div><div id="ref-parodi2024" class="csl-entry quarto-appendix-citeas" role="listitem">
 Parodi M., Timbeau X. (2024). <span>«&nbsp;<a href="https://preview.meaps.fr">MEAPS &amp; gravitaire : estimations à
@@ -6026,6 +6004,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://utteranc.es/client.js" repo="xtimbeau/meaps" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -6040,7 +6020,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox","openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
