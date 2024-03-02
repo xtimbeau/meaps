@@ -266,8 +266,7 @@ L'enquête mobilité des personnes nous sert de source, conjointement à MOBPRO,
 
 Comme on peut le constater sur le @tbl-empkm, entre une "commune très dense" et une "commune peu dense", il y a un ratio de un peu moins que 1 à 2 pour les kilomètres parcourus annuellement, pour le motif principal travail.
 
-```{r} #| label: tbl-empkm #| tbl-cap: Nombre de kilomètres parcourus par an selon EMP2019 co2_emp <- bd_read("co2_emp_horsidf") co2_emp$table[[1]] |>   gt::tab_options(table.font.size = 12)}
-```
+`{r} #| label: tbl-empkm #| tbl-cap: Nombre de kilomètres parcourus par an selon EMP2019 co2_emp <- bd_read("co2_emp_horsidf") co2_emp$table[[1]] |>   gt::tab_options(table.font.size = 12)}`
 
 ### De la fréquence des boucles
 
@@ -555,11 +554,15 @@ En appliquant un ratio émissions de CO~2~ aux kilomètres, on peut construire u
 
 La carte représentée sur le @fig-km-nav sert de base au @fig-prixkm. Chaque point de ce graphique est un point de la carte précédente. La taille du point indique le nombre d'actifs et c'est ainsi proportionel à la densité, puisque chaque carreau 200m a une taille fixe (4 hectares) ; la couleur représente le prix des transactions immobilières au m² pour l'année 2019 -- avec un lissage pour tenir compte du faible échantillonage à cette résolution spatiale. L'axe des y représente les kilomètres moyens parcourus par les actifs de chaque carreau pour leurs déplacements professionnels. Enfin, l'axe des x représente le niveau de vie (c'est-à-dire le revenu divisé par les unités de consommation) moyen des ménages de chaque carreau.
 
-La courbe en gris agrège les différents carreaux en pondérant par la population de chaque carreau et illustre le lien entre kilomètre et niveau de vie. Le nombre de kilomètres est le plus bas pour les ménages les plus pauvres – la contrainte budgétaire les oblige certainement – et les ménages les plus aisés. Pour un niveau de vie donné, la dispersion est très grande, mais le lien apparaît significatif pour autant. Les classes moyennes (ni les plus riches, ni les plus pauvres).
+La courbe en gris agrège les différents carreaux en pondérant par la population de chaque carreau et illustre le lien entre kilomètre et niveau de vie. Le nombre de kilomètres est le plus bas pour les ménages les plus pauvres – la contrainte budgétaire les oblige certainement – et les ménages les plus aisés – dont la contrainte budgétaire leur permet de se loger plus facilement près des emplois. Pour les moins aisés, la façon de concilier la contrainte mobilité et la contrainte logement est soit de vivre dans un logement plus petit, soit de se voir solvabiliser par le logement social.
+
+Pour un niveau de vie donné, la dispersion est très grande, mais le lien apparaît significatif pour autant. Les classes moyennes (ni les plus riches, ni les plus pauvres) émettent plus de CO~2~ en moyenne parce qu'elles vivent plus loin de l'emploi dans des zones moins denses et dont le prix de l'immobilier résidentiel est plus bas. En ce qui concerne les émissions de CO~2~ liées à la mobilité professionnelle quotidienne, sur le territoire de la Rochelle, notre projection indique que les émissions diminuent avec le revenu sur la partie haute de la distribution des revenus.
 
 ```{r}
 #| label: fig-prixkm
 #| fig-cap: revenus, kilomètre, densité et nivea de vie, La Rochelle
+
+library(patchwork)
 bd_read("lrdistrev")
 
 ```
