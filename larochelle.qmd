@@ -266,7 +266,7 @@ bd_read("carte_scot")
 
 Le @tbl-scot donne quelques statistiques descriptives pour les différents échantillons. La colonne QQ plot indique en particulier que les log des flux ne sont pas normalement distribués avec une masse importante en fin de distribution, ce qui est comptatible avec une distribution de Poisson des flux.
 
-```{r}
+```{r scot_data}
 scot_data <- bd_read("scot_data")
 tbl_scot <- bd_read("tbl_scot")
 ```
@@ -516,7 +516,7 @@ A partir des temps de trajets par mode, nous appliquons un modèle de choix disc
 #| fig-asp: 0.9
 
 access <- qs::qread("output/acces4modes.sqs")
-decor_carte <- qs::qread("output/decor_carte.sqs")
+decor_carte <- bd_read("decor_carte")
 if(is_html_output())
   accpanels <- set_names(c("to1k", "to5k", "to10k", "to20k")) else
   accpanels <- set_names(c("to10k"))  

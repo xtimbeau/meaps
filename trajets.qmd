@@ -49,7 +49,7 @@ source("R/rinit.r")
 
 Réduire les émissions de gaz à effet de serre est aujourd'hui un objectif central des politiques publiques. Or, un tel objectif ne peut être atteint sans agir à différents niveaux et dans de nombreux domaines. Notamment, il ne va pas suffire de remplacer, au sein de notre système de production d'énergie, les sources fossiles par des sources renouvelables. Il faut aussi développer une stratégie de sobriété énergétique, de manière à réduire le coût de la bascule vers des énergies propres, à limiter l'empreinte environnementale liée à ces investissements dans le système énergétique actuel et, également, à éviter de produire de manière indirecte des émissions de gaz à effet de serre.
 
-L'un des principaux enjeux autour de la sobriété est lié à l'habitat et à la mobilité des individus : quels modèles urbains promouvoir pour éviter ou limiter les déplacements énergivores ? Le *Groupe Intergouvernemental des Experts du Climat* [@seto2014; @lwasas.2022] a ainsi réaffirmé que la *ville compacte* est un des grands leviers de la transition vers des sociétés neutres en carbone. Cette position s'inscrit dans un long débat aussi bien aux Etats-Unis, où les défenseurs de la ville compacte s'opposent à l'étalement urbain (@ewing1997 vs @gordon1997; @newman1989a), qu'en Europe [@jenks1996] ou en Chine [@pan2009] pour ne citer que quelques exemples emblématiques.
+L'un des principaux enjeux autour de la sobriété est lié à l'habitat et à la mobilité des individus : quels modèles urbains promouvoir pour éviter ou limiter les déplacements énergivores ? Le *Groupe Intergouvernemental des Experts du Climat* [@seto2014; @lwasas.2022] a ainsi réaffirmé que la ville compacte est un des grands leviers de la transition vers des sociétés neutres en carbone. Cette position s'inscrit dans un long débat aussi bien aux Etats-Unis, où les défenseurs de la ville compacte s'opposent à l'étalement urbain (@ewing1997 vs @gordon1997; @newman1989a), qu'en Europe [@jenks1996] ou en Chine [@pan2009] pour ne citer que quelques exemples emblématiques.
 
 L'endroit où vivent les individus conditionne leurs émissions de gaz à effet de serre par deux canaux principaux : d'une part, les émissions liées au logement, au moment de sa construction puis celles induites par ses dépenses énergétiques, principalement le chauffage. D'autre part, la mobilité quotidienne pour accéder à l'emploi, à l'éducation et à toutes les aménités dont les ménages ont l'usage. On pourrait ajouter des liens plus difficiles à mettre en évidence entre le lieu de résidence et les comportements de consommation. Ainsi, l'effet "barbecue" ou "hypothèse de compensation" [@holden2005; @orfeuil2002; @massot2007; @muñiz2013] voudrait que les ménages urbains se déplacent moins la semaine mais ont un besoin de nature ou un besoin de fuir la ville qui les conduit à faire plus de déplacements de loisirs les week-ends ou pendant les vacances. Une fois contrôlé des plus importantes variables socio-économiques, un ménage urbain prend effectivement plus souvent l'avion pour les vacances et, plus marginalement, effectue des déplacements plus longs le week-end qu'un ménage vivant à la campagne. Toutefois, les citadins n'effectuent pas ces déplacements pour satisfaire un besoin de nature ou pour fuir la ville, puisque les destinations sont souvent d'autres villes [@munafò2017]. La mobilité occasionnelle des citadins doit plus s'interpréter comme la traduction de leurs goûts pour les expériences diverses, contrastées et cosmopolitiques, qui expliquent leur désir de vivre dans des centres urbains. Il reste que la hausse des kilomètres attribuables à cet effet "barbecue" est marginal (un facteur 10) en regard de la différence de kilomètres parcourus entre un ménage urbain et un ménage rural. Il faudrait également tenir compte du cas d'un ménage s'éloignant de l'emploi mais qui compense en télétravaillant. Pour l'heure, il est encore difficile de dresser un réel bilan kilométrique de ces cas [@cervero1989; @orfeuil2002].
 
@@ -63,7 +63,7 @@ Cette controverse a, au cours des 50 dernières années, pris plusieurs formes. 
 
 Outre la question climatique, l'usage la voiture, notamment thermique, au sein des villes apporte son lot de problèmes : pollution de l'air, congestion, accidents de la route, qui tous impactent négativement la santé humaine. Dans un contexte de hausse des coûts relatifs de l'énergie à court et à long terme, les mobilité quotidiennes et la consommation d'énergie résidentielle exercent une contrainte de plus en plus importantes sur les budgets des ménages. La répartition spatiale étant conditionnée notamment par les prix de l'immobilier, les choix de localisation peuvent être fait sans pouvoir anticiper correctement les évolutions des coûts futurs et induire un enfermement de certaines populations, souvent modestes, dans des zones excentrées qui finiront par entraîner des coûts de transport difficilement soutenables. La facilité d'accès à l'emploi et à d'autres aménités en fonction de son lieu de résidence –- que l'on peut mesurer par l'accessibilité –- détermine les pratiques de mobilités des résidents : les modes de transport possibles, les coûts de chaque trajets, l'activité physique induite, ou encore la possibilité pour des individus ne pouvant pas conduire (comme les plus jeunes) d'accéder aux aménités de manière autonome.
 
-L'argument environnemental pour les villes compactes repose sur une empreinte carbone plus faible pour des déplacements plus courts et plus doux que dans le cas de l'étalement urbain ou dans le cas d'une mégalopole où les distances s'allongent malgré une densité importante. Dans ce débat, une littérature assez récente (depuis les années 2000) a versé un grand nombre d'arguments empiriques en utilisant les données de grandes enquêtes auprès des ménages sur les mobilités. Il en ressort un diagnostic mitigé : une plus grande densité est bien associée à de moindres déplacements, mais cette conclusion est fragile en raisons de nombreuses difficultés méthodologiques (liées à l'endogénéité des variables et à des biais de sélection). Plus encore, l'effet identifié semble faible – une élasticité de -0,1 entre densité et nombre de kilomètres parcourus – au point qu'il est illusoire de compter sur la hausse de la densité pour réduire les émissions [@blaudindethé, @brownstone2009, @duranton2018].
+L'argument environnemental pour les villes compactes repose sur une empreinte carbone plus faible pour des déplacements plus courts et plus doux que dans le cas de l'étalement urbain ou dans le cas d'une mégalopole où les distances s'allongent malgré une densité importante. Dans ce débat, une littérature assez récente (depuis les années 2000) a versé un grand nombre d'arguments empiriques en utilisant les données de grandes enquêtes auprès des ménages sur les mobilités. Il en ressort un diagnostic mitigé : une plus grande densité est bien associée à de moindres déplacements, mais cette conclusion est fragile en raisons de nombreuses difficultés méthodologiques (liées à l'endogénéité des variables et à des biais de sélection). Plus encore, l'effet identifié semble faible – une élasticité de -0,1 entre densité et nombre de kilomètres parcourus – au point qu'il est illusoire de compter sur la hausse de la densité pour réduire les émissions [@blaudindethé2021, @brownstone2009, @duranton2018].
 
 Nous présentons dans la section suivante cette littérature, les principaux résultats ainsi qu'une analyse critique des méthodes qui conduisent au résultat principal. Nous présenterons ensuite une approche alternative, s'attachant à mieux définir la notion de densité et surtout à préciser ce qu'augmenter la densité veut dire, pour montrer qu'il s'agit bien d'une levier efficace pour réduire les émissions liées à la mobilité, conformément à l'intuition initiale de Newman et Kenworthy.
 
@@ -83,7 +83,7 @@ Le terme "densité" recouvre ainsi différentes notions : la densité peut être
 
 Le deuxième D –- la diversité –- cherche à tenir compte de la spécialisation de l'environnement urbain. Dans beaucoup de villes américaines, du fait d'une politique persistante de zonage peu pratiquée en Europe [@hirt2012], les espaces sont spécialisés, en particulier entre zones de résidences et de commerce ou d'activité économique. La diversité, mesurée par exemple par (l'opposé d') un indice de Herfindahl, permet de rendre compte de l'imbrication des services ou des opportunités d'emplois avec les lieux de résidence. Là encore, l'échelle de prise en compte de la diversité est un point important et, à nouveau, l'imbrication peut être pondérée pour mieux rendre compte des perceptions. Tout comme pour la densité, on s'attendrait à ce qu'une plus grande diversité soit associée à moins de kilomètres parcourus.
 
-Le troisième D –- le design –- fait référence à la configuration des rues, des routes ou du réseau de transport. Une configuration de routes peu denses, composé d'axes traversant continus et à fort débit est peu propice à la marche. Un réseau de ruelles entourant des blocs de bâtiments plus petits permet au contraire une circulation capillaire. La mesure du design passe par des indicateurs variés comme le nombre d'intersection, la taille des blocs. Alternativement, [@blaudindethé] utilisent la dimension fractale des bâtiments[^1].
+Le troisième D –- le design –- fait référence à la configuration des rues, des routes ou du réseau de transport. Une configuration de routes peu denses, composé d'axes traversant continus et à fort débit est peu propice à la marche. Un réseau de ruelles entourant des blocs de bâtiments plus petits permet au contraire une circulation capillaire. La mesure du design passe par des indicateurs variés comme le nombre d'intersection, la taille des blocs. Alternativement, [@blaudindethé2021] utilisent la dimension fractale des bâtiments[^1].
 
 [^1]: La dimension fractale est définie comme la pente du ratio entre le nombre de bâtiments et le nombre de pavés lorsque la taille du pavage varie et tend vers 0 (éventuellement en $log$).
 
@@ -95,7 +95,7 @@ En décrivant la forme urbaine par ces grandeurs, on dispose d'indicateurs qui s
 
 ### Endogénéité et autosélection des résidents
 
-Bien qu'il soit délicat de tirer une conclusion simple et univoque du large panel d'analyses sur le lien entre densité et émissions, des mesures de la forme urbaine comme la densité d'habitants ou d'emploi, parfois des mesures plus complexes comme la dimension fractale du bâti [@blaudindethé], la diversité locale de l'emploi, des indicateurs de centralité, de connectivité ou de continuité [@ewing2015] sont corrélées négativement avec le nombre de kilomètres-voyageurs (abrégé en VKT pour ***V**ehicule **K**ilometers **T**raveled* ou ***V**ehicule **M**iles **T**raveled* dans la littérature en langue anglaise).
+Bien qu'il soit délicat de tirer une conclusion simple et univoque du large panel d'analyses sur le lien entre densité et émissions, des mesures de la forme urbaine comme la densité d'habitants ou d'emploi, parfois des mesures plus complexes comme la dimension fractale du bâti [@blaudindethé2021], la diversité locale de l'emploi, des indicateurs de centralité, de connectivité ou de continuité [@ewing2015] sont corrélées négativement avec le nombre de kilomètres-voyageurs (abrégé en VKT pour ***V**ehicule **K**ilometers **T**raveled* ou ***V**ehicule **M**iles **T**raveled* dans la littérature en langue anglaise).
 
 L'évaluation du lien causal demeure délicate en raison de possibles biais de sélection des résidents : dans quelle mesure les ménages qui de moindres revenus et se trouvent contraints à des déplacements plus courts et non motorisés habitent-ils des zones plus denses et des logements plus petits et plus proches du centre-ville ? Ou encore, les individus effectuent-ils de longs trajets en voiture parce qu'ils habitent loin ou, à l'inverse, est-ce qu'ils résident loin parce qu'ils aiment faire de la voiture ? Autant de questions qui fragilisent l'établissement d'un lien causal entre densité et VKT. En général, dans ces études, la corrélation est considérée en partie comme causale mais faible. [@duranton2018] concluent ainsi pour les Etats-Unis à une élasticité de l'ordre de -0.1 entre densité et kilomètres parcourus. [@holian2020] dans la suite de [@grazi2008] utilise une variable instrumentale astucieuse (le fait d'avoir des enfants de même sexe permet de les loger dans une même chambre et offre à ces ménages plus de choix résidentiel sans lien avec leurs préférences de déplacement) et concluent à une élasticité proche de celles rapportées dans la littérature, à ceci près qu'ils mesurent un effet local moyen sans pouvoir séparer des contextes urbains très différents. On retiendra toutefois que le biais d'endogénéité qu'ils identifient reste assez faible.
 
@@ -204,8 +204,17 @@ On notera que, par souci de simplicité, nous avons évalué les flux $f_{ij}$ i
 
 Le @tbl-facteurs indique les stratégies d'estimation pour chacun des facteurs et la mobilisation des données sources associés à chacun.
 
+```{=tex}
+\newpage 
+\KOMAoptions{paper=landscape,pagesize} 
+\recalctypearea
+\small
+```
+```{}
+```
+
 +--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------+
-| facteur      | description                                                                                                                                                                                                                                                                                                                                                                                                            | modélisation                                                                                                                                                                                                                          | source de données                                                 |
+|              | description                                                                                                                                                                                                                                                                                                                                                                                                            | modélisation                                                                                                                                                                                                                          | source de données                                                 |
 +:=============+:=======================================================================================================================================================================================================================================================================================================================================================================================================================+:======================================================================================================================================================================================================================================+:==================================================================+
 | $d_{ij}$     | distance routière entre le carreau $i$ de résidence et le carreau $j$ d'emploi en utilisant une voiture et en suivant le réseau routier                                                                                                                                                                                                                                                                                | Moteur de routage $R^5$ ou {dodgr}                                                                                                                                                                                                    | Open Street Map                                                   |
 +--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------+
@@ -224,11 +233,16 @@ Le @tbl-facteurs indique les stratégies d'estimation pour chacun des facteurs e
 
 [^4]: Les répartitions des destinations entre $i$ et $j$ sont ajustées sur les données MOBPRO. En notant $mbp_{IJ}$ le flux entre la commune d'origine $I$ et de destination $J$, on a : $\sum_{i \in I j \in J}{n_i e_j f_{ij}}=mbp_{IJ}$
 
+```{=tex}
+\newpage
+\KOMAoptions{paper=portrait,pagesize}
+\recalctypearea
+```
 Comme on peut le constater, il est nécessaire pour poursuivre notre stratégie d'estimation de modéliser les pratiques de mobilités des navetteurs.
 
 ### Retour sur l'autosélection et le biais d'endogénéité
 
-Aupavant, il vaut de revenir sur les problèmes méthodologiques des méthodes retenues habituellement dans la littérature (cf. @sec_densemis), dont nous avons rappelé les résultats plus haut dans le texte, pour mieux apprécier notre approche. La stratégie usuelle consiste à estimer pour chaque individu observé le lien entre, d'un côté, les kilomètres qu'il a parcourus et, de l'autre, ses caractéristiques socio-économiques ainsi que quelques indicateurs géographiques supposés adéquats pour rendre compte de la densité urbaine. Le problème de cette perspective est qu'elle s'abstrait d'emblée de la géographie réelle pour n'en retenir que quelques descripteurs comme la densité urbaine, le design, la diversité ou encore la distance au centre des affaires. Ce faisant, les données du problème sont comme "agrégées" selon les niveaux de densité et les niveaux de tous les autres descripteurs géographiques retenus ; au passage, la géographie réelle est "écrasée". On peut se représenter la réduction qui est opérée de la manière suivante : les données géographiques peuvent être représentées par une carte remplie de données géolocalisées, voire deux cartes si l'on s'intéresse à des flux, avec des données sur les points de départ et d'arrivée. Cette carte est comme un grand tableau de données. Toutefois, ce n'est pas sur ce tableau que les estimations usuelles vont être effectuées ; c'est sur le tableau réduit où l'on a mis dans la même case les individus aux caractéristiques socio-économiques et aux niveaux de descripteurs géographiques identiques. Or, cette réduction n'est pas sans conséquence. Elle est au contraire l'une des sources des nombreux doutes méthodologiques qui "travaillent" la communauté des spécialistes du domaine. Les interrogations sur l'endogénéité remettent typiquement en question la similitude supposée des individus appartenant à une même case du tableau réduit.
+Aupavant, il vaut de revenir sur les problèmes méthodologiques des méthodes retenues habituellement dans la littérature (cf. @sec-densemis), dont nous avons rappelé les résultats plus haut dans le texte, pour mieux apprécier notre approche. La stratégie usuelle consiste à estimer pour chaque individu observé le lien entre, d'un côté, les kilomètres qu'il a parcourus et, de l'autre, ses caractéristiques socio-économiques ainsi que quelques indicateurs géographiques supposés adéquats pour rendre compte de la densité urbaine. Le problème de cette perspective est qu'elle s'abstrait d'emblée de la géographie réelle pour n'en retenir que quelques descripteurs comme la densité urbaine, le design, la diversité ou encore la distance au centre des affaires. Ce faisant, les données du problème sont comme "agrégées" selon les niveaux de densité et les niveaux de tous les autres descripteurs géographiques retenus ; au passage, la géographie réelle est "écrasée". On peut se représenter la réduction qui est opérée de la manière suivante : les données géographiques peuvent être représentées par une carte remplie de données géolocalisées, voire deux cartes si l'on s'intéresse à des flux, avec des données sur les points de départ et d'arrivée. Cette carte est comme un grand tableau de données. Toutefois, ce n'est pas sur ce tableau que les estimations usuelles vont être effectuées ; c'est sur le tableau réduit où l'on a mis dans la même case les individus aux caractéristiques socio-économiques et aux niveaux de descripteurs géographiques identiques. Or, cette réduction n'est pas sans conséquence. Elle est au contraire l'une des sources des nombreux doutes méthodologiques qui "travaillent" la communauté des spécialistes du domaine. Les interrogations sur l'endogénéité remettent typiquement en question la similitude supposée des individus appartenant à une même case du tableau réduit.
 
 Pour le comprendre, il faut revenir à la formulation classique du problème, où il s'agit d'estimer le nombre $km_i$ de kilomètres parcourus (parfois en log) par un individu *i* en fonction des *j* caractéristiques socio-économiques $X_i^j$, des *k* descripteurs géographiques locaux $L_{local(i)}^k$ et des *l* descripteurs globaux $G_{global(i)}^l$.
 
@@ -266,7 +280,31 @@ L'enquête mobilité des personnes nous sert de source, conjointement à MOBPRO,
 
 Comme on peut le constater sur le @tbl-empkm, entre une "commune très dense" et une "commune peu dense", il y a un ratio de un peu moins que 1 à 2 pour les kilomètres parcourus annuellement, pour le motif principal travail.
 
-`{r} #| label: tbl-empkm #| tbl-cap: Nombre de kilomètres parcourus par an selon EMP2019 co2_emp <- bd_read("co2_emp_horsidf") co2_emp$table[[1]] |>   gt::tab_options(table.font.size = 12)}`
+```{=tex}
+\newpage
+\KOMAoptions{paper=landscape,pagesize}
+\recalctypearea
+\footnotesize
+```
+```{r}
+#| label: tbl-empkm 
+#| tbl-cap: Nombre de kilomètres parcourus par an selon EMP2019 
+
+co2_emp <- bd_read("co2_emp_horsidf") 
+if(knitr::is_latex_output())  {
+  tbl <- co2_emp$table[[1]] 
+  tbl |>
+    gt::fmt_markdown() |> 
+    gt::tab_options(table.font.size = 8) 
+} else {
+  co2_emp$table[[1]] |>
+    gt::tab_options(table.font.size = 12) }
+```
+```{=tex}
+\newpage
+\KOMAoptions{paper=portrait,pagesize}
+\recalctypearea
+```
 
 ### De la fréquence des boucles
 
@@ -408,7 +446,8 @@ tibble(distance = 0:600/10, z = predict(mod_detours, tibble(distance = distance)
   theme_ofce() +
   geom_point(data = data_bcl, aes(x = distance, y = K, size = poids), col = "blue", alpha = .25) +
   scale_y_log10(limits = c(1,10), breaks = c(1,2, 3, 5, 10)) +
-  xlim(0,60) + ylim(2,10)
+  xlim(0,60) + ylim(2,10) +
+  labs(caption= "Source : EMP 2019")
 ```
 
 On notera que les détours sont surtout importants – en proportion – à faibles distances et, comme nous l'avons vu précédemment, demeurent assez peu fréquents. L'un dans l'autre, le rôle joué par les détours dans notre modélisation reste relativement modeste.
@@ -456,7 +495,8 @@ On peut voir dans le @tbl-rum-tc les estimations du modèle dans le cas où il y
 library(RColorBrewer)
 part_modale <- bd_read("Part modale rum hors idf")
 part_modale +
-  theme_ofce()
+  theme_ofce() +
+  labs(caption= "Source : EMP 2019")
 ```
 
 ## Projection du modèle sur l'agglomération de la Rochelle
@@ -467,10 +507,13 @@ Le @fig-km-nav montre, par exemple, l'estimation du nombre moyen de kilomètres 
 
 ```{r }
 carte_kmnav <- bd_read("Km voiture au c200")
-fdc <- qs::qread("output/decor_carte.sqs")
-gg_carte_km <- ggplot() + fdc + 
-    geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
-    scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral")
+fdc <- bd_read("decor_carte")
+gg_carte_km <- ggplot() + 
+  fdc + 
+  geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
+  scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral") +
+  labs(caption= "Source : MOBPRO, EMP 2019, C200, MEAPS")
+  
 
 ```
 
@@ -480,6 +523,7 @@ gg_carte_km <- ggplot() + fdc +
 ## carte statique
 
 ```{r}
+#| fig-asp: 1
 gg_carte_km
 ```
 
@@ -529,30 +573,26 @@ carte_kmnav |>
   mapdeck_view(location = centre, zoom = 9, pitch = 0)
 }
 
-if(knitr::is_latex_output()) {
-  fdc <- qs::qread("output/decor_carte.sqs")
-  ggplot() + fdc + 
-    geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
-    scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral")
-    }
+if(knitr::is_latex_output()) gg_carte_km
 ```
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
 ```{r}
-  gg_carte_km
+#| fig-asp: 1
+gg_carte_km
 ```
 :::
 
-Km parcourus en voiture par un navetteur pour ses déplacements professionels
+Km parcourus en voiture par un navetteur (actif) pour ses déplacements professionnels
 :::
 
 En appliquant un ratio émissions de CO~2~ aux kilomètres, on peut construire une carte localisée des émissions de CO~2~, ainsi que des analyses en variantes. Certains de ces scénarios sont développés dans @lempérière2023 dans le cadre de l'application à la Rochelle.
 
 ### Prix, émission et densité
 
-La carte représentée sur le @fig-km-nav sert de base au @fig-prixkm. Chaque point de ce graphique est un point de la carte précédente. La taille du point indique le nombre d'actifs et c'est ainsi proportionel à la densité, puisque chaque carreau 200m a une taille fixe (4 hectares) ; la couleur représente le prix des transactions immobilières au m² pour l'année 2019 -- avec un lissage pour tenir compte du faible échantillonage à cette résolution spatiale. L'axe des y représente les kilomètres moyens parcourus par les actifs de chaque carreau pour leurs déplacements professionnels. Enfin, l'axe des x représente le niveau de vie (c'est-à-dire le revenu divisé par les unités de consommation) moyen des ménages de chaque carreau.
+La carte représentée sur le @fig-km-nav sert de base au @fig-prixkm. Chaque point de ce graphique est un point de la carte précédente. La taille du point indique le nombre d'actifs et c'est ainsi proportionnel à la densité, puisque chaque carreau 200m a une taille fixe (4 hectares) ; la couleur représente le prix des transactions immobilières au m² pour l'année 2019 -- avec un lissage pour tenir compte du faible échantillonage à cette résolution spatiale. L'axe des y représente les kilomètres moyens parcourus par les actifs de chaque carreau pour leurs déplacements professionnels. Enfin, l'axe des x représente le niveau de vie (c'est-à-dire le revenu divisé par les unités de consommation) moyen des ménages de chaque carreau.
 
 La courbe en gris agrège les différents carreaux en pondérant par la population de chaque carreau et illustre le lien entre kilomètre et niveau de vie. Le nombre de kilomètres est le plus bas pour les ménages les plus pauvres – la contrainte budgétaire les oblige certainement – et les ménages les plus aisés – dont la contrainte budgétaire leur permet de se loger plus facilement près des emplois. Pour les moins aisés, la façon de concilier la contrainte mobilité et la contrainte logement est soit de vivre dans un logement plus petit, soit de se voir solvabiliser par le logement social.
 
@@ -560,10 +600,16 @@ Pour un niveau de vie donné, la dispersion est très grande, mais le lien appar
 
 ```{r}
 #| label: fig-prixkm
-#| fig-cap: revenus, kilomètre, densité et nivea de vie, La Rochelle
+#| fig-cap: "revenus, kilomètre, densité et niveau de vie, La Rochelle"
+#| fig-asp: 1
+gg <- bd_read("lrdistrev")
+gg[[3]] <- gg[[3]] +
+  theme(plot.caption = element_text(hjust=0),
+        plot.caption.position = "plot",
+        legend.key.height = unit(6, "pt")) +
+  labs(caption = "Note : en gris en haut et à droite sont indiqués la densité de distribution des actifs suivant respectivement les kilomètres parcourus et le revenu par unité de consommation\nSources : MOBPRO, EMP 2019, C200, MEAPS")
 
-library(patchwork)
-bd_read("lrdistrev")
+gg
 
 ```
 
@@ -587,7 +633,8 @@ La carte @fig-elas-km-pop fait clairement apparaître que le nombre de kilomètr
 #| label: fig-elas-km-pop
 #| fig-cap: Elasticité de km voiture sur la population totale pour 100 nouveaux navetteurs dans l'IRIS
 
-carte_elaskmpop <- bd_read("Carte élasticité km voiture sur pop")
+carte_elaskmpop <- bd_read("Carte élasticité km voiture sur pop") +
+  labs(caption = "Source : MOBPRO, EMP 2019, C200, MEAPS")
 
 carte_elaskmpop
 ```
@@ -615,7 +662,8 @@ Il y a enfin un dernier cadran non vide, situé en bas à gauche, où le choc d�
 
 graph_km_dens <- bd_read("Evolution kms selon choc par iris")
 graph_km_dens +
-  theme_ofce()
+  theme_ofce() +
+  labs(caption= "Source : MOBPRO, EMP 2019, C200, MEAPS")
 ```
 
 ## Références bibliographiques {.unnumbered}
