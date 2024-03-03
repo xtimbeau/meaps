@@ -68,9 +68,9 @@ $$
 \varepsilon_{ij} \sim \mathcal{N}(0,\sigma^2)
 $$
 
-Ainsi écrit le modèle gravitaire ne respecte la propriété d'additivité que si les coefficients $\alpha$ et $\beta$ sont égaux à 1. Lorsque $\alpha$ est différent de 1, séparer un groupe de $n_i$ en deux sous groupes, pour lesquels les distances sont inchangées, conduit à projeter des flux dont la somme s'écarte du flux que l'on calcule pour les deux sous-groupes réunis. De façon symétrique, $\beta$ différent de 1 implique la même non additivité lors de la séparation d'un groupe $e_j$ en deux. Or cette propriété d'additivité est nécessaire pour l'utilisation du modèle. Par exemple, la granularité de l'agrégation spatiale ne doit pas trop modifier les flux prévus surtout lorsque cette agrgégation est assez fine pour les distances relatives ne changent pas trop. La séparation des emplois en emplois par secteur, ou des individus suivant des caractéristiques socio-économiques ou suivant leurs préférences est un autre exemple de transformation à laquelle le modèle doit être robuste. Si on sépare les emplois en deux secteurs et que les comportements ne sont pas modifiés le long de cette séparation, il faut que les flux s'additionnent si on suit la cohérence de la modélisation.
+Ainsi écrit le modèle gravitaire ne respecte la propriété de séparabilité que si les coefficients $\alpha$ et $\beta$ sont égaux à 1. Lorsque $\alpha$ est différent de 1, séparer un groupe de $n_i$ en deux sous groupes, pour lesquels les distances sont inchangées, conduit à projeter des flux dont la somme s'écarte du flux que l'on calcule pour les deux sous-groupes réunis. De façon symétrique, $\beta$ différent de 1 implique la même non séparabilité lors de la séparation d'un groupe $e_j$ en deux. Or cette propriété est nécessaire pour l'utilisation du modèle. Par exemple, la granularité de l'agrégation spatiale ne doit pas trop modifier les flux prévus surtout lorsque cette agrgégation est assez fine pour les distances relatives ne changent pas trop. La séparation des emplois en emplois par secteur, ou des individus suivant des caractéristiques socio-économiques ou suivant leurs préférences est un autre exemple de transformation à laquelle le modèle doit être robuste. Si on sépare les emplois en deux secteurs et que les comportements ne sont pas modifiés le long de cette séparation, il faut que les flux s'additionnent si on suit la cohérence de la modélisation.
 
-Si l'estimation conduit à $\alpha\approx\beta\approx1$, la propriété d'additivité sera (approximativement) respectée. Comme nous le verrons dans les estimations, et comme il ressort généralement de la littérature [par exemple @josselin2020 pour la région PACA], les estimations, en règle générale, du modèle gravitaire par les MCO (i.e. avec des erreurs log-normales) donnent des $\alpha$ et des $\beta$ significativement inférieurs à 1. Le non-respect de cette propriété d'additivité obère la portée du modèle et sa vraisemblance.
+Si l'estimation conduit à $\alpha\approx\beta\approx1$, la propriété de séparabilité sera (approximativement) respectée. Comme nous le verrons dans les estimations, et comme il ressort généralement de la littérature [par exemple @josselin2020 pour la région PACA], les estimations, en règle générale, du modèle gravitaire par les MCO (i.e. avec des erreurs log-normales) donnent des $\alpha$ et des $\beta$ significativement inférieurs à 1. Le non-respect de cette propriété de séparabilité obère la portée du modèle et sa vraisemblance.
 
 ### Quel processus générateur : gaussien ou poisson ?
 
@@ -144,9 +144,9 @@ $$
 a_i = \frac{n_i}{\sum_j {\frac{n_i ^ \alpha \times e_j ^ \beta} { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algsc}
 
-Que cela soit par un effet fixe ou aléatoire, dès que l'on introduit le vecteur $a_i$ dans le modèle, il n'est plus possible d'identifier $\alpha$ et on peut supposer pour $\alpha$ n'importe quelle valeur, les $a_i$ étant fonction de $\alpha$. Le respect de la propriété d'additivité oblige cependant à choisir $\alpha=1$. Par l'expression @eq-algsc, le respect des contraintes en ligne induit nécessairement $\alpha=1$. En effet, $log(a_i)$ peut s'écrire comme la somme de $(1-\alpha)log(n_i)$ et d'un autre terme qui ne dépend que de $\beta$, $e_j$, $d_{ij}$ et $\delta$. L'equation initiale se réduit alors à un terme en $log(n_i)$. Dans le cas du respect des contraintes en ligne, l'élasticité des flux aux actifs est nécessairement unitaire.
+Que cela soit par un effet fixe ou aléatoire, dès que l'on introduit le vecteur $a_i$ dans le modèle, il n'est plus possible d'identifier $\alpha$ et on peut supposer pour $\alpha$ n'importe quelle valeur, les $a_i$ étant fonction de $\alpha$. Le respect de la propriété de séparabilité oblige cependant à choisir $\alpha=1$. Par l'expression @eq-algsc, le respect des contraintes en ligne induit nécessairement $\alpha=1$. En effet, $log(a_i)$ peut s'écrire comme la somme de $(1-\alpha)log(n_i)$ et d'un autre terme qui ne dépend que de $\beta$, $e_j$, $d_{ij}$ et $\delta$. L'équation initiale se réduit alors à un terme en $log(n_i)$. Dans le cas du respect des contraintes en ligne, l'élasticité des flux aux actifs est nécessairement unitaire.
 
-Le respect des $J$ contraintes en colonne (appelées aussi contraintes d'attraction) est fait de manière similaire, en introduisant un vecteur $b_j$. Par le même raisonnement, on ne peut plus estimer $\beta$ et on le fixera à 1, pour respecter la contrainte d'additivité. Le double respect des contraintes en ligne et en colonne peut se faire par la procédure de Furness [@de2011modelling] en définissant $a_i$ et $b_j$ comme suit : $$
+Le respect des $J$ contraintes en colonne (appelées aussi contraintes d'attraction) est fait de manière similaire, en introduisant un vecteur $b_j$. Par le même raisonnement, on ne peut plus estimer $\beta$ et on le fixera à 1, pour respecter la contrainte de séparabilité. Le double respect des contraintes en ligne et en colonne peut se faire par la procédure de Furness [@de2011modelling] en définissant $a_i$ et $b_j$ comme suit : $$
 a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algdc1} $$
 b_j = \frac{e_j}{\sum_i { {a_i n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{e_j ^ {1-\beta}}{\sum_i {a_i n_i ^ \alpha / d_{ij}^{\delta} }}
@@ -261,7 +261,10 @@ La donnée principale que nous utilisons est issue du fichier détail du recense
 #| fig-cap: carte des SCoT
 #| fig-asp: 1
 
-bd_read("carte_scot") 
+bd_read("carte_scot") +
+  theme_ofce_void(panel.grid = element_blank())+
+  labs(
+    caption= "*Source* : data.gouv.fr, Schéma de cohérence territoriale (SCoT) - données SuDocUH -<br>Dernier état des lieux annuel au 31 décembre 2023")
 ```
 
 Le @tbl-scot donne quelques statistiques descriptives pour les différents échantillons. La colonne QQ plot indique en particulier que les log des flux ne sont pas normalement distribués avec une masse importante en fin de distribution, ce qui est comptatible avec une distribution de Poisson des flux.
@@ -330,7 +333,7 @@ Le fichier détail du recensement contient beaucoup de 0 implicites, c'est-à-di
 
 Le @tbl-gravcom donne les résultats d'estimations de différents modèles gravitaires non contraints (i.e $\alpha$ et $\beta$ sont estimés), contraints (i.e $\alpha=1$ et $\beta=1$), non pondérés (métrique standard) ou pondérés par les flux en niveau, estimés par `glm` avec les familles Poisson ou quasi Poisson, avec effets fixes ou aléatoire ou sans. la forme estimée est l'@eq-gravitaire ou l'@eq-poissongrav, en ajoutant les coefficients $a_i$ et f$b_j$ lorsque des effets fixes ou aléatoires sont ajoutés. Les régressions sont effectuées soit par `stat::lm`, soit par `stat::glm` dans R, soit par le package R `lme4` pour les effets fixes ou aléatoires. Le tableau présente différentes métriques (voir @tip-entropie pour les définitions), ainsi que les degrés de liberté des résidus associés à chaque régression.
 
-Dans l'ensemble des régressions, les paramètres estimés sont largement significatifs. La régression par les MCO non contrainte (ligne 1 du @tbl-gravcom) fait apparaître des coefficients $\alpha$ et $\beta$ inférieurs à 1, marquant une franche non additivité. Contraindre ces 2 paramètres dégrade fortement la qualité de l'estimation (ligne 2), sans pour autant modifier le coefficient associé à la distance. @josselin2020 estiment pour la région PACA des régressions proches de celle de la ligne 1, avec des $R^2$ comparables à ceux pour le périmètre de La Rochelle. Le coefficient de la distance qu'ils estiment est entre 0.9 et 1.4, soit nettement au-dessus de celui estimé pour La Rochelle. Ceci suggère que ce coefficient incorpore plus d'information que le simple effet de la distance et résume en partie l'information géographique qui n'est introduite dans cette régression par aucune variable.
+Dans l'ensemble des régressions, les paramètres estimés sont largement significatifs. La régression par les MCO non contrainte (ligne 1 du @tbl-gravcom) fait apparaître des coefficients $\alpha$ et $\beta$ inférieurs à 1, marquant une franche non séparabilité. Contraindre ces 2 paramètres dégrade fortement la qualité de l'estimation (ligne 2), sans pour autant modifier le coefficient associé à la distance. @josselin2020 estiment pour la région PACA des régressions proches de celle de la ligne 1, avec des $R^2$ comparables à ceux pour le périmètre de La Rochelle. Le coefficient de la distance qu'ils estiment est entre 0.9 et 1.4, soit nettement au-dessus de celui estimé pour La Rochelle. Ceci suggère que ce coefficient incorpore plus d'information que le simple effet de la distance et résume en partie l'information géographique qui n'est introduite dans cette régression par aucune variable.
 
 ```{r}
 #| label: tbl-gravcom
@@ -340,7 +343,7 @@ bd_read("tbl_grav_glm")
 
 Comme évoqué plus haut, un des aspects problématique des régression par MCO sont le traitement des flux importants. Cet aspect est illustré par le @fig-residusgravglm où sont représentés les flux observés versus les flux estimés. Les régressions par MCO peinent à estimer le flux le plus important (de la commune de La Rochelle vers La Rochelle). En utilisant la méthode des modèles linéaires généralisés (`glm`) avec des processus de Poisson résout cette question. La régression de la ligne 7 du @tbl-gravcom illustre ce point. Les graphiques observés versus estimés permettent une appréciation graphique de l'amélioration de l'ajustement. Le biais pour les flux importants est plus faible, la dispersion générale également.
 
-Les coefficients $\alpha$ et $\beta$ sont plus proches de 1, mais pour autant, la propriété d'additivité n'est pas respectée comme l'illustre la régression contrainte de la ligne 8, pour laquelle la qualité d'ajustement est plus faible. Des estimations par des modèles "quasiPoisson", afin de prendre en compte une éventuelle sur-dispersion par rapport au modèle de Poisson produisent des résultats identiques à ceux par le modèle de Poisson.
+Les coefficients $\alpha$ et $\beta$ sont plus proches de 1, mais pour autant, la propriété de séparabilité n'est pas respectée comme l'illustre la régression contrainte de la ligne 8, pour laquelle la qualité d'ajustement est plus faible. Des estimations par des modèles "quasiPoisson", afin de prendre en compte une éventuelle sur-dispersion par rapport au modèle de Poisson produisent des résultats identiques à ceux par le modèle de Poisson.
 
 Les régressions pondérées par les flux (lignes 4 à 6), dont la fonction objectif est proche du critère de gain d'information ou d'entropie relative, conduisent à des estimations très proches des modèles de des coefficients $\alpha$ et $\beta$ plus élevés. Ils restent néanmoins inférieurs à 1 et lorsqu'ils sont contraints à 1 (ligne 5), l'ajustement, tel que mesuré par le $R^2_{dev}$, se dégrade nettement. Le coefficient estimé pour la distance dépend assez largement de cette hypothèse, sauf pour l'estimation par les MCO.
 
@@ -366,10 +369,11 @@ ggplot(data |> biscale::bi_class(method, submethod, dim=3))+
   facet_grid(rows = vars(submethod), cols = vars(method))+
   theme_ofce(base_size = 9, 
              strip.text = element_text(size = 8),
-             panel.grid.major.x = element_line(color = "grey", linewidth = 0.1))
+             panel.grid.major.x = element_line(color = "grey", linewidth = 0.1))+
+  labs(caption="*Sources* : MOBPRO, MEAPS")
 ```
 
-En ajoutant des effets fixes ou aléatoires[^7] pour chaque origine et chaque destination (lignes 6 et 9), et donc un nombre important de paramètres, on améliore la qualité de l'estimation et on force le respect de la propriété d'additivité en fixant les coefficients $\alpha$ et $\beta$ à 1. Le coefficient de la distance (lignes 3, 6 et 9) est plus élevé et significativement différent de ceux estimés sans effet fixe (autour de 1.3 au lieu d'autour de 1 dans les régressions non contraintes (lignes 1, 4 ou 7)). Comme noté plus haut, si les effets fixes améliorent la qualité de l'estimation, c'est au détriment de l'esprit initial du modèle gravitaire, puisque les effets fixes estimés viennent modifier les masses (actifs et emplois) dans chaque commune pour en assurer l'ajustement. L'utilisation d'effets fixes empêche par ailleurs l'estimation des coefficients $\alpha$ et $\beta$ et oblige à fixer *a priori* des valeurs. Ainsi, il ets possible d'estimer un modèle à effets fixes avec $\alpha$ et $\beta$ nuls, c'est-à-dire neutralisant l'effet des masses d'origine ou de destination et ne faisant dépendre les flux que des distances entre communes.
+En ajoutant des effets fixes ou aléatoires[^7] pour chaque origine et chaque destination (lignes 6 et 9), et donc un nombre important de paramètres, on améliore la qualité de l'estimation et on force le respect de la propriété de séparabilité en fixant les coefficients $\alpha$ et $\beta$ à 1. Le coefficient de la distance (lignes 3, 6 et 9) est plus élevé et significativement différent de ceux estimés sans effet fixe (autour de 1.3 au lieu d'autour de 1 dans les régressions non contraintes (lignes 1, 4 ou 7)). Comme noté plus haut, si les effets fixes améliorent la qualité de l'estimation, c'est au détriment de l'esprit initial du modèle gravitaire, puisque les effets fixes estimés viennent modifier les masses (actifs et emplois) dans chaque commune pour en assurer l'ajustement. L'utilisation d'effets fixes empêche par ailleurs l'estimation des coefficients $\alpha$ et $\beta$ et oblige à fixer *a priori* des valeurs. Ainsi, il ets possible d'estimer un modèle à effets fixes avec $\alpha$ et $\beta$ nuls, c'est-à-dire neutralisant l'effet des masses d'origine ou de destination et ne faisant dépendre les flux que des distances entre communes.
 
 [^7]: Seuls les résultats des régressions à effet fixe (communes d'origine et communes de destination) sont reportés dans les tableaux ou des graphiques, les effets aléatoires donnent des résultats très proches. En revanche, pour les prédictions hors échantillon (*out of the bag*), nous utilisons les régressions à effets aléatoires, les effets fixes n'étant pas connus hors échantillon.
 
@@ -408,7 +412,7 @@ tbl_grav_nl
 
 L'utilisation de la métrique entropie relative de Kullback Leibler (*KL*) ou les erreurs au carré pondérées donnent des estimations proches. Le modèle gravitaire avec Furness donne les meilleurs résultats d'estimation et conduit à un paramètre de distance très proche de celui obtenu pour le modèle gravitaire à effet fixe estimé par `glm` et un processus de Poisson. Une nuance importante est que les $\hat a_i$ et $\hat b_j$ sont déterminés à partir des observations du nombre d'actifs et d'emploi par commune et donc peuvent être projetés hors échantillon, dès lors qu'on observe ces marges.
 
-Les estimations de MEAPS sont uniquement réalisées à partir de la métrique *KL*. A titre de référence, les flux issus d'un MEAPS sans paramètre, et donc calibré uniquement à partir des marges en ligne et en colonne. La capacité prédictive de ce modèle (ligne 1) est moins bonne que des modèles à paramètre (lignes 2 à 5), mais du même ordre de grandeur que les modèles gravitaires sans effet fixe ou aléatoire [@tbl-gravcom]. Une différence importante avec ces modèles est que à la fois la propriété d'additivité et l'absence de biais d'agrégation (total, en ligne et en colonne) sont assurés par construction de MEAPS.
+Les estimations de MEAPS sont uniquement réalisées à partir de la métrique *KL*. A titre de référence, les flux issus d'un MEAPS sans paramètre, et donc calibré uniquement à partir des marges en ligne et en colonne. La capacité prédictive de ce modèle (ligne 1) est moins bonne que des modèles à paramètre (lignes 2 à 5), mais du même ordre de grandeur que les modèles gravitaires sans effet fixe ou aléatoire [@tbl-gravcom]. Une différence importante avec ces modèles est que à la fois la propriété de séparabilité et l'absence de biais d'agrégation (total, en ligne et en colonne) sont assurés par construction de MEAPS.
 
 Différentes formes fonctionnelles sont envisagées :
 
@@ -450,7 +454,8 @@ ggplot(datafm)+
   facet_wrap(vars(nom0), nrow = 3, ncol = 3)+
   theme_ofce(base_size = 9, 
              strip.text = element_text(size = 8),
-             panel.grid.major.x = element_line(color = "grey", linewidth = 0.1))
+             panel.grid.major.x = element_line(color = "grey", linewidth = 0.1))+
+  labs(caption = "*Sources* : MOBPRO, MEAPS")
 ```
 
 ### Performance hors échantillon
@@ -478,7 +483,7 @@ bind_rows(data_glm_oob, data_nl_oob) |>
 
 ```
 
-## A justements en utilisant une information infra-communale
+## Ajustements en utilisant une information infra-communale
 
 On dispose d'une information au carreau 200m qui peut être est pertinente pour reproduire les données de @MOBPRO, bien que celles-ci sont connues entre commune. En effet, on peut localiser les emplois et les résidents plus finement, au carreau, calculer les temps de parcours entre les paires de carreau et injecter cette information géographique dans le modèle. On peut en attendre une meilleure prise en compte des configurations notamment pour les communes voisines. La distance entre les centroïdes peut masquer une densité d'habitation importante à la frontière entre deux communes, on inversement négliger la structure bi-polaire d'une commune et donc des flux qui se répartissent entre deux voisins proches. En utilisant cette représentation géographique à une échelle plus fine, on peut proposer des paramètrisations plus robustes et dont la signification est plus grande.
 
@@ -1079,7 +1084,8 @@ haut <- ggplot(param)+
     aes(x=t, y=cumpro), linetype="dashed", 
     position = "identity", na.rm=TRUE)+
   scale_color_brewer(palette="Set1")+
-  theme_ofce(legend.position = c(0.75, 0.3))+
+  theme_ofce(
+    legend.position = c(0.75, 0.3))+
   scale_x_continuous(
     limits=c(0, 90))+
   scale_y_continuous(

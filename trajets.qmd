@@ -71,7 +71,11 @@ Nous présentons dans la section suivante cette littérature, les principaux ré
 
 Le lien entre la géographie, la forme urbaine et les mobilités résidentielles a donné lieu à un débat nourri, vieux de quelques décennies et persistant. Tout le monde a en tête les travaux et le graphique de Newman et Kenworthy (@fig-newmankenworthy) [@newman1989a; @newman1989b; @newman1999] représentant une corrélation négative entre consommation d'énergie annuelle de carburant et densité, qui a confortée l'intuition que les villes compactes sont plus soutenables que les villes "étalées". Le graphique de [@newman1999] a été largement critiqué et la corrélation affichée sur le graphique a été jugée en partie fallacieuse du fait de nombreux facteurs, dont le niveau de développement de chacune des villes considérées, le prix local du carburant ou d'autres facteurs explicatifs communs [@ewing2017]. En 2015, @ewing2015 recensaient plus de 200 études empiriques et 12 revues de littérature sur ce sujet. Plusieurs éléments à la fois théoriques, méthodologiques et empiriques ont été raffinés et conduisent à un résultat pour le moins mitigé selon lequel l'influence de la densité ou d'autres dimensions de la forme urbaine sur les consommations de carburant seraient trop petits pour jouer un rôle prépondérant dans la réduction des émissions de gaz à effet de serre.
 
-![Lien entre densité moyenne et consommation de carburant par villes (Newman&Kenworthy 1989)](images/newmankenworthy.png){#fig-newmankenworthy fig-align="center" width="318"}
+::: {#fig-newmankenworthy}
+![](images/newmankenworthy.png){fig-align="center" width="318"}
+
+Lien entre densité moyenne et consommation de carburant par villes (Newman&Kenworthy 1989)
+:::
 
 Ainsi, l'affirmation initiale s'est trouvé "anesthésiée" et il faudrait croire que le lien entre densité et empreinte carbone est trop faible pour justifier une politique urbaine. Une telle anesthésie a été possible parce que la densité est plutôt un mauvais indicateur de la forme urbaine ; c'est un indicateur équivoque. Les critiques méthodologiques de l'article de Newman et Kentworthy sont certes justifiées, mais leur intuition exige un examen qui ne se limite pas à redéfinir la mesure de la densité urbaine. Par exemple, des quantification centrées sur l'accessibilité à l'emploi ont un meilleur pouvoir explicatif. Mais, plus encore, il faudrait surtout démêler deux questions : celle de savoir si toute densification, en général, entraîne nécessairement une réduction des émissions – la question qui a monopolisé l'attention – et celle de savoir quels scénarios de densification apportent un niveau de réduction suffisant pour justifier une politique publique.
 
@@ -210,7 +214,7 @@ Le @tbl-facteurs indique les stratégies d'estimation pour chacun des facteurs e
 \recalctypearea
 \small
 ```
-```{}
+```         
 ```
 
 +--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------+
@@ -280,30 +284,30 @@ L'enquête mobilité des personnes nous sert de source, conjointement à MOBPRO,
 
 Comme on peut le constater sur le @tbl-empkm, entre une "commune très dense" et une "commune peu dense", il y a un ratio de un peu moins que 1 à 2 pour les kilomètres parcourus annuellement, pour le motif principal travail.
 
-```{=tex}
-\newpage
-\KOMAoptions{paper=landscape,pagesize}
-\recalctypearea
-\footnotesize
-```
 ```{r}
 #| label: tbl-empkm 
 #| tbl-cap: Nombre de kilomètres parcourus par an selon EMP2019 
 
 co2_emp <- bd_read("co2_emp_horsidf") 
 if(knitr::is_latex_output())  {
-  tbl <- co2_emp$table[[1]] 
+  tbl <- co2_emp$table[[1]]
+  tbl[["_data"]] <- tbl[["_data"]] |> 
+    mutate(across(-c(1,2), ~{
+      
+      spt <- .x |>
+        str_remove_all("<small>") |> 
+        str_remove_all("</small>") |> 
+        str_split("<br>")
+      
+      map_chr(spt, \(s) glue(
+        "\\vtop{\\hbox{\\strut [first(s)]}\\hbox{\\strut \\small [last(s)]}}",
+        .open="[", .close="]"))})) 
   tbl |>
-    gt::fmt_markdown() |> 
-    gt::tab_options(table.font.size = 8) 
+    gt::fmt_passthrough(escape=FALSE) 
+  
 } else {
   co2_emp$table[[1]] |>
     gt::tab_options(table.font.size = 12) }
-```
-```{=tex}
-\newpage
-\KOMAoptions{paper=portrait,pagesize}
-\recalctypearea
 ```
 
 ### De la fréquence des boucles
@@ -313,16 +317,19 @@ A ce stade, notre objectif est d'estimer la fréquence journalière des boucles 
 ```{r}
 #| label: fig-distrib-bcl
 #| fig-cap: Rootogram du nombre de boucles domicile-travail pour les actifs hors IDF
-library(vcd)
-bd_read("distribution_nb_boucles") |> 
-   rootogram(type = "hanging", 
-                  shade = TRUE, 
-                  scale = "sqrt", 
-                  main_gp = gpar(fontsize = 12),
-                                   main = "",
-                                   xlab = "Nombre de boucles domicile-travail au cours d'une journée",
-                                   ylab = "Fréquence (racine carrée)")
+#| fig-asp: 0.8
 
+library(vcd)
+rr <- bd_read("distribution_nb_boucles") |> 
+  rootogram(type = "hanging", 
+            shade = TRUE, 
+            scale = "sqrt", 
+            main_gp = gpar(fontsize = 12),
+            sub_gp = gpar(fontsize = 12),
+            main = "",
+            xlab = "Nombre de boucles domicile-travail au cours d'une journée",
+            ylab = "Fréquence (racine carrée)")
+rr
 ```
 
 Pour tenir compte de cette sous-dispersion, nous avons modélisé cette distribution à partir de la distribution de Conway-Maxwell-Poisson [@Conway1962], qui ajoute au modèle de Poisson un paramètre pour ajuster la dispersion. Elle s'écrit comme suit :
@@ -447,7 +454,7 @@ tibble(distance = 0:600/10, z = predict(mod_detours, tibble(distance = distance)
   geom_point(data = data_bcl, aes(x = distance, y = K, size = poids), col = "blue", alpha = .25) +
   scale_y_log10(limits = c(1,10), breaks = c(1,2, 3, 5, 10)) +
   xlim(0,60) + ylim(2,10) +
-  labs(caption= "Source : EMP 2019")
+  labs(caption= "*Source* : EMP 2019")
 ```
 
 On notera que les détours sont surtout importants – en proportion – à faibles distances et, comme nous l'avons vu précédemment, demeurent assez peu fréquents. L'un dans l'autre, le rôle joué par les détours dans notre modélisation reste relativement modeste.
@@ -496,7 +503,7 @@ library(RColorBrewer)
 part_modale <- bd_read("Part modale rum hors idf")
 part_modale +
   theme_ofce() +
-  labs(caption= "Source : EMP 2019")
+  labs(caption= "*Source* : EMP 2019")
 ```
 
 ## Projection du modèle sur l'agglomération de la Rochelle
@@ -511,8 +518,12 @@ fdc <- bd_read("decor_carte")
 gg_carte_km <- ggplot() + 
   fdc + 
   geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
-  scale_fill_distiller("Motif professionel\nKilomètres par actif par an", palette="Spectral") +
-  labs(caption= "Source : MOBPRO, EMP 2019, C200, MEAPS")
+  scale_fill_distiller(
+    "Motif professionel\nKilomètres par actif par an", 
+    palette="Spectral") +
+  theme_ofce_void() +
+  theme(legend.key.width = unit(9, "pt")) +
+  labs(caption= "*Sources* : MOBPRO, EMP 2019, C200, MEAPS")
   
 
 ```
@@ -523,7 +534,7 @@ gg_carte_km <- ggplot() +
 ## carte statique
 
 ```{r}
-#| fig-asp: 1
+#| fig-asp: .8
 gg_carte_km
 ```
 
@@ -560,7 +571,7 @@ r100 <- function(x) {round(as.numeric(x)/100)*100}
 carte_kmnav |>
   st_transform(4326) |>
   mapdeck(style = style,
-          height = "50vh",
+          height = "60vh",
           width = "100%") |>
   add_polygon(fill_colour = "kmpa",
               elevation = "actif_i",
@@ -600,16 +611,17 @@ Pour un niveau de vie donné, la dispersion est très grande, mais le lien appar
 
 ```{r}
 #| label: fig-prixkm
-#| fig-cap: "revenus, kilomètre, densité et niveau de vie, La Rochelle"
+#| fig-cap: "Kilomètres, densité, prix immobiliers et niveau de vie, La Rochelle"
 #| fig-asp: 1
 gg <- bd_read("lrdistrev")
 gg[[3]] <- gg[[3]] +
-  theme(plot.caption = element_text(hjust=0),
-        plot.caption.position = "plot",
-        legend.key.height = unit(6, "pt")) +
-  labs(caption = "Note : en gris en haut et à droite sont indiqués la densité de distribution des actifs suivant respectivement les kilomètres parcourus et le revenu par unité de consommation\nSources : MOBPRO, EMP 2019, C200, MEAPS")
+  theme(legend.key.width = unit(18,"pt"),
+        legend.key.height = unit(5,"pt"))
 
-gg
+gg + 
+  patchwork::plot_annotation(
+  caption = "*Note* : en gris en haut et à droite sont indiqués la densité de distribution des actifs<br>suivant respectivement les kilomètres parcourus et le revenu par unité de consommation<br>*Sources* : MOBPRO, EMP 2019, C200, MEAPS",
+  theme = theme_ofce())
 
 ```
 
@@ -627,14 +639,16 @@ On notera également qu'il y a 91 743 navetteurs sur le territoire que nous obse
 
 On notera enfin que les 100 actifs ajoutés ont à chaque fois les mêmes caractéristiques sociales. Nous avons retenu comme caractéristiques de référence celles du cas majoritaire : des actifs vivant en couple, avec un ou plusieurs enfants, possédant au moins une voiture et ayant le niveau de vie moyen du territoire. Ils ont donc le même modèle de comportements, ce qui ne veut pas dire qu'ils auront au final les mêmes pratiques. Selon les carreaux où ils s'installent, les pratiques seront différentes puisque les comportements s'adaptent à la situation géographique du carreau.
 
-La carte @fig-elas-km-pop fait clairement apparaître que le nombre de kilomètres parcourus en voiture par les navetteurs sur le territoire varie selon l'endroit où se produit la densification de population. L'élasticité du nombre de kilomètres sur la population totale (soit le ratio de la variation du nombre de kilomètres rapportée à l'ampleur du choc démographique) est négative au cœur de l'aire urbaine, dans le centre de La Rochelle, et devient positive à mesure qu'on s'en éloigne.
+La carte du @fig-elas-km-pop fait clairement apparaître que le nombre de kilomètres parcourus en voiture par les navetteurs sur le territoire varie selon l'endroit où se produit la densification de population. L'élasticité du nombre de kilomètres sur la population totale (soit le ratio de la variation du nombre de kilomètres rapportée à l'ampleur du choc démographique) est négative au cœur de l'aire urbaine, dans le centre de La Rochelle, et devient positive à mesure qu'on s'en éloigne.
 
 ```{r}
 #| label: fig-elas-km-pop
 #| fig-cap: Elasticité de km voiture sur la population totale pour 100 nouveaux navetteurs dans l'IRIS
 
 carte_elaskmpop <- bd_read("Carte élasticité km voiture sur pop") +
-  labs(caption = "Source : MOBPRO, EMP 2019, C200, MEAPS")
+  theme_ofce_void(legend.key.width = unit(9,"pt"),
+                  legend.justification  = c(1,1)) +
+  labs(caption = "*Sources* : MOBPRO, EMP 2019, C200, MEAPS")
 
 carte_elaskmpop
 ```
@@ -663,7 +677,7 @@ Il y a enfin un dernier cadran non vide, situé en bas à gauche, où le choc d�
 graph_km_dens <- bd_read("Evolution kms selon choc par iris")
 graph_km_dens +
   theme_ofce() +
-  labs(caption= "Source : MOBPRO, EMP 2019, C200, MEAPS")
+  labs(caption= "*Sources* : MOBPRO, EMP 2019, C200, MEAPS")
 ```
 
 ## Références bibliographiques {.unnumbered}

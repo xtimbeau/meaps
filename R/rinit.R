@@ -27,6 +27,8 @@ library(broom.mixed)
 library(arrow)
 library(vroom)
 library(mapdeck)
+library(ggtext)
+
 options(
   ofce.base_family = "Open Sans",
   ofce.background_color = "transparent")
@@ -35,7 +37,7 @@ tkn <- Sys.getenv("mapbox_token")
 mapdeck::set_token(tkn)
 
 style <- "mapbox://styles/xtimbeau/ckyx5exex000r15n0rljbh8od"
-
+showtext::showtext_opts(dpi = 180)
 showtext_auto()
 options(ofce.background_color = "grey99")
 options(ofce.base_family = "sans")
