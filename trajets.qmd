@@ -446,6 +446,7 @@ Le modèle a un $R^2$ de `r round(cor(K_pred, data_bcl$K)^2, digit = 2)`. Le gra
 ```{r}
 #| label: fig-dist2K
 #| fig-cap: Facteur K en fonction de la distance domicile-travail
+
 tibble(distance = 0:600/10, z = predict(mod_detours, tibble(distance = distance)))|>
   mutate(K = 2 + exp(z) - 0.01) |> 
   ggplot(aes(x = distance, y = K)) +
@@ -496,9 +497,12 @@ broom::tidy(MOD_rum_tc) |>
   fmt_number(c(estimate, std.error, statistic, p.value), decimals = 1)
 ```
 
-On peut voir dans le @tbl-rum-tc les estimations du modèle dans le cas où il y a des transports en commun. Le modèle à un $R^2$ de McFadden de `r mfr2`. Le modèle sans la possibilité de transports en commun n'est pas très différent.
+On peut voir dans le @tbl-rum-tc et la @fig-modale les estimations du modèle dans le cas où il y a des transports en commun. Le modèle à un $R^2$ de McFadden de `r mfr2`. Le modèle sans la possibilité de transports en commun n'est pas très différent.
 
 ```{r}
+#| label: fig-modale
+#| fig-cap: Part modale
+
 library(RColorBrewer)
 part_modale <- bd_read("Part modale rum hors idf")
 part_modale +
@@ -684,3 +688,4 @@ graph_km_dens +
 
 ::: {#refs}
 :::
+
