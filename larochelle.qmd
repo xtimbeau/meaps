@@ -19,7 +19,8 @@ date-modified: today
 lang: fr
 format:
   wp-html: default
-  wp-pdf: default
+  wp-pdf:
+    output-file: "MEAPS et gravitaire estimations a La Rochelle.pdf"
 citation:
   type: article-journal
   container-title: "Document de travail de l'OFCE n°2024-4"

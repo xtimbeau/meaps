@@ -1,5 +1,5 @@
 ---
-title: "Modéliser les flux des navetteurs : MEAPS"
+title: "MEAPS : Modéliser les flux des navetteurs"
 author:
   - name : "Maxime Parodi"
     email: "maxime.parodi@sciencespo.fr"
@@ -18,7 +18,8 @@ date-modified: today
 lang: fr
 format:
   wp-html: default
-  wp-pdf: default
+  wp-pdf:
+    output-file: "MEAPS aspects theoriques.pdf"  
 
 citation:
   type: article-journal
