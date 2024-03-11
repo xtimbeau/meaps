@@ -16,7 +16,7 @@ author:
 date: 01/30/2024
 date-modified: today
 lang: fr
-wp: 5
+wp: 3
 annee: 2024
 abstract: "<br>`r  wordcountaddin::word_count('trajets.qmd')` mots."
 keywords: 

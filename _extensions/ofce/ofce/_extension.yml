@@ -47,7 +47,7 @@ contributes:
       theme: 
         - cosmo
         - ofce.scss
-      mainfont: Open Sans
+      mainfont: Atkinson Hyperlegible
       toc-location: left
       toc-title: Sur cette page
       number-sections: true

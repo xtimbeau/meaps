@@ -11,7 +11,7 @@ author:
     affiliation-url: "http://www.ofce.fr"
     orcid: "0000-0002-6198-5953"
 
-wp: 4
+wp: 2
 annee: 2024
 
 date: 02/02/2024
