@@ -54,7 +54,7 @@ contributes:
       theme: 
         - cosmo
         - html_template/ofcewp.scss
-      mainfont: Atkinson Hyperlegible
+      mainfont: Open Sans
       toc-location: left
       toc-title: Sur cette page
       number-sections: true
