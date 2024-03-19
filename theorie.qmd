@@ -11,7 +11,7 @@ author:
     affiliation-url: "http://www.ofce.fr"
     orcid: "0000-0002-6198-5953"
 
-wp: 11
+wp: 14
 annee: 2023
 date: 05/02/2023
 date-modified: today
@@ -23,7 +23,7 @@ format:
 
 citation:
   type: article-journal
-  container-title: "Document de travail de l'OFCE n°2023-11"
+  container-title: "Document de travail de l'OFCE n°2023-14"
   url: https://preview.meaps.fr
 
 abstract: "Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix. En s'inspirant du modèle des 'intervening opportunities' de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s'accommode de différentes formulations des processus stochastiques fondamentaux qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés, nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO~2~ à La Rochelle. <br>
