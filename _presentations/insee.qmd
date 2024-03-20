@@ -1,0 +1,15 @@
+## Relier les emplois aux résidents
+
+Rendre compte de la relation entre l'endroit où l'on vit et celui où on travaille permettrait de répondre à de nombreuses questions aussi variées que la décarbonation des mobilités, les inégalités induites par les prix immobiliers, l'hétérogénéité de la dépendance au coût de transport ou de l'essence.
+
+Un première approche fructueuse est
+
+relier les emplois aux résidents / distribution spatiale jointe
+
+## du modèle gravitaire à MEAPS : un critique théorique et une proposition alternative
+
+## une critique empirique du modèle gravitaire
+
+C'est Furness qui assure le succès empirique du modèle gravitaire, mais au prix d'une trahison du modèle orginal
+
+## densité et émission : une question mal posée
