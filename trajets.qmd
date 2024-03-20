@@ -34,7 +34,7 @@ format:
 
 citation:
   type: article-journal
-  container-title: "Document de travail de l'OFCE n°2024-3"
+  container-title: "Document de travail de l'OFCE n°2024-5"
   url: "https://preview.meaps.fr"
 
 bibliography:
