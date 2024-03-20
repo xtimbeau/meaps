@@ -18,7 +18,7 @@ date-modified: today
 lang: fr
 wp: 3
 annee: 2024
-abstract: "<br>`r  wordcountaddin::word_count('trajets.qmd')` mots."
+abstract: "Le lien habituellement recherché ente densité résidentielle  et émissions de gaz à effet de serre apparaît faible et on en conclut généralement qu'accroître la densité n'ets pas justifiable sous l'angle climatique. Ce lien découle cependant d'une question mal posée. La forme urbaine peut être un levier important de réduction des émissions si on prend en compte la distibution spatiale jointe des résidents et des opportinités. A partir d'une modélisation des flux entre careeaux par MEAPS, et en la complétant par une analyse empirique des fréquences de trajets, de complexité de boucles et des modes de transport pour le motif professionnel, stratifiée par catégories de ménages, on peut combiner les informations issues de MOBPRO (le recensement), l'EMP (l'enquête mobilité des ménages), la localisation des résidents (données carroyées de l'INSEE), la localisation des emplois (MOBPRO et fichiers fonciers) ainsi que les réseaux de transport (OSM, GTFS) pour produire une carte des émissions de CO~2~ imputées aux résidents liés aux déplacements professionnels quotidien.<br>`r  wordcountaddin::word_count('trajets.qmd')` mots."
 keywords: 
   - mobilité
   - choix modal
