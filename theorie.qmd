@@ -5,6 +5,7 @@ author:
     email: "maxime.parodi@sciencespo.fr"
     affiliation: OFCE, Sciences Po Paris
     affiliation-url: "http://www.ofce.fr"
+    orcid: 0009-0008-2543-5234
   - name: "Xavier Timbeau" 
     email: "xavier.timbeau@sciencespo.fr"
     affiliation: OFCE, Ecole Urbaine, Sciences Po Paris

@@ -1,0 +1,91 @@
+---
+title: "MEAPS à la Rochelle"
+subtitle: "*Pratiques de l'analyse spatiale - Séminaire INSEE*"
+author-footer: "Parodi&Timbeau"
+author: 
+  - name : Maxime Parodi
+    email: maxime.parodi@sciencespo.fr
+    affiliation: OFCE, Sciences Po Paris
+    affiliation-url: https://www.ofce.fr
+    orcid: 0009-0008-2543-5234
+  - name: Xavier Timbeau
+    email: xavier.timbeau@sciencespo.fr
+    corresponding: true
+    affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
+    affiliation-url: https://www.ofce.fr
+    orcid: 0000-0002-6198-5953
+date: 01/30/2024
+date-modified: today
+lang: fr
+format: 
+  pres-revealjs:
+    transition: slide
+pre-render:
+  - copyref.R
+keywords: 
+  - mobilité
+  - choix modal
+  - émissions de CO2
+  - modèle à quatre étapes
+  - densité
+  - forme urbaine
+  - accessibilité
+
+bibliography:
+  - references_trajets.bib
+  - references_meaps.bib
+---
+
+# MEAPS: modéliser les flux de navetteurs
+
+## Pourquoi cette modélisation ? Pourquoi la Rochelle ?
+
+# Accessibilité: du potentiel à l'espérance des flux
+
+## Accessibilité aux emplois
+
+## A la Rochelle: accessibilité aux emplois par mode
+
+## A la Rochelle: accessibilité aux emplois par commune
+
+## De l'accessibilité aux émissions de CO~2~
+
+## Principe général de la modélisation
+
+# MEAPS pour les flux de navetteurs
+
+## Radiatif plutôt que gravitaire : des arguments théoriques
+
+## Radiatif plutôt que gravitaire : mais surtout empiriques
+
+## Estimations et ajustement sur MOBPRO
+
+# Projections : modéliser les détours, les fréquences et les modes
+
+## Détours
+
+## Fréquences
+
+## Modes
+
+# Kilomètres parcourus par les navetteurs
+
+## Carte au carreau 200m
+
+## Lien entre niveau de vie et distance parcourue
+
+## Scénarios de densification : le lien entre la densité et la forme urbaine
+
+# Conclusion
+
+## En résumé
+
+## Extensions possibles
+
+## Futurs développements: Marseille
+
+## Futurs développements: Autres motifs
+
+## Futurs développements: Autres données
+
+
