@@ -107,6 +107,7 @@ p <- ggplot()+geom_stars(data=paris.mb)+
                        oob = scales::oob_squish) +
   labs(title="Agglomération de Paris (uu00851)")+
   coord_sf(xlim=c(bb851$xmin, bb851$xmax), ylim=c(bb851$ymin, bb851$ymax))+
+  ggspatial::annotation_scale() +
   theme_void()+
   theme(plot.title = element_text(size=9))
 
@@ -124,6 +125,7 @@ l <- ggplot()+geom_stars(data=lyon.mb)+
                        oob = scales::oob_squish) +
   labs(title="Métropole de Lyon (uu00758)")+
   coord_sf(xlim=c(bb758$xmin, bb758$xmax), ylim=c(bb758$ymin, bb758$ymax))+
+  ggspatial::annotation_scale() +
   theme_void()+
   theme(plot.title = element_text(size=9))
 
@@ -141,6 +143,7 @@ m <- ggplot()+geom_stars(data=marseille.mb)+
                        oob = scales::oob_squish) +
   labs(title="Aix-Marseille-Provence (uu00759)")+
   coord_sf(xlim=c(bb759$xmin, bb759$xmax), ylim=c(bb759$ymin, bb759$ymax))+
+  ggspatial::annotation_scale() +
   theme_void()+
   theme(plot.title = element_text(size=9))
 
@@ -154,6 +157,8 @@ access_plm <- p+l+m +
         legend.text = element_text(size=6))
 source("secrets/azure.R")
 bd_write(access_plm)
+access_plm <- bd_read("access_plm")
+graph2png(access_plm, "access_plm", rep = "_presentations", ratio = 16/10 )
 # mapdeck -------------
 library(colourvalues)
 pal <- grDevices::colorRamp(c("blue","green", "yellow"), bias =1)( (0:90)/90)

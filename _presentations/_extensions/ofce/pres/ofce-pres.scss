@@ -72,15 +72,23 @@ $callout-border-width: 1px;
   text-align: start !important;
 }
 
+.encadre, .callout-tip {
+  font-size: .8rem;
+  border-radius: 0;
+  background-clip: content-box;
+  background-color: $lightgrey !important;
+  border-left-color: $lightgrey !important;
+}
+
 div.callout-tip {
   font-size: .8rem;
   border-radius: 0;
   background-clip: content-box;
   background-color: $lightgrey !important;
-  border-left-color:$lightgrey !important;
+  border-left-color: $lightgrey !important;
 }
 
-div.callout-tip div.callout-header {
+div.callout-title {
   background-color: $lightgrey !important;
 }
 

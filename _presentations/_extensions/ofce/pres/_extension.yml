@@ -37,6 +37,8 @@ contributes:
       shortcodes:
         - fontawesome
         - downloadthis
+      collapse-callout:
+        tip: true
     revealjs:
       logo: ofce_m.png
       language:

@@ -12,7 +12,7 @@ author:
     affiliation-url: "http://www.ofce.fr"
     orcid: "0000-0002-6198-5953"
 
-wp: 2
+wp: 3
 annee: 2024
 
 date: 02/02/2024
@@ -24,10 +24,10 @@ format:
     output-file: "MEAPS et gravitaire estimations a La Rochelle.pdf"
 citation:
   type: article-journal
-  container-title: "Document de travail de l'OFCE n°2024-2"
+  container-title: "Document de travail de l'OFCE n°2024-4"
   url: https://preview.meaps.fr
 
-abstract: "L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’estimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. <br>
+abstract: "L’estimation de modèles gravitaires est faite usuellement en utilisant les moindres carrés ordinaires. Nous montrons que la distribution des flux de navetteurs correspond mal à un modèle où l’erreur est log-normale. La représentation par une processus de Poisson, que l’on peut estimer par glm est plus apropriée. A partir de la log-vraisemblance, on remarque que l’estimation par glm est équivalente à la minimisation de l’entropie relative de Kullback-Leibler, ce qui permet l’estimation par minimisaiton non linéaire d’une famille plus grande de modèles, dont MEAPS. La discussion des effets fixes ou aléatoires permet de comprendre en quoi la modélisation respecte ou non les contraintes aux marges du problème. On montre que les modèles qui respectent ces marges peuvent être employés hors échantillon pour prédire les flux de navetteurs. enfin, en utilisant une information infracommunale on peut améliorer la qualité de l’ajustement de MEAPS et produire une intrapolation des flux à une résolution plus importante que celle des données de flux issues du recensement. <br>
 `r  wordcountaddin::word_count('larochelle.qmd')` mots."
   
 keywords: [ modèle gravitaire, modèle radiatif, mobilités, glm, poisson, entropie relative ]
@@ -1120,4 +1120,3 @@ Les estimations que nous présentons ici aboutissent à plusieurs résultats imp
 
 ::: {#refs}
 :::
-
