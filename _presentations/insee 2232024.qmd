@@ -14,7 +14,7 @@ author:
     affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
     affiliation-url: https://www.ofce.fr
     orcid: 0000-0002-6198-5953
-date: 01/30/2024
+date: 03/22/2024
 date-modified: today
 lang: fr
 format: 
@@ -86,7 +86,7 @@ source("secrets/azure.R")
 
 ```
 
-# MEAPS: modéliser les flux de navetteurs
+# MEAPS : le contexte
 
 ## Pourquoi cette modélisation ? Pourquoi la Rochelle ?
 
@@ -103,12 +103,28 @@ Pour aller plus avant, les émissions de CO~2~ par exemple, il faut passer du po
 ::: {.callout-tip icon="false"}
 ## définition
 
-On définit **l'accessibilité** comme : $$
-s_i(d)=\sum _{j/d_{i,j}<d}1
-$$
+On définit **l'accessibilité** comme : $s_i(d)=\sum _{j/d_{i,j}<d}$
 
 C'est le nombre d'opportunités accessibles à une distance inférieure à $d$ de $i$. La distance peut être à vol d'oiseau, en temps de trajet, en coût généralisé de transport. L'opportunité peut être une métrique plus ou moins complexe (nombre d'emplois, corrigés de la qualité, corrigé de la diversité, ...) . On peut "écraser" la dimension des opportunités à l'arrivée (opportunité synthétique pour un ménage ou un individu particulier) ou à l'origine (emploi moyen recherché)
 :::
+
+## 3 documents de travail
+
+<br>
+
+@meaps2023 : description du modèle théorique, discussion du modèle gravitaire, analyse des propriétés de MEAPS
+
+<br>
+
+@meaps2024a : estimation de MEAPS et comparaison avec le modèle gravitaire. discussion de la stratégie d'estimation
+
+<br>
+
+@meaps2024b : analyse du lien entre densité et émission et construction de modèles pour les fréquences, les détours et les modes de transport
+
+<br>
+
+un site <https://preview.meaps.fr> et des dépots {{< fa brands github >}}.
 
 # Accessibilité: du potentiel à l'espérance des flux
 
@@ -201,6 +217,14 @@ ggplot(mode_l) +
 
 ## Ce qui demande de localiser emplois et résidents
 
+-   **Individus** : données carroyées INSEE c200m 2017 et 2019
+
+-   **Emplois** : MOBPRO (recensement fichier détail) 2019 imputés par commune et par secteur NAF 5 en fonction des surfaces professionnelles issues des fichiers fonciers et du RFP
+
+```{r}
+knitr::include_graphics("output/popemp.png")
+```
+
 ## De l'accessibilité aux émissions de CO~2~
 
 ```{r}
@@ -229,6 +253,22 @@ Du tenseur $[km^m_{ijk}]$ on peut alors calculer l'espérance des kilomètres pa
 
 # MEAPS pour les flux de navetteurs
 
+## Synthèse : Pourquoi MEAPS est mieux
+
+-   *Théoriquement* MEAPS décrit un processus d'appariement spatialisé explicite et vraisemblable. La saturation permet un appariement complet \[ce qui n'est pas le cas pour gravitaire\].
+
+-   *Empiriquement*, il faut utiliser un modèle de Poisson ou une fonction objectif entropie relative de Kullback-Leibler pour estimer un modèle de flux (MEAPS ou gravitaire).
+
+-   *Empiriquement*, MEAPS 0p. peut servir de modèle de référence. En introduisant des odds ratios, on peut paramètrer MEAPS pour représenter une préférence locale (par ex.).
+
+-   *Empiriquement*, le modèle gravitaire quant à lui repose sur des effets fixes ou une procédure de Furness pour fonctionner. Mais on triche avec les masses alors que les masses sont l'argument principal.
+
+-   *Empiriquement,* avec seulement 2 ou 3 paramètres, on arrive à expliquer (presque) aussi bien avec MEAPS qu'avec un gravitaire à effets fixes ou Furness
+
+-   *Hors échantillon*, on peut reproduire les flux avec seulement la localisation de l'emploi et des résidents
+
+-   En ajoutant une information infra-communale, on améliore la capacité de MEAPS à repduire les flux, mieux qu'un gravitaire saturé.
+
 ## Radiatif plutôt que *gravitaire* : des arguments théoriques
 
 Le modèle gravitaire dans sa forme générale :
@@ -243,7 +283,7 @@ On peut définir une notion de séparabilité qui n'est respectée à l'origine 
 
 ## *Radiatif* plutôt que gravitaire : des arguments théoriques
 
-On part d'une analogie radiative plutôt que gravitaire : le milieu traversé compte [@stouffer194 ; @simini2012 ; @simini2013]
+On part d'une analogie radiative plutôt que gravitaire : le milieu traversé compte [@stouffer1940 ; @simini2012 ; @simini2013]
 
 1.  **absorption** : Chaque individu part de $i$ et rencontre les opportunités $j$ classées dans l'ordre des distances. A chaque rencontre il a une probabilité $p_i$d'être absorbé. Le voisinage compte, puisque si je traverse un milieu *dense en opportunités* je vais moins loin
 
@@ -458,7 +498,7 @@ modelsummary::modelsummary(models = MOD_simple,
 
 ## Détour : Boucles complexes
 
-Pour une distance $d$ domicile travail, la longueur de la boucle est $L = K \times d$. En posant $\gamma$ la proportion de détours rapportée à la distance domicile travail on a \$\\gamma = K - 2 \$. On fait une régression par quantile :
+Pour une distance $d$ domicile travail, la longueur de la boucle est $L = K \times d$. En posant $\gamma$ la proportion de détours rapportée à la distance domicile travail on a $\gamma = K - 2$. On fait une régression par quantile :
 
 $$
 log(\gamma_l) = \alpha + \beta \times log(1 + d_l) + \varepsilon_l
@@ -482,7 +522,9 @@ broom::tidy(mod_detours) |>
 
 ## Nombre de boucles
 
-On modélise les boucles par un modèle de Poisson augmenté pour la sous dispersion Conway-Maxwell-Poisson [@Conway1962]
+<br>
+
+On modélise les boucles par un modèle de Poisson augmenté pour la sous-dispersion Conway-Maxwell-Poisson [@Conway1962]
 
 $$
 P(x=n|\lambda,\nu) = \frac{\lambda^n}{Z(\lambda, \nu) \times (n!)^\nu} \quad pour\ n=0,1,2...
@@ -496,7 +538,7 @@ $$
 
 ## Fréquences : Nombre de boucles
 
-En utlisant l'EMP 2019, on compte par individu le nombre de boucles (avec la pondération on estime les fréquences par strate).
+En utlisant l'EMP 2019, on compte par individu le nombre de boucles.
 
 <br>
 
@@ -523,7 +565,7 @@ U_l^m = \alpha_m + \beta \times tt_{bcl,m} + \gamma_m \times log(L_{bcl}) + \del
 \\ avec\ \varepsilon_{m,l} \sim Loi\ de\ Gumbel
 $$
 
-La source est l'EMP 2019. On n'utilse pas le recensement qui interroge sur le mode habituel \[on pourrait vérifier quand même\].
+La source est l'EMP 2019. On n'utilïse pas le recensement qui interroge sur le mode habituel \[on pourrait vérifier quand même\].
 
 ```{r, fig.align='center'}
 library(RColorBrewer)
@@ -582,6 +624,15 @@ carte_elaskmpop <- bd_read("Carte élasticité km voiture sur pop") +
 carte_elaskmpop
 ```
 
+## La densité et les émissions de CO2
+
+```{r}
+graph_km_dens <- bd_read("Evolution kms selon choc par iris")
+graph_km_dens +
+  theme_ofce() +
+  labs(caption= "*Sources* : MOBPRO, EMP 2019, C200, MEAPS")
+```
+
 # Conclusion
 
 ## En résumé
@@ -590,17 +641,17 @@ On **combine** de nombreuses **sources de données** :
 
 -   La localisation des résidents au carreau 200m (données carroyées INSEE 2019)
 
--   La localisation des emplois au careeau 200m (recensement fichier détail MOBPRO + fichiers fonciers en imputant au prorata des surfaces par NAF 5 secteurs par commune, en complétant par le RFP pour les surfaces professionelles publiques)
+-   La localisation des emplois au carreau 200m (recensement fichier détail MOBPRO + fichiers fonciers + RFP, 5 secteurs)
 
 -   Les réseaux de transport pour calculer les distances et les temps de parcours par mode entre chaque paire
 
--   les flux inter communaux (recensement fichier détail MOBPRO) pour caler le modèle de flux infracommunal
+-   les flux inter communaux (recensement fichier détail MOBPRO) pour ajuster le modèle de flux infra communal
 
 -   l'enquête EMP 2019 pour évaluer la longueur des boucles, leur complexité et leur fréquence
 
 -   l'enquête EMP 2019 pour évaluer les modes
 
-Sur ces sources ouvertes, on a produit des outils en open source afin d'assurer la transparence et la reproductibilité. En particulier le package [maxime2506/rmeaps](https://github.com/maxime2506/rmeaps) fournit le code C++/OMP optimisé pour simuler MEAPS avec une haute performance.
+Sur ces *sources ouvertes (ou presque)*, on a produit des outils en *open source* afin d'assurer la transparence et la reproductibilité. Le package [maxime2506/rmeaps](https://github.com/maxime2506/rmeaps) fournit le code C++/OMP optimisé pour simuler MEAPS avec une haute performance.
 
 On obtient un **modèle** qui peut être utilisé avec une *certaine* *confiance* pour interpoler, faire des analyses territorialisées qui intègrent la géographie ou faire des analyses de scénario
 
@@ -614,11 +665,13 @@ On obtient un **modèle** qui peut être utilisé avec une *certaine* *confiance
 
 -   D'autres structures dans les *odds* de *MEAPS*, des processus stochastiques non binomiaux
 
--   Affiner les catégories de ménages, celles d'emploi.
+-   Affiner les catégories de ménages, celles d'emploi
+
+-   Exploiter la tension sur l'emploi
 
 ## Futurs développements: Marseille et le passage à l'échelle
 
-Actuellement, nous travaillons sur la métropole d'Aix-Marseille-Provence. C'est un passage à l'échelle significatif. La matrice de flux de la Rochelle est une matrice 5000 $\times$ 5000 $\approx$ 25M. Celle de Marseille est de 26000 $\times$ 38000 $\approx$ 1G, soit 40 fois plus grande. On calcule par exemple les paires origines destination à une vitesse entre 5000 et 1000 paire/s/vCPU.
+Actuellement, nous travaillons sur la métropole d'Aix-Marseille-Provence. C'est un passage à l'échelle significatif. La matrice de flux de la Rochelle est une matrice 5000 $\times$ 5000 $\approx$ 25M. Celle de Marseille est de 26000 $\times$ 38000 $\approx$ 1G, soit 40 fois plus grande. On calcule par exemple les paires origines destination à une vitesse entre 5000 et 1000 paires/s/vCPU.
 
 ![](images/marseille.png){fig-align="center" width="777"}
 
@@ -636,8 +689,15 @@ Un des enjeux est calculer l'espérance pour les autres motifs que le motif prof
 
 ## Futurs développements: Autres données
 
+<br>
+
 L'utilisation d'autres données comme celles de @lévy2023 (bornage de téléphone, qui permettent des matrices o/d à la résolution de l'IRIS). Un projet ANR est en cours (de candidature) pour collaborer avec Lévy et Coldefy sur cette question (*Digitalisation et décarbonation des mobilités - MOBIDEC*). La future chaire Dynamiques Urbaines a pour objet d'accueillir ces travaux et de centraliser les ressources (dont les données de mobilité).
 
-D'autres traces numériques peut éventuellement permettre d'affiner un ou plusieurs des modèles employés (notamment MEAPS) et de les confronter à des résolutions infracommunales.
+D'autres traces numériques peut éventuellement permettre d'affiner un ou plusieurs des modèles employés (notamment MEAPS) et de les confronter à des résolutions infra-communales.
 
 L'utilisation de Fidéli sur le CASD permet d'avoir une information fine (revenu, structure familiale au carreau 200m) qui fournirait une source importante pour la projection et la pondération des kilomètres. Il y a également la possibilité d'un début d'analyse temporelle. Mais les règles actuelles de préservation de l'anonymat empêche de produire une information dérivée au carreau 200m à partir de ces données.
+
+## Bibliographie
+
+::: {#refs}
+:::
