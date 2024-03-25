@@ -1,5 +1,7 @@
 ---
 appendix-style: none
+bibliography: 
+  - references_meaps.bib
 ---
 
 # MEAPS : Modèle Ergodique d'Absorption avec Priorité et Saturation {.unnumbered .unlisted}
@@ -53,3 +55,6 @@ Autour de ce modèle nous avons produit trois documents de travail de l'OFCE :
 :::
 
 Contacts : [Maxime Parodi](mailto:maxime.parodi@sciencespo.fr) ou [Xavier Timbeau](mailto:xavier.timbeau@sciencespo.fr)
+
+:::{#refs}
+:::
