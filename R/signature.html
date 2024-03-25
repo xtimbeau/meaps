@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -160,6 +160,10 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 <meta name="citation_reference" content="citation_title=SCoT La Rochelle Aunis : les émissions moyennes des habitants du territoire pour leurs mobilités quotidiennes;,citation_author=Paul Lempérière;,citation_author=David Miet;,citation_author=Maxime Parodi;,citation_author=Lucas Pouvreau;,citation_author=Valentin Stulhfauth;,citation_author=Xavier Timbeau;,citation_publication_date=2023-04-11;,citation_cover_date=2023-04-11;,citation_year=2023;,citation_fulltext_html_url=https://publications.vv.energy/la-rochelle-aunis-carbone.html;,citation_language=fr;">
 <meta name="citation_reference" content="citation_title=(PDF) a sustainable future through the compact city? Urban intensification in the united kingdom;,citation_fulltext_html_url=https://www.researchgate.net/publication/293314926_A_Sustainable_Future_through_the_Compact_City_Urban_Intensification_in_the_United_Kingdom;">
 <meta name="citation_reference" content="citation_title=Who lives where?;,citation_author=Jacques Lévy;,citation_author=Jean Coldefy;,citation_author=Sébastien Piantoni;,citation_author=Julien François;,citation_publication_date=2023-05;,citation_cover_date=2023-05;,citation_year=2023;,citation_fulltext_html_url=https://hal.science/hal-04105977;">
+<meta name="citation_reference" content="citation_title=How accessibility shapes land use;,citation_author=Walter G. Hansen;,citation_publication_date=1959-05-01;,citation_cover_date=1959-05-01;,citation_year=1959;,citation_fulltext_html_url=https://doi.org/10.1080/01944365908978307;,citation_issue=2;,citation_doi=10.1080/01944365908978307;,citation_volume=25;,citation_journal_title=Journal of the American Institute of Planners;">
+<meta name="citation_reference" content="citation_title=Measuring Accessibility: A Review and Proposal;,citation_author=G H Pirie;,citation_publication_date=1979-03-01;,citation_cover_date=1979-03-01;,citation_year=1979;,citation_fulltext_html_url=https://doi.org/10.1068/a110299;,citation_issue=3;,citation_doi=10.1068/a110299;,citation_volume=11;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
+<meta name="citation_reference" content="citation_title=A theory of urban accessibility: a new working tool for the urban planner;,citation_author=J.g. Joening;,citation_publication_date=1975;,citation_cover_date=1975;,citation_year=1975;,citation_fulltext_html_url=https://www.safetylit.org/citations/index.php?fuseaction=citations.viewdetails&amp;amp;amp;citationIds[]=citjournalarticle_248088_38;,citation_volume=3;,citation_language=en;,citation_journal_title=Proceedings of the International Research Council on the Biomechanics of Injury conference;">
+<meta name="citation_reference" content="citation_title=Le territoire des hommes;,citation_author=undefined Jean Poulit;,citation_publication_date=2005;,citation_cover_date=2005;,citation_year=2005;,citation_fulltext_html_url=https://editionslesperegrines.fr/fr/books/le-territoire-des-hommes;">
 <meta name="citation_reference" content="citation_title=Estimer des flux de navetteurs avec un modèle gravitaire : application géomatique en région Provence-Alpes-Côte d’Azur (France)&amp;amp;amp;lt;sup&amp;gt;1&amp;lt;/sup&amp;gt;;,citation_author=Didier Josselin;,citation_author=Samuel Carpentier-Postel;,citation_author=Frédéric Audard;,citation_author=Safaâ Amarouch;,citation_author=Jean-Baptiste Durand;,citation_author=Nathalie Brachet;,citation_author=Mathieu Coulon;,citation_author=Louisette Garcin;,citation_publication_date=2020-09-01;,citation_cover_date=2020-09-01;,citation_year=2020;,citation_fulltext_html_url=http://dx.doi.org/10.1139/geomat-2020-0009;,citation_issue=3;,citation_doi=10.1139/geomat-2020-0009;,citation_volume=74;,citation_language=fr;,citation_journal_title=Geomatica;">
 <meta name="citation_reference" content="citation_title=Toward a better understanding of the intervening opportunities model;,citation_author=Earl R. Ruiter;,citation_publication_date=1967;,citation_cover_date=1967;,citation_year=1967;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/0041164767900949;,citation_issue=1;,citation_doi=https://doi.org/10.1016/0041-1647(67)90094-9;,citation_volume=1;,citation_journal_title=Transportation Research;">
 <meta name="citation_reference" content="citation_title=Spatial Flows and Spatial Patterns;,citation_author=A S Fotheringham;,citation_publication_date=1984-04-01;,citation_cover_date=1984-04-01;,citation_year=1984;,citation_fulltext_html_url=https://doi.org/10.1068/a160529;,citation_issue=4;,citation_doi=10.1068/a160529;,citation_volume=16;,citation_language=en;,citation_journal_title=Environment and Planning A: Economy and Space;">
@@ -352,6 +356,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/preview\.meaps\.fr\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -386,7 +408,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
