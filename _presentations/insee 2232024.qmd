@@ -1,6 +1,6 @@
 ---
 title: "MEAPS à la Rochelle"
-subtitle: "*Pratiques de l'analyse spatiale - Séminaire INSEE*"
+subtitle: "*Séminaire INSEE - Pratiques de l'analyse spatiale*"
 author-footer: "Parodi&Timbeau"
 author: 
   - name : Maxime Parodi
@@ -20,8 +20,8 @@ lang: fr
 format: 
   pres-revealjs:
     transition: slide
-pre-render:
-  - copyref.R
+    embed-resources: true
+    self-contained-math: true
 keywords: 
   - mobilité
   - choix modal
@@ -83,7 +83,6 @@ options(ofce.base_family = "sans")
 options(ofce.base_size = 9)
 
 source("secrets/azure.R")
-
 ```
 
 # MEAPS : le contexte
@@ -124,7 +123,7 @@ C'est le nombre d'opportunités accessibles à une distance inférieure à $d$ d
 
 <br>
 
-un site <https://preview.meaps.fr> et des dépots {{< fa brands github >}}.
+un site <https://preview.meaps.fr> sur lequel vous trouverez les documents de travail et les liens vers les dépôts {{< fa brands github >}}.
 
 # Accessibilité: du potentiel à l'espérance des flux
 
@@ -225,7 +224,9 @@ ggplot(mode_l) +
 knitr::include_graphics("output/popemp.png")
 ```
 
-## De l'accessibilité aux émissions de CO~2~
+## De l'accessibilité aux émissions de CO~2~ (km parcourus)
+
+Comment produire cette carte ?
 
 ```{r}
 carte_kmnav <- bd_read("Km voiture au c200")
@@ -269,19 +270,7 @@ Du tenseur $[km^m_{ijk}]$ on peut alors calculer l'espérance des kilomètres pa
 
 -   En ajoutant une information infra-communale, on améliore la capacité de MEAPS à repduire les flux, mieux qu'un gravitaire saturé.
 
-## Radiatif plutôt que *gravitaire* : des arguments théoriques
-
-Le modèle gravitaire dans sa forme générale :
-
-$$
-f_{ij} =c\times \frac{n_i^\alpha \times e_j ^\beta }{d_{ij}^\delta }
-$$
-
-est un modèle qui ne tient pas compte du voisinage : le flux est généré par une masse au départ, une autre à l'arrivée mais l'entourage n'intervient pas [@fotheringham1983 ; @simini2012 ; @stouffer1940].
-
-On peut définir une notion de séparabilité qui n'est respectée à l'origine que si $\alpha=1$ et à la destination si $\beta=1$ : si on divise un groupe au même point $ij$ en deux sous groupes, on veut que la somme de flux générés par les deux sous groupes soit exactement le flux généré par le groupe entier si ils ont les mêmes paramètres (de comportement). De la même façon, si on sépare un groupe d'individus ou d'emplois très proches en des sous groupes à une résolution plus élevée on veut que le changement de résolution n'est qu'un impact faible sur les flux modélisés (à la limite nul).
-
-## *Radiatif* plutôt que gravitaire : des arguments théoriques
+## *MEAPS* : principes
 
 On part d'une analogie radiative plutôt que gravitaire : le milieu traversé compte [@stouffer1940 ; @simini2012 ; @simini2013]
 
@@ -294,6 +283,18 @@ On part d'une analogie radiative plutôt que gravitaire : le milieu traversé co
 4.  **ergodicité** : on tire un grand nombre d'ordres aléatoirement, en répétant 1 2 et 3 pour obtenir en moyenne une allocation indépendante de l'ordre arbitraire, ce qui achève la prise en compte du voisinage
 
 Par construction ce modèle respecte le principe de séparabilité. La saturation permet en outre d'assurer que chaque individu occupe un emploi et que chaque emploi est occupé *si les opportunités sont toutes accessibles à tous les individus*.
+
+## Radiatif plutôt que *gravitaire* : des arguments théoriques
+
+Le modèle gravitaire dans sa forme générale :
+
+$$
+f_{ij} =c\times \frac{n_i^\alpha \times e_j ^\beta }{d_{ij}^\delta }
+$$
+
+est un modèle qui ne tient pas compte du voisinage : le flux est généré par une masse au départ, une autre à l'arrivée mais l'entourage n'intervient pas [@fotheringham1983 ; @simini2012 ; @stouffer1940].
+
+On peut définir une notion de séparabilité qui n'est respectée à l'origine que si $\alpha=1$ et à la destination si $\beta=1$ : si on divise un groupe au même point $ij$ en deux sous groupes, on veut que la somme de flux générés par les deux sous groupes soit exactement le flux généré par le groupe entier si ils ont les mêmes paramètres (de comportement). De la même façon, si on sépare un groupe d'individus ou d'emplois très proches en des sous groupes à une résolution plus élevée on veut que le changement de résolution n'est qu'un impact faible sur les flux modélisés (à la limite nul).
 
 ## Radiatif ou *gravitaire* : Poisson versus log normal
 
@@ -473,7 +474,7 @@ meaps_stats_p |>
 
 ## Détours
 
-![](images/boucles.svg){fig-align="center" width="500"}
+![](images/boucles.svg)
 
 ## Détours : Boucles simples
 
@@ -607,12 +608,6 @@ gg +
   theme = theme_ofce())
 ```
 
-## Carte de tension sur l'emploi
-
-```{r}
-
-```
-
 ## Scénarios de densification : le lien entre la densité et la forme urbaine
 
 ```{r}
@@ -626,6 +621,8 @@ carte_elaskmpop
 
 ## La densité et les émissions de CO2
 
+En regardant finement la distribution spatiale des individus on s'affranchit du problème de l'autosélection.
+
 ```{r}
 graph_km_dens <- bd_read("Evolution kms selon choc par iris")
 graph_km_dens +
@@ -633,11 +630,11 @@ graph_km_dens +
   labs(caption= "*Sources* : MOBPRO, EMP 2019, C200, MEAPS")
 ```
 
-# Conclusion
+# Conclusion {.smaller}
 
 ## En résumé
 
-On **combine** de nombreuses **sources de données** :
+On **combine** des **sources de données** :
 
 -   La localisation des résidents au carreau 200m (données carroyées INSEE 2019)
 
@@ -651,13 +648,17 @@ On **combine** de nombreuses **sources de données** :
 
 -   l'enquête EMP 2019 pour évaluer les modes
 
-Sur ces *sources ouvertes (ou presque)*, on a produit des outils en *open source* afin d'assurer la transparence et la reproductibilité. Le package [maxime2506/rmeaps](https://github.com/maxime2506/rmeaps) fournit le code C++/OMP optimisé pour simuler MEAPS avec une haute performance.
+On **modélise** les flux, les fréquences, les détours, les modes sans agréger les individus spatialement, avec des propriétés pertinentes et explicites.
 
-On obtient un **modèle** qui peut être utilisé avec une *certaine* *confiance* pour interpoler, faire des analyses territorialisées qui intègrent la géographie ou faire des analyses de scénario
+Sur ces *sources ouvertes (ou presque)*, nous proposons une approche en *open source* afin d'assurer la transparence et la reproductibilité.
+
+On obtient un **modèle calibré** qui peut être utilisé avec une *certaine* *confiance* pour intrapoler, interpoler, analyser la géographie (localisations, réseaux) et faire des analyses de scénarios
 
 ## Extensions possibles
 
 <br>
+
+-   Utiliser les données enrichies par le SDES sur les émissions dans l'EMP 2019
 
 -   Introduire des dépendances entre les termes de l'équation fondamentale : par exemple, les flux différenciés par ménages, par catégories d'emploi, par mode
 
@@ -671,7 +672,7 @@ On obtient un **modèle** qui peut être utilisé avec une *certaine* *confiance
 
 ## Futurs développements: Marseille et le passage à l'échelle
 
-Actuellement, nous travaillons sur la métropole d'Aix-Marseille-Provence. C'est un passage à l'échelle significatif. La matrice de flux de la Rochelle est une matrice 5000 $\times$ 5000 $\approx$ 25M. Celle de Marseille est de 26000 $\times$ 38000 $\approx$ 1G, soit 40 fois plus grande. On calcule par exemple les paires origines destination à une vitesse entre 5000 et 1000 paires/s/vCPU.
+Actuellement, nous travaillons sur la métropole d'Aix-Marseille-Provence. C'est un passage à l'échelle significatif : La matrice de flux de la Rochelle est 5000 $\times$ 5000 $\approx$ 25M. Celle de Marseille est de 26000 $\times$ 38000 $\approx$ 1G, soit 40 fois plus grande. On calcule par exemple les paires origines destination à une vitesse entre 5000 et 1000 paires/s/vCPU.
 
 ![](images/marseille.png){fig-align="center" width="777"}
 
@@ -691,11 +692,13 @@ Un des enjeux est calculer l'espérance pour les autres motifs que le motif prof
 
 <br>
 
-L'utilisation d'autres données comme celles de @lévy2023 (bornage de téléphone, qui permettent des matrices o/d à la résolution de l'IRIS). Un projet ANR est en cours (de candidature) pour collaborer avec Lévy et Coldefy sur cette question (*Digitalisation et décarbonation des mobilités - MOBIDEC*). La future chaire Dynamiques Urbaines a pour objet d'accueillir ces travaux et de centraliser les ressources (dont les données de mobilité).
+-   L'utilisation d'autres données comme celles de @lévy2023 (bornage de téléphone, qui permettent des matrices o/d à la résolution de l'IRIS). Un projet ANR est en cours (de candidature) pour collaborer avec Lévy et Coldefy sur cette question (*Digitalisation et décarbonation des mobilités - MOBIDEC*).
 
-D'autres traces numériques peut éventuellement permettre d'affiner un ou plusieurs des modèles employés (notamment MEAPS) et de les confronter à des résolutions infra-communales.
+-   La future chaire Dynamiques Urbaines a pour objet d'accueillir ces travaux et de centraliser les ressources (dont les données de mobilité).
 
-L'utilisation de Fidéli sur le CASD permet d'avoir une information fine (revenu, structure familiale au carreau 200m) qui fournirait une source importante pour la projection et la pondération des kilomètres. Il y a également la possibilité d'un début d'analyse temporelle. Mais les règles actuelles de préservation de l'anonymat empêche de produire une information dérivée au carreau 200m à partir de ces données.
+-   D'autres traces numériques peut éventuellement permettre d'affiner un ou plusieurs des modèles employés (notamment MEAPS) et de les confronter à des résolutions infra-communales.
+
+-   L'utilisation de Fidéli sur le CASD permet d'avoir une information fine (revenu, structure familiale au carreau 200m) qui fournirait une source importante pour la projection et la pondération des kilomètres. Il y a également la possibilité d'un début d'analyse temporelle. Mais les règles actuelles de préservation de l'anonymat empêchent de produire et de publier une information dérivée au carreau 200m à partir de ces données.
 
 ## Bibliographie
 

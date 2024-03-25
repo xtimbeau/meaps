@@ -40,6 +40,8 @@ website:
         file: larochelle.qmd
       - text: "{{< iconify gis statistic-map >}} Projection"
         file: trajets.qmd
+      - text: "{{< iconify ri presentation-line >}} Présentations"
+        file: presentations.qmd
       - text: "Références"
         icon: book
         file: references.qmd

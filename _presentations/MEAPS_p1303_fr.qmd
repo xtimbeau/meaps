@@ -23,22 +23,17 @@ execute:
   echo: false
   warning: false
 format: 
-  revealjs:
+  pres-revealjs:
     slide-level: 2
     slide-number: c/t
     center: false
-    theme: [simple, www/presentation.scss]
-    navigation-mode: linear
-    code-fold: false
-    self-contained: false
-    code-link: true
-filters:
-  - reveal-auto-agenda
-auto-agenda:
-  bullets: none
-  heading: ""
+    embed-resources: true
+    self-contained-math: true
 editor: visual
-bibliography: references.bib
+toc-depth: 1
+bibliography: 
+  - references_trajets.bib
+  - references_meaps.bib
 ---
 
 ```{r, include=FALSE}
@@ -360,7 +355,7 @@ ggplot(mode_l) +
 
 ```{r}
 access <- qs::qread("output/acces4modes.sqs")
-decor_carte <- qs::qread("output/decor_carte.sqs")
+decor_carte <- bd_read("decor_carte")
 
 access_4modes <- 
   map(c("to1k", "to5k", "to10k", "to20k"), ~{ 

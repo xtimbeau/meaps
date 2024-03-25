@@ -1,0 +1,11 @@
+---
+appendix-style: none
+---
+
+# Présentations {.unnumbered}
+
+{{< fa chalkboard >}}  [Séminaire lunch de l'OFCE, 13 mars 2023](MEAPS_p1303_fr.html)
+
+<br>
+
+{{< fa chalkboard >}}  [Séminaire INSEE Pratiques de l'analyse spatiale, 22 mars 2024](insee 2232024.html)
