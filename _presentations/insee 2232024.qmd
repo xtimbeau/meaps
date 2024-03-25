@@ -32,7 +32,6 @@ keywords:
   - accessibilité
 toc-depth: 1
 bibliography:
-  - references_trajets.bib
   - references_meaps.bib
 ---
 

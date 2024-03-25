@@ -53,10 +53,6 @@ website:
         icon: github
         url: "https://github.com/xtimbeau/meaps"
       
-bibliography: 
-  - references_trajets.bib
-  - references_meaps.bib
-
 author-title: Auteurs
 
 logo: www/ofce.png
