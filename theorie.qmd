@@ -22,9 +22,14 @@ format:
   wp-pdf:
     output-file: "MEAPS aspects theoriques.pdf"  
 
+navbar:
+  right:
+    - text: "en"
+      file: theorie.en.qmd
+
 citation:
   type: article-journal
-  container-title: "Document de travail de l'OFCE n°2023-14"
+  container-title: "Document de travail de l'OFCE n°2023-15"
   url: https://preview.meaps.fr
 
 abstract: "Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix. En s'inspirant du modèle des 'intervening opportunities' de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s'accommode de différentes formulations des processus stochastiques qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés [@meaps2024a; @meaps2024b], nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO~2~ à La Rochelle. <br>
@@ -59,19 +64,19 @@ Ce modèle respecte tout autant le principe que ce qui est proche joue -- toutes
 
 L'analogie employée permet de considérer le processus d'appariement comme résultant d'une procédure de recherche qui examinerait les opportunités dans l'ordre de leur proximité. Une telle procédure permet de spécifier des comportements qui servent de référence et d'hypothèse nulle pour se confronter aux données. Des amendements à la marge de cette procédure de recherche pourront produire un meilleur ajustement et s'interpréter directement. Pour l'heure, nous oublions ici tous les autres déterminants de l'appariement, comme le salaire, les compétences demandées ou offertes ou encore le secteur d'activités. Nous ajustons un modèle réduit à l'argument de la distance sur des données riches, issues du recensement français et mesurant les flux entre communes de résidence et communes d'emplois. Sous l'hypothèse que tous les emplois ne diffèrent que par leur localisation, nous parvenons à un ajustement de données bien meilleur que le modèle gravitaire. Des données plus fines -- à supposer qu'elles existent -- pourraient améliorer encore l'ajustement en introduisant par exemple les différences de salaires ou de compétences. Cependant, une prise en compte plus rigoureuse de la géographie nous semble une première étape essentielle, puisqu'elle modifie d'un ordre de grandeur au moins la qualité de l'ajustement.
 
-L'approche est donc structurelle : c'est un modèle frustre qui définit la façon dont on peut interpréter les données. Les données sans le modèles ne veulent pas dire grand chose, le modèle sans les données n'est que spéculation, et, suivant l'injonction de Kant, nous associons l'un avec les autres pour décrire la réalité.
+L'approche est donc structurelle : c'est un modèle, même frustre, qui définit la façon dont on peut interpréter les données. Les données sans le modèles ne veulent pas dire grand chose, le modèle sans les données n'est que spéculation, et, suivant l'injonction de Kant, nous associons l'un avec les autres pour décrire la réalité.
 
-Ce document décrit la construction du modèle théorique. Nous y développons la critique du modèle gravitaire [@sec-theorie], filons l'analogie du modèle radiatif [@sec-meaps]. Le modèle complet n'est pas solvable dans une forme fermée. Nous décrivons donc un algorithme qui permet de le simuler. Dans une seconde partie [@sec-synth] nous analysons les principales propriétés du modèle théorique sur des simulations synthétiques, c'est-à-dire générés à partir de processus connus. Ceci permet en particulier de donner de la vraisemblance, à défaut d'une démonstration, à la propriété d'ergodicité du modèle, qui conditionne la possibilité de le simuler.
+Ce document décrit la construction du modèle théorique. Nous y développons la critique du modèle gravitaire [@sec-theorie0], filons l'analogie du modèle radiatif [@sec-meaps]. Le modèle complet n'est pas solvable dans une forme fermée. Nous décrivons donc un algorithme qui permet de le simuler. Dans une seconde partie [@sec-synth] nous analysons les principales propriétés du modèle théorique sur des simulations synthétiques, c'est-à-dire générés à partir de processus connus. Ceci permet en particulier de donner de la vraisemblance, à défaut d'une démonstration, à la propriété d'ergodicité du modèle, qui conditionne la possibilité de le simuler.
 
 Dans deux autres documents, nous procédons à l'estimation du modèle sur des données réelles et à une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes ([Estimations à La Rochelle](larochelle.qmd)). Nous utilisons ensuite cette modélisation pour discuter du lien entre densité et émissions de CO~2~ ([Ville compacte](trajets.qmd)). Nous construisons une carte en haute résolution des émissions de CO~2~ à La Rochelle à partir d'une projection qui intègre les comportements de fréquence et d'association de motifs pour différentes catégories de ménages.
 
-## Modélisation gravitaire {#sec-theorie}
+## Modélisation gravitaire {#sec-theorie0}
 
 Pour modéliser les trajets entre des lieux de résidence et des lieux d'emploi, on procède usuellement par la méthode à 4 étapes [@patrickbonnel2001; @de2011modelling]. Cette méthode consiste dans un premier temps à déterminer d'un côté le nombre de trajets en partance d'un lieu de résidence et, d'un autre côté, le nombre de trajets arrivant au total dans un lieu d'activité. C'est l'étape 1 de génération des trajets. La seconde étape consiste à distribuer les trajets de l'étape 1 entre chaque paire origine-destination. C'est l'étape de distribution. La troisième étape est celle du choix modal où un mode de transport adéquat est associé à chaque trajet. Enfin la quatrième étape du modèle est celle qui spécifie le trajet et permet d'en connaître les caractéristiques précises, comme le chemin emprunté ou les dénivelés effectués, pour en déduire notamment des prévisions de congestion. Cette décomposition est quelque peu arbitraire et ne rend pas justice de l'état de l'art sur les bonnes pratiques pour articuler ces 4 moments. Par exemple, le nombre de trajets effectué dépend des possibilités ouvertes par la géographie, qui sont définies par les caractéristiques précises des trajets. L'étape 4 est donc nécessaire pour comprendre l'étape 1, et l'étape 4 demande de connaître les choix modaux pour être utile aux choix fait en 1. L'étape 2 est nécessaire pour explorer les possibilités de trajets. Les imbrications sont nombreuses entre les étapes et la décomposition n'interdit pas d'effectuer des allers et retours entre les diverses étapes.
 
 Le modèle que nous développons porte sur l'étape 2, celui de la distribution des trajets entre les différentes paires origines-destinations, ou encore résidences-emplois . Le modèle gravitaire est largement dominant dans cette deuxième étape pour prendre en compte le rôle de la distance dans l'arbitrage entre différentes destinations.
 
-Nous discutons dans une première partie des insuffisances du modèle gravitaire [@sec-grav]. Puis nous présentons le modèle des opportunités intervenantes de @stouffer1940 et le modèle radiatif de @simini2012 et @simini2013. Ils font tout deux intervenir le rang de classement des emplois plutôt que la distance [@sec-rad] en s'appuyant sur une analogie plus adéquate aux échelles géographiques que nous considérons (commune, région) que celle de la gravitation. Enfin, dans la continuité de ces approches, nous développons un modèle qui repose sur les deux idées suivantes :
+Nous discutons dans une première partie des insuffisances du modèle gravitaire [@sec-grav]. Puis nous présentons le modèle des opportunités intervenantes de @stouffer1940 et le modèle radiatif de @simini2012 et @simini2013. Ils font tout deux intervenir le rang de classement des emplois plutôt que la distance [@sec-rad0] en s'appuyant sur une analogie plus adéquate aux échelles géographiques que nous considérons (commune, région) que celle de la gravitation. Enfin, dans la continuité de ces approches, nous développons un modèle qui repose sur les deux idées suivantes :
 
 1.  Les individus font leurs arbitrages non pas en fonction directement de la distance, mais en fonction du rang (dans l'ordre des distances) des opportunités qui se présentent à eux. Une autre façon de le voir est que le nombre d'emplois accessibles dans un cercle de rayon donné est une meilleure métrique que la distance.
 
@@ -85,45 +90,45 @@ Le modèle gravitaire développe une analogie avec le modèle de la gravitation 
 
 #### Les (mauvaises) raisons du succès du modèle gravitaire
 
-Formellement, le modèle gravitaire décrit la force d'une relation entre deux objets en fonction de leur distance et de leur masse respective. Par analogie, le modèle gravitaire consiste ici à évaluer le nombre de trajets professionnels entre deux localisations en prenant pour masses le nombre d'habitants au point de départ et le nombre d'emplois au point d'arrivée et, au dénominateur, une fonction $f$ croissante de la distance[^1]. On a ainsi, en indiçant les points de départ par $i$ et les points d'arrivée par $j$ :
+Formellement, le modèle gravitaire décrit la force d'une relation entre deux objets en fonction de leur distance et de leur masse respective. Par analogie, le modèle gravitaire consiste ici à évaluer le nombre de trajets professionnels entre deux localisations en prenant pour masses le nombre d'habitants au point de départ et le nombre d'emplois au point d'arrivée et, au dénominateur, une fonction $f$ croissante de la distance[^1]. On a ainsi, en indiçant les points de départ par $i$ et les points d'arrivée par $j$ :
 
-[^1]: La distance peut être n'importe quelle métrique qui distingue les points de l'espace. On pense canoniquement à la distance euclidienne, mais le modèl es'accomode de distances par les réseaux de transport, de temps de parocurs pou prendre en compte des vitesses différentes par mode, par type de voies empruntées, par heure de déplacement ou encore pour comparer des modes pour lesquels la distance n'a que peu de signification (transport en commun, du fait du temps d'attente et des voies spécifiques). On peut également envisager un coût complet (intégrant à la fois le coût en temps mais aussi monétaire du mode de transport) ou encore un coût généralisé incluant le confort ou la sécurité perçue et associés au mode de transport. On peut en suivant @koenig1980, utiliser le logsum pour prendre en compte la variété des solutions pour se rendre à sa destination.
+[^1]: La distance peut être n'importe quelle métrique qui distingue les points de l'espace. On pense canoniquement à la distance euclidienne, mais le modèle s'accomode de distances par les réseaux de transport, de temps de parcours pour prendre en compte des vitesses différentes par mode, par type de voies empruntées, par heure de déplacement ou encore pour comparer des modes pour lesquels la distance n'a que peu de signification (transport en commun, du fait du temps d'attente et des voies spécifiques). On peut également envisager un coût complet (intégrant à la fois le coût en temps mais aussi monétaire du mode de transport) ou encore un coût généralisé incluant le confort ou la sécurité perçue et associés au mode de transport. On peut en suivant @koenig1980, utiliser le logsum pour prendre en compte la variété des solutions pour se rendre à sa destination.
 
 $$
 T_{i,j} = \frac {N_{hab, i}\times N_{emp, j}} {f(d_{i,j})}
-$$ {#eq-gravity}
+$$ {#eq-gravity0}
 
 Les premiers modèles gravitaires ont emprunté la fonction $f$ à la physique newtonienne ($f=d^2$), mais d'autres formulations ont depuis été proposées. Par exemple, la fonction $f=e^{d/\delta}$ intervient dans les modèles de choix discrets proposés par McFadden [@mcfadden1974d; @ben-akiva2018]. En remplaçant la distance par la notion de coût généralisé du transport, on peut relier cette forme fonctionnelle à un modèle de choix avec une fonction d'utilité aléatoire (*random utility model*). Il est également possible d'ajuster des formes fonctionnelles plus complexes en ajoutant des paramètres. Le modèle gravitaire arrive alors à reproduire plus ou moins des distributions de distances observées dans des enquêtes de mobilité.
 
-Un raisonnement par minimisation de l'entropie a été proposé par @wilson1967 pour donner un fondement théorique à l'@eq-gravity. Il considère l'état de référence comme étant celui qui est le plus fréquent dans une distribution aléatoire des choix. @wilson1967 montre alors que, si la fonction $f$ est donnée, l'@eq-gravity a bien la forme proposée et que c'est le produit des habitants et des emplois qui doit se trouver au numérateur (et non une puissance de l'un ou l'autre par exemple). Mais rien ne permet de trouver un fondement à la forme fonctionnelle de $f$. Le parallèle avec la physique est simple à faire : l'interaction définit le rôle de la distance, la maximisation de l'entropie permet d'en déduire que l'équation macroscopique dépend des masses agrégées, mais ne permet de dire quoique ce soit de plus sur la nature de l'interaction.
+Un raisonnement par minimisation de l'entropie a été proposé par @wilson1967 pour donner un fondement théorique à l'@eq-gravity0. Il considère l'état de référence comme étant celui qui est le plus fréquent dans une distribution aléatoire des choix. @wilson1967 montre alors que, si la fonction $f$ est donnée, l'@eq-gravity0 a bien la forme proposée et que c'est le produit des habitants et des emplois qui doit se trouver au numérateur (et non une puissance de l'un ou l'autre par exemple). Mais rien ne permet de trouver un fondement à la forme fonctionnelle de $f$. Le parallèle avec la physique est simple à faire : l'interaction définit le rôle de la distance, la maximisation de l'entropie permet d'en déduire que l'équation macroscopique dépend des masses agrégées, mais ne permet de dire quoique ce soit de plus sur la nature de l'interaction.
 
-Comme le notent @simini2012, les fondations théoriques et empiriques de la fonction $f$ sont au mieux faibles. La multiplication des paramètres pour améliorer l'ajustement n'ont le plus souvent aucune justification théorique. De fait, on perd souvent toute possibilité de donner une signification aux paramètres estimés ce qui rend l'exercice d'ajustement opaque. Les comportements asymptotiques soulignent également des incohérences : par exemple, en faisant tendre vers l'infini les emplois à l'arrivée, le modèle prédit un nombre infini de trajets, même si le nombre de résidents au départ est limité ! Il est également insatisfaisant que le modèle gravitaire soit déterministe et ne permette ni d'expliquer les fluctuations statistiques du nombre de trajets prédits, ni d'évaluer la vraisemblance de différents cas empiriques.
+Comme le notent @simini2012, les fondations théoriques et empiriques de la fonction $f$ sont au mieux faibles. La multiplication des paramètres pour améliorer l'ajustement n'ont le plus souvent aucune justification théorique. De fait, on perd souvent toute possibilité de donner une signification aux paramètres estimés ce qui rend l'exercice d'ajustement opaque. Les comportements asymptotiques soulignent également des incohérences : par exemple, en faisant tendre vers l'infini les emplois à l'arrivée, le modèle prédit un nombre infini de trajets, même si le nombre de résidents au départ est limité ! Il est également insatisfaisant que le modèle gravitaire soit déterministe et ne permette ni d'expliquer les fluctuations statistiques du nombre de trajets prédits, ni d'évaluer la vraisemblance de différents cas empiriques.
 
-Mais la critique la plus forte du modèle gravitaire vient de ses propriétés fondamentales et des conclusions que l'on peut en tirer. Le nombre de trajets entre une origine (la résidence) et une destination (l'emploi) repose sur un simple arbitrage entre distance et quantité de résidents ou d'emplois. Le comportement du modèle aux limites, à nouveau, suscite la perplexité : un seul emploi à l'origine devrait être infiniment préféré un très grand nombre d'emplois un peu plus loin. C'est tout à fait irréaliste et l'on devine déjà que la distance ne joue pas un rôle si direct dans les comportements de mobilité. On voit également que le poids relatif de cet emploi quasi central par rapport aux "masses" d'emplois éloignés va varier de manière irréaliste selon qu'il est plus ou moins proche de l'origine.
+Mais la critique la plus forte du modèle gravitaire vient de ses propriétés fondamentales et des conclusions que l'on peut en tirer. Le nombre de trajets entre une origine (la résidence) et une destination (l'emploi) repose sur un simple arbitrage entre distance et quantité de résidents ou d'emplois. Le comportement du modèle aux limites, à nouveau, suscite la perplexité : un seul emploi à l'origine devrait être infiniment préféré un très grand nombre d'emplois un peu plus loin. C'est tout à fait irréaliste et l'on devine déjà que la distance ne joue pas un rôle si direct dans les comportements de mobilité. On voit également que le poids relatif de cet emploi quasi central par rapport aux "masses" d'emplois éloignés va varier de manière irréaliste selon qu'il est plus ou moins proche de l'origine.
 
-Comme le soulignait déjà @stouffer1940, ce n'est peut-être pas tant la distance aux emplois qui est décisive que le rang de ces emplois selon l'ordre des distances. Dans le modèle gravitaire, il faut faire une grande différence entre le cas où le deuxième emploi le plus proche est à 500 m et le cas où il est à 1 km. Si l'on applique le modèle newtonien, il faudrait croire, par exemple, que l'attractivité de ce dernier emploi est divisée par 4. Qui peut croire que 500 m de différence pèsent d'un si grand poids dans une recherche d'emploi ? L'attractivité de l'emploi dépend avant tout du fait qu'il s'agit du deuxième emploi disponible près de chez soi. Empiriquement, il y a peu de doutes que le modèle gravitaire a de piètres performances : il ne parvient pas à expliquer pourquoi, lorsque la densité des emplois est faible autour d'un résident, celui-ci va envisager des trajets plus long pour atteindre des zones denses en emplois ; c'est pourtant une observation très commune qui devrait se retrouver dans une modélisation adéquate.
+Comme le soulignait déjà @stouffer1940, ce n'est peut-être pas tant la distance aux emplois qui est décisive que le rang de ces emplois selon l'ordre des distances. Dans le modèle gravitaire, il faut faire une grande différence entre le cas où le deuxième emploi le plus proche est à 500 m et le cas où il est à 1 km. Si l'on applique le modèle newtonien, il faudrait croire, par exemple, que l'attractivité de ce dernier emploi est divisée par 4. Qui peut croire que 500 m de différence pèsent d'un si grand poids dans une recherche d'emploi ? L'attractivité de l'emploi dépend avant tout du fait qu'il s'agit du deuxième emploi disponible près de chez soi. Empiriquement, il y a peu de doutes que le modèle gravitaire a de piètres performances : il ne parvient pas à expliquer pourquoi, lorsque la densité des emplois est faible autour d'un résident, celui-ci va envisager des trajets plus long pour atteindre des zones denses en emplois ; c'est pourtant une observation très commune qui devrait se retrouver dans une modélisation adéquate.
 
 @simini2012 donnent quelques exemples pour les Etats-Unis de la difficulté du modèle gravitaire à reproduire les comportements observés en en stylisant quelques régularités. A l'évidence, le modèle gravitaire ne prédit que des destinations proches et néglige complètement les destinations lointaines. Il semble impossible à la forme fonctionnelle $f(d_{ij})$ de rendre compte empiriquement à la fois du nombre de trajets courts et du nombre de trajets distants au travers d'un modèle susceptible de rendre compte des trajets dans différentes régions, dès lors que les densités y sont distribuées différemment.
 
-Assez peu de publications se risquent à une comparaison systématique du modèle gravitaire avec d'autres formulations qui respecteraient la première loi de Tobler. On peut citer @heanue1966 comme une des premières tentatives de ce genre. Des travaux récents de [@lenormand2016; @commenges2016 ; @jean-michelfloch2019] confirment ce que @masucci2013 concluaient après la publication initiale du modèle radiatif : le modèle gravitaire étendu aurait un meilleur pouvoir explicatif en ce qui concerne les flux de mobilités inter communaux, cette constante tenant pour de nombreuses zones considérés dans plusieurs pays. L'extension habituelle du modèle gravitaire consiste à écrire, où $c$, $\alpha$, $\beta$ et $\delta$ sont des paramètres positifs :
+Assez peu de publications se risquent à une comparaison systématique du modèle gravitaire avec d'autres formulations qui respecteraient la première loi de Tobler. On peut citer @heanue1966 comme une des premières tentatives de ce genre. Des travaux récents de [@lenormand2016; @commenges2016; @jean-michelfloch2019] confirment ce que @masucci2013 concluaient après la publication initiale du modèle radiatif : le modèle gravitaire étendu aurait un meilleur pouvoir explicatif en ce qui concerne les flux de mobilités inter communaux, cette constante tenant pour de nombreuses zones considérés dans plusieurs pays. L'extension habituelle du modèle gravitaire consiste à écrire, où $c$, $\alpha$, $\beta$ et $\delta$ sont des paramètres positifs :
 
 $$
 T_{i,j} = c \frac {N_{hab, i}^\alpha \times N_{emp, j}^\beta} {d_{i,j}^\delta}
-$$ {#eq-grave}
+$$ {#eq-grave0}
 
-Les paramètres estimés $\alpha$ et $\beta$ sont habituellement inférieurs à 1, ce qui rejoint un problème soulevé par @simini2013 : dans cette forme le modèle gravitaire est non séparable. Si l'on considère une zone dans laquelle se trouvent des actifs (origine) ou des emplois (destination) et que l'on décide de la séparer en deux zones distinctes 1 et 2 aussi proches que possible , les flux $T_1$ et $T_2$ prévus par la forme estimée de @eq-grave ne sont pas la somme du flux que l'on obtiendrait des deux zones réunies. La raison de la séparation est que l'on modifie l'unité spatiale d'agrégation (*Modifeable Areal Unit Problem*) ou que l'on distingue des sous populations (par exemple par secteur, par catégorie de ménage) au sein de la zone initiale. Cette plus grande finesse de description peut se faire avec des comportements de flux différents (ce qui justifie la distinction), mais dans le cas limite où ces populations ne sont pas distinguables, il n'y a pas de raison d'en attendre des comportements différents.
+Les paramètres estimés $\alpha$ et $\beta$ sont habituellement inférieurs à 1, ce qui rejoint un problème soulevé par @simini2013 : dans cette forme le modèle gravitaire est non séparable. Si l'on considère une zone dans laquelle se trouvent des actifs (origine) ou des emplois (destination) et que l'on décide de la séparer en deux zones distinctes 1 et 2 aussi proches que possible , les flux $T_1$ et $T_2$ prévus par la forme estimée de @eq-grave0 ne sont pas la somme du flux que l'on obtiendrait des deux zones réunies. La raison de la séparation est que l'on modifie l'unité spatiale d'agrégation (*Modifeable Areal Unit Problem*) ou que l'on distingue des sous populations (par exemple par secteur, par catégorie de ménage) au sein de la zone initiale. Cette plus grande finesse de description peut se faire avec des comportements de flux différents (ce qui justifie la distinction), mais dans le cas limite où ces populations ne sont pas distinguables, il n'y a pas de raison d'en attendre des comportements différents.
 
 La propriété de séparabilité à l'origine comme à la destination est vérifiée pour le modèle radiatif. Comme @simini2013 le suggèrent, les paramètres $\alpha$ et $\beta$ du modèle gravitaire peuvent s'expliquer à travers le modèle radiatif (voir plus bas). Ils résument l'information spatiale supplémentaire, et dépendent de la distribution spatiale jointe des masses aux origines et aux destinations. Mais ces deux paramètres sont alors très dépendants à la fois de cette structure spatiale, du découpage unitaire effectué ou de sous-périmètres considérés. En ce sens, on retrouve l'analyse de @fotheringham1983 selon laquelle il manque au modèle gravitaire une information spatiale essentielle à propos des voisinages.
 
 #### Le voile de la contrainte aux marges {#sec-voilemarge}
 
-Le modèle gravitaire peut être encore complexifié pour mieux coller aux données qu'il ne le fait spontanément. Il perd alors un lien clair avec les réflexions théoriques le reliant à la maximisation de l'entropie [@wilson1967] ou au modèle de choix discret. L'ajustement du modèle devient un exercice factice dans lequel il est difficile d'avoir confiance en particulier dans l'analyse des scénarios modélisés. L'exercice consiste à ajouter une étape de "normalisation" en incorporant des coefficients correctifs en ligne et en colonne dans la matrice origine-destination, ce qui revient à ajouter des effets fixes à chacun des points de départ et d'arrivée. La formulation du modèle gravitaire est alors modifiée comme suit :
+Le modèle gravitaire peut être encore complexifié pour mieux coller aux données qu'il ne le fait spontanément. Il perd alors un lien clair avec les réflexions théoriques le reliant à la maximisation de l'entropie [@wilson1967] ou au modèle de choix discret. L'ajustement du modèle devient un exercice factice dans lequel il est difficile d'avoir confiance en particulier dans l'analyse des scénarios modélisés. L'exercice consiste à ajouter une étape de "normalisation" en incorporant des coefficients correctifs en ligne et en colonne dans la matrice origine-destination, ce qui revient à ajouter des effets fixes à chacun des points de départ et d'arrivée. La formulation du modèle gravitaire est alors modifiée comme suit :
 
 $$
 T_{i,j} = a_i \times b_j \times \frac {N_{hab, i}^\alpha \times N_{emp, j}^\beta} {f(d_{i,j})}
 $$ {#eq-gravmod}
 
-La détermination des coefficients $a_i$ et $b_j$ pose de nombreux problèmes. Ces coefficients doivent permettre de respecter les contraintes aux marges : la somme des emplois pour une ligne de résidents doit être égale au nombre des résidents employés dans la zone et la somme des résidents employés sur un lieu d'emploi doit, en colonne donc, être égale au nombre d'emplois en ce lieu. On a pour $a_i$ (en remarquant que $\Sigma_j T_{ij} = N_{hab,i}$ et que $\Sigma_i T_{ij} = N_{emp,j}$ :
+La détermination des coefficients $a_i$ et $b_j$ pose de nombreux problèmes. Ces coefficients doivent permettre de respecter les contraintes aux marges : la somme des emplois pour une ligne de résidents doit être égale au nombre des résidents employés dans la zone et la somme des résidents employés sur un lieu d'emploi doit, en colonne donc, être égale au nombre d'emplois en ce lieu. On a pour $a_i$ (en remarquant que $\Sigma_j T_{ij} = N_{hab,i}$ et que $\Sigma_i T_{ij} = N_{emp,j}$ :
 
 $$
 \begin{aligned}
@@ -142,13 +147,13 @@ b_j &{}= \frac {\Sigma_i T_{i,j}}
 \end{aligned}
 $$ {#eq-bj}
 
-La valeur de $a_i$, pour un $i$ donné, dépend de l'évaluation de tous les $b_j$ et réciproquement l'évaluation de chaque $b_j$ dépend de celle de tous les $a_i$. On peut estimer ces coefficients par itérations successives et espérer atteindre de cette manière un point fixe, éventuellement unique à une constante multiplicative près. Des algorithmes de résolution ont donc été proposés dans les principaux manuels. L'application de tels algorithmes (comme celui de Furness, @de2011modelling, p. 192) modifie le résultat proposé par l'expression du modèle gravitaire @eq-grave, au risque d'en trahir la logique et les justifications initiales. En effet, les $a_i$ et $b_j$ sont des modificateurs des masses d'actifs et d'emplois. Pour faire fonctionner le modèle gravitaire, il faut "tricher" sur les masses. En outre, la multiplicité des solutions et le choix retenu par l'algorithme demeure un angle mort de ces méthodes.
+La valeur de $a_i$, pour un $i$ donné, dépend de l'évaluation de tous les $b_j$ et réciproquement l'évaluation de chaque $b_j$ dépend de celle de tous les $a_i$. On peut estimer ces coefficients par itérations successives et espérer atteindre de cette manière un point fixe, éventuellement unique à une constante multiplicative près. Des algorithmes de résolution ont donc été proposés dans les principaux manuels. L'application de tels algorithmes (comme celui de Furness, @de2011modelling, p. 192) modifie le résultat proposé par l'expression du modèle gravitaire @eq-grave0, au risque d'en trahir la logique et les justifications initiales. En effet, les $a_i$ et $b_j$ sont des modificateurs des masses d'actifs et d'emplois. Pour faire fonctionner le modèle gravitaire, il faut "tricher" sur les masses. En outre, la multiplicité des solutions et le choix retenu par l'algorithme demeure un angle mort de ces méthodes.
 
 La procédure de respect des marges aurait pu être formulée différemment, par exemple en utilisant des corrections additives au lieu de corrections multiplicatives ou une combinaison d'additivité et de multiplicativité. Dans tous les cas, rien ne garantit l'existence d'une solution unique et compréhensible. En toute généralité, ces procédures peuvent conduire à des équilibres multiples que l'algorithme de résolution va sélectionner sans que l'on puisse justifier quoi que ce soit. Mais surtout, chacune de ces procédures manque de fondements théoriques : les $a_i$ et $b_j$ ne sont jamais que des "patchs" ; ils ne correspondent à aucune caractéristique interprétable de la zone géographique étudiée.
 
 Le respect de la contrainte aux marges est le pendant global de la contrainte locale de séparabilité. Ces deux propriétés illustrent l'incapacité du modèle gravitaire simple à respecter les aspects fondamentaux du problème. La "plasticité" opérationnelle du modèle gravitaire permet de l'appliquer à des observations en respectant les contraintes observées tout en laissant croire qu'un fondement théorique continue de justifier les opérations. Aussi l'approche gravitaire est-elle largement reprise dans des modèles appliquées (notamment les modèles *Land Use Transport Interaction*) en dépit de ses défauts majeurs, peut-être faute de mieux. Mais le décalage avec les données rend urgent de dépasser cette approche qui survit en se transformant en boîte noire.
 
-### Une première alternative : le modèle radiatif {#sec-rad}
+### Une première alternative : le modèle radiatif {#sec-rad0}
 
 Le modèle radiatif est l'une des rares alternatives au modèle gravitaire [@de2011modelling]. Il reprend les intuitions de @stouffer1940 et du modèle des "*intervening opportunities*", dont la logique est la suivante : un migrant prévoit d'aller dans un endroit distant mais trouve en chemin des opportunités ; il s'interrompt alors en chemin. Cette distraction de son objectif initial est le résultat des opportunités rencontrées en chemins, "intervenantes". La différence avec le modèle gravitaire est que ce n'est pas la distance qui détermine la destination, mais le nombre de rencontres. La distance et la structure géographique continuent de peser indirectement sur le choix des destinations puisque plus le migrant parcourt une grande distance, plus il a de chances de rencontrer des opportunités. La modélisation initiale de Stouffer souffre toutefois de quelques défauts[^2] et ne résout pas les questions de capacité ou de respect des contraintes sur les marges. Mais elle ouvre une autre perspective, où le rôle de la distance est médiatisé par le nombre d'opportunités rencontré, ce qui répond avec élégance aux insuffisances de l'analogie gravitaire.
 
@@ -162,7 +167,7 @@ La proposition de @simini2012 répond à certaines failles de @stouffer1940 en p
 
 Plus précisément, dans le modèle de radiation, chaque particule -- ou individu -- est tirée aléatoirement d'une distribution de probabilité avec une caractéristique $z$. Chaque point d'absorption, qui représente un lieu possible de travail, possède une masse d'emploi $n_i$ et se voit attribuer une caractéristique $z_i$ qui est aléatoire. Les lieux possibles sont classés par ordre de distance, comme dans le modèle de @stouffer1940 et la particule les rencontre dans cet ordre. Le tirage de $z_i$ est construit en tirant $n_i$ fois des $z$ dans la distribution de probabilité et en prenant le maximum de ces $z$. Plus la masse est grande en $i$, plus le $z_{max}$ sera grand. La particule émise est absorbée si son $z$ est plus petit que $z_i$. Pour représenter que la particule sera émise si elle n'est pas absorbée par son point de départ, son propre $z$ est tiré par la même méthode, c'est-à-dire le maximum de $m_i$ tirages où $m_i$ est la masse d'opportunités en $i$.
 
-Le résultat principal de @simini2012 est particulièrement élégant. La valeur moyenne (notée $\langle T_{i,j}\rangle$ ) des trajets partant de $i$ et allant en $j$ a une expression qui ne dépend pas de la distribution de probabilité des $z$. Elle prend l'expression suivante, où $s_{i,j}=\Sigma_{k \in (i \rightarrow j)^*} n_k$ est la somme des opportunités entre $i$ (non inclus) et $j$ (non inclus) :
+Le résultat principal de @simini2012 est particulièrement élégant. La valeur moyenne (notée $\langle T_{i,j}\rangle$ ) des trajets partant de $i$ et allant en $j$ a une expression qui ne dépend pas de la distribution de probabilité des $z$. Elle prend l'expression suivante, où $s_{i,j}=\Sigma_{k \in (i \rightarrow j)^*} n_k$ est la somme des opportunités entre $i$ (non inclus) et $j$ (non inclus) :
 
 $$
 \langle T_{i,j}\rangle = T_i \times \frac {m_i \times n_j}{(m_i + s_{i,j}) \times (m_i + n_i +s_{i,j})}
@@ -184,7 +189,7 @@ Le modèle des opportunités concurrentes de @fotheringham1983 conduit à une cr
 
 Il subsiste deux défauts au modèle radiatif de @simini2012. Le premier est le pendant de son élégance : il n'y a pas de paramètres pour l'ajuster, ce qui limite les capacités du modèle à rendre compte de la richesses des données. L'élégant calcul de la moyenne des trajets n'est valide que lorsque le processus sous-jacent suit parfaitement l'hypothèse des auteurs. Or, si l'on veut un modèle de base simple et clair sur le plan conceptuel, on veut aussi pouvoir enrichir le modèle avec des paramètres qui auraient du sens en regard de la richesse des données. Or la seule proposition qu'ils font dans ce sens consiste à introduire un $\varepsilon$ pour modifier le poids du point de départ dans le choix des trajets. Ceci ne répond que très partiellement à ce que l'on souhaiterait. A cet égard, le modèle gravitaire et encore plus le modèle de Fotheringham (voir encadré) sont richement dotés en paramètres, ce qui permet de les ajuster sur les données, au risque toutefois d'un biais lié à la mauvaise définition des paramètres du modèle qui peuvent "attraper" tout ce qui n'a pas été explicité.
 
-Le second défaut est que le modèle ne respecte pas les contraintes aux marges pour les destinations. Dans l'@eq-rad le terme $T_i$ permet de caler le modèle sur le nombre de départs de $i$. En revanche, il n'existe pas de pendant pour se caler sur les destinations $j$ et il n'est donc pas possible au modèle de tenir compte d'une contrainte capacitaire : un nombre de particules supérieur au nombre d'emplois peuvent être absorbées en $j$. Là aussi, le modèle gravitaire peut passer par dessus ce problème par l'application de procédure de contrainte, qui pourrait aussi bien être appliquées au modèle de @simini2012. Mais ici encore on perd en route la possibilité d'interpréter ce que produit cette procédure de respect des contraintes.
+Le second défaut est que le modèle ne respecte pas les contraintes aux marges pour les destinations. Dans l'@eq-rad le terme $T_i$ permet de caler le modèle sur le nombre de départs de $i$. En revanche, il n'existe pas de pendant pour se caler sur les destinations $j$ et il n'est donc pas possible au modèle de tenir compte d'une contrainte capacitaire : un nombre de particules supérieur au nombre d'emplois peuvent être absorbées en $j$. Là aussi, le modèle gravitaire peut passer par dessus ce problème par l'application de procédure de contrainte, qui pourrait aussi bien être appliquées au modèle de @simini2012. Mais ici encore on perd en route la possibilité d'interpréter ce que produit cette procédure de respect des contraintes.
 
 ## MEAPS : un Modèle Ergodique d'Absorption avec Priorité et Saturation {#sec-meaps}
 
@@ -196,19 +201,19 @@ On considère $I$ individus et $J$ emplois[^4] localisés sur un territoire. Ces
 
 [^4]: Dans ce qui suit on regarde la relation entre résident et emploi ce qui suggère les mobilités domicile travail. C'est principalement pour fixer les idées, mais la relation entre résident et tout type d'aménités peut être abordée de la même façon. Il est également possible de décliner les résident selon des caractéristiques observables et d'indexer le modèle par ces catégories.
 
-On suppose que toutes les localisations sont séparées et qu'il n'y a donc qu'un individu ou qu'un emploi par localisation (les emplois et les individus peuvent être au même endroit). Chaque individu $i$ classe par ordre de distance croissante les $J$ emplois et les examine dans cet ordre. Il a une probabilité $p_a$ de prendre un emploi (tous les emplois sont similaires et ont la même probabilité d'être pris). Tant qu'il ne prend pas d'emplois, l'individu continue sa recherche en passant à l'emploi suivant le plus proche (de son point de départ). La probabilité d'occuper l'emploi $j$ est donc égale à la probabilité de ne pas occuper les emplois plus proches multipliée par la probabilité $p_a$ d'occuper le poste $j$. En notant $r_{i}(j)$ le rang de l'emploi $j$ dans le classement des distances depuis $i$, on peut écrire $\bar F(j)$ la probabilité de dépasser le $j^{ème}$ élément :
+On suppose que toutes les localisations sont séparées et qu'il n'y a donc qu'un individu ou qu'un emploi par localisation (les emplois et les individus peuvent être au même endroit). Chaque individu $i$ classe par ordre de distance croissante les $J$ emplois et les examine dans cet ordre. Il a une probabilité $p_a$ de prendre un emploi (tous les emplois sont similaires et ont la même probabilité d'être pris). Tant qu'il ne prend pas d'emplois, l'individu continue sa recherche en passant à l'emploi suivant le plus proche (de son point de départ). La probabilité d'occuper l'emploi $j$ est donc égale à la probabilité de ne pas occuper les emplois plus proches multipliée par la probabilité $p_a$ d'occuper le poste $j$. En notant $r_{i}(j)$ le rang de l'emploi $j$ dans le classement des distances depuis $i$, on peut écrire $\bar F(j)$ la probabilité de dépasser le $j^{ème}$ élément :
 
 $$
 \bar F(j)=(1-p_a)^{r_i(j)}
 $$ {#eq-fbar}
 
-On définit également la probabilité de fuite de la zone considérée. Cette probabilité est celle qu'un individu ne trouve pas parmi les $J$ emplois celui qui lui convient et donc qu'il renonce ou cherche plus loin. En supposant pour le moment que cette probabilité est la même pour tous les individus, $p_f$, on peut déterminer $p_a$ :
+On définit également la probabilité de fuite de la zone considérée. Cette probabilité est celle qu'un individu ne trouve pas parmi les $J$ emplois celui qui lui convient et donc qu'il renonce ou cherche plus loin. En supposant pour le moment que cette probabilité est la même pour tous les individus, $p_f$, on peut déterminer $p_a$ :
 
 $$
 p_a = 1-(p_f)^{1/J}
 $$ {#eq-pa}
 
-La probabilité $P_i(j)$ de $i$ de s'arrêter en $j$ est :
+La probabilité $P_i(j)$ de $i$ de s'arrêter en $j$ est :
 
 $$
 P_i(j) = (1-p_a)^{r_i(j)-1} \times p_a = {p_f}^{\frac {r_i(j)-1} {J}} \times (1-{p_f}^{1/J})
@@ -216,13 +221,13 @@ $$ {#eq-pij}
 
 Cette expression définit donc la probabilité pour un individu $i$ d'occuper l'emploi $j$ comme une fonction de la probabilité de fuite, le rang de l'emploi et le nombre total d'emploi. La rang de $j$ n'est autre que le nombre d'opportunités cumulées du point de départ de $i$ jusqu'à $j$ et remplace la distance, comme dans les expressions de @stouffer1940 ou de @simini2012. Ce nombre n'est autre que l'accessibilité aux emplois de l'individu $i$ dans un cercle de rayon $[ij]$, que ce rayon soit défini en utilisant une distance euclidienne ou d'autres mesures comme le temps de parcours. On notera que l'on considère ici que les emplois sont identiques ou, du moins, parfaitement substituables pour l'individu.
 
-Chaque emploi a été supposé distinct spatialement des autres. Dans le cas où les emplois ne seraient pas séparés et pourraient s'accumuler en un point ou au sein d'un carreau, la formalisation ne change pas – c'est la propriété de séparabilité évoquée plus haut. La probabilité que l'on s'arrête dans le carreau $c_d$ situé à une distance $d$ de $i$ où se trouvent $k$ emplois se déduit de l'@eq-fbar puisque les $k$ emplois ont des rangs successifs. En notant $s_i(d)=\sum _{j/d_{i,j}<d}1$ le cumul (i.e.l'accessibilité) de tous les emplois qui sont à une distance strictement inférieure à celle du carreau considéré pour $i$ (et donc à l'exclusion des $k$ emplois du le carreau $c_d$), on a :
+Chaque emploi a été supposé distinct spatialement des autres. Dans le cas où les emplois ne seraient pas séparés et pourraient s'accumuler en un point ou au sein d'un carreau, la formalisation ne change pas – c'est la propriété de séparabilité évoquée plus haut. La probabilité que l'on s'arrête dans le carreau $c_d$ situé à une distance $d$ de $i$ où se trouvent $k$ emplois se déduit de l'@eq-fbar puisque les $k$ emplois ont des rangs successifs. En notant $s_i(d)=\sum _{j/d_{i,j}<d}1$ le cumul (i.e.l'accessibilité) de tous les emplois qui sont à une distance strictement inférieure à celle du carreau considéré pour $i$ (et donc à l'exclusion des $k$ emplois du le carreau $c_d$), on a :
 
 $$
 P_i(i\in c_d) = {p_f}^{s_i(d)/J}\times(1-{p_f}^{ k/J})
 $$ {#eq-picd}
 
-En prenant un développement limité au 1^er^ ordre de cette expression (sous l'hypothèse que $k$ est petit devant le nombre total d'opportunités $J$) , on obtient, en notant $\mu=\frac{-log(p_f)}{J}$ :
+En prenant un développement limité au 1^er^ ordre de cette expression (sous l'hypothèse que $k$ est petit devant le nombre total d'opportunités $J$) , on obtient, en notant $\mu=\frac{-log(p_f)}{J}$ :
 
 $$
 P_i(i\in c_d) \approx k\times \mu \times e^{-\mu \times s_i(d)}
@@ -236,7 +241,7 @@ Lorsque la densité des emplois est constante sur un plan, $s_i(d)$ est proporti
 
 Tout comme dans le modèle de @simini2012, le résultat est sans paramètre, parce que la probabilité de fuite est entièrement déterminée par la contrainte en ligne (l'individu $i$ a une espérance égale à 1 - $p_f$ de trouver un emploi dans la zone considérée).
 
-### Saturation et priorité {#sec-priorite}
+### Saturation et priorité {#sec-priorite0}
 
 Il reste encore à prendre en compte la contrainte en colonne, c'est-à-dire le fait que chaque emploi peut être pourvu une fois et une seule. Au lieu d'un ajustement *ad hoc* qui tombe de nulle part, nous proposons le mécanisme suivant de remplissage des emplois : chaque individu $i$ est classé selon un ordre de priorité. L'individu au premier rang est confronté à l'ensemble des emplois et nous calculons ses probabilités de prendre un emploi $j$ par la formule précédente (@eq-pij). Les emplois sont alors partiellement remplis à proportion de ces probabilités[^6]. Le deuxième individu est traité de la même manière, et ainsi de suite, jusqu'à ce qu'un ou plusieurs emplois soient totalement pourvu (lorsque la somme des probabilités dépasse tout juste 1). On retire alors ces emplois de la liste des choix possibles et on continue l'affectation pour les individus suivants sur la liste réduite. A chaque individu ajouté, on peut être amené à retirer d'autres emplois de la liste de recherche.
 
@@ -250,17 +255,17 @@ $$
 P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
 $$ {#eq-puij}
 
-Cette expression est rendue complexe par la nécessité de parcourir les emplois dans l'ordre qui correspond à chaque individu. La probabilité $p_a$ doit alors être calculée pour que le taux de fuite de $i$ soit inchangé. On suppose que les emplois restants demeurent parfaitement substituables tout au long du processus d'affectation. La probabilité de chacun est donc identique et ajustée d'un facteur multiplicatif $\lambda_{u,i}$. Le terme $\lambda_{u,i}$ découle ainsi de l'indisponibilité potentielle des emplois. Lorsqu'un emploi est indisponible, l'individu $i$, lorsque c'est son tour de choisir, connait ses cibles potentielles. Il ajuste donc sa probabilité d'absorption de façon à respecter la probabilité de fuite. C'est de cette manière que nous respectons la contrainte en ligne, qui s'exprime par l'@eq-lambda ci-dessous. Ceci signifie qu'un individu a d'autant plus de chances d'accepter un emploi qu'il reste peu de choix.
+Cette expression est rendue complexe par la nécessité de parcourir les emplois dans l'ordre qui correspond à chaque individu. La probabilité $p_a$ doit alors être calculée pour que le taux de fuite de $i$ soit inchangé. On suppose que les emplois restants demeurent parfaitement substituables tout au long du processus d'affectation. La probabilité de chacun est donc identique et ajustée d'un facteur multiplicatif $\lambda_{u,i}$. Le terme $\lambda_{u,i}$ découle ainsi de l'indisponibilité potentielle des emplois. Lorsqu'un emploi est indisponible, l'individu $i$, lorsque c'est son tour de choisir, connait ses cibles potentielles. Il ajuste donc sa probabilité d'absorption de façon à respecter la probabilité de fuite. C'est de cette manière que nous respectons la contrainte en ligne, qui s'exprime par l'@eq-lambda0 ci-dessous. Ceci signifie qu'un individu a d'autant plus de chances d'accepter un emploi qu'il reste peu de choix.
 
-Une autre solution serait de considérer que la probabilité de fuite n'est pas conservée et que les indisponibilités se traduisent par une fuite plus élevée. On peut tout à fait envisager des solutions plus complexes. Nous nous en tenons pour l'instant au cas simple où tous les individus ont la même chance de travailler dans la zone considérée[^7]. Sous cette hypothèse de conservation de la probabilité de fuite, on a :
+Une autre solution serait de considérer que la probabilité de fuite n'est pas conservée et que les indisponibilités se traduisent par une fuite plus élevée. On peut tout à fait envisager des solutions plus complexes. Nous nous en tenons pour l'instant au cas simple où tous les individus ont la même chance de travailler dans la zone considérée[^7]. Sous cette hypothèse de conservation de la probabilité de fuite, on a :
 
 [^7]: En pratique, pour éviter les effets de bord, il faut choisir une zone d'emplois plus grande que la zone des résidents.
 
 $$
 \forall i, \prod_{j=1} ^{J} (1-\lambda_{u,i} \times \phi_u(i,j) \times p_{a})= p_f
-$$ {#eq-lambda}
+$$ {#eq-lambda0}
 
-La solution de cette équation est celle d'un polynôme en $\lambda_{u,i}$ d'un ordre élevé. Il y a possiblement plusieurs solutions, mais il est nécessaire que $0<\lambda_{u,i}\times p_a<1$, ce qui réduit le nombre de solutions admissibles. Pour un $i$ donné, on peut en produire une solution approchée par un développement limité à l'ordre 1 en prenant le $log$ de l'@eq-lambda :
+La solution de cette équation est celle d'un polynôme en $\lambda_{u,i}$ d'un ordre élevé. Il y a possiblement plusieurs solutions, mais il est nécessaire que $\lambda_{u,i} \times p_a \in ]0;1[$, ce qui réduit le nombre de solutions admissibles. Pour un $i$ donné, on peut en produire une solution approchée par un développement limité à l'ordre 1 en prenant le $log$ de l'@eq-lambda0 :
 
 $$
 p_{a} \times \lambda_{u,i} = \frac {-log(p_f)}{\sum_{j=1} ^{J} \phi_u(i,j)}
@@ -276,7 +281,7 @@ L'hypothèse ergodique consiste ici à soutenir que cette moyenne sur tous ces o
 
 La première grandeur que nous moyennons sur les ordres $u$ est la variable de disponibilités $\phi_u(i,j)$ de l'emploi $j$ pour le résident $i$. Cette moyenne $\langle\phi\rangle_u(n,j)$ correspond à la probabilité de disponibilité de l'emploi $j$ pour n'importe quel résident après que $n$ résidents occupent d'ores et déjà un emploi ou ont fuit la zone. Cette grandeur ne dépend pas de $i$, mais uniquement du nombre de résidents déjà positionnés.
 
-Une deuxième grandeur nous sera utile. Il s'agit de l'accessibilité moyenne aux emplois disponibles. On peut noter $A_n(i,k)$ le cumul des emplois qui restent disponibles pour $i$ lorsque $n$ résidents se sont d'ores et déjà positionnés, en comptant les emplois depuis le plus proche de $i$ jusqu'au $k^{ième}$ le plus proche. La grandeur qui nous intéresse est la moyenne sur tous les $n$ possibles, soit :
+Une deuxième grandeur nous sera utile. Il s'agit de l'accessibilité moyenne aux emplois disponibles. On peut noter $A_n(i,k)$ le cumul des emplois qui restent disponibles pour $i$ lorsque $n$ résidents se sont d'ores et déjà positionnés, en comptant les emplois depuis le plus proche de $i$ jusqu'au $k^{ième}$ le plus proche. La grandeur qui nous intéresse est la moyenne sur tous les $n$ possibles, soit :
 
 $$
 \langle A \rangle_n(i,k) = \langle\sum_{j, r_i(j)\leq k} \langle \phi \rangle_u(n,j) \rangle _n
@@ -284,27 +289,25 @@ $$ {#eq-an}
 
 La particularité de cette accessibilité est qu'à mesure que les emplois sont pris (lorsque $n$ s'accroît), l'accessibilité se restreint puisqu'elle ne retient que la part encore disponible des emplois proches.
 
-Comme précédemment, nous considérons que la probabilité de fuite d'un individu est une constante. Dans ce cas, la probabilité d'absorption va augmenter au fur et à mesure que les emplois sont pris : moins il reste d'emplois disponibles, plus un résident est prêt à accepter ceux qui restent. La probabilité $P_a$ va donc dépendre de $n$ et s'écrire ici $P_{a,n}$.
-
-Pour un $n$ donné, on a :
+Comme précédemment, nous considérons que la probabilité de fuite d'un individu est une constante. Dans ce cas, la probabilité d'absorption va augmenter au fur et à mesure que les emplois sont pris : moins il reste d'emplois disponibles, plus un résident est prêt à accepter ceux qui restent. La probabilité $P_a$ va donc dépendre de $n$ et s'écrire ici $P_{a,n}$. Pour un $n$ donné, on a :
 
 $$
 P_f=\prod_{k=1}^J(1-P_{a,n}\times \langle \phi \rangle_u(n, r_i^{-1}(k))
 $$ {#eq-pf2}
 
-En passant en $log$ et en effectuant un développement limité, on obtient :
+En passant en $log$ et en effectuant un développement limité, on obtient :
 
 $$
 log(P_f)=-P_{a,n}\times\sum_{k=1}^J \langle \phi \rangle_u(n,r_i(k))=-P_{a,n}\times(J-(1-P_f)\times n)
 $$ {#eq-logpf}
 
-Nous avons alors tous les éléments pour calculer la probabilité $P_n(i,j)$ que le résident $i$ prenne l'emploi $j$ après que $n$ résidents se sont déjà positionnés (cf. @eq-pij). En passant alors en $log$, on a :
+Nous avons alors tous les éléments pour calculer la probabilité $P_n(i,j)$ que le résident $i$ prenne l'emploi $j$ après que $n$ résidents se sont déjà positionnés (cf. @eq-pij). En passant alors en $log$, on a :
 
 $$
 log(P_n(i,j))=log(P_{a,n})+log(\langle\phi \rangle_u(n,j))+\sum_{k=1}^{r_i^{-1}(j)}log(1-P_{a,n}\times \langle \phi \rangle_u(n,r_i(k))
 $$ {#eq-logpij}
 
-En faisant un développement limité du dernier terme puis la moyenne sur les $n$, il en découle :
+En faisant un développement limité du dernier terme puis la moyenne sur les $n$, il en découle :
 
 $$
 log(P_{ij})\approx\langle log(P_{a,n})\rangle _n+\langle\langle\phi\rangle_u(n,j)\rangle_n + \langle A\rangle_n(i, r_i(j))
@@ -312,7 +315,7 @@ $$ {#eq-logpijapprox}
 
 La probabilité $P_{ij}$ s'écrit donc à partir de la probabilité moyenne d'absorption, de l'espérance que l'emploi $j$ est disponible et de l'accessibilité moyenne. Sur le plan conceptuel, c'est tout à fait satisfaisant et compréhensible. Il reste que ces grandeurs ne peuvent pas être calculées directement ; il faut en passer par des simulations.
 
-### Hétérogénéité de la fuite et de l'absorption {#sec-hetero}
+### Hétérogénéité de la fuite et de l'absorption {#sec-hetero0}
 
 Nous avons considéré jusqu'à présent le cas où les individus et les emplois étaient parfaitement substituables. Cela simplifie le modèle et permet une résolution explicite. Il est cependant possible de complexifier le modèle en introduisant des paramètres interprétables qui permettent une meilleure prédiction et l'extraction d'informations des données.
 
@@ -326,7 +329,7 @@ Le modèle présenté est suffisamment flexible pour pouvoir rendre compte de ph
 
 On peut ainsi modifier les probabilités d'absorption en donnant à un groupe particulier de paires individus emplois plus ou moins de chances d'être absorbé. En jouant sur les groupes qui partitionnent les paires individus $\times$ emplois on peut augmenter ou réduire le nombre de degré de liberté du système. Lorsque seule la probabilité d'absorption est un paramètre, le nombre de degré de liberté est diminué de 1 et le paramètre $p$ est déterminé par la condition d'égalité entre le nombre d'emplois pourvus et d'individus. Si on dispose d'une information sur la probabilité de fuite par individu ou par groupe d'individus, le nombre de degré de liberté peut être accru par une probabilité de fuite différenciée selon ces groupes. On peut encore accroître le nombre de degré de liberté en croisant une probabilité d'absorption par groupes d'emplois et groupes d'individus. Le choix de la spécification dépendra de ce que l'on souhaite réaliser et du problème considéré. On verra dans l'[estimation à la Rochelle](larochelle.qmd) une application en recourant à un grand nombre de degrés de liberté afin d'ajuster le modèle sur des données détaillées (donnant pour des paires commune de résidence $\times$ commune d'emploi une observation des flux de mobilité professionnels). Nous y montrons aussi une détermination parcimonieuse des coefficients correcteurs afin de pouvoir extraire une information pertinente des données de flux entre communes et de pouvoir comparer le pouvoir prédictif de *MEAPS* à celui d'un modèle gravitaire, à degré de liberté égal.
 
-En indexant par $i$ les probabilités de fuite $p_{f,i}$ et par $i,j$ les coefficients correcteurs $\lambda_{i,j}$, les équations principales du modèle deviennent :
+En indexant par $i$ les probabilités de fuite $p_{f,i}$ et par $i,j$ les coefficients correcteurs $\lambda_{i,j}$, les équations principales du modèle deviennent :
 
 $$
 P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i,r_{u(i)}(l)}. p_{a}.\phi_u(i,r_{u(i)}^{-1}(l))]}
@@ -338,7 +341,7 @@ $$ {#eq-lambdacomp}
 
 Il n'est pas possible de donner une forme réduite de cette dernière expression. En revanche, elle est calculable numériquement pour chaque $u$, $i$ et $j$ en fonction des hypothèses du modèle ($p_{f,i}$, $p_{a,j}$, la structure spatiale des résidents et des emplois) et sert de base à l'algorithme de calcul employé dans les simulations présentées dans la partie @sec-synth[^9].
 
-[^9]: L'implémentation de cette expression est implémentée dans le package R `{rmeaps}` disponible dasn le dépôt github [github.com/maxime2506/rmeaps](https://github.com/maxime2506/rmeaps) et s'installe dans R par `devtools::install_github("maxime2506/rmeaps")`. Il est utile de disposer d'un compilateur qui implémente OpenMP, ce qui demande quelques manipulations sur MacOS. L'implémentation est faite en C++/opemmp et repose sur la parallélisation pour traiter le parcours des ordres de priorités.
+[^9]: Cette expression est implémentée dans le package R `{rmeaps}` disponible dans le dépôt github [github.com/maxime2506/rmeaps](https://github.com/maxime2506/rmeaps) et s'installe dans R par `devtools::install_github("maxime2506/rmeaps")`. Il est utile de disposer d'un compilateur qui accepte OpenMP, ce qui demande quelques manipulations sur MacOS.
 
 Le modèle ainsi construit est flexible puisqu'on peut spécifier des processus de fuite (contrainte en ligne équivalente à la contrainte [-@eq-ai]) et des processus d'absorption qui respecte la contrainte de saturation des emplois (contrainte en ligne équivalente à la contrainte [-@eq-bj]) par le processus de priorité décrit en @sec-priorite. Le parcours de toutes les permutations possibles permet de s'affranchir d'un ordre de priorité particulier et de définir une solution moyenne au processus. Lorsqu'on analyse le problème avec une grille de taille finie (ou de taille inférieure au nombre $J$ d'opportunités), on peut conjecturer un comportement ergodique des quantités moyennes prédites par le modèle. On résout de cette façon explicitement le problème de contrainte aux marges du modèle gravitaire ou du modèle radiatif.
 
@@ -376,17 +379,17 @@ Dans l'analyse statistique qui suit, on procédera à une agrégation spatiale e
 knitr::include_graphics("output/gcarte_ss.png")
 ```
 
-La @fig-distances simule *MEAPS* à partir des données de @fig-territoire. On obtient pour chaque hexagone de résident une valeur moyenne de distance jusqu'à leur emploi. De la même façon, on calcule pour chaque emploi la distance accomplie en moyenne pour l'atteindre.
+La @fig-distances1 simule *MEAPS* à partir des données de @fig-territoire. On obtient pour chaque hexagone de résident une valeur moyenne de distance jusqu'à leur emploi. De la même façon, on calcule pour chaque emploi la distance accomplie en moyenne pour l'atteindre.
 
 ```{r}
-#| label: fig-distances
+#| label: fig-distances1
 #| fig-scap: "Distances moyenne par habitant et pour un emploi"
 #| fig-cap: "On représente sur le panneau de **gauche** les distances moyennes parcourues par les habitants d'un héxagone. La vignette présente la densité des trajets en fonction de la distance(vert). Sur le panneau de **droite** on représente les distances moyennes pour atteindre chaque emploi, ainsi que la densité de ces trajets par distance dans la vignette (orange)" 
 
 knitr::include_graphics("output/gdistances.png")
 ```
 
-Cette première représentation graphique permet de voir le fonctionnement du modèle *MEAPS*. On peut générer une distribution de trajets (dans les vignettes de la @fig-distances). Comme la majorité des emplois se trouvent dans le pôle central, les distances moyennes pour les habitants y sont plus faibles que dans les autres pôles. Le modèle génère un peu de variance à l'intérieur de chaque pôle. On retrouve l'idée que les hexagones d'habitations les plus excentrées génèrent des distances plus importantes. La distribution des distances moyennes pour atteindre un emploi est plus resserrée que celle des distances parcourues en moyenne par habitant. Les moyennes de ces deux distributions sont égales (par construction).
+Cette première représentation graphique permet de voir le fonctionnement du modèle *MEAPS*. On peut générer une distribution de trajets (dans les vignettes de la @fig-distances1). Comme la majorité des emplois se trouvent dans le pôle central, les distances moyennes pour les habitants y sont plus faibles que dans les autres pôles. Le modèle génère un peu de variance à l'intérieur de chaque pôle. On retrouve l'idée que les hexagones d'habitations les plus excentrées génèrent des distances plus importantes. La distribution des distances moyennes pour atteindre un emploi est plus resserrée que celle des distances parcourues en moyenne par habitant. Les moyennes de ces deux distributions sont égales (par construction).
 
 On peut construire une table des flux entre chaque pôles (@tbl-fluxpoles). Le premier élément est de noter que les contraintes aux marges sont parfaitement respectées, ce qui est le principe de construction de *MEAPS*, les approximations faites dans l'algorithme de résolution restant ici inférieures à $10^{-5}$ au moins. Par ailleurs, la table de flux confirme le diagnostic précédent. La plupart des habitants de h1 (78%) se rendent dans g1 (le même pôle donc). Ce taux d'emploi "intrapôle" est de 42% pour les deux autres pôles. Ceci tient au déséquilibre de localisation des emplois et est une propriété souhaitée du modèle. Cela explique en partie la distribution des distances de la mobilité professionnell pour les habitants et également sa "réciproque", lorsqu'on calcule les distances moyenne vers un hexagone d'emplois.
 
@@ -446,35 +449,6 @@ Ce modèle gravitaire ainsi spécifié est ajusté sur la simulation *MEAPS* en 
 #| label: tbl-fluxgrav
 #| tbl-cap: "Modèle gravitaire calé sur la configuration de référence"
 
-# tg <- fluxg |> 
-#   gt() |> 
-#   cols_label(gh="") |>
-#   cols_align(align = "center", columns = -1) |> 
-#   tab_source_note(md(glue("Normalisé, \u03B4 = {round(fkl$par, 2)}"))) |> 
-#   as_raw_html()
-# tm <- flux |> 
-#   gt() |> 
-#   cols_label(gh="") |>
-#   cols_align(align = "center", columns = -1) |> 
-#   tab_source_note("Fuite à 10%") |> 
-#   as_raw_html() 
-# 
-# data.frame(meaps = tm, gravitaire = tg) |> 
-#   gt() |> 
-#   fmt_markdown(columns = everything()) |> 
-#   cols_label(meaps = "MEAPS",
-#              gravitaire = "Gravitaire") |> 
-#   tab_style(
-#     style = cell_text(weight = "bold"),
-#     locations = cells_column_labels()
-#   ) |> 
-#   tab_options(
-#     container.width = px(600),
-#     table.align = "center",
-#     heading.background.color = "transparent",
-#     column_labels.background.color = "transparent",
-#     table.background.color = "transparent",
-#     stub.background.color = "transparent")
 bind_cols(
   flux,
   tibble(vide=""),
@@ -548,9 +522,9 @@ bind_cols(
   opt_row_striping(FALSE)
 ```
 
-### Procédure d'estimation {#sec-estimation}
+### Procédure d'estimation {#sec-estimation0}
 
-Il est possible de modifier les pondérations des probabilités d'absorption de façon à modifier la table des flux. Ceci est illustré dans la table suivante où on a doublé pour chacune des 9 paires possibles de zone d'habitation (3) et de zone d'emploi (3) la probabilité relative d'absorption successivement. La configuration géographique est celle de la @fig-territoire, avec un centre et deux satellites. Le centre comporte plus d'emplois que de résidents, ce qui oblige à des flux entrants dans la zone 1 comme indiqués dans la- @tbl-fluxpoles. On parle de doublement relatif de la probabilité, parce que les contraintes de constance de probabilité de fuite et de saturation des emplois imposent une réduction des probabilités d'absorption des autres emplois, ce qui est assuré dans l'algorithme qui implémente *MEAPS*.
+Il est possible de modifier les pondérations des probabilités d'absorption de façon à modifier la table des flux. Ceci est illustré dans la table suivante où on a doublé pour chacune des 9 paires possibles de zone d'habitation (3) et de zone d'emploi (3) la probabilité relative d'absorption successivement. La configuration géographique est celle de la @fig-territoire0, avec un centre et deux satellites. Le centre comporte plus d'emplois que de résidents, ce qui oblige à des flux entrants dans la zone 1 comme indiqués dans la- @tbl-fluxpoles. On parle de doublement relatif de la probabilité, parce que les contraintes de constance de probabilité de fuite et de saturation des emplois imposent une réduction des probabilités d'absorption des autres emplois, ce qui est assuré dans l'algorithme qui implémente *MEAPS*.
 
 Le @tbl-fluxpond décrit les variations de flux par rapport à une situation de référence (celle du @tbl-fluxpoles), arrondi à l'entier le plus proche. Il y a donc $3 \times 3$ matrices $3 \times 3$. Chacune des sous matrices indique les variations de flux pour chaque paire origine-destination ; il y a 9 possibilités de doublement de la probabilité d'absorption, qui constituent les lignes et les colonnes de la matrice englobante. On notera que les sommes des colonnes et des lignes de chaque sous matrice sont nulles, ce qui indique le respect des contraintes en ligne et en colonne.
 
