@@ -20,7 +20,6 @@ $endif$
 \usepackage{blindtext}
 \usepackage{scrlayer-scrpage}
 
-\KOMAoptions{BCOR=5mm}
 \setmainfont{OpenSans}[
   UprightFont = {*-Regular},
   BoldFont = {*-Bold},
@@ -50,12 +49,12 @@ $endif$
 
 \clearpairofpagestyles
 
-\KOMAoptions{headsepline=true, twoside=true}
+\KOMAoptions{headsepline=true}
 
 \pagestyle{scrheadings}
 \setkomafont{pageheadfoot}{\small}
 
-\rehead{Document de travail n°$wp$-$annee$}
+\rehead{Document de travail n°$annee$-$wp$}
 \lohead{\includegraphics[height=0.25cm]{$logo$}}
 
 \lofoot*{\thepage}

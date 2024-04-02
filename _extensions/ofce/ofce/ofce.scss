@@ -50,6 +50,11 @@ h1, h2, h3, h4, h5, h6,
   line-height: 1.1rem !important;
 }
 
+.dropdown-item, .dropdown-menu {
+  font-size: 0.8rem !important;
+  background-color: $navbar-bg !important;
+}
+
 .nav-page-text {
   font-size: 0.8rem !important;
 }
