@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.552">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -154,7 +154,7 @@ gtag('config', 'G-KF6Z4B486X', { 'anonymize_ip': true});
 <meta name="citation_reference" content="citation_title=Quelles interactions entre les marchés de la mobilité à courte et à longue distance&nbsp;?;,citation_author=Jean-Pierre Orfeuil;,citation_author=Danièle Soleyret;,citation_publication_date=2002-10-01;,citation_cover_date=2002-10-01;,citation_year=2002;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0761898002000134;,citation_doi=10.1016/S0761-8980(02)00013-4;,citation_volume=76;,citation_journal_title=Recherche - Transports - Sécurité;">
 <meta name="citation_reference" content="citation_title=La contrainte énergétique doit-elle réguler la ville ou les véhicules ? Mobilités urbaines et réalisme écologique;,citation_author=Marie-Hélène Massot;,citation_author=Jean-Pierre Orfeuil;,citation_publication_date=2007;,citation_cover_date=2007;,citation_year=2007;,citation_fulltext_html_url=https://www.persee.fr/doc/aru_0180-930x_2007_num_103_1_2710;,citation_issue=1;,citation_doi=10.3406/aru.2007.2710;,citation_volume=103;,citation_language=fre;,citation_journal_title=Les Annales de la Recherche Urbaine;">
 <meta name="citation_reference" content="citation_title=Forme urbaine et mobilités de loisirs : l’« effet barbecue » sur le grill;,citation_author=Sébastien Munafò;,citation_publication_date=2017-10-16;,citation_cover_date=2017-10-16;,citation_year=2017;,citation_fulltext_html_url=https://journals.openedition.org/cybergeo/28634;,citation_doi=10.4000/cybergeo.28634;,citation_language=fr;,citation_journal_title=Cybergeo: European Journal of Geography;">
-<meta name="citation_reference" content="citation_title=The compensation hypothesis in barcelona measured through the ecological footprint of mobility and housing;,citation_author=Ivan Muñiz;,citation_author=Daniel Calatayud;,citation_author=Roger Dobaño;,citation_publication_date=2013-05-01;,citation_cover_date=2013-05-01;,citation_year=2013;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S016920461300025X;,citation_doi=10.1016/j.landurbplan.2013.02.004;,citation_volume=113;,citation_journal_title=Landscape and Urban Planning;">
+<meta name="citation_reference" content="citation_title=The compensation hypothesis in barcelona measured through the ecological footprint of mobility and housing;,citation_author=Ivan Mu��iz;,citation_author=Daniel Calatayud;,citation_author=Roger Dobaño;,citation_publication_date=2013-05-01;,citation_cover_date=2013-05-01;,citation_year=2013;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S016920461300025X;,citation_doi=10.1016/j.landurbplan.2013.02.004;,citation_volume=113;,citation_journal_title=Landscape and Urban Planning;">
 <meta name="citation_reference" content="citation_title=Jobs-housing balancing and regional mobility;,citation_author=Robert Cervero;,citation_publication_date=1989-06-30;,citation_cover_date=1989-06-30;,citation_year=1989;,citation_fulltext_html_url=https://doi.org/10.1080/01944368908976014;,citation_issue=2;,citation_doi=10.1080/01944368908976014;,citation_volume=55;,citation_journal_title=Journal of the American Planning Association;">
 <meta name="citation_reference" content="citation_title=Planning the Built Environment and Land Use Towards Deep Decarbonization of the United States;,citation_author=David Hsu;,citation_author=Clinton J. Andrews;,citation_author=Albert T. Han;,citation_author=Carolyn G. Loh;,citation_author=Anna C. Osland;,citation_author=Christopher P. Zegras;,citation_publication_date=2023-08-01;,citation_cover_date=2023-08-01;,citation_year=2023;,citation_fulltext_html_url=https://doi.org/10.1177/08854122221097977;,citation_issue=3;,citation_doi=10.1177/08854122221097977;,citation_volume=38;,citation_language=en;,citation_journal_title=Journal of Planning Literature;">
 <meta name="citation_reference" content="citation_title=The compact city: A successful, desirable and achievable urban form?;,citation_editor=Mike Jenks;,citation_editor=Katie Williams;,citation_editor=Elizabeth Burton;,citation_publication_date=2003-09-02;,citation_cover_date=2003-09-02;,citation_year=2003;,citation_fulltext_html_url=http://dx.doi.org/10.4324/9780203362372-12;,citation_doi=10.4324/9780203362372-12;,citation_inbook_title=undefined;">
@@ -659,6 +659,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/preview\.meaps\.fr\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -693,7 +711,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
