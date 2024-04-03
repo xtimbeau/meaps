@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: _docs
   execute-dir: project
   
 freeze: auto
@@ -34,7 +34,11 @@ website:
       - text: "{{< iconify game-icons mesh-network >}} MEAPS"
         file: index.qmd
       - text: "{{< iconify fluent clipboard-math-formula-16-regular >}} Théorie"
-        file: theorie.qmd
+        menu:
+          - text: "Version française"
+            file: theorie.qmd
+          - text: "English version"
+            file: theorie.en.qmd
       - text: "Estimations"
         icon: database-check
         file: larochelle.qmd
@@ -53,11 +57,21 @@ website:
         icon: github
         url: "https://github.com/xtimbeau/meaps"
       
-author-title: Auteurs
-
 logo: www/ofce.png
 
 format:
   wp-html: default
 
 editor: visual
+
+babelquarto:
+  languagecodes:
+  - name: en
+    text: "English version"
+  - name: fr
+    text: "Version en français"
+  mainlanguage: 'fr'
+  languages: ['en']
+title-en: title in en
+description-en: description in en
+author-en: author in en

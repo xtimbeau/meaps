@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 /.quarto/
-/docs/
+_docs/
 /_book/
 /_site/
 libres.raw.qs
