@@ -11,6 +11,7 @@ $scpodarkred: #770C19;
 $ofcered: #a22a2e;
 $darkgrey: #777;
 $lightgrey: #EEE;
+$lightergrey: #f8f8f8;
 $green: #079D10;
 $blue: #000080;
 $navbar-hl: #e6142d;
@@ -60,7 +61,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .page-columns.page-full,
-.content {
+.content, .body {
   text-align: $aligment !important;
 }
 
@@ -171,17 +172,17 @@ div.callout-tip {
   font-size: .8rem;
   border-radius: 0;
   background-clip: content-box;
-  background-color: $lightgrey !important;
-  border-left-color:$lightgrey !important;
+  background-color: $lightergrey !important;
+  border-left-color:$lightergrey !important;
 }
 
 div.callout-tip div.callout-header {
-  background-color: $lightgrey !important;
+  background-color: $lightergrey !important;
 }
 
 .dbtn {
   font-size: .8rem;
-  background-color: #FFF;
+  background-color: $lightergrey;
   border-color: $link-color;
   border-width: 1px;
   border-radius: 12px;
