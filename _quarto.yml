@@ -15,6 +15,7 @@ website:
   google-analytics: "G-KF6Z4B486X"
   reader-mode: true
   bread-crumbs: true
+  favicon: www/meaps-favicon.png
   comments:
     utterances:
       repo: "xtimbeau/meaps"
