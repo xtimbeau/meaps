@@ -41,6 +41,7 @@ keywords:
   - commuting
 bibliography:
   - references_meaps.bib
+bibliography: references_meaps.bib
 ---
 
 ```{r, include=FALSE}
@@ -51,7 +52,7 @@ source("R/rinit.r")
 
 In the analysis of spatial phenomena, distance plays an important role. This is sometimes referred to as Tobler's principle:
 
-> Everything is connected, but things that are close are more connected than things that are far away.
+> Everything is related, but things that are close are more related than things that are far away.
 
 If we take the example of the geographical matching of jobs and residents, proximity to the workplace is a critical factor, even if other factors come into play in the choice of a job: salary, skills, etc. The role of distance in job choice is generally assessed using a gravity model. Few alternatives have been studied in the literature, and the gravity model has become standard: an analytic tool that need not be brought into question, allowing the focus to rest on other factors.
 
@@ -162,9 +163,9 @@ The radiative model is one of the few alternatives to the gravity model [@de2011
 
 [^2]: In particular, there are flaws in the formalisation, which is based on a series of approximations that are not always made explicit, making the model difficult to manipulate.
 
-With Stouffer, another metric is proposed in place of simple spatial distance. It is linked to the notion of accessibility[^3] i.e. the number of jobs (and more generally opportunities) to which an individual has access for a given maximum travel time or distance. The closer a job is to an individual, the further away it is from him or her. The gravity model assumed that individuals make a big difference between the case where the second available job is 500 m away and the case where this job is 1 km away. In the new perspective, there is no difference because it is always the second job encountered. In other words, distance is put into perspective by taking into account the environment that is crossed. The richer the environment in terms of opportunities, the less necessary it is to go far, and conversely, the more deserted the environment, the further you have to go. This model has had many applications, notably in Chicago [@ruiter1967].
+Stouffer proposes another metric in place of simple spatial distance. It is linked to the notion of accessibility[^3] i.e. the number of jobs (and more generally opportunities) to which an individual has access for a given maximum travel time or distance. A job thus appears as "far" from an individual as there are jobs closer to them. The gravity model assumes that individuals make a significant difference between a case where the second available job is 500 m away and one where this job is 1 km away. In the new perspective, however, there is no difference because it is the second job encountered. In other words, distance is put into perspective by taking into account the environment that is crossed. The richer the environment in terms of opportunities, the less necessary it is to travel far; conversely, the more deserted the environment, the further you have to go. This model has had many applications, notably in Chicago [@ruiter1967].
 
-[^3]: The notion of accessibility was likely introduced by
+[^3]: The notion of accessibility was likely introduced by @hansen1959
 
 The @simini2012 proposal addresses some of the shortcomings of @stouffer1940 by proposing a model inspired by radiation physics. This describes the emission of particles and their absorption by the medium through which they pass. The intuition is the same as that of @stouffer1940: as long as a particle does not encounter an obstacle, it continues on its way. It only stops when it encounters a site that can absorb it, according to a certain probability. The more obstacles there are in the environment, the more likely the particle is to stop. In this model, the distribution of distances travelled depends on the medium and the number of absorption sites encountered.
 
