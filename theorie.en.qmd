@@ -124,7 +124,7 @@ Estimated parameters $\alpha$ and $\beta$ are usually less than 1, which relates
 
 This property of separability at both origin and destination is verified, however, for the radiative model. As @simini2013 suggest, the parameters $\alpha$ and $\beta$ of the gravity model can be explained through the radiative model (see below). These parameters summarise the additional spatial information, and depend on the joint spatial distribution of masses at origins and destinations. However, they are highly dependent on the spatial structure, the unit division and the sub-perimeters considered. In this sense, we return to @fotheringham1983's analysis that the gravity model lacks essential spatial information about neighbourhoods.
 
-#### The veil of constraint at the margins {#sec-voilemarge}
+#### The problem of constraint at the margins {#sec-voilemarge}
 
 The gravity model can be made even more complex to fit the data better than it spontaneously does. It then loses a clear link with the theoretical reflections linking it to the maximisation of entropy. [@wilson1967] or the discrete choice model. The adjustment of the model becomes a dummy exercise which does not inspire great confidence, particularly in the analysis of the scenarios modelled. The exercise consists of adding a "normalisation" step by incorporating corrective coefficients in the rows and columns of the origin-destination matrix, which amounts to adding fixed effects to each of the departure and arrival points. The formulation of the gravity model is then modified as follows:
 
@@ -211,7 +211,7 @@ $$
 \bar F(j)=(1-p_a)^{r_i(j)}
 $$ {#eq-fbar}
 
-We also define the probability of fleeing the zone in question ("escape probability"). This is the probability that an individual will not find one of the $J$ jobs that are suitable for them, so they give up or look further afield. Assuming for the moment that this probability is the same for all individuals, $p_f$ we can determine $p_a$ :
+We also define the probability of fleeing the zone in question ("migration probability"). This is the probability that an individual will not find one of the $J$ jobs that are suitable for them, so they give up or look further afield. Assuming for the moment that this probability is the same for all individuals, $p_f$ we can determine $p_a$ :
 
 $$
 p_a = 1-(p_f)^{1/J}
@@ -223,7 +223,7 @@ $$
 P_i(j) = (1-p_a)^{r_i(j)-1} \times p_a = {p_f}^{\frac {r_i(j)-1} {J}} \times (1-{p_f}^{1/J})
 $$ {#eq-pij}
 
-This expression therefore defines the probability of an individual $i$ to hold the job $j$ as a function of the escape probability, the job rank and the total number of jobs. The rank of $j$ is simply the number of cumulative opportunities from the starting point of $i$ to $j$ and replaces the distance, as in the expressions of @stouffer1940 or @simini2012. This number is none other than the individual's job accessibility $i$ in a circle of radius $[ij]$ whether this radius is defined using a Euclidean distance or other measures such as travel time. Note that it is assumed here that the jobs are identical or, at least, perfectly fungible for the individual.
+This expression therefore defines the probability of an individual $i$ to hold the job $j$ as a function of the migration probability, the job rank and the total number of jobs. The rank of $j$ is simply the number of cumulative opportunities from the starting point of $i$ to $j$ and replaces the distance, as in the expressions of @stouffer1940 or @simini2012. This number is none other than the individual's job accessibility $i$ in a circle of radius $[ij]$ whether this radius is defined using a Euclidean distance or other measures such as travel time. Note that it is assumed here that the jobs are identical or, at least, perfectly fungible for the individual.
 
 Each job has been assumed to be spatially distinct from the others. In the case where jobs are not separated and could accumulate at a point or within a tile, the formalisation does not change - this is the separability property mentioned above. The probability of stopping in the tile $c_d$ at a distance of $d$ from $i$ where there are $k$ jobs can be deduced from @eq-fbar since the $k$ jobs have successive ranks. By noting $s_i(d)=\sum _{j/d_{i,j}<d}1$ the accumulation (i.e. the accessibility) of all the jobs that are at a distance strictly less than that of the tile under consideration for $i$ (and therefore excluding $k$ jobs on the tile $c_d$), we have :
 
@@ -243,7 +243,7 @@ When the density of jobs is constant on a plane, $s_i(d)$ is proportional to the
 
 [^5]: The literature on international trade makes extensive use of the gravity model, including some very rich developments. The problem of international trade is a little different from that of the analysis of trip distributions because we observe bilateral flows of distinct products repeatedly between countries. We therefore have a large amount of information to link together using the gravity representation. The transport question is different in that the distance between origin and destination is well known, but the bilateral routes are not. On the other hand, we do have information on the distribution of journeys according to distance, purpose and mode.
 
-As in the @simini2012 model, the result is parameter-free, because the probability of escape is entirely determined by the row-based constraint (the individual $i$ has an expectation equal to $1 - p_f$ to find a job in the zone under consideration).
+As in the @simini2012 model, the result is parameter-free, because the probability of migration is entirely determined by the row-based constraint (the individual $i$ has an expectation equal to $1 - p_f$ to find a job in the zone under consideration).
 
 ### Saturation and priority {#sec-priorite0}
 
@@ -259,9 +259,9 @@ $$
 P_{u, i}(j) = \lambda_{u,i}.\phi_u(i,j). p_a \prod_{l=1}^{r_i(j)-1}(1-\lambda_{u,i}. \phi_u(i,r^{-1}(l)).p_a)
 $$ {#eq-puij}
 
-This expression is complicated by the need to go through the jobs in the order that corresponds to each individual. The probability $p_a$ must then be calculated so that the escape probability of $i$ remains unchanged. It is assumed that the remaining jobs remain perfectly fungible throughout the assignment process. The probability of each is therefore identical and adjusted by a multiplicative factor $\lambda_{u,i}$. The term $\lambda_{u,i}$ term thus derives from the potential unavailability of jobs. When a job is unavailable, the individual $i$ when it is his turn to choose, knows his potential targets. He therefore adjusts his probability of absorption so as to respect the probability of escape. This is how we respect the row-based constraint, which is expressed by @eq-lambda below. This means that an individual is made more likely to accept a job if there are few choices left.
+This expression is complicated by the need to go through the jobs in the order that corresponds to each individual. The probability $p_a$ must then be calculated so that the migration probability of $i$ remains unchanged. It is assumed that the remaining jobs remain perfectly fungible throughout the assignment process. The probability of each is therefore identical and adjusted by a multiplicative factor $\lambda_{u,i}$. The term $\lambda_{u,i}$ term thus derives from the potential unavailability of jobs. When a job is unavailable, the individual $i$ when it is his turn to choose, knows his potential targets. He therefore adjusts his probability of absorption so as to respect the probability of migration. This is how we respect the row-based constraint, which is expressed by @eq-lambda below. This means that an individual is made more likely to accept a job if there are few choices left.
 
-Another solution would be to consider that the probability of escape is not preserved and that unavailability results in higher rates of flight from the zone. More complex solutions are also possible. For the time being, we will confine ourselves to the simple case where all individuals have the same chance of working in the zone under consideration.[^7]. Under this assumption of conservation of the escape probability, we have :
+Another solution would be to consider that the probability of migration is not preserved and that unavailability results in higher rates of flight from the zone. More complex solutions are also possible. For the time being, we will confine ourselves to the simple case where all individuals have the same chance of working in the zone under consideration.[^7]. Under this assumption of conservation of the migration probability, we have :
 
 [^7]: In practice, to avoid side effects, you need to choose an employment zone that is larger than the resident zone.
 
@@ -321,21 +321,21 @@ $$ {#eq-logpijapprox}
 
 The probability $P_{ij}$ can thus be written from the average probability of absorption, the likelihood that the job $j$ is available and the average accessibility. Conceptually, this is perfectly satisfactory and understandable. Nevertheless, these quantities cannot be calculated directly; simulations are required.
 
-### Heterogeneity of escape and absorption {#sec-hetero}
+### Heterogeneity of migration and absorption {#sec-hetero}
 
 So far we have considered the case where individuals and jobs are perfectly fungible. This simplifies the model and allows an explicit resolution. However, it is possible to make the model more complex by introducing interpretable parameters that allow better prediction and extraction of information from the data.
 
-Firstly, the escape parameter can be specific to each municipality of residents or each type of resident. For example, the census allows us to measure the proportion of individuals, by municipality, who have a job more than 100km from their home. This proportion is low ($\le5\%$ for a region like the one studied in the La Rochelle application [@meaps2024a]) but can vary from one town to another for a variety of reasons: not all towns are equally well-connected by transport; some are on the outskirts of the study area; the average characteristics of residents vary from one town to another, etc. The model can easily take into account a probability of escape $p_{f,i}$ for each individual.
+Firstly, the migration parameter can be specific to each municipality of residents or each type of resident. For example, the census allows us to measure the proportion of individuals, by municipality, who have a job more than 100km from their home. This proportion is low ($\le5\%$ for a region like the one studied in the La Rochelle application [@meaps2024a]) but can vary from one town to another for a variety of reasons: not all towns are equally well-connected by transport; some are on the outskirts of the study area; the average characteristics of residents vary from one town to another, etc. The model can easily take into account a probability of migration $p_{f,i}$ for each individual.
 
 Secondly, the absorption parameter has until now been identical for all jobs and all individuals. It can now be made job-dependent, $p_{a,j}$ In this way, we can highlight the attractiveness of a particular employment zone. The census provides us with some information on commuting between municipalities and, therefore, on the differential attractiveness of neighboring municipalities. Other data could inform us at the sub-municipal level. We might also want to make the probability of absorption dependent on observable job characteristics. Overall, beyond the agglomeration effect, which is already accounted for, jobs in a dense employment zone may be more attractive than isolated jobs. In this case, absorption depends on observed characteristics $X$ and, by specifying the functional form of $p_a(X)$, can be estimated in such a way as to better reproduce the given data on the distribution of trips.
 
-The model presented is sufficiently flexible to be able to account for more complex phenomena, which permits us both to exploit rich data and to model behaviours (escape, absorption) that seem logical. If, instead of matching individuals and jobs, we look at the case of school choice, we can imagine that the absorption of the nearest school is high, while those of higher rank rapidly collapse. If the individual is indifferent to the characteristics of the schools, apart from their location, he will choose the nearest school. The refusal of this first school may be explained by an unobservable parental requirement, which results in a greater distance travelled. But the basic model accounting for a drop in absorption beyond the first rank is likely to be quite good[^8]. It is also possible to increase or decrease the absorption of certain resident-school pairs, which is a way of introducing information on school mapping, for example.
+The model presented is sufficiently flexible to allow us to account for more complex phenomena, so as to simultaneously exploit rich data and model behaviours (migration, absorption) that seem logical. If, instead of matching individuals and jobs, we looked at the case of school choice, we can imagine that the absorption rate of the nearest school is high, while those in later ranks become quickly intenable. If the individual is indifferent to the characteristics of the schools, apart from their location, he will choose the nearest school. In the case that the first school is refused, it may be explained by an unobservable parental requirement, which results in a greater distance travelled. Nevertheless, the basic model, accounting for a drop in absorption beyond the first rank, is likely to be quite good[^8]. It is also possible to increase or decrease the absorption of certain resident-school pairs, which is a way of introducing information on school mapping, for example.
 
 [^8]: In more general terms, we can specify any law for the probability of absorption, which must verify that $\sum_{k=1,J} p_{i,r_i(k)} = p_{f,i}$ for all $i$. Any parameterisation of this probability distribution can then be simulated and fitted to the data. If the parameters have a theoretical interpretation, they can be identified.
 
-We can therefore modify the absorption probabilities by giving a particular group of job pairs a greater or lesser chance of being absorbed. By modifying the groups that partition the pairs of individuals $\times$ jobs, we can increase or reduce the number of degrees of freedom in the system. When only the probability of absorption is a parameter, the number of degrees of freedom is reduced by 1 and the parameter $p$ is determined by the condition of equality between the number of jobs filled and the number of individuals. If we have information on the probability of leakage per individual or per group of individuals, the number of degrees of freedom can be increased by a probability of leakage differentiated according to these groups. The number of degrees of freedom can be further increased by crossing a probability of absorption by groups of jobs and groups of individuals. The choice of specification will depend on what we want to achieve and the problem under consideration. In the [estimation at La Rochelle](larochelle.qmd) an application using a large number of degrees of freedom in order to adjust the model on detailed data (giving for pairs commune of residence $\times$ municipality of employment). We also show a parsimonious determination of the correction coefficients in order to be able to extract relevant information from the data on flows between communes and to be able to compare the predictive power of *MEAPS* to that of a gravity model, with an equal degree of freedom.
+We can therefore modify the absorption probabilities by giving a particular group of individual-job pairs a greater or lesser chance of being absorbed. By modifying the groups that partition the pairs of individuals $\times$ jobs, we can increase or reduce the number of degrees of freedom in the system. When only the probability of absorption is a parameter, the number of degrees of freedom is reduced by 1 and the parameter $p$ is determined by the condition of equality between the number of jobs filled and the number of individuals. If we have information on the probability of migration per individual or per group of individuals, the number of degrees of freedom can be increased by an migration probability differentiated according to these groups. The number of degrees of freedom can be further increased by crossing a probability of absorption by groups of jobs and groups of individuals. The choice of specification will depend on what we want to achieve and the problem under consideration. In the [estimation at La Rochelle](larochelle.qmd), we see an application using a large number of degrees of freedom in order to adjust the model on detailed data (providing an observation of commuting flows for pairs of town of residence $\times$ town of employment). We also show a parsimonious determination of the correction coefficients so as to extract relevant information from the data on flows between towns and to be able to compare the predictive power of *MEAPS* to that of a gravity model, with an equal number of degrees of freedom.
 
-By indexing by $i$ leakage probabilities $p_{f,i}$ and by $i,j$ the correction coefficients $\lambda_{i,j}$ the main equations of the model become :
+By indexing the migration probabilities $p_{f,i}$ by $i$ and the correction coefficients $\lambda_{i,j}$ by $i,j$, the main equations of the model become :
 
 $$
 P_{i, u}(j) = \lambda_{i,j} . p_{a} \prod _{l=1} ^{r_{u(i)}(j)-1} {[1-\lambda_{i,r_{u(i)}(l)}. p_{a}.\phi_u(i,r_{u(i)}^{-1}(l))]}
@@ -349,20 +349,20 @@ It is not possible to give a reduced form of this expression. However, it can be
 
 [^9]: This expression is implemented in the package R`{rmeaps}` package, available in the github repository [github.com/maxime2506/rmeaps](https://github.com/maxime2506/rmeaps) and installed in R by `devtools::install_github("maxime2506/rmeaps")`. It is useful to have a compiler that implements OpenMP, which requires a few manipulations on MacOS. The implementation is done in C++/opemmp and relies on parallelization to handle the traversal of priority orders.
 
-The model built in this way is flexible, since it is possible to specify escape processes (in-line constraint equivalent to the constraint [-@eq-ai] constraint) and absorption processes that respect the job saturation constraint (online constraint equivalent to the [-@eq-bj]) by the priority process described in @sec-priorite0. By going through all the possible permutations, we can get rid of a particular order of priority and define an average solution to the process. When the problem is analysed with a finite grid (or a grid smaller than the number of $J$ opportunities), we can conjecture an ergodic behaviour of the average quantities predicted by the model. This explicitly solves the constraint problem at the margins of the gravity model or the radiative model.
+The model built in this way is flexible, since it is possible to specify migration processes (row-based constraint equivalent to the [-@eq-ai] constraint) and absorption processes that respect the job saturation constraint (row-based constraint equivalent to the [-@eq-bj] constraint) by the priority process described in @sec-priorite0. By going through all the possible permutations, we can avoid having a particular order of priority and define an average solution to the process. When the problem is analysed with a finite grid (or a grid smaller than the number of $J$ opportunities), we can predict an ergodic behaviour of the average quantities predicted by the model. This explicitly solves the constraint problem at the margins of the gravity model or the radiative model.
 
-To study some of the properties of the model, we propose here to explore its behaviour on synthetic data. The synthetic data, generated explicitly, allow us to control parameter variations in order to isolate their consequences. These simulations do not claim to be exhaustive or demonstrative, but can be used to support intuition. The entire section on synthetic simulations is executable in the sense of @lasser2020. The codes needed to reproduce these simulations and the associated graphics are available at `github.com/xtimbeau/meaps` and are freely executable.
+To study some of the properties of the model, we propose here to explore its behaviour using synthetic data. The synthetic data, generated explicitly, allow us to control parameter variations in order to isolate their consequences. These simulations do not claim to be exhaustive or demonstrative, but can be used to support our intuitions. The entire section on synthetic simulations is executable in the sense of @lasser2020. The codes needed to reproduce these simulations and the associated graphics are available at `github.com/xtimbeau/meaps` and are freely executable.
 
-## Synthetic simulations {#sec-synth}
+## Hypothetical simulations {#sec-synth}
 
-### Three centres and satellites {#sec-3p2s}
+### Three centres: city and satellites {#sec-3p2s}
 
-We construct an abstract territory made up of a "city centre" and "two peripheries" (@fig-territoire0). This arbitrary configuration allows us to evaluate *MEAPS* by simulating journeys and their distribution. Each individual and each job are located separately from each other, which makes it possible to calculate Euclidean distances between each inhabitant and each job and to deduce an unambiguous ranking of jobs for each inhabitant according to their distance. All jobs are considered to be substitutable, and it is assumed that there is an identical 10% probability of flight for all individuals. The distances between the centres are given in @tbl-distances (in any unit).
+We construct an abstract territory made up of a "city" and two "peripheries" (@fig-territoire0). This arbitrary configuration allows us to evaluate *MEAPS* by simulating journeys and their distribution. Each individual and each job are located separately from each other, which makes it possible to calculate Euclidean distances between each inhabitant and each job and to deduce an unambiguous ranking of jobs for each inhabitant according to their distance. All jobs are considered to be fungible, and it is assumed that there is an identical 10% probability of escape (migration) for all individuals. The distances between the centres are given in @tbl-distances (in any unit).
 
 ```{r}
 #| label: tbl-distances
-#| tbl-scap: "Distances entre les pôles"
-#| tbl-cap: "Distances entre les pôles"
+#| tbl-scap: "Distance between centres, for jobs (e) and residents (h)"
+#| tbl-cap: "Distance between centres, for jobs (e) and residents (h)"
 
 load("output/dds.rda")
 
@@ -373,14 +373,14 @@ dds |> as_tibble(rownames = "gh") |>
 
 ```
 
-To ensure equality between job demand and supply, 4,500 jobs are drawn at random. The three job centres have the same centres as the residential centres, but are more closely distributed than the residential centres. As shown on the @fig-territoire0, the job centres are located around the same centres as the residential areas. The peripheral centres contain fewer jobs (15% each) than the central centre (70% of total employment), reflecting the usual structure whereby the peripheral centres contain primarily jobs related to services provided to residents (such as shops or schools), while the central activity zone contains a wider range of jobs, in greater numbers. We make no distinction in terms of the productivity or qualifications required for jobs. This assumption simplifies the simulation of the model, but nothing prevents us from distinguishing between categories of jobs and categories of inhabitants, or from introducing elements of choice between distance and type of job. We do not consider here the choice of location and consider all locations as exogenous.
+To ensure equivalence between job demand and supply, 4,500 jobs are drawn at random. The three job centres have the same centres as the residential centres, but are more closely distributed than the residential centres. As shown on the @fig-territoire0, the job centres are located respectively near the same centres as the residential areas. The peripheral centres contain fewer jobs (15% each) than the city centre (70% of total employment), reflecting the usual structure whereby the peripheral centres primarily contain jobs related to services provided to residents (such as shops or schools), while the central activity zone contains a wider range of jobs, in greater numbers. We make no distinction in terms of the productivity or qualifications required for jobs. This assumption simplifies the simulation of the model, but nothing prevents us from distinguishing between categories of jobs and categories of inhabitants, or from introducing elements of choice between distance and type of job. In this case, we do not consider the choice of location and interpret all such choices as exogenous.
 
-In the statistical analysis that follows, we will proceed with a spatial aggregation by paving the plane where the jobs and inhabitants are located with adjacent hexagons. This corresponds to an empirical analysis in which location data is crunched.
+In the statistical analysis that follows, we will proceed with a spatial aggregation by dividing the plane where the jobs and inhabitants are located into adjacent hexagons. This corresponds to an empirical analysis in which location data is crunched.
 
 ```{r}
 #| label: fig-territoire0
-#| fig-scap: "Territoire synthétique (centre + 2 villages)"
-#| fig-cap: "Territoire synthétique comportant un centre ville (h1) et deux villages (h2) et (h3). Dans chaque hexagone est indiqué la densité (5 000 habitants). 4 500 emplois avec des proportions d'emplois de 80% dans le centre et de 5% dans les 2 villages (les 10% restant sont la fuite). La dispersion est plus basse pour les emplois. Les densités d'emplois sont représentées dans le panneau de droite en orange."
+#| fig-scap: "Simulated territory: center + two villages"
+#| fig-cap: "Hypothetical territory with a town centre (h1) and two villages (h2) and (h3). The density (5,000 inhabitants) is indicated in each hexagon. 4,500 jobs total, with 80% of jobs in the town centre and 5% in the 2 villages (the remaining 10% are out of town). The density is higher for jobs. Job densities are shown in the right-hand panel in orange."
 
 knitr::include_graphics("output/gcarte_ss.png")
 ```
@@ -389,31 +389,31 @@ The @fig-distances1 simulates *MEAPS* using data from @fig-territoire0. For each
 
 ```{r}
 #| label: fig-distances1
-#| fig-scap: "Distances moyenne par habitant et pour un emploi"
-#| fig-cap: "On représente sur le panneau de **gauche** les distances moyennes parcourues par les habitants d'un héxagone. La vignette présente la densité des trajets en fonction de la distance(vert). Sur le panneau de **droite** on représente les distances moyennes pour atteindre chaque emploi, ainsi que la densité de ces trajets par distance dans la vignette (orange)" 
+#| fig-scap: "Average distance per person for a given job"
+#| fig-cap: "The panel on the **left** shows the average distances travelled by the inhabitants of a hexagon. The small graph shows the density of journeys as a function of distance (green). The **right** panel shows the average distances travelled to reach each job, as well as the density of these journeys per distance in the graph (orange)." 
 
 knitr::include_graphics("output/gdistances.png")
 ```
 
-This first graph shows how the model works *MEAPS*. A distribution of journeys can be generated (in the thumbnails of the @fig-distances1). As the majority of jobs are located in the central hub, the average distances for residents are lower there than in the other hubs. The model generates a little variance within each centre. This is consistent with the idea that the most outlying residential hexagons generate greater distances. The distribution of average distances to employment is tighter than that of average distances travelled per inhabitant. The averages of these two distributions are equal (by construction).
+This first figure shows how the *MEAPS* model works. A distribution of journeys can be generated (in the small graphs of the @fig-distances1). As the majority of jobs are located in the central hub, the average distances for residents are lower there than in the other hubs. The model generates a little variance within each centre. This is consistent with the idea that the most outlying residential hexagons generate greater distances. The distribution of average distances to employment is tighter than that of average distances travelled per inhabitant. The averages of these two distributions are equal (by design).
 
-We can construct a table of flows between each centre (@tbl-fluxpoles). The first thing to note is that the constraints at the margins are perfectly respected, which is the principle behind the construction of *MEAPS* construction principle, the approximations made in the resolution algorithm remain less than $10^{-5}$ at least. Furthermore, the flow table confirms the previous diagnosis. Most of the residents of h1 (78%) move to g1 (the same centre). This "intra-cluster" employment rate is 42% for the other two clusters. This is due to the imbalance in the location of jobs and is a desired property of the model. It partly explains the distribution of job mobility distances for residents and also its 'reciprocal', when calculating average distances to a hexagon of jobs.
+We can construct a table of flows between each centre (@tbl-fluxpoles). The first thing to note is that the constraints at the margins are perfectly respected, which is the principle behind the construction of *MEAPS*, the approximations made in the resolution algorithm thus remaining less than $10^{-5}$ at least. Furthermore, the table of flows confirms the previous assessment. Most of the residents of h1 (78%) move to g1 (the same centre). This "intra-cluster" employment rate is 42% for the other two clusters. This is due to the imbalance in the location of jobs and is a desired property of the model. It partly explains the distribution of job mobility distances for residents and also its 'reciprocal', when calculating average distances to a hexagon of jobs.
 
 ```{r}
 #| label: tbl-fluxpoles
 #| tbl-scap: "flux entre pôles"
-#| tbl-cap: "flux entre pôles"
+#| tbl-cap: "Flows between centres"
 
 load("output/tblflux.rda")
 flux |> gt() |> cols_label(gh="")
 ```
 
-To assess the behaviour of the model, we can perform a thought experiment in which we move the two satellite poles away from the centre (the distance between 1 and 2 or 3 increases from 0.7 to 1.2 in this experiment). The @tbl-fluxpoles2 is obtained by simulating the model again on this alternative geography. The result is identical to the previous configuration. This result is consistent with intuition and is a desired property of the model. Since the ranking orders do not change (as long as the poles are far enough apart and the configuration remains symmetrical), the ranks are not modified and therefore the flows are unchanged. The distributions of distances (outgoing and incoming) are largely modified, since 2 or 3 are further away from 1, as indicated by @fig-distances2. We are tempted to conduct further thought experiments to analyse the behaviour of the model. The application *Shiny* application available at [ofce.shinyapps.io/rmeaps](https://ofce.shinyapps.io/rmeaps) allows all these experiments to be carried out using the same code as that used here.
+To assess the behaviour of the model, we can perform a thought experiment in which we move the two satellite poles away from the centre (the distance between 1 and 2 or 3 increases from 0.7 to 1.2 in this experiment). The @tbl-fluxpoles2 is obtained by simulating the model again on this alternative geography. The result is identical to the previous configuration. This result is consistent with intuition and is a desired property of the model. Since the ranking orders do not change (as long as the poles are far enough apart and the configuration remains symmetrical), the ranks are not modified and therefore the flows are unchanged. The distributions of distances (outgoing and incoming) are largely modified, since 2 or 3 are further away from 1, as indicated by @fig-distances2. We are tempted to conduct further thought experiments to analyse the behaviour of the model. The application *Shiny* application available at [ofce.shinyapps.io/rmeaps](https://ofce.shinyapps.io/rmeaps) allows all these experiments to be carried out using the same code as is used here.
 
 ```{r}
 #| label: tbl-fluxpoles2
 #| tbl-scap: "flux entre pôles (pôle 3 plus loin)"
-#| tbl-cap: "flux entre pôles (pôle 3 plus loin)"
+#| tbl-cap: "Flows between centers (distant centre 3)"
 
 load("output/tblflux.rda")
 flux2 |> gt() |> cols_label(gh="")
@@ -422,7 +422,7 @@ flux2 |> gt() |> cols_label(gh="")
 ```{r}
 #| label: fig-distances2
 #| fig-scap: "Distances moyenne par habitant et pour un emploi (3 éloigné)"
-#| fig-cap: "Le graphique est construit comme le précédent, le pôle 3 est éloigné de 0.5 (70% plus loin) par rapport à 1." 
+#| fig-cap: "The graph is constructed in the same way as the previous one, with pole 3 0.5 (70% further away) from pole 1." 
 
 knitr::include_graphics("output/gdistances2.png")
 ```
@@ -430,30 +430,30 @@ knitr::include_graphics("output/gdistances2.png")
 ```{r}
 #| label: fig-denscomp
 #| fig-scap: "Densités comparées"
-#| fig-cap: "Densités comparées des distances parcourues par habitant entre le scénario de référence et le scénario 'pôle 3 plus loin'. Le trait pointillé est utilisé pour le scénario alternatif."
+#| fig-cap: "Comparative densities of distances travelled per inhabitant between the reference scenario and the ‘distant centre 3’ scenario. The dotted line is used for the alternative scenario."
 
 knitr::include_graphics("output/gdenshabg.png")
 ```
 
 ### Comparison with the gravity model {#sec-compgravsynth}
 
-Compare *MEAPS*with the gravity model to understand its advantages. To do this, we simulate a gravity model with two constraints [@eq-gravmod] which allows calibration on the rows (each individual has a job) and on the columns (each job is filled). This model is simulated at the disaggregated level, i.e. at the level of each individual and each job based on the geographical configuration described above in @sec-3p2s. The gravity model is specified using the function$f$ where $\delta$ is a positive parameter :
+Comparing *MEAPS* with the gravity model allows us to understand its advantages. To do this, we simulate a gravity model with two constraints [@eq-gravmod], to allow calibration on the rows (each individual has a job) and on the columns (each job is filled). This model is simulated at the disaggregated level, i.e. at the level of each individual and each job based on the geographical configuration described above in @sec-3p2s. The gravity model is specified using the function$f$ where $\delta$ is a positive parameter :
 
 $$
 f(d) = e^{d/\delta}
 $$ {#eq-f}
 
-This is a very common choice. The gravity model can then be normalised using the Furness algorithm [@de2011modelling] algorithm, in which first the rows are normalised (each individual has one job and one job only in probability, taking into account the leakage parameter), then the columns (each job is completely filled). These normalisations are iterated in rows and then in columns until a stable flow matrix is obtained. These normalisations follow the @eq-ai and @eq-bj normalisations.
+This is a very common choice for modeling of trip flows. The gravity model can then be normalised using the Furness algorithm [@de2011modelling], in which first the rows are normalised (each individual has one job and one job only in probability, taking into account the migration parameter), then the columns (each job is completely filled). These normalisations are iterated in rows and then in columns until a stable flow matrix is obtained. These normalisations follow the @eq-ai and @eq-bj normalisations.
 
 ```{r}
 load("output/flux_grav.srda")
 ```
 
-The gravity model specified in this way is fitted to the simulation *MEAPS* simulation, taking as a reference the flows of @tbl-fluxpoles, constructed by aggregation over groups of inhabitants and jobs -- in other words a matrix of $3 \times 3$. The adjustment is made by calibrating the parameter $\delta$ so as to minimise the relative Kullback-Leitner entropy of the aggregated distributions (this notion of entropy is described in detail in the document [Estimates at La Rochelle](larochelle.qmd)). The result of the estimation is proposed in @tbl-fluxgrav and corresponds to a value of $\delta \approx$ `r round(fkl$par,2)`.
+The gravity model adapted in this way is fitted to the *MEAPS* simulation, taking as a reference the flows of @tbl-fluxpoles, constructed by aggregation over groups of inhabitants and jobs -- in other words a matrix of $3 \times 3$. The adjustment is made by calibrating the parameter $\delta$ so as to minimise the relative Kullback-Leitner entropy of the aggregated distributions (this notion of entropy is described in detail in the document [Estimates at La Rochelle](larochelle.qmd)). The result of the estimation is proposed in @tbl-fluxgrav and corresponds to a value of $\delta \approx$ `r round(fkl$par,2)`.
 
 ```{r}
 #| label: tbl-fluxgrav
-#| tbl-cap: "Modèle gravitaire calé sur la configuration de référence"
+#| tbl-cap: "Gravity model for hypothetical configuration of reference"
 
 # tg <- fluxg |> 
 #   gt() |> 
@@ -491,11 +491,11 @@ bind_cols(
 ) |> 
   gt() |> 
   gt::tab_spanner(
-    label = md("MEAPS<br>Fuite à 10%"),
+    label = md("MEAPS<br>Migration at 10%"),
     columns = c(gh, e1, e2, e3, total)
   ) |> 
   gt::tab_spanner(
-    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl$par, 2)}")),
+    label = md(glue("Gravitaire<br>Adjusted, \u03B4 = {round(fkl$par, 2)}")),
     columns = c(gh_g, e1_g, e2_g, e3_g, total_g)
   ) |> 
   cols_label(vide = " ", gh = "", gh_g ="") |> 
@@ -508,7 +508,7 @@ The adjustment of the gravity model gives a good result. One of the reasons for 
 
 ```{r}
 #| label: tbl-fluxgrav2
-#| tbl-cap: "Modèle gravitaire pour un satellite éloigné"
+#| tbl-cap: "Gravity model with a distant satellite"
 bind_cols(
   flux2,
   tibble(vide=""),
@@ -516,11 +516,11 @@ bind_cols(
 ) |> 
   gt() |> 
   gt::tab_spanner(
-    label = md("MEAPS<br>Fuite à 10%"),
+    label = md("MEAPS<br>Migration at 10%"),
     columns = c(gh, e1, e2, e3, total)
   ) |> 
   gt::tab_spanner(
-    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl$par, 2)}")),
+    label = md(glue("Gravitaire<br>Adjusted, \u03B4 = {round(fkl$par, 2)}")),
     columns = c(gh_g, e1_g, e2_g, e3_g, total_g)
   ) |> 
   cols_label(vide = " ", gh = "", gh_g ="") |> 
@@ -529,7 +529,7 @@ bind_cols(
             locations = cells_body(columns = vide) )
 ```
 
-The model *MEAPS* model maintains an identical configuration in the case of satellite centres that are far from the centre, because the configuration remains symmetrical and no rank is changed. On the other hand, the gravity model gives a very different response to the reference case: satellite residents are more inclined to look for jobs in their respective satellites, and the flows between satellite poles and the central pole are reduced. This property of the gravity model is expected: the function $f$ function gives less weight to jobs that are further away. At the limit where this distance becomes particularly great, the flows between satellite centres and the central centre will dry up almost entirely. The estimated parameter for the simulation *MEAPS* simulation is of the order of `r round(fkl$par,2)` which is of the order of magnitude of the radius of the central pole (0.5). For a distance of a few times `r round(fkl$par,2)` the flux between poles will be almost zero. The response of *MEAPS* response seems more appropriate to the situation we are observing. When municipalities are satellites of a central hub at a distance of a few dozen kilometres, there are flows towards this municipality to take up jobs, and the fact that the municipality is a few kilometres further away does not drastically stop these flows. The sensitivity of distance is expected to be low *at this scale*. We will see when we apply this to the La Rochelle conurbation, using data describing flows between the commune of residence and the commune of employment (taken from @MOBPRO) that *MEAPS* provides a better representation of reality than the gravity model.
+The model *MEAPS* model maintains an identical configuration in the case of satellite centres that are far from the centre, because the configuration remains symmetrical and no rank is changed. On the other hand, the gravity model gives a very different response to that of the reference case: satellite residents are more inclined to look for jobs in their respective satellites, and the flows between satellite poles and the central pole are reduced. This property of the gravity model is expected: the function $f$ function gives less weight to jobs that are further away. At the limit where this distance becomes particularly great, the flows between satellite centres and the central centre will dry up almost entirely. The estimated parameter for the *MEAPS* simulation is of the order of `r round(fkl$par,2)` which is of the order of magnitude of the radius of the central pole (0.5). For a distance of a few times `r round(fkl$par,2)` the flux between poles will be almost zero. *MEAPS*' result seems more appropriate to the situation we are observing. When municipalities are satellites of a central hub at a distance of a few dozen kilometres, there are flows towards this municipality to take up jobs, and the fact that the municipality is a few kilometres further away does not drastically stop these flows. The sensitivity of distance is expected to be low *at this scale*. We will see when we apply this to the La Rochelle area, using data describing flows between the towns of residence and the towns of employment (taken from @MOBPRO) that *MEAPS* provides a better representation of reality than the gravity model.
 
 If the procedure for estimating the parameter $\delta$ on the geographical configuration where the satellite poles are far apart, we end up with $\delta \approx$ `r round(fkl2$par,2)`. This value is very different from the previous parameter, which shows both the 'plasticity' of the gravity model and its unreliability, as if the 'gravitational' force could change completely with each new datum (@tbl-fluxgrav3).
 
@@ -559,7 +559,7 @@ bind_cols(
 
 ### Estimation procedure {#sec-estimation}
 
-It is possible to modify the weightings of the absorption probabilities so as to modify the flow table. This is illustrated in the following table, where for each of the 9 possible pairs of residential area (3) and employment area (3) the relative probability of absorption has been doubled successively. The geographical configuration is that of the @fig-territoire0, with a centre and two satellites. The centre contains more jobs than residents, forcing inflows into zone 1 as indicated in the @tbl-fluxpoles. This is referred to as a relative doubling of the probability, because the constraints of constant probability of escape and saturation of jobs impose a reduction in the probability of absorption of the other jobs, which is guaranteed in the algorithm which implements *MEAPS*.
+It is possible to modify the weightings of the absorption probabilities so as to modify the flow table. This is illustrated in the following table, where for each of the 9 possible pairs of residential area (3) and employment area (3) the relative probability of absorption has been doubled successively. The geographical configuration is that of the @fig-territoire0, with a centre and two satellites. The centre contains more jobs than residents, forcing inflows into zone 1 as indicated in the @tbl-fluxpoles. This is referred to as a relative doubling of the probability, because the constraints of constant probability of migration and saturation of jobs impose a reduction in the probability of absorption of the other jobs, which is guaranteed in the algorithm which implements *MEAPS*.
 
 The @tbl-fluxpond describes the variations in flows compared with a reference situation (that of the @tbl-fluxpoles), rounded to the nearest integer. There are therefore $3 \times 3$ matrices $3 \times 3$. Each of the sub-matrices indicates the flow variations for each origin-destination pair; there are 9 possibilities for doubling the absorption probability, which constitute the rows and columns of the encompassing matrix. Note that the sums of the columns and rows of each sub-matrix are zero, indicating that the row and column constraints have been met.
 
