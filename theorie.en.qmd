@@ -531,11 +531,11 @@ bind_cols(
 
 The model *MEAPS* model maintains an identical configuration in the case of satellite centres that are far from the centre, because the configuration remains symmetrical and no rank is changed. On the other hand, the gravity model gives a very different response to that of the reference case: satellite residents are more inclined to look for jobs in their respective satellites, and the flows between satellite poles and the central pole are reduced. This property of the gravity model is expected: the function $f$ function gives less weight to jobs that are further away. At the limit where this distance becomes particularly great, the flows between satellite centres and the central centre will dry up almost entirely. The estimated parameter for the *MEAPS* simulation is of the order of `r round(fkl$par,2)` which is of the order of magnitude of the radius of the central pole (0.5). For a distance of a few times `r round(fkl$par,2)` the flux between poles will be almost zero. *MEAPS*' result seems more appropriate to the situation we are observing. When municipalities are satellites of a central hub at a distance of a few dozen kilometres, there are flows towards this municipality to take up jobs, and the fact that the municipality is a few kilometres further away does not drastically stop these flows. The sensitivity of distance is expected to be low *at this scale*. We will see when we apply this to the La Rochelle area, using data describing flows between the towns of residence and the towns of employment (taken from @MOBPRO) that *MEAPS* provides a better representation of reality than the gravity model.
 
-If the procedure for estimating the parameter $\delta$ on the geographical configuration where the satellite poles are far apart, we end up with $\delta \approx$ `r round(fkl2$par,2)`. This value is very different from the previous parameter, which shows both the 'plasticity' of the gravity model and its unreliability, as if the 'gravitational' force could change completely with each new datum (@tbl-fluxgrav3).
+If we re- estimate the parameter $\delta$ for the geographical configuration in which the satellite centres are far apart, we end up with $\delta \approx$ `r round(fkl2$par,2)`. This value is very different from the previous parameter, which shows both the 'plasticity' of the gravity model and its unreliability, as if the 'gravitational' force could change completely with each new datum (@tbl-fluxgrav3).
 
 ```{r}
 #| label: tbl-fluxgrav3
-#| tbl-cap: "Modèle gravitaire réajusté, satellite éloigné"
+#| tbl-cap: "Readjusted gravity model with distant satellite"
 bind_cols(
   flux2,
   tibble(vide=""),
@@ -543,11 +543,11 @@ bind_cols(
 ) |> 
   gt() |> 
   gt::tab_spanner(
-    label = md("MEAPS<br>Fuite à 10%"),
+    label = md("MEAPS<br>Migration at 10%"),
     columns = c(gh, e1, e2, e3, total)
   ) |> 
   gt::tab_spanner(
-    label = md(glue("Gravitaire<br>Normalisé, \u03B4 = {round(fkl2$par, 2)}")),
+    label = md(glue("Gravity<br>Readjusted, \u03B4 = {round(fkl2$par, 2)}")),
     columns = c(gh_g, e1_g, e2_g, e3_g, total_g)
   ) |> 
   cols_label(vide = " ", gh = "", gh_g ="") |> 
@@ -559,31 +559,32 @@ bind_cols(
 
 ### Estimation procedure {#sec-estimation}
 
-It is possible to modify the weightings of the absorption probabilities so as to modify the flow table. This is illustrated in the following table, where for each of the 9 possible pairs of residential area (3) and employment area (3) the relative probability of absorption has been doubled successively. The geographical configuration is that of the @fig-territoire0, with a centre and two satellites. The centre contains more jobs than residents, forcing inflows into zone 1 as indicated in the @tbl-fluxpoles. This is referred to as a relative doubling of the probability, because the constraints of constant probability of migration and saturation of jobs impose a reduction in the probability of absorption of the other jobs, which is guaranteed in the algorithm which implements *MEAPS*.
+It is possible to modify the weights of the absorption probabilities so as to adjust the table of rates of flux. This is illustrated in the following table, where for each of the 9 possible pairs of residential area (3) and employment area (3) the relative probability of absorption has been doubled, in succession. The geographical configuration is that of the @fig-territoire0, with a centre and two satellites. The centre contains more jobs than residents, forcing inflows into zone 1 as indicated in the @tbl-fluxpoles. This constitutes a relative doubling of the probability, because the constraints of a constant probability of migration and the saturation of jobs impose a reduction in the probability of absorption in other jobs, a key feature of the algorithm which implements *MEAPS*.
 
-The @tbl-fluxpond describes the variations in flows compared with a reference situation (that of the @tbl-fluxpoles), rounded to the nearest integer. There are therefore $3 \times 3$ matrices $3 \times 3$. Each of the sub-matrices indicates the flow variations for each origin-destination pair; there are 9 possibilities for doubling the absorption probability, which constitute the rows and columns of the encompassing matrix. Note that the sums of the columns and rows of each sub-matrix are zero, indicating that the row and column constraints have been met.
+The @tbl-fluxpond illustrates the variations in fluxes compared with a reference situation (that of the @tbl-fluxpoles), rounded to the nearest integer. There are therefore $3 \times 3$ matrices $3 \times 3$. Each of the sub-matrices indicates the flux variations for each origin-destination pair; there are 9 possibilities for doubling the absorption probability, which constitute the rows and columns of the encompassing matrix. Note that the sums of the columns and rows of each sub-matrix are zero, indicating that the row and column constraints have been met.
 
-In accordance with intuition, and despite the effects induced by compliance with the row and column constraints, it can be seen that the residential/employment zone pair, which is increased in relative probability, experiences higher flows. To compensate for these higher flows, in the same column, i.e. for flows from other residential areas, there is a systematic decrease in flows from other residential areas. Symmetrically, an increase in flows from the residential area $i$ to the employment zone $j$ always leads to a decrease in flows from $i$ to other employment areas.
+Intuition would imply that the residential/employment zone pair, which is increased in relative probability, would experience higher flux. Indeed, this increase of flux is observed in the results, despite the effects induced by compliance with the row and column constraints. To compensate for these higher rates of flux, in the same column, i.e. for flows from other residential areas, there is a systematic decrease in fluxes from other residential areas. Symmetrically, an increase in flows from the residential area $i$ to the employment zone $j$ always leads to a decrease in flows from $i$ to other employment areas.
 
 ```{r}
 #| label: tbl-fluxpond
-#| tbl-cap: "Modification de la probabilité d'absorption"
+#| tbl-cap: "Modification of the probability of absorption"
 
 tt <- load("output/flux3x3.rda")
 flux3x3 |> 
   tab_source_note(
-    md("Le tableau représente l'écart entre les flux obtenus pour une probabilité d'absorption doublée
-    pour la zone <em>i</em> d'habitation et la zone <em>j</em> d'emploi, pour chaque paire de zones habitation/emploi. 
-    La première matrice en haut à gauche indique donc que le flux entre la zone 1 d'habitation et 
-    la zone 1 d'emploi est accru de 76 lorsque la probabilité d'absorption relative est doublée. 
-    Pour compenser ce flux plus important entre 1 et 1, le flux en la zone d'habitation 2 et l'emploi 1 est réduit de 38, 
-    ce qui implique à son tour que ceux entre 2 et 2 et entre 2 et 3 s'accroissent.")
+    md("The table represents the gap between the resulting flows for a doubled probability of absorption, 
+       for the residential zone <em>i</em> and the employment zone <em>j</em>, for each pair of residential/
+       employment zones. The first matrice at top left indicates that the flow between residential 
+       zone 1 and employment zone 1 is increased by 76 when the probability of relative absorption 
+       is doubled. To compensate these greater flows between zones 1 and 1, the flows between residential
+       zone 2 and employment zone 1 are reduced by 38, which itself implies that those between 2 and 2 and 
+       between 2 and 3 are larger. ")
   )
 ```
 
-An interesting property of the @tbl-fluxpond matrices is that the 9 matrices $3 \times 3$ form a vector space [^10] of dimension 4. This is to be expected, since the constraints reduce the dimension by 9 ($=3\times 3$) to 4, since there are 3 constraints in each dimension (rows and columns) and one is redundant (if the sums on each row are zero, then the sum of all the coefficients is zero and therefore if the sums on two columns are zero, the third is necessarily zero). This indicates that, at least locally (in the vicinity of the flux matrix calculated in @tbl-fluxpoles), it is possible to modify the absorption probabilities to achieve any flux matrix. To the nearest linear approximation, it is therefore possible to reproduce any aggregate flow structure using a set of parameters that exactly saturate the dimension of this flow structure. This property means that different estimation approaches can be envisaged, depending on the data available and the number of degrees of freedom we are prepared to devote to reproducing the data.
+An interesting property of the @tbl-fluxpond matrices is that the nine matrices $3 \times 3$ form a vector space [^10] of dimension 4. This is to be expected, since the constraints reduce the dimension by 9 ($=3\times 3$) to 4, since there are three constraints in each dimension (rows and columns) and one is redundant (if the sums on each row are zero, then the sum of all the coefficients is zero and therefore if the sums on two columns are zero, the third is necessarily zero). This indicates that, at least locally (in the vicinity of the flux matrix calculated in @tbl-fluxpoles), it is possible to modify the absorption probabilities to achieve any flux matrix. To the nearest linear approximation, it is therefore possible to reproduce any aggregate flow structure using a set of parameters that exactly saturate the dimension of this flow structure. This property means that different estimation approaches can be envisaged, depending on the data available and the number of degrees of freedom we are prepared to devote to reproducing the data.
 
-[^10]: The eigenvalues of the $9 \times 9$ consisting of the 9 column vectors of the 9 "derived" matrices are (133.3, 97.3, -28.6, 22.0, 0, 0, 0, 0, 0). With 5 zero eigenvalues and 4 non-zero eigenvalues, we can conclude that the dimension of the vector space generated by the 9 matrices is 4.
+[^10]: The eigenvalues of the $9 \times 9$ consisting of the nine column vectors of the nine "derived" matrices are (133.3, 97.3, -28.6, 22.0, 0, 0, 0, 0, 0). With 5 zero eigenvalues and 4 non-zero eigenvalues, we can conclude that the dimension of the vector space generated by the nine matrices is 4.
 
 The calculation time can be quite long due to the need to repeat a large number of draws, but the following section (@sec-ergemp) shows that this number can remain reasonable. An estimate of this type is implemented by an iterative procedure in the document [Estimates at La Rochelle](larochelle.qmd) document, which reproduces *MEAPS* data from the @MOBPRO job mobility survey with a calculation scheme that can be easily implemented.
 
