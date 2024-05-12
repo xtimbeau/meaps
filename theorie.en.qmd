@@ -1,5 +1,5 @@
 ---
-title: 'MEAPS: Modelling commuter flows'
+title: 'MEAPS: Modelling commuter flows ^[Translation by Scotia Hille]'
 author:
   - name: Maxime Parodi
     email: maxime.parodi@sciencespo.fr
@@ -41,7 +41,6 @@ keywords:
   - commuting
 bibliography:
   - references_meaps.bib
-bibliography: references_meaps.bib
 ---
 
 ```{r, include=FALSE}
