@@ -271,7 +271,7 @@ Du tenseur $[km^m_{ijk}]$ on peut alors calculer l'espérance des kilomètres pa
 
 ## *MEAPS* : principes
 
-On part d'une analogie radiative plutôt que gravitaire : le milieu traversé compte [@stouffer1940 ; @simini2012 ; @simini2013]
+On part d'une analogie radiative plutôt que gravitaire : le milieu traversé compte [@stouffer1940; @simini2012; @simini2013]
 
 1.  **absorption** : Chaque individu part de $i$ et rencontre les opportunités $j$ classées dans l'ordre des distances. A chaque rencontre il a une probabilité $p_i$d'être absorbé. Le voisinage compte, puisque si je traverse un milieu *dense en opportunités* je vais moins loin
 
@@ -291,7 +291,7 @@ $$
 f_{ij} =c\times \frac{n_i^\alpha \times e_j ^\beta }{d_{ij}^\delta }
 $$
 
-est un modèle qui ne tient pas compte du voisinage : le flux est généré par une masse au départ, une autre à l'arrivée mais l'entourage n'intervient pas [@fotheringham1983 ; @simini2012 ; @stouffer1940].
+est un modèle qui ne tient pas compte du voisinage : le flux est généré par une masse au départ, une autre à l'arrivée mais l'entourage n'intervient pas [@fotheringham1983; @simini2012; @stouffer1940].
 
 On peut définir une notion de séparabilité qui n'est respectée à l'origine que si $\alpha=1$ et à la destination si $\beta=1$ : si on divise un groupe au même point $ij$ en deux sous groupes, on veut que la somme de flux générés par les deux sous groupes soit exactement le flux généré par le groupe entier si ils ont les mêmes paramètres (de comportement). De la même façon, si on sépare un groupe d'individus ou d'emplois très proches en des sous groupes à une résolution plus élevée on veut que le changement de résolution n'est qu'un impact faible sur les flux modélisés (à la limite nul).
 

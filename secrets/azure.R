@@ -1,5 +1,5 @@
 azure_url ="https://pourpin.blob.core.windows.net/trajets"
-azure_jeton = "sp=racwdlm&st=2023-08-15T15:45:26Z&se=2024-08-15T23:45:26Z&spr=https&sv=2022-11-02&sr=c&sig=HtFyZD%2FJU%2FYqCp4WOZbBRWLIyo4vbuvkfk0g%2BIOUGR0%3D"
+azure_jeton = "sp=racwdlmeop&st=2024-08-20T14:42:32Z&se=2026-08-20T22:42:32Z&spr=https&sv=2022-11-02&sr=c&sig=X%2FGhmlT9%2BTZgjhxtal7o2lHaYqUmS%2BCIAMNZe357DRk%3D"
 
 board <- pins::board_azure(
   AzureStor::storage_container(

@@ -55,7 +55,7 @@ Nous déclinons enfin ces estimations en utilisant l'information infra-communale
 
 ### Le modèle gravitaire standard : erreurs log-normales
 
-L'estimation de modèle gravitaire est habituellement faite par une régression linéaire [@masucci2013 ; @lenormand2016 ; @josselin2020], par les moindres carrés ordinaires. Le modèle suivant est celui estimé, où les flux observés $f_{ij}$ sont la variable expliquée et les emplois $e$ repartis dans $J$ unités spatiales, les actifs $n$ répartis dans $I$ unités spatiales et la matrice de distance[^2] $[d_{ij}]$ sont les facteurs explicatifs :
+L'estimation de modèle gravitaire est habituellement faite par une régression linéaire [@masucci2013; @lenormand2016; @josselin2020], par les moindres carrés ordinaires. Le modèle suivant est celui estimé, où les flux observés $f_{ij}$ sont la variable expliquée et les emplois $e$ repartis dans $J$ unités spatiales, les actifs $n$ répartis dans $I$ unités spatiales et la matrice de distance[^2] $[d_{ij}]$ sont les facteurs explicatifs :
 
 [^2]: Nous avons pour simplifier l'exposition choisi une fonction "distance" particulière, paramétrée par $\delta$, appelée fonction puissance avec la forme $1/d^\delta$. Des alternatives sont possibles comme la fonction exponentielle, écrite comme $e^{-d/\delta}$, ou tout autre fonction de la distance, éventuellement paramétrée par plus d'un paramètre. Différentes métriques peuvent être utilisées pour analyser les distances. Cela peut être la distance à vol d'oiseau, la distance de parcours par les réseaux routiers ou le temps de parcours – qui permet d'intégrer les transports en commun. On peut également inclure un coût généralisé de transport, qui découle par exemple d'un modèle de choix discret et qui permet de prendre en compte des notions comme les préférences individuelles pour tel ou tel mode de transport (impliquant des vitesses et donc des temps différents) ou le confort ressenti par un mode de transport, que ce soit pendant le voyage ou par la sécurité qu'il procure dans la faible incertitude de sa réalisation. Nous utiliserons pour l'analyse communale la distance euclidienne à vol d'oiseau. Pour les analyses infracommunales, nous utiliserons des distances et des temps de parcours par les réseaux routiers ou de transport en commune suivant différents modes.
 
@@ -145,7 +145,7 @@ $$ {#eq-algsc}
 
 Que cela soit par un effet fixe ou aléatoire, dès que l'on introduit le vecteur $a_i$ dans le modèle, il n'est plus possible d'identifier $\alpha$ et on peut supposer pour $\alpha$ n'importe quelle valeur, les $a_i$ étant fonction de $\alpha$. Le respect de la propriété de séparabilité oblige cependant à choisir $\alpha=1$. Par l'expression de l'@eq-algsc, le respect des contraintes en ligne induit nécessairement $\alpha=1$. En effet, $log(a_i)$ peut s'écrire comme la somme de $(1-\alpha)log(n_i)$ et d'un autre terme qui ne dépend que de $\beta$, $e_j$, $d_{ij}$ et $\delta$. L'équation initiale se réduit alors à un terme en $log(n_i)$. Dans le cas du respect des contraintes en ligne, l'élasticité des flux aux actifs est nécessairement unitaire.
 
-Le respect des $J$ contraintes en colonne (appelées aussi contraintes d'attraction) est fait de manière similaire, en introduisant un vecteur $b_j$. Par le même raisonnement, on ne peut plus estimer $\beta$ et on le fixera à 1, pour respecter la contrainte de séparabilité. Le double respect des contraintes en ligne et en colonne peut se faire par la procédure de Furness [@de2011modelling ; @griffith2016] en définissant $a_i$ et $b_j$ comme suit : $$
+Le respect des $J$ contraintes en colonne (appelées aussi contraintes d'attraction) est fait de manière similaire, en introduisant un vecteur $b_j$. Par le même raisonnement, on ne peut plus estimer $\beta$ et on le fixera à 1, pour respecter la contrainte de séparabilité. Le double respect des contraintes en ligne et en colonne peut se faire par la procédure de Furness [@de2011modelling; @griffith2016] en définissant $a_i$ et $b_j$ comme suit : $$
 a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
 $$ {#eq-algdc1} $$
 b_j = \frac{e_j}{\sum_i { {a_i n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{e_j ^ {1-\beta}}{\sum_i {a_i n_i ^ \alpha / d_{ij}^{\delta} }}
@@ -273,7 +273,7 @@ scot_data <- bd_read("scot_data")
 tbl_scot <- bd_read("tbl_scot")
 ```
 
-::: {#tbl-scot}
+::::: {#tbl-scot}
 ::: {.content-visible when-format="html"}
 ```{r}
 if(knitr::is_html_output())
@@ -316,7 +316,7 @@ if(knitr::is_html_output())
 :::
 
 Description des échantillons d'estimation et de test
-:::
+:::::
 
 Afin de produire des intervalles de confiance, nous rééchantillonons les données d'estimation (*bootstrap*). Nous utilisons le fichier détail du recensement, en tirant avec remise les individus du territoire concerné, avec comme probabilité leur poids dans l'échantillon divisé par la somme des poids. Pour les individus ayant des poids proche de 5, lié au plan de sondage du recensement pour les communes de moins de 10 000 habitants, nous les décomposons en 5 individus de poids divisé par 5. Cela permet d'éviter des accumulations autour des multiples de 5 dans la distribution ré-échantillonnée.
 
