@@ -1,0 +1,32 @@
+---
+title: "Modéliser les mobilités à une échelle fine"
+format: html
+editor: visual
+bibliography: references_meaps.bib
+---
+
+## 
+
+Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau est une recherche originale de modélisation des mobilités. L’approche se distingue de celles développées dans la littérature académique ou dans les modélisations employées dans la profession par :
+
+1.  Une résolution spatiale, sociale et géographique la plus fine possible
+
+2.  L’intégration de données robustes, hétérogènes, reproduites par la modélisation
+
+3.  La recherche d’une modélisation structurelle, c’est-à-dire assise sur des hypothèses les plus simples possibles, interprétables et vraisemblable.
+
+L’approche consiste donc à modéliser les flux de mobilités dans une grille spatiale, socio-économique ou temporelle qui englobe les dimensions des données utilisées.
+
+Par exemple, dans @meaps2023, nous utilisons le recensement (flux annuels de commune à commune), la localisation des individus au carreau 200m, la localisation des emplois au carreau 200m. La grille maximale est donc le carreau 200m pour les orgines et les destinations et un pas annuel pour la temporalité. Ce niveau de résolution est assez peu courant dans les analyses de flux, puisqu'on considère que la connaissance à la grille commune limite la résolution d'analyse. Au lieu de la grille maximale, on choisit alors la plus petite (fine) grille commune.
+
+Nous avons montré [@meaps2024a] que la capacité à reproduire les données de flux issues du recensement (commune à commune) était supérieure lorsqu'on passait par l'étape carreau 200m. Si l'output du modèle (déplié au carreau 200m puis replié à l'échelle communale) est le même, l'utilisation d'une information plus fine ajoute à la qualité prédictive.
+
+Intuitivement, imaginons une commune de grande surface composée de 2 pôles de densité. L'un collé à l'est à une autre commune, l'autre collé à l'ouest à un océan. L'analyse à la grille communale raisonne à partir des barycentres (pondérés dans le meilleur des cas, simple généralement) et donc évalue les distances de *centroïde* à *centroïde*. Dans notre approche, au contraire, le modèle le plus détaillé calcule des distances carreau à carreau. La bipolarité de la commune permet donc de construire un "vrai" barycentre. L'utilisation d'un moteur de routage associé aux données publiques sur les réseaux routiers, de pistes cyclables de dénivelé ou de transport en commun permet par ailleurs de calculer à l'échelle du carreau des temps de transport suivant les différents modes. La distance moyenne d'une commune de résidence à en commune d'emploi dépend ainsi de la distribution spatiale des résidents, de celle des emplois et des temps de parcours entre les deux suivant les modes.
+
+Formellement, la modélisation repose sur un ensemble de paramètres (soit un ensemble limité à quelques paramètres (1 à 4), soit un ensemble de grande taille). L'estimation est faite par simulation du modèle déplié (à la résolution maximale), son repliage (par agrégation à la résolution des données que l'on veut reproduire), puis par l'optimisation d'une fonction de perte (la *log-vraisemblance* pour le cas petit nombre de paramètres) ou par l'emploi d'un algorithme plus efficient (mais moins certain) dans le cas d'un grand nombre de paramètres.
+
+On aura compris que l'inconvénient de l'approche est sa gourmandise en moyens de calculs. Une part importante du travail réside dans l'optimisation du calcul, massivement parallèle, mais aussi dans le choix de la modélisation qui doit conserver la plus grande parcimonie pour rester calculable. Nos premiers travaux montrent qu'avec un coût informatique raisonnable, il est possible d'intégrer une information géographique fine, de la combiner avec une description socio économique des navetteurs simplifiée, et d'améliorer la prédiction des flux significativement par rapport aux approches standards.
+
+Notons également que par cette approche on peut "calibrer" les modélisations pour reproduire fidèlement des données issues d'enquêtes. C'est le cas dans @meaps2024b où
+
+Cette méthode peut être employée pour "ajuster" le modèle à des sources de données différentes, aux résolutions différentes. La fonction de perte (cas d'un petit nombre de paramètres)

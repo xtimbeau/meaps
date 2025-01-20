@@ -1,0 +1,778 @@
+---
+title: "MEAPS: modèle ergodique à absorption et saturation"
+subtitle: "*Séminaire LAET*"
+author-footer: "Parodi&Timbeau"
+author: 
+  - name : Maxime Parodi
+    email: maxime.parodi@sciencespo.fr
+    affiliation: OFCE, Sciences Po Paris
+    affiliation-url: https://www.ofce.fr
+    orcid: 0009-0008-2543-5234
+  - name: Xavier Timbeau
+    email: xavier.timbeau@sciencespo.fr
+    corresponding: true
+    affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
+    affiliation-url: https://www.ofce.fr
+    orcid: 0000-0002-6198-5953
+date: 06/12/2024
+date-modified: today
+lang: fr
+format: 
+  pres-revealjs:
+    transition: slide
+    embed-resources: true
+    self-contained-math: true
+keywords: 
+  - mobilité
+  - choix modal
+  - émissions de CO2
+  - modèle à quatre étapes
+  - densité
+  - forme urbaine
+  - accessibilité
+toc-depth: 1
+bibliography:
+  - references_meaps.bib
+---
+
+```{r}
+library(knitr)
+opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.pos="htb", 
+  out.extra="",
+  dev="ragg_png",
+  out.width="100%",
+  fig.showtext=TRUE,
+  cache=FALSE)
+
+library(tidyverse)
+library(ofce)
+library(showtext)
+library(markdown)
+library(gt)
+library(qs)
+library(sf)
+library(ggspatial)
+library(stars)
+library(glue)
+library(gtsummary)
+library(scales)
+library(broom)
+library(broom.mixed)
+library(arrow)
+library(vroom)
+library(mapdeck)
+library(ggtext)
+
+options(
+  ofce.base_family = "Open Sans",
+  ofce.background_color = "transparent")
+
+tkn <- Sys.getenv("mapbox_token")
+mapdeck::set_token(tkn)
+
+style <- "mapbox://styles/xtimbeau/ckyx5exex000r15n0rljbh8od"
+showtext::showtext_opts(dpi = 180)
+showtext_auto()
+options(ofce.background_color = "grey99")
+options(ofce.base_family = "sans")
+options(ofce.base_size = 9)
+
+source("secrets/azure.R")
+```
+
+# MEAPS : le contexte
+
+## Pourquoi cette modélisation ? Pourquoi la Rochelle ?
+
+Au départ : articuler la distribution spatiale des résidents et des opportunités
+
+-   notamment les emplois, mais aussi les écoles, les commerces, les espaces verts
+
+-   comprendre les prix de l'immobilier et la différence qu'induit l'accessibilité à ces opportunités
+
+Pour aller plus avant, les émissions de CO~2~ par exemple, il faut passer du potentiel à des flux réalisés (en espérance). C'est cette question qui s'est posée lors d'un travail pour l'agglomération de la Rochelle (sur le périmètre du SCoT La Rochelle Aunis).
+
+<br>
+
+::: {.callout-tip icon="false"}
+## définition
+
+On définit **l'accessibilité** comme : $s_i(d)=\sum _{j/d_{i,j}<d}$
+
+C'est le nombre d'opportunités accessibles à une distance inférieure à $d$ de $i$. La distance peut être à vol d'oiseau, en temps de trajet, en coût généralisé de transport. L'opportunité peut être une métrique plus ou moins complexe (nombre d'emplois, corrigés de la qualité, corrigé de la diversité, ...) . On peut "écraser" la dimension des opportunités à l'arrivée (opportunité synthétique pour un ménage ou un individu particulier) ou à l'origine (emploi moyen recherché)
+:::
+
+## 3 documents de travail
+
+<br>
+
+@meaps2023 : description du modèle théorique, discussion du modèle gravitaire, analyse des propriétés de MEAPS
+
+<br>
+
+@meaps2024a : estimation de MEAPS et comparaison avec le modèle gravitaire. discussion de la stratégie d'estimation
+
+<br>
+
+@meaps2024b : analyse du lien entre densité et émission et construction de modèles pour les fréquences, les détours et les modes de transport
+
+<br>
+
+un site <https://preview.meaps.fr> sur lequel vous trouverez les documents de travail et les liens vers les dépôts {{< fa brands github >}}.
+
+# Accessibilité: du potentiel à l'espérance des flux
+
+## Accessibilité aux emplois
+
+```{r}
+
+knitr::include_graphics("access_plm_50k.png")
+
+```
+
+## A la Rochelle: accessibilité aux emplois par mode {.scrollable}
+
+```{r}
+
+access <- qs::qread("output/acces4modes.sqs")
+decor_carte <- bd_read("decor_carte")
+if(is_html_output())
+  accpanels <- set_names(c("to1k", "to5k", "to10k", "to20k")) else
+  accpanels <- set_names(c("to10k"))  
+  
+access_4modes <- 
+  map(accpanels, ~{ 
+    ggplot()+
+      decor_carte +
+      ofce::theme_ofce_void(axis.text = element_blank()) +
+      geom_sf(data=access, aes(fill=.data[[.x]]), col=NA)+
+      PrettyCols::scale_fill_pretty_c(
+        "Rainbow", 
+        limits = c(0,100),
+        breaks = c(15, 30, 45, 60, 75, 90),
+        na.value = "gray85",
+        direction=-1, 
+        legend_title = glue("temps pour \n{str_remove(.x, 'to')} emp."))+
+      annotation_scale(line_width = 0.2, height = unit(0.1, "cm"), 
+                       text_cex = 0.4, pad_y = unit(0.1, "cm"))+
+      facet_wrap(vars(mode))
+  })
+nacc <- names(access_4modes) |>
+  str_remove("to") |> 
+  str_remove("k") |>
+  as.numeric() 
+nacc <- format(nacc*1000, big.mark=" ")
+if(is_html_output())
+  {
+  src <- map2(
+    names(access_4modes), 
+    nacc,
+    function(x, y) str_c("#### ",
+                         y,
+                         " emplois\n", 
+                         knit_expand(file = "_templates/access_template.qmd")))
+  src <- c(":::{.panel-tabset}\n", src, "\n:::")
+  } else {
+    src <- map2(
+    names(access_4modes), 
+    nacc,
+    function(x, y) knit_expand(file = "_templates/access_template.qmd"))
+  }
+
+acc_cr <- str_c(str_c("@fig-acc", accpanels), collapse = ", ")
+```
+
+`r knit(text = unlist(src))`
+
+## A la Rochelle: accessibilité aux emplois par commune
+
+```{r}
+mode_l <- qs::qread("output/model_l.sqs")
+library(scales)
+ggplot(mode_l) +
+  geom_line(aes(x=temps, y=emp, group=com21), col="gray80", linewidth=0.2) +
+  geom_line(data = ~filter(.x, !str_detect(label, "^n")),
+            aes(x=temps, y=emp, color=label)) +
+  scale_x_continuous(breaks  = c(0, 20,40,60,80,100,120))+
+  scale_y_continuous(labels = ofce::f2si2, breaks = c(25000, 50000, 75000, 100000))+
+  PrettyCols::scale_color_pretty_d("Bold")+
+  ofce::theme_ofce()+
+  xlab("temps en minutes") +
+  ylab("nombre d'emplois accessibles")+
+  labs(color="Communes")+
+  theme(legend.position = c(0.01, 0.99),
+        legend.justification = c(0,1),
+        panel.spacing = unit(12, "pt"),
+        plot.margin = margin(l = 6, r= 6),
+        panel.grid.major.x = element_line(color="gray80", linewidth = 0.1))+
+  facet_wrap(vars(mode))
+
+```
+
+## Ce qui demande de localiser emplois et résidents et ce qui les relie
+
+-   **Individus** : données carroyées INSEE c200m 2017 et 2019
+
+-   **Emplois** : MOBPRO (recensement fichier détail) 2019 imputés par commune et par secteur NAF 5 en fonction des surfaces professionnelles issues des fichiers fonciers et du RFP
+
+-   **Trajets** : GTFS, OSM et routeur (dodgr, R5)
+
+```{r}
+knitr::include_graphics("output/popemp.png")
+```
+
+## Du potentiel à l'effectif
+
+Comment produire cette carte de CO~2~ imputé aux résidents pour leurs mobilités professionnelles quotidienne ?
+
+```{r}
+carte_kmnav <- bd_read("Km voiture au c200")
+fdc <- bd_read("decor_carte")
+ggplot() + 
+  fdc + 
+  geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
+  scale_fill_distiller(
+    "Motif professionel\nKilomètres par actif par an", 
+    palette="Spectral") +
+  theme_ofce_void() +
+  theme(legend.key.width = unit(9, "pt")) +
+  labs(caption= "*Sources* : MOBPRO, EMP 2019, C200, MEAPS")
+```
+
+## Principe général de la modélisation
+
+<br>
+
+![](modeles.svg){fig-align="center"}
+
+<br>
+
+Du tenseur $[km^m_{ijk}]$ on peut alors calculer l'espérance des kilomètres par carreau $km_{ij}$, pour une catégorie particulière $km_{k}$, pour un mode spécifique $km^k$, etc...
+
+## Par rapport au modèle à 4 étapes
+
+On part de la description du modèle à 4 étapes de @patrickbonnel2001
+
+-   L'étape 1 (trajets sortants et entrants) repose sur l'observation à la commune (MOBPRO)/imputée au carreau 200m. Le modèle de fréquence (modèle 3) y participe.
+
+-   MEAPS génére les flux entre *o* et *d* : étape 2 – distribution mais...
+
+-   les flux sont générés à partir des trajets le long des réseaux (temps de parcours, dénivelé, vitesses) ce qui correspond à l'étape 4 –spécification
+
+-   ces trajets sont calculés pour chaque mode (une partie de l'étape 3 – choix modal)
+
+-   le choix modal intervient dans cette version de façon orthogonal (étape 3 – choix modal) et sera intégré prochainement à la génération des flux (étape 2 et 4)
+
+# MEAPS pour les flux de navetteurs
+
+## Synthèse : Pourquoi MEAPS est mieux
+
+-   *Théoriquement* MEAPS décrit un processus d'appariement spatialisé explicite et vraisemblable. La saturation permet un appariement complet \[ce qui n'est pas le cas pour gravitaire\].
+
+-   *Empiriquement*, il faut utiliser un modèle de Poisson ou une fonction objectif entropie relative de Kullback-Leibler (KL) pour estimer un modèle de flux (MEAPS ou gravitaire).
+
+-   *Empiriquement*, MEAPS 0p. peut servir de modèle de référence. En introduisant des odds ratios, on peut paramètrer MEAPS pour représenter une préférence locale (par ex.).
+
+-   *Empiriquement*, le modèle gravitaire quant à lui repose sur des effets fixes ou une procédure de Furness pour fonctionner. Mais on triche avec les masses alors que les masses sont l'argument principal.
+
+-   *Empiriquement,* avec seulement 2 ou 3 paramètres, on arrive à expliquer (presque) aussi bien avec MEAPS qu'avec un gravitaire à effets fixes ou Furness
+
+-   *Hors échantillon*, on peut reproduire les flux avec seulement la localisation de l'emploi et des résidents
+
+-   En ajoutant une information infra-communale, on améliore la capacité de MEAPS à repduire les flux, mieux qu'un gravitaire saturé.
+
+## *MEAPS* : principes
+
+On part d'une analogie radiative plutôt que gravitaire : le milieu traversé compte [@stouffer1940; @simini2012; @simini2013]
+
+1.  **absorption** : Chaque individu part de $i$ et rencontre les opportunités $j$ classées dans l'ordre des distances. A chaque rencontre il a une probabilité $p_i$d'être absorbé. Le voisinage compte, puisque si je traverse un milieu *dense en opportunités* je vais moins loin
+
+2.  **saturation** : Chaque fois qu'un individu est absorbé, l'opportunité est diminuée. Il y a concurrence entre les individus pour accéder aux opportunités. A nouveau le voisinage compte : si je suis dans un milieu *dense en individus* je dois aller plus loin
+
+3.  **priorité** : la saturation est résolue en donnant la priorité au premier arrivé. On donne un ordre aux individus et on détermine leur absorption en fonction de 1. et de 2. dans l'ordre de priorité
+
+4.  **ergodicité** : on tire un grand nombre d'ordres aléatoirement, en répétant 1 2 et 3 pour obtenir en moyenne une allocation indépendante de l'ordre arbitraire, ce qui achève la prise en compte du voisinage
+
+Par construction ce modèle respecte le principe de séparabilité. La saturation permet en outre d'assurer que chaque individu occupe un emploi et que chaque emploi est occupé *si les opportunités sont toutes accessibles à tous les individus*.
+
+## Radiatif plutôt que *gravitaire* : des arguments théoriques
+
+Le modèle gravitaire dans sa forme générale :
+
+$$
+f_{ij} =c\times \frac{n_i^\alpha \times e_j ^\beta }{d_{ij}^\delta }
+$$
+
+est un modèle qui ne tient pas compte du voisinage : le flux est généré par une masse au départ, une autre à l'arrivée mais l'entourage n'intervient pas [@fotheringham1983; @simini2012; @stouffer1940].
+
+On peut définir une notion de séparabilité qui n'est respectée à l'origine que si $\alpha=1$ et à la destination si $\beta=1$ : si on divise un groupe au même point $ij$ en deux sous groupes, on veut que la somme de flux générés par les deux sous groupes soit exactement le flux généré par le groupe entier si ils ont les mêmes paramètres (de comportement). De la même façon, si on sépare un groupe d'individus ou d'emplois très proches en des sous groupes à une résolution plus élevée on veut que le changement de résolution n'est qu'un impact faible sur les flux modélisés (à la limite nul).
+
+## Radiatif ou *gravitaire* : Poisson versus log normal
+
+On estime le modèle gravitaire par cette équation en supposant un processus générateur log normal [@josselin2020, @lenormand2016] :
+
+$$
+log(f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} + c + \varepsilon_{ij} \;\;;\; \;\varepsilon_{ij} \sim \mathcal{N}(0, \sigma^2)
+$$
+
+C'est une mauvaise façon de faire [@flowerdew1982] parce que le processus générateur est celui d'un Poisson (comptage) :
+
+$$
+P(\hat f_{ij}= f_{ij}) = \frac{e^{-\hat f_{ij}}\times \hat f_{ij}^{f_{ij}}}{f_{ij}!} \;et\;
+log(\hat f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times d_{ij} +c 
+$$
+
+ou, la comparaison de deux densités doit se faire par l'entropie relative de Kullback-Leibler [@kullback1951]. La log vraisemblance d'une table de contingence s'écrit :
+
+$$
+\mathcal L = \sum_{ij} f_{ij} log(\hat f_{ij} /n)
+$$ au lieu de l'ajustement usuel par les MCO (on peut s'en approcher par des MCO pondérés par $f_{ij}$ [@agresti2002, pp.146-148].
+
+## Radiatif ou *gravitaire* : effets fixes ou aléatoires
+
+Reste que les estimations ne s'arrêtent pas là : on dispose généralement d'une information que l'on veut utiliser (ou respecter). On connait les $n_i$ et le $e_i$. L'estimation par Poisson ou par résidu log normaux ne permet pas le respect de cette information. On ajoute donc généralement des effets fixes ou aléatoires (suivant l'hypothèse que l'on pose pour la projection par exemple) :
+
+$$log(\hat f_{ij}) = \alpha \times log(n_i) + \beta \times log(e_j) - \delta \times log(d_{ij}) + log(a_i) + log(b_j)
+$$
+
+Dans ce cas le modèle, ne permet pas d'identifier $\alpha$ ou $\beta$ – on les pose à 1 pour respecter le principe de séparabilité.
+
+On peut également utiliser une procédure de Furness (itérative, puis estimation non linéaire, on montre que $\alpha=\beta=1$ ) :
+
+$$
+a_i = \frac{n_i}{\sum_j {{b_j n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{n_i ^ {1-\alpha}}{\sum_j { b_j e_j ^ \beta / d_{ij}^{\delta} }}
+$$
+
+$$
+b_j = \frac{e_j}{\sum_i { {a_i n_i ^ \alpha e_j ^ \beta} / { d_{ij}^{\delta} }}} = \frac{e_j ^ {1-\beta}}{\sum_i {a_i n_i ^ \alpha / d_{ij}^{\delta} }}
+$$
+
+## Radiatif ou gravitaire : ajustement de MEAPS
+
+<br>
+
+MEAPS est un modèle sans paramètre [comme @simini2012]. On peut ajouter des paramètres dans le modèle :
+
+$$
+\tilde{p}_{abs,ij} = \frac{c_{abs} \times \omicron_{ij}} {1+c_{abs} \times \omicron_{ij}} 
+$$
+
+<br>
+
+Puis en définissant une structure $O$ sur les $\omicron_{ij}$ si on ne veut pas d'un modèle saturé ($\mathcal{L}$ est bien sûr l'entropie relative KL ;)).
+
+$$
+\hat \theta = \underset{\theta}{\mathrm{argmin}} \, \mathcal{L}(f^{meaps}_{ij}(O(d_{ij},\theta)))
+$$
+
+## Estimations et ajustement sur MOBPRO : gravitaire par glm ou mco {.scrollable}
+
+```{r}
+pvalue_stars <- function(x) dplyr::case_when(
+  x < 0.001 ~ "<sup>\u002a\u002a\u002a</sup>",
+  x < 0.01 ~ "<sup>\u002a\u002a</sup>",
+  x < 0.05 ~ "<sup>\u002a</sup>",
+  x > 0.05 ~ "" )
+
+fmt_coef <- function(p, sd, se=rep(NA, length(p)), df=100) {
+  cont <- abs(sd/p)<0.0001
+  cont[is.na(cont)] <- TRUE
+  l1 <- ifelse(
+    is.na(p), "\\-",
+    ifelse(cont, 
+           str_c(signif(p,2)), 
+           str_c(signif(p,3), pvalue_stars(2*pt(p/sd, df, lower.tail = FALSE)))))
+  l2 <- ifelse(is.na(p), "",        
+               ifelse(is.na(se)|cont, "", 
+                 str_c("<br><small><em>(", signif(se,2),")</em></small>")))
+  l3 <- ifelse(is.na(p), "",        
+               ifelse(cont, "<br><small>(cont.)</small>", 
+                      str_c("<br><small>(", signif(sd,2),")</small>")))
+  str_c(l1, l2, l3)
+}
+
+data.tbl_glm <- bd_read("grav.est.collapsed") |> 
+  filter(effect!="random") |>
+  mutate(p1 = fmt_coef(p1_m, alpha.se, p1_sd),
+         p2 = fmt_coef(p2_m, beta.se, p2_sd),
+         p3 = fmt_coef(p3_m, delta.se, p3_sd),
+         k = n-df) |> 
+  mutate(ligne = 1:n(),
+         method = tolower(method)) |>
+  select(ligne, nom, method, k, df, p3, p1, p2, 
+         r2kl=r2kl_m, r2kli=r2kli_m, dev.expl = dev.expl_m) |> 
+  filter(str_detect(nom, "Grav")) |> 
+  filter(!str_detect(nom, "quasipoisson"))
+
+data.tbl_glm  |> 
+  gt() |> 
+  cols_label(ligne = "", nom = "",
+             k = "p", df = "DL",
+             method = "méthode",
+             r2kl = md("R^2^~KLu~"), r2kli = md("R^2^~KLi~"),
+             dev.expl = md("R^2^~dev~"),
+             p1 = md("\u03B1"), p2 = md("\u03B2"), p3 = md("\u03B4")) |> 
+  fmt_markdown(columns = c(p1,p2,p3)) |> 
+  fmt_percent(columns = c(r2kl,r2kli,dev.expl), decimals = 1) |> 
+  sub_missing() |> 
+  cols_align(columns = -nom, align = "center") |> 
+  tab_style(locations = cells_body(rows = seq(1, nrow(data.tbl_glm)-1, by = 3)),
+            style = cell_borders(sides="top")) |> 
+  tab_spanner(label = "Modèle", col=c(method, k, df)) |> 
+  tab_spanner(label = "Paramètres", col=c(p3, p1, p2)) |> 
+  tab_spanner(label = "Métriques", col=c(r2kl, r2kli, dev.expl)) 
+```
+
+## Estimations et ajustement sur MOBPRO : graphiquement {.scrollable}
+
+```{r}
+flux.grav <- bd_read("flux.grav")
+data <- flux.grav |>
+  filter(dist == "euc", !str_detect(nom, "RE"), !str_detect(nom, "quasipoisson")) |> 
+  mutate(method = factor(method), submethod = factor(submethod))
+ggplot(data |> biscale::bi_class(method, submethod, dim=3))+
+  geom_point(aes(x=mobpro, y=flux,
+                 color = bi_class, size=sqrt(mobpro)), alpha=.5, 
+             show.legend = FALSE, stroke = 0) +
+  scale_size(range = c(0.25, 2.5))+
+  scale_x_log10(name = "observé", limits=c(1, 60000), labels = c("1", "10", "1k", "50k"), breaks = c(1, 10, 1000, 50000))+
+  scale_y_log10(name = "estimé", limits=c(1, 60000), labels = c("1", "10", "1k", "50k"), breaks = c(1, 10, 1000, 50000))+
+  biscale::bi_scale_color(pal= "BlueYl", dim=3 ) +
+  geom_abline(slope=1, linewidth = 0.1, color = "grey", linetype = "solid")+
+  coord_equal()+
+  facet_grid(rows = vars(submethod), cols = vars(method))+
+  theme_ofce(base_size = 9, 
+             strip.text = element_text(size = 8),
+             panel.grid.major.x = element_line(color = "grey", linewidth = 0.1))+
+  labs(caption="*Sources* : MOBPRO, MEAPS")
+```
+
+## Estimations et ajustement sur MOBPRO : estimations non linéaires {.scrollable}
+
+```{r}
+bd_read("estmeaps") |> 
+  select(id, nom, obj, nbp, dl, p1, p2, p3, r2kl, r2kli) |> 
+  filter(str_detect(nom, "Grav")) |> 
+  mutate(id = 1:n()) |> 
+  gt() |> 
+  cols_label(id="", nom = "", obj="objectif", 
+             nbp = "p", dl = "DL",
+             r2kl = md("R^2^~KLu~"), r2kli = md("R^2^~KLi~"),
+             p1 = md("\u03B4"), p2 = md("\u03B1"), p3 = md("\u03B2")) |> 
+  tab_spanner(label = "Modèle", col=c(obj, nbp, dl)) |> 
+  tab_spanner(label = "Paramètres", col=c(p1, p2, p3)) |> 
+  tab_spanner(label = "Métriques", col=c(r2kl, r2kli)) |> 
+  fmt_markdown(c(p1, p2, p3, obj)) |> 
+  fmt_percent(columns = c(r2kl,r2kli), decimals = 1) |> 
+  sub_missing() |> 
+  cols_align(columns = -c(id,nom), align = "center") 
+
+```
+
+## Estimations et ajustement sur MOBPRO : estimations non linéaires {.scrollable}
+
+<br>
+
+```{r}
+bd_read("estmeaps") |> 
+  select(id, nom, obj, nbp, dl, p1, p2, r2kl, r2kli) |> 
+  filter(str_detect(nom, "MEAPS")) |> 
+  mutate(id=1:n()) |> 
+  gt() |> 
+  cols_label(id = "", nom = "", obj="objectif", 
+             nbp = "p", dl = "DL",
+             r2kl = md("R^2^~KLu~"), r2kli = md("R^2^~KLi~"),
+             p1 = md("p~1~"), p2 = md("p~2~") ) |> 
+  tab_spanner(label = "Modèle", col=c(obj, nbp, dl)) |> 
+  tab_spanner(label = "Paramètres", col=c(p1, p2)) |> 
+  tab_spanner(label = "Métriques", col=c(r2kl, r2kli)) |> 
+  fmt_markdown(c(p1, p2, obj)) |> 
+  fmt_percent(columns = c(r2kl, r2kli), decimals = 1) |> 
+  cols_align(columns = -c(id, nom), align = "center") 
+```
+
+## Estimations et ajustement sur MOBPRO : graphiquement 2 {.scrollable}
+
+```{r}
+#| fig-asp: 0.6
+library(scales)
+datafm <-bd_read("datafm")
+
+ggplot(datafm)+
+  geom_point(aes(x=mobpro, y=flux,
+                 color = nom0, size=sqrt(mobpro)), alpha=.5, 
+             show.legend = FALSE, stroke = 0) +
+  scale_size(range = c(0.25, 2.5))+
+  scale_x_log10(name = "observé", limits=c(1, 60000), labels = c("1", "10", "1k", "50k"), breaks = c(1, 10, 1000, 50000))+
+  scale_y_log10(name = "estimé", limits=c(1, 60000), labels = c("1", "10", "1k", "50k"), breaks = c(1, 10, 1000, 50000))+
+  geom_abline(slope=1, linewidth = 0.1, color = "grey", linetype = "solid")+
+  coord_equal()+
+  facet_wrap(vars(nom0), nrow = 3, ncol = 3)+
+  theme_ofce(base_size = 9, 
+             strip.text = element_text(size = 8),
+             panel.grid.major.x = element_line(color = "grey", linewidth = 0.1))+
+  labs(caption = "*Sources* : MOBPRO, MEAPS")
+```
+
+## Estimations et ajustement sur MOBPRO : une surprise !
+
+En intégrant les informations infracommunales, en simulant MEAPS au carreau 200m, en agrégeant au niveau communal (o) communal (d) on reproduit MOBPRO et on compare à l'observation (par un KL). MEAPS est paramétrisé (1, 2 ou 3 paramètres) et donc on peut déterminer les paramètres qui minimisent le KL comparant la distribution simulée et observée. On pourrait procéder à différentes agrégations pour reproduire plus d'"observées" avec les mêmes paramètres ou en ajoutant des paramètres supplémentaires.
+
+```{r}
+meaps_stats_p <- qs::qread("output/meaps_stats.sqs") |> 
+  arrange(r2kl) |> 
+  select(-f_in, -f_out) |> 
+  filter(alg %in% c("référence", "gravitaire avec furness", "gravitaire sans furness",
+                    "un en diagonale", "2 en diagonale", "distance critique")) |> 
+  mutate(
+    labelp = case_match(alg,
+             c("gravitaire avec furness", "gravitaire sans furness") ~ 
+                 str_c("\u03B4\u2248", signif(p1, 2), " min"),
+             "référence" ~ "",
+             "un en diagonale" ~ str_c("o\u2248", signif(p1, 2)),
+             "2 en diagonale" ~ str_c("o<sub>d</sub>\u2248", signif(p1, 2), "<br>",
+                                               " o<sub>v</sub>\u2248", signif(p2, 2)),
+             "distance critique" ~ 
+               str_c("d<sub>c</sub>\u2248 ", signif(p1, 2)," min<br>",
+                                               " o\u2248", signif(p2, 2))),
+    label = case_match(alg,
+             "gravitaire avec furness" ~ "5. Gravitaire avec Furness",
+             "gravitaire sans furness" ~ "4. Gravitaire sans Furness",
+             "référence" ~ " Référence",
+             "un en diagonale" ~ "1. Commune vers commune",
+             "2 en diagonale" ~ "2. Commune vers commune et voisines",
+             "distance critique" ~ "3. Distance carreau 200m")) |> 
+  arrange(label) |> 
+  relocate(label) |> 
+  select(-p1,-p2, -alg, -n_est)
+meaps_stats_p |> 
+  relocate(label) |> 
+  gt() |> 
+  fmt_percent(columns = r2kl, decimals = 1) |>
+  fmt_integer(columns = c(dl), sep_mark = " ") |>
+  fmt_markdown(columns = labelp) |> 
+  tab_style(
+    style = cell_borders(sides = "top", col="gray66"),
+    locations = cells_body(rows = label == "4. Gravitaire sans Furness")) |> 
+  cols_label(label = "",
+             labelp = "Paramètres",
+             r2kl = md("R<sub>KL</sub><sup>2</sup>"),
+             dl = "Degrés de liberté") |>
+  cols_align(columns = c(r2kl, dl, labelp), align= "center" ) |> 
+  tab_footnote(md("Le nombre de degrés de liberté est le nombre de paires de flux non nuls dans MOBPRO, moins les contraintes en ligne et en colonne, plus un puisqu'elles sont redondantes moins le nombre de paramètres estimés. Les unités sont des minutes de trajet pour les paramètres homogènes à une distance et sans unité pour les *odd-ratios*."))
+```
+
+# Projections : modéliser les détours, les fréquences et les modes
+
+## Détours
+
+![](images/boucles.svg)
+
+## Détours : Boucles simples
+
+$$                                                                                                          
+ logit(Prob^{simple}_k) = \alpha + \beta \times typmen_k +\varepsilon_k \\ avec \varepsilon_k \sim Binomial  
+$$
+
+<br> En utilisant L'EMP 2019, on repère les boucles simples (trajet domicile travail puis retour).
+
+```{r}
+
+MOD_simple <- bd_read("Prob boucle simple")
+
+modelsummary::modelsummary(models = MOD_simple,
+                           output = "gt",
+                           statistic = NULL,
+                           estimate = "{estimate} ({std.error}){stars}",
+                           coef_rename = c("Constante", "Monoparent", "Couple sans enfant",
+                                           "Couple avec enfant(s)", "Autres")
+                           )
+```
+
+## Détour : Boucles complexes
+
+Pour une distance $d$ domicile travail, la longueur de la boucle est $L = K \times d$. En posant $\gamma$ la proportion de détours rapportée à la distance domicile travail on a $\gamma = K - 2$. On fait une régression par quantile :
+
+$$
+log(\gamma_l) = \alpha + \beta \times log(1 + d_l) + \varepsilon_l
+\\ avec\ \varepsilon_l \sim \mathcal{N}
+\\ en\ minimisant \sum_l \left\lvert{\varepsilon_l}\right\lvert
+$$
+
+En utilisant L'EMP 2019, on repère pour les boucles complexes où le premier ou le dernier trajet est entre le domicile et le travail la longueur de la boucle et la distance domicile travail (boucles B ou D). On mesure alors $\gamma$.
+
+```{r}
+library(quantreg)
+mod_detours <- bd_read("Proportion détours")
+data_bcl <- bd_read("Data boucles complexes")
+K_pred <- 2 + exp(predict(mod_detours, data_bcl)) - 0.01
+
+broom::tidy(mod_detours) |> 
+  gt() |>
+  fmt_number(columns = -term, decimals = 2) |> 
+  cols_label(term  = "", estimate = "Coefficient", conf.low = ">5%", conf.high = "<95%")
+```
+
+## Nombre de boucles
+
+<br>
+
+On modélise les boucles par un modèle de Poisson augmenté pour la sous-dispersion Conway-Maxwell-Poisson [@Conway1962]
+
+$$
+P(x=n|\lambda,\nu) = \frac{\lambda^n}{Z(\lambda, \nu) \times (n!)^\nu} \quad pour\ n=0,1,2...
+$$
+
+avec l'équation suivante :
+
+$$
+log(nb^{bcl}_k) = \alpha + \gamma \times log(L^{bcl}_k) + \delta \times dens_{res, k} + \tau \times voiture_k + \varepsilon_k \\avec \\ \varepsilon_k \sim CMP(\lambda, \nu)
+$$
+
+## Fréquences : Nombre de boucles
+
+En utlisant l'EMP 2019, on compte par individu le nombre de boucles.
+
+<br>
+
+```{r}
+library(mpcmp)
+MOD_cmp <- bd_read("Model ConwayMaxwellPoisson")
+nu <- MOD_cmp$nu
+modelsummary::modelsummary(models = list('CMP'=MOD_cmp),
+                           output = "gt",
+                           statistic = NULL,
+                           estimate = "{estimate} ({std.error}){stars} {p.value}",
+                           coef_rename = c("DENSITECOM_RESAssez dense"="Commune assez dense",
+                                           "DENSITECOM_RESPeu dense"="Commune peu dense",
+                                           "voitureTRUE"="A une voiture"))
+```
+
+## Modes de transport
+
+On suit @mcfadden1974d en estimant un *Random Utility Model*
+
+$$
+U_l^m = \alpha_m + \beta \times tt_{bcl,m} + \gamma_m \times log(L_{bcl}) + \delta_m \times log(NdV_l)
+\\ \lambda_m \times dens_l + \mu_m \times typmen_l + \nu_m \times voiture_l + \varepsilon_{m,l}
+\\ avec\ \varepsilon_{m,l} \sim Loi\ de\ Gumbel
+$$
+
+La source est l'EMP 2019. On n'utilïse pas le recensement qui interroge sur le mode habituel \[on pourrait vérifier quand même\].
+
+![](images/clipboard-1134119035.png){fig-align="center"}
+
+# Kilomètres parcourus par les navetteurs
+
+## Carte au carreau 200m
+
+```{r}
+carte_kmnav <- bd_read("Km voiture au c200")
+fdc <- bd_read("decor_carte")
+ggplot() + 
+  fdc + 
+  geom_sf(data = carte_kmnav, aes(fill = kmpa), linewidth = 0.01, col = "white")+
+  scale_fill_distiller(
+    "Motif professionel\nKilomètres par actif par an", 
+    palette="Spectral") +
+  theme_ofce_void() +
+  theme(legend.key.width = unit(9, "pt")) +
+  labs(caption= "*Sources* : MOBPRO, EMP 2019, C200, MEAPS")
+```
+
+## Lien entre niveau de vie et distance parcourue
+
+![](images/clipboard-3782242967.png){fig-align="center"}
+
+## Lien revenu émissions à Marseille (IRIS)
+
+![](images/clipboard-3150985983.png){fig-align="center"}
+
+## Scénarios de densification : le lien entre la densité et la forme urbaine
+
+![](images/clipboard-1842678492.png){fig-align="center"}
+
+## La densité et les émissions de CO2
+
+En regardant finement la distribution spatiale des individus on s'affranchit du problème de l'autosélection.
+
+![](images/clipboard-1789958182.png){fig-align="center"}
+
+# Conclusion {.smaller}
+
+## En résumé {.smaller}
+
+On **combine** des **sources de données** :
+
+-   La localisation des résidents au carreau 200m (données carroyées INSEE 2019)
+
+-   La localisation des emplois au carreau 200m (recensement fichier détail MOBPRO + fichiers fonciers + RFP, 5 secteurs)
+
+-   Les réseaux de transport pour calculer les distances et les temps de parcours par mode entre chaque paire
+
+-   les flux inter communaux (recensement fichier détail MOBPRO) pour ajuster le modèle de flux infra communal
+
+-   l'enquête EMP 2019 pour évaluer la longueur des boucles, leur complexité et leur fréquence
+
+-   l'enquête EMP 2019 pour évaluer les modes
+
+On **modélise** les flux, les fréquences, les détours, les modes sans agréger les individus spatialement, avec des propriétés pertinentes et explicites.
+
+Sur ces *sources ouvertes (ou presque)*, nous proposons une approche en *open source* afin d'assurer la transparence et la reproductibilité.
+
+On obtient un **modèle calibré** qui peut être utilisé avec une *certaine* *confiance* pour intrapoler, interpoler, analyser la géographie (localisations, réseaux) et faire des analyses de scénarios
+
+## Extensions possibles
+
+<br>
+
+-   Utiliser les données enrichies par le SDES sur les émissions dans l'EMP 2019
+
+-   Introduire des dépendances entre les termes de l'équation fondamentale : par exemple, les flux différenciés par ménages, par catégories d'emploi, par mode
+
+-   décliner MEAPS sur une matrice $o\times d \times mode$ en les classant selon un coût généralisé, pour imputer les flux par mode. L'estimation sera alors faite sur 2 critères : flux MOBPRO plus EMP pour les choix modaux (ou MOBPRO modal)
+
+-   Inclure la congestion dans les calculs de temps de parcours en voiture (par ex. données Mapbox sur le trafic usuel, données de flotte potentiellement) ou le temps de transport effectif moyen (GTFS temps réel disponible pour certaines agglomérations).
+
+-   D'autres structures dans les *odds* de *MEAPS*, des processus stochastiques non binomiaux
+
+-   Affiner les catégories de ménages, celles d'emploi
+
+## Futurs développements: Marseille et le passage à l'échelle
+
+Actuellement, nous travaillons sur la métropole d'Aix-Marseille-Provence. C'est un passage à l'échelle significatif : La matrice de flux de la Rochelle est 5000 $\times$ 5000 $\approx$ 25M. Celle de Marseille est de 26000 $\times$ 38000 $\approx$ 1G, soit 40 fois plus grande. On calcule par exemple les paires origines destination à une vitesse de l'ordre de 5000 paires/s/vCPU.
+
+![](images/clipboard-376207725.png)
+
+## Futurs développements: Autres motifs
+
+<br>
+
+Un des enjeux est calculer l'espérance pour les autres motifs que le motif professionnel.
+
+-   mobilités scolaires : recensement fichier détail plus ensemble d'opportunité plus simple, pas de saturation
+
+-   mobilités pour le commerce : pas de source origine destination, ensemble d'opportunités très large, très divers. Nous explorons l'EMC^2^ AMP pour une estimation en construisant une couche commerce synthétique (un motif agrégé, pondéré par les usages) et en ayant des matrices O/D partielles.
+
+-   mobilités pour les autres motifs (santé, démarches, loisir, socialisation) : pas de source origine destination, si ce n'est L'EMC^2^. Motifs encore plus divers que pour les commerces. Exploration d'une couche synthétique construite sur la population avec une estimation des matrices O/D partielles.
+
+## Futurs développements: Autres données
+
+<br>
+
+-   L'utilisation d'autres données comme celles de @lévy2023 (bornage de téléphone, qui permettent des matrices o/d à la résolution de l'IRIS). Un projet ANR est en cours (de candidature) avec un consortium (incluant le LAET) sur cette question (*Digitalisation et décarbonation des mobilités - MOBIDEC*). La future chaire Dynamiques Urbaines a pour objet d'accueillir ces travaux et de centraliser les ressources (dont les données de mobilité).
+
+-   La génération des flux *o/d* permet de produire des flux par tronçon qui pourraient être ajustés sur des comptages observés.
+
+-   D'autres traces numériques peut éventuellement permettre d'affiner un ou plusieurs des modèles employés (notamment MEAPS) et de les confronter à des résolutions infra-communales.
+
+-   L'utilisation de Fidéli sur le CASD permet d'avoir une information fine (revenu, structure familiale au carreau 200m) qui fournirait une source importante pour la projection et la pondération des kilomètres. Il y a également la possibilité d'un début d'analyse temporelle. Mais les règles actuelles de préservation de l'anonymat empêchent de produire et de publier une information dérivée au carreau 200m à partir de ces données.
+
+## Bibliographie
+
+::: {#refs}
+:::
