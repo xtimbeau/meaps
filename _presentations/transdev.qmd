@@ -5,7 +5,7 @@ editor: visual
 bibliography: references_meaps.bib
 ---
 
-## 
+## un travail de recherche  empirique
 
 Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau est une recherche originale de modélisation des mobilités. L’approche se distingue de celles développées dans la littérature académique ou dans les modélisations employées dans la profession par :
 
@@ -17,6 +17,8 @@ Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau est une reche
 
 L’approche consiste donc à modéliser les flux de mobilités dans une grille spatiale, socio-économique ou temporelle qui englobe les dimensions des données utilisées.
 
+## MEAPS
+
 Par exemple, dans @meaps2023, nous utilisons le recensement (flux annuels de commune à commune), la localisation des individus au carreau 200m, la localisation des emplois au carreau 200m. La grille maximale est donc le carreau 200m pour les orgines et les destinations et un pas annuel pour la temporalité. Ce niveau de résolution est assez peu courant dans les analyses de flux, puisqu'on considère que la connaissance à la grille commune limite la résolution d'analyse. Au lieu de la grille maximale, on choisit alors la plus petite (fine) grille commune.
 
 Nous avons montré [@meaps2024a] que la capacité à reproduire les données de flux issues du recensement (commune à commune) était supérieure lorsqu'on passait par l'étape carreau 200m. Si l'output du modèle (déplié au carreau 200m puis replié à l'échelle communale) est le même, l'utilisation d'une information plus fine ajoute à la qualité prédictive.
@@ -27,6 +29,14 @@ Formellement, la modélisation repose sur un ensemble de paramètres (soit un en
 
 On aura compris que l'inconvénient de l'approche est sa gourmandise en moyens de calculs. Une part importante du travail réside dans l'optimisation du calcul, massivement parallèle, mais aussi dans le choix de la modélisation qui doit conserver la plus grande parcimonie pour rester calculable. Nos premiers travaux montrent qu'avec un coût informatique raisonnable, il est possible d'intégrer une information géographique fine, de la combiner avec une description socio économique des navetteurs simplifiée, et d'améliorer la prédiction des flux significativement par rapport aux approches standards.
 
+## Développements
+
 Notons également que par cette approche on peut "calibrer" les modélisations pour reproduire fidèlement des données issues d'enquêtes. C'est le cas dans @meaps2024b où nous utilisons les données de l'Enquête Mobilité des Personnes de 2019 (EMP19) pour ajouter aux flux les fréquences et les modes estimés en fonction des données socio-démographiques. Ceci permettrait sur un territoire abstrait moyen de retrouver exactement les données de l'EMP19, utilisées par exemple pour construire les bilans carbone, et d'en proposer une évaluation "spécifique" à chaque territoire qui traduit dans le bilan carbone les particularités du territoire (répartition spatiale des résidents, des emplois, sociologie ou encore nature des réseaux).
 
-La méthode que nous avons développée sur les les flux de navetteurs peut être employée pour "ajuster" le modèle à des sources de données différentes, aux résolutions différentes. La fonction de perte (cas d'un petit nombre de paramètres)
+La méthode que nous avons développée sur les les flux de navetteurs peut être employée pour "ajuster" le modèle à des sources de données différentes, aux résolutions différentes. La fonction de perte (cas d'un petit nombre de paramètres) est construite par multiplication (pondérée) des fonctions de perte pour chaque source de données, associés à une dimension de repliage caractéristique des données.
+
+## Synthése
+
+En synthèse, le travail de recherche en cours vise à proposer des estimations des grandeurs caractéristiques des mobilités, flux multimodaux, mais aussi bilan carbone ou saturation de réseaux, à partir de modèles structurels. Des scénarios, en variante, peuvent être construits, au delà des bilans, pour des analyses coût bénéfice. La démarche permet d'intégrer des données hétérogènes et d'absorber les données nouvelles et complexes issues des données massives comme les traces GPS, les données de flotte ou les bornages (Fluxvision d'Orange) en les associant de façon cohérente aux autres données\~plus habituelles mais très riches sur des dimensions importantes comme le motif de déplacement ou les caractéristiques des individus mobiles.
+
+La résolution fine de la modélisation autorise la représentation de détails décisifs dans l'aménagement des territoires. Sous des hypothèses fortes mais explicites et fondées sur des observations, on peut analyser la position d'un arrêt de bus et la comparer à une politique de limitation de la vitesse en centre-ville ou de stimulation du report modal sur le vélo. Beaucoup reste à faire, mais les premiers résultats laissent espérer un grand potentiel.
