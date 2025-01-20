@@ -28,6 +28,7 @@ contributes:
       fig-asp: 0.61
       cap-location: top
       crossref:
+        chapters: false
         fig-prefix: graphique
         tbl-prefix: tableau
         eq-prefix: équation
@@ -57,7 +58,7 @@ contributes:
         ae : "\u00e6"
       csl: csl/revue-francaise-de-gestion.csl
     html:
-      theme: 
+      theme:
         - cosmo
         - ofce.scss
       mainfont: Open Sans
@@ -66,10 +67,36 @@ contributes:
       number-sections: true
       number-depth: 3
       html-math-method: katex
-      fig-dpi: 600
+      fig-dpi: 1200
       fig-format: png
       reference-location: margin
       logo: ofce_m.png
       callout-icon: false
       lightbox: true
       title-block-style: default
+    pdf:
+      documentclass: scrartcl
+      toc-depth: 1
+      pdffont: OpenSans
+      number-sections: true
+      number-depth: 3
+      classoption:
+        - DIV=11
+      papersize: a4
+      fontsize: 9pt
+      extra_dependencies: ["float"]
+      fig-dpi: 1200
+      fig-width: 5
+      fig-format: png
+      logo: ofce_m.png
+      logo2: sciencespo.png
+      template-partials:
+        - pdf_template/title.tex
+        - pdf_template/before-body.tex
+    dashboard:
+      theme:
+        - cosmo
+        - ofce.scss
+      mainfont: Open Sans
+      logo: "none"
+    typst: default

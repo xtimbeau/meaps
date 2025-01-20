@@ -36,7 +36,6 @@ contributes:
         - reveal-auto-agenda
       shortcodes:
         - fontawesome
-        - downloadthis
     revealjs:
       logo: ofce_m.png
       language:
@@ -48,7 +47,7 @@ contributes:
       slide-level: 2
       slide-number: c/t
       center: false
-      theme: 
+      theme:
         - simple
         - ofce-pres.scss
       navigation-mode: linear

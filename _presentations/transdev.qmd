@@ -1,7 +1,9 @@
 ---
 title: "Modéliser les mobilités à une échelle fine"
-format: html
+format: note-pdf
+date: 2024-01-20
 editor: visual
+toc: FALSE
 bibliography: references_meaps.bib
 ---
 
@@ -9,9 +11,9 @@ bibliography: references_meaps.bib
 
 Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau est une recherche originale de modélisation des mobilités. L’approche se distingue de celles développées dans la littérature académique ou dans les modélisations employées dans la profession par :
 
-1.  Une résolution spatiale, sociale et géographique la plus fine possible
+1.  Une résolution spatiale, sociale et géographique la plus fine possible ;
 
-2.  L’intégration de données robustes, hétérogènes, reproduites par la modélisation
+2.  L’intégration de données robustes, hétérogènes, reproduites par la modélisation ;
 
 3.  La recherche d’une modélisation structurelle, c’est-à-dire assise sur des hypothèses les plus simples possibles, interprétables et vraisemblable.
 
@@ -35,8 +37,8 @@ Notons également que par cette approche on peut "calibrer" les modélisations p
 
 La méthode que nous avons développée sur les les flux de navetteurs peut être employée pour "ajuster" le modèle à des sources de données différentes, aux résolutions différentes. La fonction de perte (cas d'un petit nombre de paramètres) est construite par multiplication (pondérée) des fonctions de perte pour chaque source de données, associés à une dimension de repliage caractéristique des données.
 
-## Synthése
+## Synthèse
 
-En synthèse, le travail de recherche en cours vise à proposer des estimations des grandeurs caractéristiques des mobilités, flux multimodaux, mais aussi bilan carbone ou saturation de réseaux, à partir de modèles structurels. Des scénarios, en variante, peuvent être construits, au delà des bilans, pour des analyses coût bénéfice. La démarche permet d'intégrer des données hétérogènes et d'absorber les données nouvelles et complexes issues des données massives comme les traces GPS, les données de flotte ou les bornages (Fluxvision d'Orange) en les associant de façon cohérente aux autres données\~plus habituelles mais très riches sur des dimensions importantes comme le motif de déplacement ou les caractéristiques des individus mobiles.
+En synthèse, le travail de recherche en cours vise à proposer des estimations des grandeurs caractéristiques des mobilités, flux multimodaux, mais aussi bilan carbone ou saturation de réseaux, à partir de modèles structurels. Des scénarios, en variante, peuvent être construits, au delà des bilans, pour des analyses coût bénéfice. La démarche permet d'intégrer des données hétérogènes et d'absorber les données nouvelles et complexes issues des données massives comme les traces GPS, les données de flotte ou les bornages (Fluxvision d'Orange) en les associant de façon cohérente aux autres données\~plus habituelles mais très riches sur des dimensions importantes comme le motif de déplacement ou les caractéristiques des individus mobiles. Cette approche, en science ouverte, peut compléter les analyses traditionnelles voire s'interfacer avec elles.
 
 La résolution fine de la modélisation autorise la représentation de détails décisifs dans l'aménagement des territoires. Sous des hypothèses fortes mais explicites et fondées sur des observations, on peut analyser la position d'un arrêt de bus et la comparer à une politique de limitation de la vitesse en centre-ville ou de stimulation du report modal sur le vélo. Beaucoup reste à faire, mais les premiers résultats laissent espérer un grand potentiel.
