@@ -17,6 +17,7 @@ contributes:
       fig-asp: 0.61
       cap-location: top
       crossref:
+        chapters: false
         fig-prefix: graphique
         tbl-prefix: tableau
         eq-prefix: équation
@@ -46,7 +47,7 @@ contributes:
       citation: true
       license: CC BY
     html:
-      theme: 
+      theme:
         - cosmo
         - html_template/ofcepb.scss
       mainfont: Open Sans
@@ -55,7 +56,7 @@ contributes:
       number-sections: true
       number-depth: 3
       html-math-method: katex
-      fig-dpi: 600
+      fig-dpi: 1200
       fig-format: png
       fig-width: 6
       reference-location: margin
@@ -68,7 +69,7 @@ contributes:
         - html_template/title-metadata.html
         - html_template/toc.html
     pdf:
-      documentclass: scrreprt
+      documentclass: scrartcl
       annee: 2023
       toc-depth: 1
       pdffont: OpenSans
@@ -79,7 +80,7 @@ contributes:
       papersize: a4
       fontsize: 9pt
       extra_dependencies: ["float"]
-      fig-dpi: 600
+      fig-dpi: 1200
       fig-width: 5
       fig-format: png
       logo: ofce_m.png
@@ -87,6 +88,4 @@ contributes:
       template-partials:
         - pdf_template/title.tex
         - pdf_template/before-body.tex
-        - pdf_template/after-body.tex
-        - pdf_template/toc.tex
-        - pdf_template/biblio.tex
+    typst: default

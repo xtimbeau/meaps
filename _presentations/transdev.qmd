@@ -1,17 +1,17 @@
 ---
 title: "Modéliser les mobilités à une échelle fine"
-format: html
+format: note-pdf
+date: 2024-01-20
 editor: visual
+toc: FALSE
 bibliography: references_meaps.bib
 ---
 
-## 
-
 Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau est une recherche originale de modélisation des mobilités. L’approche se distingue de celles développées dans la littérature académique ou dans les modélisations employées dans la profession par :
 
-1.  Une résolution spatiale, sociale et géographique la plus fine possible
+1.  Une résolution spatiale, sociale et géographique la plus fine possible ;
 
-2.  L’intégration de données robustes, hétérogènes, reproduites par la modélisation
+2.  L’intégration de données robustes, hétérogènes, reproduites par la modélisation ;
 
 3.  La recherche d’une modélisation structurelle, c’est-à-dire assise sur des hypothèses les plus simples possibles, interprétables et vraisemblable.
 
@@ -25,8 +25,8 @@ Intuitivement, imaginons une commune de grande surface composée de 2 pôles de 
 
 Formellement, la modélisation repose sur un ensemble de paramètres (soit un ensemble limité à quelques paramètres (1 à 4), soit un ensemble de grande taille). L'estimation est faite par simulation du modèle déplié (à la résolution maximale), son repliage (par agrégation à la résolution des données que l'on veut reproduire), puis par l'optimisation d'une fonction de perte (la *log-vraisemblance* pour le cas petit nombre de paramètres) ou par l'emploi d'un algorithme plus efficient (mais moins certain) dans le cas d'un grand nombre de paramètres.
 
-On aura compris que l'inconvénient de l'approche est sa gourmandise en moyens de calculs. Une part importante du travail réside dans l'optimisation du calcul, massivement parallèle, mais aussi dans le choix de la modélisation qui doit conserver la plus grande parcimonie pour rester calculable. Nos premiers travaux montrent qu'avec un coût informatique raisonnable, il est possible d'intégrer une information géographique fine, de la combiner avec une description socio économique des navetteurs simplifiée, et d'améliorer la prédiction des flux significativement par rapport aux approches standards.
+On aura compris que l'inconvénient de l'approche est sa gourmandise en moyens de calcul. Une part importante du travail réside dans l'optimisation du calcul, massivement parallèle, mais aussi dans le choix de la modélisation qui doit conserver la plus grande parcimonie pour rester calculable. Nos premiers travaux montrent qu'avec un coût informatique raisonnable, il est possible d'intégrer une information géographique fine, de la combiner avec une description socio économique des navetteurs simplifiée, et d'améliorer la prédiction des flux significativement par rapport aux approches standards.
 
 Notons également que par cette approche on peut "calibrer" les modélisations pour reproduire fidèlement des données issues d'enquêtes. C'est le cas dans @meaps2024b où nous utilisons les données de l'Enquête Mobilité des Personnes de 2019 (EMP19) pour ajouter aux flux les fréquences et les modes estimés en fonction des données socio-démographiques. Ceci permettrait sur un territoire abstrait moyen de retrouver exactement les données de l'EMP19, utilisées par exemple pour construire les bilans carbone, et d'en proposer une évaluation "spécifique" à chaque territoire qui traduit dans le bilan carbone les particularités du territoire (répartition spatiale des résidents, des emplois, sociologie ou encore nature des réseaux).
 
-La méthode que nous avons développée sur les les flux de navetteurs peut être employée pour "ajuster" le modèle à des sources de données différentes, aux résolutions différentes. La fonction de perte (cas d'un petit nombre de paramètres)
+La méthode que nous avons développée sur les les flux de navetteurs peut être employée pour "ajuster" le modèle à des sources de données différentes, aux résolutions différentes. La fonction de perte (cas d'un petit nombre de paramètres) peut alors combiner deux (ou plus) repliages

@@ -22,8 +22,8 @@ $else$
     \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
       \node [anchor = center] at (-2.875-5.25,12.5) {\includegraphics[width=2.5cm]{$logo$}};
       \node [anchor = center] at (-2.875-5.25,-12.75){\includegraphics[width=2.5cm]{$logo2$}};
-      \node [anchor = east] at (8.5,-11.5){\textcolor{black}{Date de première publication : $date$}};
-      \node [anchor = east] at (8.5,-12){\textcolor{black}{Date de dernière modification : $date-modified$}};
+      \node [anchor = east] at (8.5,-11.5){\textcolor{black}{$labels.published$ : $date$}};
+      \node [anchor = east] at (8.5,-12){\textcolor{black}{$labels.modified$ : $date-modified$}};
       \node [anchor = east] at (8.5,13-0.7){\textcolor{gray}{\Huge\textit{Working Paper}}};
       \draw [thick,black](-5.75,-13) -- (-5.75,13);
       \draw [color = white, fill=ofcepbbleu] (8.7,11.4) rectangle (10.45,13.15);

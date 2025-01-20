@@ -14,6 +14,7 @@ $lightgrey: #EEE;
 $lightergrey: #f8f8f8;
 $green: #079D10;
 $blue: #000080;
+$white: #FFF;
 $navbar-hl: #e6142d;
 $sidebar-hl: #e6142d;
 $aligment: left;
@@ -34,15 +35,25 @@ h1, h2, h3, h4, h5, h6,
   font-size: 0.8rem !important;
 }
 
+main {
+  margin-top: .25em;
+  margin-bottom: .25em
+}
+
+#quarto-content>* {
+  padding-top: 0px
+}
+
 .quarto-title-block {
-    margin-left: -1px !important;
-    padding-left: 12px !important;
-    margin-right : 12px !important;
-    margin-top: 6px !important;
-    margin-bottom: 12px !important;
-    border-left-color: $scpored !important;
-    border-left-width: 1px !important;
-    border-left-style: solid !important;
+  background-color: $white;
+  margin-left: -1px !important;
+  padding-left: 12px !important;
+  margin-right: 12px !important;
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  border-left-color: $scpored !important;
+  border-left-width: 1px !important;
+  border-left-style: solid !important;
 }
 
 .sidebar {
@@ -68,7 +79,7 @@ h1, h2, h3, h4, h5, h6,
   text-align: $aligment !important;
 }
 
-.listing-subtitle, 
+.listing-subtitle,
 .listing-description,
 .listing-date,
 .align-left {
@@ -171,29 +182,6 @@ font-weight: 600 !important;
   border-left-color:$lightgrey !important;
 }
 
-div.callout-tip {
-  font-size: .8rem;
-  border-radius: 0;
-  background-clip: content-box;
-  background-color: $lightergrey !important;
-  border-left-color:$lightergrey !important;
-}
-
-div.callout-tip div.callout-header {
-  background-color: $lightergrey !important;
-}
-
-.dbtn {
-  font-size: .8rem;
-  background-color: $lightergrey;
-  border-color: $link-color;
-  border-width: 1px;
-  border-radius: 12px;
-  color: $link-color;
-  text-align: center;
-  margin-top: 6px;
-  margin-bottom: 12px;
-}
 
 .control-label {
   font-size: .8rem;
@@ -219,4 +207,37 @@ div.callout-tip div.callout-header {
 .csl-entry {
   margin-bottom: 0.2rem;
   font-size: 0.9rem;
+}
+
+
+div.callout-tip {
+  font-size: .8rem;
+  border-radius: 0;
+  background-clip: content-box;
+  background-color: $lightgrey !important;
+  border-left-color:$lightgrey !important;
+}
+
+div.callout-tip div.callout-header {
+  background-color: $lightgrey !important;
+}
+
+.dbtn {
+  font-size: .7rem;
+  background-color: transparent;
+  border: none;
+  color: $link-color;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.control-label {
+  font-size: .8rem;
+  text-align: start;
+}
+
+.tab-content {
+  border-style: none;
+  padding: 0;
 }
