@@ -1,6 +1,9 @@
 ---
 title: "Modéliser les mobilités à une échelle fine"
-format: note-pdf
+author: Xavier Timbeau (xavier.timbeau@sciencespo.fr)
+format: 
+  note-pdf: default
+  docx: default
 date: 2024-01-20
 editor: visual
 toc: FALSE
@@ -9,7 +12,7 @@ bibliography: references_meaps.bib
 
 ## un travail de recherche  empirique
 
-Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau est une recherche originale de modélisation des mobilités. L’approche se distingue de celles développées dans la littérature académique ou dans les modélisations employées dans la profession par :
+Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau depuis 2022 est une recherche originale de modélisation des mobilités du quotidien au niveau du bassin de vie. L’approche se distingue de celles développées dans la littérature académique ou dans les modélisations employées dans la profession par :
 
 1.  Une résolution spatiale, sociale et géographique la plus fine possible ;
 

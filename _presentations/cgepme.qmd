@@ -1,0 +1,26 @@
+---
+title: "Accessibilité à l'emploi et marché du travail"
+author: Xavier Timbeau (xavier.timbeau@sciencespo.fr)
+format: 
+  note-pdf: default
+  docx: default
+date: 2024-01-20
+editor: visual
+toc: FALSE
+bibliography: references_meaps.bib
+---
+
+Depuis quelques années, nous menons à l'OFCE des travaux de recherche autour de la question de la géographie urbaine, et de la façon dont sont connectés les habitants des villes et leurs centres d'intérêt. Ces travaux cherchent à développer des méthodes originales pour utiliser les données de plus en plus largement disponibles, en particulier dans leur dimension spatiale et de pouvoir les relier à des problématiques biuen définies.
+
+Ainsi un travail mené à la Rochelle et développé sur l'aglomération D'Aix-Marseille-Provence a été centré sur la quesiton des mobilités et du bilan carbone qui y est associé. La démarche consiste à utiliser des données localisées des résidents (à l'échelle du carreau 200m$\times$200m de l'INSEE), d'une localisation réalisée par nos soins des emplois (à la même échelle) et d'une modélisation des flux de transport, estimée empiriquement sur les données du recensement (qui sont à l'échelle de la commune) et combinées à l'enquête mobilité des personnes pour identifier les comportements (comme les choix modaux). Cette conjugaison entre un travail de modélisation et d'estimation permet d'utiliser des données de sources multiples pour intrapoler à l'échelle du carreau 200m$\times$200m une imputation des émissions de carbone des résidents pour les mobilités professionnelles.
+
+Pour la métropole d'Aix-Marseille-Provence, nous avons étendu cette méthode aux autres motifs en mobilisant une source spécifique, l'enquête mobilité certifiée CEREMA qui délivre une information géographique fine (mais sur les territoires où elle est conduite). Au delà de l'exercice d'imputation, riche en enseignements parce qu'il peut être assorti d'analyses socio-économiques, le fait de proposer une modélisation permet aussi des exercices de projection : utiliser le modèle estimé sur un autre territoire, le confronter à des sources de données alternatives (comme ce qui nous entreprenons avec J. Coldefy et J. Levy dans la lignée de la "France habitée"), mais aussi analyser des scénarios de développement territorial et d'évolution des réseaux de transport.  
+
+Ces recherches et les outils qui en découlent sont très pertinentes pour éclairer les débats locaux et analyser les stratégies de développement. A une opposition parfois dogmatique entre densificaiton et économie d'espace, nous proposons un cadre qui relie la distriobution spatiale des habitants et celle des emplois ou d'autres aménités. La discussion de l'aménagement s'en trouve revigorée d'autant que de nombreux acteurs peuvent s'approprier les données au travers de visualisation très concrètes.  
+
+Dans la suite de ces travaux, nous voulons ouvrir une nouvelle voie de recherche, convaincus que la question de l'articulation spatiale de l'emploi et des habitants est critique pour le fonctionnement de l'économie. Le travaiul de recherche que nous proposons repose sur les principes suivants :
+
+-    Les entreprises ont besoin d'accéder à une main d'oeuvre pour leur développement qui accepte de venir travailler à des conditions de salaire qui sont fixées par le contexte concurrentiel dans lequel elles se trouvent.
+
+-    Le coût du logement, le coût du transport sont des déterminants essentiels pour les salariés potentiels. Trop loin de leur emploi, ils doivent supproter des rtajets longs coûteux, incompatibles.
+
