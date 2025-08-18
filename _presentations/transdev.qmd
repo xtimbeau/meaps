@@ -7,7 +7,7 @@ toc: FALSE
 bibliography: references_meaps.bib
 ---
 
-## un travail de recherche  empirique
+## un travail de recherche empirique
 
 Le travail engagé à l’OFCE par Maxime Parodi et Xavier Timbeau est une recherche originale de modélisation des mobilités. L’approche se distingue de celles développées dans la littérature académique ou dans les modélisations employées dans la profession par :
 
