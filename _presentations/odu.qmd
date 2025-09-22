@@ -1,0 +1,36 @@
+---
+title: "Modéliser les mobilités à une échelle fine"
+author: Xavier Timbeau (xavier.timbeau@sciencespo.fr)
+format: 
+  note-pdf: default
+date: 2025-09-22
+editor: visual
+toc: FALSE
+bibliography: references_meaps.bib
+---
+
+## MEAPS : de l'accessibilité au trajets
+
+L'accessibilité est une notion féconde. Développée après guerre, par @hansen1959 elle est au coeur de l'analyse des réseaux de transports. En France par exemple, @jeanpoulit2005 et @koenig1980 ont utilisé argement ce concept aux Ponts et Chaussée, dans l'analyse des réseaux routiers.
+
+Nous avons développé une méthode qui peut passer à l'échelle pour calculer l'accessibilité à une échelle géographique fine (carreau INSPIRE 200m⨉200m), pour de nombreuses catégories d'opportunités (emplsoi, commerces, etc...) et pour différents modes de transport (à pied, en transport en commun, en vélo ou en voiture).
+
+```{r}
+
+```
+
+Deux difficultés ont été résolues : l'utilisation d'informations géographiques pertienentes pour la résolution choisie et la volumétrie de calcul impliquée. Par exemple, pour la métropole d'Aix-Marseille-Provence, plus d'un milliard de calcul de distances sont opérés entre chaque paire origine destination. La résolution employée combinée aux données fines permet de construire des scénarios pour représenter par exemple l'impact d'un nouveau réseau comme le Grand Paris Express.
+
+```{r}
+
+```
+
+L'accessibilité ne fait que quantifier un potentiel. Pour aller plus loin, nous avons développé un modèle théorique [@meaps2024] qui remplit la même fonction que le modèle gravitaire (affecter des flux en fonction de distances généralisées), en permettant de prendre en compte la double concurrence des individus voisins pour les mêmes opportunités (lorsqu'elles ont une capacité finie) et des opportunités pour les individus (lorsque les opportunités doivent être remplies, e.g. des emplois). Associé à cette modélisation originale, nous avons développé des méthodes d'estimations qui permettent d'ajuster le modèle sur des données comportementales comme l'enquête mobiltié des personnes.
+
+## Dynamiques urbaines
+
+## Forme urbaine et émissions
+
+## Où implementer des réseaux ?
+
+## 
