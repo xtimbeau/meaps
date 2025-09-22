@@ -11,7 +11,7 @@ bibliography: references_meaps.bib
 
 ## MEAPS : de l'accessibilité au trajets
 
-L'accessibilité est une notion féconde. Développée après guerre, par @hansen1959 elle est au coeur de l'analyse des réseaux de transports. En France par exemple, @jeanpoulit2005 et @koenig1980 ont utilisé argement ce concept aux Ponts et Chaussée, dans l'analyse des réseaux routiers.
+L'accessibilité (aux opportunités) est une notion féconde. Développée après guerre, par @hansen1959 elle est au cœur de l'analyse des réseaux de transports et la mobilité. En France par exemple, @jeanpoulit2005 et @koenig1980 ont utilisé largement ce concept aux Ponts et Chaussée, dans l'analyse des réseaux routiers.
 
 Nous avons développé une méthode qui peut passer à l'échelle pour calculer l'accessibilité à une échelle géographique fine (carreau INSPIRE 200m⨉200m), pour de nombreuses catégories d'opportunités (emplsoi, commerces, etc...) et pour différents modes de transport (à pied, en transport en commun, en vélo ou en voiture).
 
@@ -19,15 +19,31 @@ Nous avons développé une méthode qui peut passer à l'échelle pour calculer 
 
 ```
 
-Deux difficultés ont été résolues : l'utilisation d'informations géographiques pertienentes pour la résolution choisie et la volumétrie de calcul impliquée. Par exemple, pour la métropole d'Aix-Marseille-Provence, plus d'un milliard de calcul de distances sont opérés entre chaque paire origine destination. La résolution employée combinée aux données fines permet de construire des scénarios pour représenter par exemple l'impact d'un nouveau réseau comme le Grand Paris Express.
+Deux difficultés d'ordre pratiques ont été résolues : l'utilisation d'informations géographiques pertinentes pour la résolution choisie et la volumétrie de calcul impliquée. Par exemple, pour la métropole d'Aix-Marseille-Provence, plus d'un milliard de calcul de distances sont opérés entre chaque paire origine destination. La résolution employée combinée aux données fines permet de construire des scénarios pour représenter par exemple l'impact d'un nouveau réseau comme le Grand Paris Express.
 
 ```{r}
 
 ```
 
-L'accessibilité ne fait que quantifier un potentiel. Pour aller plus loin, nous avons développé un modèle théorique [@meaps2024] qui remplit la même fonction que le modèle gravitaire (affecter des flux en fonction de distances généralisées), en permettant de prendre en compte la double concurrence des individus voisins pour les mêmes opportunités (lorsqu'elles ont une capacité finie) et des opportunités pour les individus (lorsque les opportunités doivent être remplies, e.g. des emplois). Associé à cette modélisation originale, nous avons développé des méthodes d'estimations qui permettent d'ajuster le modèle sur des données comportementales comme l'enquête mobiltié des personnes.
+L'accessibilité ne fait que quantifier un potentiel. Pour aller plus loin, nous avons développé un modèle théorique [@meaps2023] qui remplace le modèle gravitaire (affecter des flux en fonction de distances ou de coûts généralisés), en permettant de prendre en compte la double concurrence des individus voisins pour les mêmes opportunités (lorsqu'elles ont une capacité finie) et des opportunités pour les individus (lorsque les opportunités doivent être remplies, e.g. des emplois). Associé à cette modélisation originale, nous avons développé des méthodes d'estimations qui permettent d'ajuster le modèle sur des données comportementales comme l'enquête mobilité des personnes [@meaps2024a].
+
+Ces modèles, qui mobilisent des sources de données disparates de façon cohérente, sont des outils efficaces pour traiter des questions de forme urbaine. Quelles sont les conséquences de la répartition spatiales des emplois et des logements, reliés par des réseaux de transport sur le bilan carbone mobilité d'un territoire ? Comment la densification des logements, le dimensionnement du réseau de transport où les politiques publiques d'incitation au vélo peuvent modifier ce bilan ? Au delà du bilan carbone, quel est le coût de la mobilité et comment se combine-t-il au coût du logement pour analyser les tensions sociales d'un territoire ?
+
+Dans @meaps2024b nous tirons ainsi une conclusion importante : la littérature en économie urbaine a conclut, de façon convaincante et robuste, que le lien entre densité et émissions (de tout genre) était positif (ce qui est conforme à l'intuition) mais très faible (ce qui est ennuyeux). Ainsi, pour significativement réduire les émissions (disons de 30%), il faudrait augmenter la densité de 300% ce qui paraît impossible à faire tant l'effort individuel et collectif demandé est considérable. Pourtant, nous arguons que la question est mal posée. La densité n'est pas une notion homogène et accroître la densité "près" des emplois n'a pas le même impact que plus loin, dès lors qu'on sait définir correctement près et loin. La prise en compte explicite des co-distribution spatiales des emplois et des logements permet de donner à ces éléments un contenu précis. Le travail empirique réalisé à la Rochelle permet de quantifier ce contenu, et d'éclairer la conclusion consensuelle sur le lien densité émissions sous un jour nouveau, au moins à la Rochelle : on peut par une localisation bien définie de l'accroissement de la densité augmenter l'élasticité de 0,1 à 1. Au lieu d'une augmentation de la densité de 300% on a besoin que d'une augmentation de la densité (moyenne) de 30%, ce qui en fait un obstacle bien plus facile à franchir.
+
+Pourquoi se limiter à la Rochelle ou Marseille ? C'est le sens du projet proposé : le travail théorique et empirique peut être généralisé à de nombreux territoires, il a été appliqué et expérimenté sur quelques exemples : La Rochelle, Clermont-Ferrand, Aix-Marseille-Provence. La généralisation à l'ensemble des agglomérations françaises, voire européennes, est envisageable pour un coût bien inférieur, mais non nul, à l'investissement initial.
+
+L'ambition est donc de :
+
+1.  produire des éléments les plus robustes possibles sur un ensemble de territoires – disons les 50 premières agglomérations françaises – pour alimenter le débat sur l'aménagement, dans ces dimensions environnementales mais aussi sociales. Ces éléments sont, à l'image de ce qui a été fait pour la Rochelle ou [Aix-Marseille-Provence](https://xtimbeau.github.io/marseille) – où l'analyse a été étendue du seul motif mobilité professionnelle à l'ensemble des motifs, des flux de mobilités, au moins professionnelles, à l'échelle fine du carreau 200m⨉200m, appuyés sur les données du recensement MOBPRO. Lorsqu'une EMC^2^ est disponible l'analyse multi-motif peut être conduite. Ces flux permettent de générer des cartes d'émissions de CO~2~ imputées aux résidents et sont un bon résumé des territoires et de leur structure. Le principe est celui de la diffusion en source ouverte d'un certain nombre d'informations, à affiner en fonction des objectifs (de prestations autour de ces concepts) et des possibilités de réutilisation des données.
+
+2.  analyser les formes urbaines à partir des données produites. En disposant de cartes CO~2~ fines, agrégées en indicateurs à définir , on peut procéder à une classification des formes urbaines et synthétiser l'information géographique sous jacente en une analyse pertinente. Il existe plusieurs exemples de tentatives de ce type (refs?), assez peu convaincantes au final ; la possibilité d'articuler distribution spatiale des opportunités et des logements ainsi que la capacité à prendre en compte les réseaux de transport peut faire aboutir ce type de démarche.
+
+3.  approfondir le travail empirique associé à la démarche. L'analyse a été menée jusqu'à maintenant en utilisant MOBPRO comme source de matrice origine destination et la modélisation sert à l'intrapoler à une échelle plus fine (200m⨉200m) que la résolution de MOBPRO (commune/arrondissement à commune/arrondissement). L'utilisation des données de Fluxvision et plus particulièrement les matrices origines destinations dérivées par les travaux financés par Transdev sont une piste majeure. Il serait plus difficile d'identifier les motifs, du moins par rapport à l'EMC^2^
 
 ## Dynamiques urbaines
+
+Une première étape est sur la bvase
 
 ## Forme urbaine et émissions
 
