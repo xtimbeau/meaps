@@ -11,42 +11,91 @@ bibliography: references_meaps.bib
 
 ## MEAPS : de l'accessibilité au trajets
 
-L'accessibilité (aux opportunités) est une notion féconde. Développée après guerre, par @hansen1959 elle est au cœur de l'analyse des réseaux de transports et la mobilité. En France par exemple, @jeanpoulit2005 et @koenig1980 ont utilisé largement ce concept aux Ponts et Chaussée, dans l'analyse des réseaux routiers.
+L'accessibilité (aux opportunités, @cerema2015) est une notion féconde. Développée après guerre, par @hansen1959 elle est au cœur de l'analyse des réseaux de transports et la mobilité. En France par exemple, @jeanpoulit2005 et @koenig1980 ont utilisé largement ce concept aux Ponts et Chaussées, dans l'analyse des réseaux routiers.
 
-Nous avons développé une méthode qui peut passer à l'échelle pour calculer l'accessibilité à une échelle géographique fine (carreau INSPIRE 200m⨉200m), pour de nombreuses catégories d'opportunités (emplsoi, commerces, etc...) et pour différents modes de transport (à pied, en transport en commun, en vélo ou en voiture).
+Nous avons développé une méthode qui peut passer à l'échelle pour calculer l'accessibilité à une échelle géographique fine (carreau INSPIRE 200m⨉200m), pour de nombreuses catégories d'opportunités (emploi, commerces, etc...) et pour différents modes de transport (à pied, en transport en commun, en vélo ou en voiture).
 
-```{r}
-
-```
+![](images/clipboard-3675797071.png)
 
 Deux difficultés d'ordre pratiques ont été résolues : l'utilisation d'informations géographiques pertinentes pour la résolution choisie et la volumétrie de calcul impliquée. Par exemple, pour la métropole d'Aix-Marseille-Provence, plus d'un milliard de calcul de distances sont opérés entre chaque paire origine destination. La résolution employée combinée aux données fines permet de construire des scénarios pour représenter par exemple l'impact d'un nouveau réseau comme le Grand Paris Express.
 
-```{r}
+![](images/clipboard-3092760633.png){fig-align="center" width="510"}
 
-```
-
-L'accessibilité ne fait que quantifier un potentiel. Pour aller plus loin, nous avons développé un modèle théorique [@meaps2023] qui remplace le modèle gravitaire (affecter des flux en fonction de distances ou de coûts généralisés), en permettant de prendre en compte la double concurrence des individus voisins pour les mêmes opportunités (lorsqu'elles ont une capacité finie) et des opportunités pour les individus (lorsque les opportunités doivent être remplies, e.g. des emplois). Associé à cette modélisation originale, nous avons développé des méthodes d'estimations qui permettent d'ajuster le modèle sur des données comportementales comme l'enquête mobilité des personnes [@meaps2024a].
+L'accessibilité ne fait que quantifier un potentiel. Pour aller plus loin, nous avons développé un modèle théorique [@meaps2023] qui remplace le modèle gravitaire (affecter des flux en fonction de distances ou de coûts généralisés), en permettant de prendre en compte la double concurrence des individus voisins pour les mêmes opportunités (lorsqu'elles ont une capacité finie) et des opportunités pour les individus (lorsque les opportunités doivent être remplies, e.g. des emplois). Associé à cette modélisation originale, nous avons développé des méthodes d'estimation qui permettent d'ajuster le modèle sur des données comportementales comme l'enquête mobilité des personnes [@meaps2024a].
 
 Ces modèles, qui mobilisent des sources de données disparates de façon cohérente, sont des outils efficaces pour traiter des questions de forme urbaine. Quelles sont les conséquences de la répartition spatiales des emplois et des logements, reliés par des réseaux de transport sur le bilan carbone mobilité d'un territoire ? Comment la densification des logements, le dimensionnement du réseau de transport où les politiques publiques d'incitation au vélo peuvent modifier ce bilan ? Au delà du bilan carbone, quel est le coût de la mobilité et comment se combine-t-il au coût du logement pour analyser les tensions sociales d'un territoire ?
 
-Dans @meaps2024b nous tirons ainsi une conclusion importante : la littérature en économie urbaine a conclut, de façon convaincante et robuste, que le lien entre densité et émissions (de tout genre) était positif (ce qui est conforme à l'intuition) mais très faible (ce qui est ennuyeux). Ainsi, pour significativement réduire les émissions (disons de 30%), il faudrait augmenter la densité de 300% ce qui paraît impossible à faire tant l'effort individuel et collectif demandé est considérable. Pourtant, nous arguons que la question est mal posée. La densité n'est pas une notion homogène et accroître la densité "près" des emplois n'a pas le même impact que plus loin, dès lors qu'on sait définir correctement près et loin. La prise en compte explicite des co-distribution spatiales des emplois et des logements permet de donner à ces éléments un contenu précis. Le travail empirique réalisé à la Rochelle permet de quantifier ce contenu, et d'éclairer la conclusion consensuelle sur le lien densité émissions sous un jour nouveau, au moins à la Rochelle : on peut par une localisation bien définie de l'accroissement de la densité augmenter l'élasticité de 0,1 à 1. Au lieu d'une augmentation de la densité de 300% on a besoin que d'une augmentation de la densité (moyenne) de 30%, ce qui en fait un obstacle bien plus facile à franchir.
+Dans @meaps2024b nous tirons ainsi une conclusion importante : la littérature en économie urbaine a conclut, de façon convaincante et robuste, que le lien entre densité et émissions (de tout genre) était positif (ce qui est conforme à l'intuition) mais très faible (ce qui est ennuyeux). Ainsi, pour significativement réduire les émissions (disons de 30%), il faudrait augmenter la densité de 300% ce qui paraît impossible à faire tant l'effort individuel ou collectif demandé est considérable. Pourtant, nous arguons que la question est mal posée. La densité n'est pas une notion homogène et accroître la densité "près" des emplois n'a pas le même impact que plus loin, dès lors qu'on sait définir correctement près et loin. La prise en compte explicite des co-distribution spatiales des emplois et des logements permet de donner à ces éléments un contenu précis.
 
-Pourquoi se limiter à la Rochelle ou Marseille ? C'est le sens du projet proposé : le travail théorique et empirique peut être généralisé à de nombreux territoires, il a été appliqué et expérimenté sur quelques exemples : La Rochelle, Clermont-Ferrand, Aix-Marseille-Provence. La généralisation à l'ensemble des agglomérations françaises, voire européennes, est envisageable pour un coût bien inférieur, mais non nul, à l'investissement initial.
+Le travail empirique réalisé à la Rochelle permet de quantifier ce contenu, et d'éclairer la conclusion consensuelle sur le lien densité émissions sous un jour nouveau, au moins à la Rochelle : on peut par une localisation bien définie de l'accroissement de la densité augmenter l'élasticité de 0,1 à 1. Au lieu d'une augmentation de la densité de 300% on a besoin que d'une augmentation de la densité (moyenne) de 30%, ce qui en fait un obstacle bien plus facile à franchir.
+
+![](images/clipboard-1456870736.png){fig-align="center" width="617"}
+
+Pourquoi se limiter à la Rochelle ou Marseille ? Comment rendre plus solides les analyses empiriques proposées ? Comment développer les applications ? C'est le sens du projet proposé : le travail théorique et empirique peut être généralisé à de nombreux territoires, il a été appliqué et expérimenté sur quelques exemples : La Rochelle, Clermont-Ferrand, Aix-Marseille-Provence. La généralisation à l'ensemble des agglomérations françaises, voire européennes, est envisageable pour un coût bien inférieur, mais non nul, à l'investissement initial.
+
+## Le projet
 
 L'ambition est donc de :
 
-1.  produire des éléments les plus robustes possibles sur un ensemble de territoires – disons les 50 premières agglomérations françaises – pour alimenter le débat sur l'aménagement, dans ces dimensions environnementales mais aussi sociales. Ces éléments sont, à l'image de ce qui a été fait pour la Rochelle ou [Aix-Marseille-Provence](https://xtimbeau.github.io/marseille) – où l'analyse a été étendue du seul motif mobilité professionnelle à l'ensemble des motifs, des flux de mobilités, au moins professionnelles, à l'échelle fine du carreau 200m⨉200m, appuyés sur les données du recensement MOBPRO. Lorsqu'une EMC^2^ est disponible l'analyse multi-motif peut être conduite. Ces flux permettent de générer des cartes d'émissions de CO~2~ imputées aux résidents et sont un bon résumé des territoires et de leur structure. Le principe est celui de la diffusion en source ouverte d'un certain nombre d'informations, à affiner en fonction des objectifs (de prestations autour de ces concepts) et des possibilités de réutilisation des données.
+1.  **produire des éléments les plus robustes possibles sur un ensemble de territoires** – les 50 premières agglomérations françaises dans un premier temps – pour alimenter le débat sur l'aménagement, dans ses dimensions environnementales mais aussi sociales. Ces éléments sont à l'échelle fine du carreau 200m⨉200m, appuyés sur les données du recensement MOBPRO. Ce choix technique est dans la prolongation de ce qui a été fait pour la Rochelle ou [Aix-Marseille-Provence](https://xtimbeau.github.io/marseille) – où l'analyse a été étendue du seul motif mobilité professionnelle à l'ensemble des motifs, des flux de mobilités, au moins professionnelle en utilisant l'EMC^2^. Les matrices de flux permettent de générer des cartes d'émissions de CO~2~ imputées aux résidents et sont un bon résumé de la structure des territoires. Le principe est celui de la diffusion en source ouverte d'un certain nombre d'informations, à affiner en fonction des objectifs (de prestations autour de ces concepts, par exemple des simulations à partir du modèle de scénarios, des analyses plus fines des comportements, l'analyse multi-motifs si EMC^2^) et des possibilités de réutilisation des données sources (par exemple, les analyses sociologiques fines demandent l'utilisation de Fidéli, mais limite beaucoup les rediffusions).
 
-2.  analyser les formes urbaines à partir des données produites. En disposant de cartes CO~2~ fines, agrégées en indicateurs à définir , on peut procéder à une classification des formes urbaines et synthétiser l'information géographique sous jacente en une analyse pertinente. Il existe plusieurs exemples de tentatives de ce type (refs?), assez peu convaincantes au final ; la possibilité d'articuler distribution spatiale des opportunités et des logements ainsi que la capacité à prendre en compte les réseaux de transport peut faire aboutir ce type de démarche.
+2.  **analyser les formes urbaines à partir des données produites**. En disposant de cartes CO~2~ fines, agrégées en indicateurs à définir , on peut procéder à une classification des formes urbaines ou procéder par régression et corrélation multivarié avec d'autres variables localisées pour synthétiser l'information géographique sous jacente en une analyse pertinente. Il existe plusieurs exemples de tentatives de ce type, assez peu convaincantes ou opérationnelles au final ; la possibilité d'articuler distribution spatiale des opportunités et des logements ainsi que la capacité à prendre en compte les réseaux de transport devrait faire aboutir ce type de démarche. Cette analyse compléterait les cartes CO~2~ locales par une approche globale et synthétique.
 
-3.  approfondir le travail empirique associé à la démarche. L'analyse a été menée jusqu'à maintenant en utilisant MOBPRO comme source de matrice origine destination et la modélisation sert à l'intrapoler à une échelle plus fine (200m⨉200m) que la résolution de MOBPRO (commune/arrondissement à commune/arrondissement). L'utilisation des données de Fluxvision et plus particulièrement les matrices origines destinations dérivées par les travaux financés par Transdev sont une piste majeure. Il serait plus difficile d'identifier les motifs, du moins par rapport à l'EMC^2^
+3.  **approfondir le travail empirique de recherche avec les données issues de Fluxvision**. L'analyse a été menée jusqu'à maintenant en utilisant MOBPRO comme source de matrice origine destination. La modélisation sert à l'intrapoler à une échelle plus fine (200m⨉200m) que la résolution de MOBPRO (commune/arrondissement à commune/arrondissement) ainsi qu'à l’incorporation des données d'autres sources (les comportements de l'Enquête Mobilité). L'utilisation des données de Fluxvision et plus particulièrement les matrices origines destinations dérivées dans les travaux financés par Transdev sont une piste majeure. Il y est plus difficile d'identifier les motifs ou les catégories sociales des navetteurs, mais les données sont sans doute plus robustes et plus riches parce qu'elles en sont pas déclaratives pour une année, et permettent d'approcher les multi-destinations, les schémas temporels intra-semaine, saisonniers, ou aux périodes particulières. Elles doivent aussi permettre d'évaluer les mobilités difficiles à mesurer comme les itinérants. De plus, les données de France Habitée [@lévy] peuvent permettre de définir une opportunité *synthétique*, alternative à l'approche d'identification directe des opportunités suivies jusque là, qui permettra d'approcher l'attractivité révélée et peut être les aspects de mixité sociale (les lieux visités par des individus venant d'IRIS variés dans leur composition sociale.
 
-## Dynamiques urbaines
+4.  **dérouler des applications des modélisations et des transformations des données**. Dans notre démarche, la modélisation sert de cadre pour donner extraire des données riches une information pertinente. Pour en démontrer la pertinence, il faut pouvoir produire des applications. Outre l'analyse des territoires, susceptible par exemple d'influencer l'élaboration des schémas de cohérence territoriale (SCoT), une application pourrait être le design des réseaux de transport. Les modèles développés permettent en effet de projeter ce qui se passerait si une ligne de transport en commun (bus, tram, train) était ajoutée. Sous l'hypothèse (de moyen terme) que les populations ne changent pas, il est possible en effet de partir des comportements observés pour estimer le changement modal qui pourrait être opérer et de produire une évaluation des projections de flux. La méthode tient compte finement des variations de temps de trajet pour chaque mode, des ruptures de charges et d'autres éléments (comme le multimodal). Elle est une alternative à des modèles de transport habituels et combiner au point 3. elle reposerait sur des données nouvelles. Elle pourrait être confronté à des réalisations passées pour en valider la portée.
 
-Une première étape est sur la bvase
+## Projets parallèles
 
-## Forme urbaine et émissions
+Deux projets parallèles à celui-ci valent la peine d'être mentionnés parce qu'ils peuvent compléter les analyses proposées dans le projet.
 
-## Où implementer des réseaux ?
+### Dynamiques urbaines (ODU)
 
-## 
+Sur la base des calculs d'accessibilité, et des différents vintages de MOBPRO, on peut analyser les évolutions des mobilités quotidiennes pour la mobilité professionnelle sur des périodes de temps de 10 à 20 ans. Cette comparaison temporelle doit être faite avec soin et elle produit un ensemble de données riches à mettre en rapport avec les formes urbaines (point 2.). Les éléments de cette analyse pourrait être associées à celles ci pour compléter l'offre en source ouverte.
+
+### Difficultés de recrutement
+
+En réponse à un Appel à Projet de Recherche lancé par le PUCA (BEL), nous avons proposé une analyse des difficultés de recrutement issues des données de l'enquête Besoin de Main d’Œuvre et de leur lien avec l'accessibilité à l'emploi. Pour chaque entreprise interrogée (plus de 2 millions chaque année) nous disposons de sa localisation et nous pouvons lui associer une mesure de sa distance à l'emploi, de la quantité d'emplois potentiels accessibles, de la quantité de personnes en recherche d'emploi, du degré de concurrence entre entreprises recherchant des emplois. Sur la base de cette association et de la variance géographique, nous nous proposons de produire une analyse causale entre difficulté de recrutement et structure spatiale des logements ou des résidents et des réseaux de transport.
+
+## Calendrier prospectif et livrables
+
+![](images/clipboard-1491914023.png)
+
+La première phase du projet est la reproduction des analyses fines de bilan CO~2~ pour un ensemble d'agglomérations. Le délai de production est de l'ordre de 12 mois, un premier livrable (site web présentant les données pour une sous sélection) pouvant être construit d'ici à 6 mois après le lancement du projet.
+
+Dans un délai de 12 à 18 mois, l'analyse des formes urbaines pourrait être achevée, publiée sous forme d'un document de travail, et venir augmenter le site web.
+
+L'utilisation des données de Fluxvision serait concentrée dans un premier temps sur l'agglomération d'Aix-Marseille-Provence (AMP). C'est en effet sur ce territoire que notre analyse globale de la mobilité est la plus aboutie. La disponibilité des données EMC^2^ pour la période 2019-2020 est également un plus. En complément, d'autres sources de données seraient employées éventuellement, notamment les données de flotte.
+
+Enfin, la collaboration avec la métropole AMP est possible afin de renforcer le financement du projet. Les livrables seraient des documents de travail présentant 1. la méthodologie ; 2. les enseignements. Les données auraient vocation, sous réserve de possibilité de réutilisation, à être diffusées en source ouverte.
+
+Les autres applications demandent la complétion des étapes 1. et peut être 3. et serait donc conduite entre les mois 18 et 36. Les livrables seraient ici des documents de travail détaillant les méthodologies, les principales conclusions importantes et bien sûr l'alimentation en données du site de diffusion.
+
+## Coûts
+
+Le projet est un programme de recherche qui devrait s'étaler sur 3 années. Le coût supplémentaire à financer – additionnels aux coûts de Maxime Parodi et Xavier Timbeau pris en charge par l'OFCE – est composé du coût d'un chercheur additionnel et d'un assistant de recherche pour 3 ans. Un chercheur additionnel représente, suivant le degré de séniorité un coût brut chargé entre 40k€ et 80k€ par an. Un assistant de recherche, parce qu'à temps partiel, coûtent par an 20k€. A cela s'ajoutent un budget réalisation du site web (50k€, pour les 3 ans), un budget informatique de calcul (10k€ par an) et les frais de gestion (10%) hors taxes. Le coût moyen annuel est d'un peu moins de 120k€ (144k€ TTC).
+
+| *en k€*                             | Année 1 | Année 2 | Année 3 |
+|-------------------------------------|---------|---------|---------|
+| Personels                           |         |         |         |
+|  Chercheur                          | 60      | 60      | 60      |
+|  Assistant recherche                | 20      | 20      | 20      |
+| Informatique (infra)                |         |         |         |
+|  Site web                           | 50      |         |         |
+|  Calcul&stockage                    | 10      | 10      | 10      |
+| Frais de gestion (10%)              | 14      | 9       | 9       |
+| Total                               | 154     | 99      | 99      |
+| *Pour mémoire : coûts imputés OFCE* | 100     | 100     | 100     |
+
+## Propriété intellectuelle&gouvernance
+
+Le financement de ce projet repose a priori sur des conventions de recherche avec différents partenaires.
+
+Les partenaires sont réunis dans un comité de suivi scientifique auquel il est présenté régulièrement (une fois par an) les travaux réalisés et le programme de travail.
+
+La propriété intellectuelle est celle des co-auteurs. L'ensemble des contributions (code, données) est en source ouverte, à l'exception des droits induits.
+
+### Références  {.unlisted .unnumbered}
+
+::: {#ref}
+:::

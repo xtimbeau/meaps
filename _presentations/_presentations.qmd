@@ -46,7 +46,9 @@ showtext_auto()
 
 ### remarque
 
+::: monstyle
 Une table des matières ainsi qu'un rappel du plan sur les slides de niveau 1 est automatiquement inclus.
+:::
 
 C'est pourquoi il ne faut pas mettre de contenu sur les slides de niveau 1
 

@@ -115,3 +115,16 @@ div.callout-tip div.callout-header {
   margin-top: 6px;
   margin-bottom: 6px;
 }
+
+.reveal .monstyle {
+    display: block;
+    position: relative;
+    color: $darkred;
+    width: unset;
+    margin: var(--r-block-margin) auto;
+    padding: .2em .2rem;
+    border-left: .25rem solid $green !important;
+    font-style: normal;
+    background: none;
+    box-shadow: none
+}
