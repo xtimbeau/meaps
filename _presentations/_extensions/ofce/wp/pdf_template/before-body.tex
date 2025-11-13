@@ -52,8 +52,7 @@ $else$
   
   $for(by-author)$
   
-   \textbf{$it.name.literal$}$if(by-author.affiliations)$$for(by-author.affiliations)$,$if(by-author.affiliations.name)$
-           $by-author.affiliations.name$$endif$$endfor$
+   \textbf{$it.name.literal$} ({\small{$it.email$}}) $endif$$endfor$
    $endif$
  $endfor$ % by-author
  \end{minipage}
