@@ -1,9 +1,6 @@
 
 $if(has-frontmatter)$
 \frontmatter
-
-\vspace{5cm}
-
 $endif$
 
 $if(title)$
@@ -46,27 +43,20 @@ $else$
       \textcolor{scporouge}{\Huge\textbf{\textsf{$title$}}}
     \end{spacing}
   $if(subtitle)$
-    \vspace{5mm}
-    \begin{spacing}{1.5}
-      \textcolor{scporouge}{\large\textbf{\textsf{$subtitle$}}}
-    \end{spacing}
-    \vspace{5mm}
+ \vspace{5mm}
+  \textcolor{scporouge}{\large\textbf{\textsf{$subtitle$}}}
+ \vspace{5mm}
   $endif$
   \vspace{20mm}
   \end{flushleft}
-
+  
   $for(by-author)$
-    \textbf{$it.name.literal$}
-    $if(by-author.affiliations)$
-     $for(by-author.affiliations)$,
-      $if(by-author.affiliations.name)$
-       $by-author.affiliations.name$
-      $endif$
-     $endfor$
-    $endif$
-    \vspace{2mm}
-   $endfor$ % by-author
+  
+   \textbf{$it.name.literal$} ({\small{$it.email$}}) $endif$$endfor$
+   $endif$
+ $endfor$ % by-author
  \end{minipage}
+
 
 $endif$
 %%
@@ -80,15 +70,15 @@ $endif$
 
           \vspace{0.2cm}
           \vspace{0.2cm}
-
-        \textbf{OFCE}
-
-        10 place de Catalogne
-
-        75014 Paris, FRANCE
-
+        
+        \textbf{OFCE} 
+  
+        10 place de Catalogne 
+        
+        75014 Paris, FRANCE 
+        
         Tel : +33 1 44 18 54 24
-
+        
         \url{https://www.ofce.sciences-po.fr}
       }
     \end{minipage}
@@ -104,7 +94,7 @@ $endif$
 %%  \includegraphics[width=2cm]{$logo2$}
 %%  \end{minipage}}
 %%
-
+ 
 \LARGE\textbf{$title$}
 
 \large\textbf{$subtitle$}
@@ -118,14 +108,6 @@ $if(abstract)$
 $abstract$
 
 \par\rule{\textwidth}{0.5pt}
-
-$endif$
-
-\vspace{1cm}
-
-$if(citation.url)$
-
-version en ligne à $citation.url$
 
 $endif$
 
@@ -145,14 +127,9 @@ $if(thanks)$
 
       \vspace{0.2cm}
       \vspace{0.2cm}
-
-    \textit{\small{$thanks$}}
+    
+    \textit{\small{$thanks$}} 
   }
 \end{minipage}
 $endif$
 \end{titlepage}
-
-%%% Define custom colors
-% tip
-\definecolor{quarto-callout-tip-color}{HTML}{000000}
-\definecolor{quarto-callout-tip-color-frame}{HTML}{EEEEEE}
