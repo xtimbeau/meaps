@@ -1,7 +1,7 @@
-title: Format OFCE
+title: Format document de travail OFCE
 author: Anissa Saumtally et Xavier Timbeau
-version: 0.2.0
-quarto-required: ">=1.4.300"
+version: 0.3.14
+quarto-required: ">=1.8.26"
 contributes:
   formats:
     common:
@@ -16,27 +16,47 @@ contributes:
           title-block-published: "Publié le"
           title-block-modified: "Modifié le"
           toc-title: "Sur cette page"
+          crossref-fig-prefix: graphique
+          crossref-tbl-prefix: tableau
+          crossref-eq-prefix: équation
+          crossref-sec-prefix: section
+          crossref-tip-prefix: encadré
+          crossref-fig-title: "Graphique"
+          callout-tip-title: "Encadré"
+          crossref-title-delim: "."
+          crossref-tbl-title: "Tableau"
+          crossref-lof-title: Graphiques
+          crossref-lot-title: Tableaux
+          other-links-title: Contenus liés
+        en:
+          section-title-references: "Bibliograhy"
+          title-block-author-single: "Author"
+          title-block-author-plural: "Authors"
+          title-block-published: "Published on"
+          title-block-modified: "Modified on"
+          toc-title: "On this page"
+          crossref-fig-prefix: graphic
+          crossref-tbl-prefix: table
+          crossref-eq-prefix: equation
+          crossref-sec-prefix: section
+          crossref-tip-prefix: box
+          crossref-fig-title: "Graphic"
+          callout-tip-title: "Box"
+          crossref-title-delim: "."
+          crossref-tbl-title: "Table"
+          crossref-lof-title: Graphics
+          crossref-lot-title: Tables
+          other-links-title: Related contents
+      authors-title: "Autrices, auteurs & résumé"
       fig-asp: 0.61
       cap-location: top
       citation:
         type: article-journal
-      crossref:
-        fig-prefix: figure
-        tbl-prefix: tableau
-        eq-prefix: équation
-        sec-prefix: section
-        tip-prefix: encadré
-        fig-title: "**Figure**"
-        tip-title: "**Encadré**"
-        title-delim: "**.**"
-        tbl-title: "**Tableau**"
-        lof-title: Figures
-        lot-title: Tableaux
       logo: ofce.png
       filters:
+        - wordcount
         - nameref
         - quotes
-        - search-replace
         - fr-nbsp
         - collapse-callout
       quot-lang: fr
@@ -45,8 +65,6 @@ contributes:
       shortcodes:
         - fontawesome
         - downloadthis
-      search-replace:
-        ae : "\u00e6"
       google-scholar: true
       appendix-style: default
       appendix-cite-as: [display, bibtex]
@@ -55,12 +73,11 @@ contributes:
     html:
       theme:
         - cosmo
-        - html_template/ofcewp.scss
+        - html/wp.scss
       mainfont: Open Sans
       toc-location: left
       number-sections: true
       number-depth: 3
-      html-math-method: katex
       fig-dpi: 600
       fig-format: png
       fig-width: 6
@@ -69,32 +86,47 @@ contributes:
       callout-icon: false
       lightbox: true
       title-block-style: default
+      link-external-icon: true
       template-partials:
-        - html_template/title-block.html
-        - html_template/title-metadata.html
-        - html_template/toc.html
+        - html/title-block.html
+        - html/title-metadata.html
+        - html/toc.html
     pdf:
-      documentclass: scrreprt
+      documentclass: article
       toc-depth: 1
+      date-format: "D MMMM YYYY"
       pdffont: OpenSans
       number-sections: true
       number-depth: 3
-      classoption:
-        - DIV=11
-        - twoside=semi
       papersize: a4
       fontsize: 9pt
+      geometry:
+        - top = 3cm
+        - bottom = 2.5cm
+        - left = 2.5cm
+        - right = 2.5cm
       linestretch: 1.25
       extra_dependencies: ["float"]
       fig-dpi: 600
       fig-width: 5
-      fig-format: png
+      fig-format: svg
       logo: ofce_m.png
       logo2: sciencespo.png
+      callout-icon: false
       template-partials:
-        - pdf_template/title.tex
-        - pdf_template/before-body.tex
-        - pdf_template/after-body.tex
-        - pdf_template/toc.tex
-        - pdf_template/biblio.tex
-    typst: default
+        - pdf/before-title.tex
+        - pdf/title.tex
+        - pdf/before-body.tex
+        - pdf/after-body.tex
+        - pdf/toc.tex
+        - pdf/biblio.tex
+    typst:
+      mainfont: Arial
+      keep-typ: true
+      toc: false
+      callout-icon: false
+      papersize: a4
+      logo: false
+      template-partials:
+        - typst/typst-template.typ
+        - typst/typst-show.typ

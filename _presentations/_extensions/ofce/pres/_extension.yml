@@ -1,7 +1,7 @@
-title: Format OFCE
+title: Format présentation OFCE
 author: Anissa Saumtally et Xavier Timbeau
 version: 0.2.0
-quarto-required: ">=1.4.300"
+quarto-required: ">=1.8.26"
 contributes:
   contributes:
   formats:
