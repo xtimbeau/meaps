@@ -1,6 +1,6 @@
 ---
 title: "Mobilités et Territoires"
-subtitle: Projet pour une chaire de recherche en *topkynésie*
+subtitle: Projet pour une chaire de recherche en *topokynésie*
 author: 
   - name: "Xavier Timbeau" 
     email: "xavier.timbeau@sciencespo.fr"
@@ -16,28 +16,42 @@ format:
   note-html: default
   note-pdf:
     output-file: Projet ofce chaire mobilités et territoires 2025
-date: 2025-11-13
+date: 2025-12-10
 date-format: "D MMMM YYYY"
 editor: visual
 toc: FALSE
 bibliography: references_meaps.bib
 ---
 
-## La *topokynésie* : de l'accessibilité au trajets,
+## Synthèse
+
+Nous voulons mettre à disposition du plus grand nombre une analyse fine — spatialement, socialement, selon les motifs — des mobilités quotidiennes dans les territoires permettant, entre autres, d'en faire le bilan carbone et de planifier l'aménagement des territoires. Pour cela, dans un premier temps, nous proposons d'étendre les analyses conduites à La Rochelle [@meaps2024b] ou Aix-Marseille-Provence aux principales agglomérations françaises et leurs aires urbaines fonctionnelles. Dans un second temps, nous voulons nourrir ces analyses de données nouvelles, issues des opérateurs de téléphonie, afin de renforcer nos évaluations antérieures et de pouvoir les détailler dans certaines dimensions (comme la chrono-analyse). Dans un troisième temps, une catégorisation des formes urbaines et de leurs périphéries sera proposée, avec d'autres applications, pour valoriser les données produites. L'ensemble des contenus est produit en *science ouverte* et les données seront diffusées en *source ouverte*. La transparence et la reproductibilité renforceront la confiance dans les analyses produites afin que l'ensemble des acteurs s'en empare et que ces données puissent servir de référence.
+
+Le projet est structuré comme une chaire de recherche à Sciences Po, au sein de l'OFCE. Il est articulé pour une séquence initiale de 3 ans pour un budget un peu supérieur à 500k€. Nous sommes à la recherche de partenaires pour le financer. Le financement est éligible au dispositif de mécénat d'entreprise.
+
+Nous présentons ici le contexte (@sec-contexte), le détail du programme de recherche (@sec-recherche) ainsi que le calendrier (@sec-calendrier), le budget (@sec-budget) et les éléments d'organisation du projet (@sec-gouvernance).
+
+*Ce document est confidentiel, merci de ne pas le diffuser.*
+
+## La *topokynésie* : de l'accessibilité au trajets {#sec-contexte}
 
 L'accessibilité (aux opportunités, cf. @cerema2015) est une notion féconde. Développée après guerre, par @hansen1959 elle est au cœur de l'analyse des réseaux de transports et de la mobilité. En France par exemple, @jeanpoulit2005 et @koenig1980 ont utilisé largement ce concept aux Ponts et Chaussées, dans l'analyse des réseaux routiers.
 
-Nous proposons de partir de cette approche, en étendant l'analyse du potentiel — ce que décrit l'accessibilité — aux réalisations de mobilités. C'estr une façon de passer d'une géographie à une *topokynésie,* l'analyse des mouvements qui s'inscrivent les lieux. A la place du seul *résider* on s'attache à comprendre comment sont *habités* les territoires*.* Le projet est à la fois théorique et empirique. La modélisation n'a de sens que si elle se nourrit et se confronte à des données riches et complexes.
+Nous proposons de partir de cette approche, en étendant l'analyse du potentiel aux réalisations de mobilités. C'est une façon de passer d'une géographie à une *topokynésie*, une analyse des mouvements qui s'inscrivent dans les lieux. A la place du seul *résider* on s'attache à comprendre comment sont *habités* les territoires. Le projet est à la fois théorique et empirique. La modélisation n'a de sens que si elle se nourrit et se confronte à des données riches et complexes.
 
-Nous avons développé une modélisation qui ouvre la porte de cette *topokynésie.* La première étape est de calculer l'accessibilité à une échelle géographique fine (carreau INSPIRE 200m\$\times\$200m), pour de nombreuses catégories d'opportunités (emploi, commerces, etc...) et pour différents modes de transport (à pied, en transport en commun, en vélo ou en voiture). La résolution retenue autorise de prendre en compte de nombreuses nuances dans les réseaux de transport ou la localisation des aménités. Cela permet une meilleure compréhension des territoires dès que cette analyse peut être systématisée.
+Nous avons développé une modélisation qui ouvre la porte de cette *topokynésie.* La première étape est de calculer l'accessibilité à une échelle géographique fine (carreau INSPIRE 200m\times 200m), pour de nombreuses catégories d'opportunités (emploi, commerces, etc...) et pour différents modes de transport (à pied, en transport en commun, en vélo ou en voiture). La résolution retenue autorise de prendre en compte de nombreuses nuances dans les réseaux de transport --- jusqu'à la localisation d'un arrêt de bus --- ou la localisation des aménités. Cela permet une meilleure compréhension des territoires dès que cette analyse peut être systématisée.
 
 ![](images/clipboard-3675797071.png)
 
-Deux difficultés d'ordre pratiques ont été résolues : l'utilisation d'infomations géographiques pertinentes pour la résolution choisie et la volumétrie de calcul impliquée. Par exemple, pour la métropole d'Aix-Marseille-Provence, plus d'un milliard de distances sont calculées entre chaque paire origine-destination. La résolution employée, combinée aux données fines, permet de construire des scénarios pour représenter par exemple l'impact d'un nouveau réseau comme le Grand Paris Express sur l’Île de France.
+*Ces cartes d’accessibilité à une résolution 200m⨉200m sont produites par l'analyse de tous les trajets possibles entre les lieux de résidence et les opportunités d'emploi*
+
+Deux difficultés d'ordre pratiques ont été résolues : l'utilisation d’informations géographiques pertinentes pour la résolution choisie et la volumétrie de calcul impliquée. Par exemple, pour la métropole d'Aix-Marseille-Provence, plus d'un milliard de distances sont calculées entre chaque paire origine-destination. La résolution employée, combinée aux données fines, permet de construire des scénarios pour représenter par exemple l'impact d'un nouveau réseau comme le Grand Paris Express sur l’Île de France.
 
 ![](images/clipboard-3092760633.png){fig-align="center" width="510"}
 
-La seconde étape est de passer du potentiel ainsi quantifié aux flux effectifs. Pour cela, nous avons développé un modèle théorique [@meaps2023] qui est une alternative au modèle gravitaire. Il affecte des flux de mobilité vers des aménités ou des opportunités — c'est-à-dire des lieux d'intérêt pour ceux qui bougent — en fonction de distances ou de coûts généralisés, en permettant de prendre en compte la double concurrence des individus voisins pour les mêmes opportunités (lorsqu'elles ont une capacité finie) et, réciproquement, la concurrence des opportunités pour les individus (lorsque les opportunités doivent être remplies, e.g. des emplois). Associé à cette modélisation, nous avons développé des méthodes d'estimation qui permettent d'ajuster le modèle sur des données comportementales comme l'enquête mobilité des personnes [@meaps2024a]. L'approche empirique permet de joindre des sources de données disparates (par exemple d'un côté, des flux agrégés sur une année et pour l'ensemble des ménages, mais détaillés sur une matrice orgine destination, de l'autre des données d'enquêtes sur un échantillon de ménages identifiant leur comportement de mobilité suivant les motifs ou leurs caractéristiques).
+*Cette carte illustre la changement d'accessibilité entre le système actuel de transport et celui projeté en 2030 avec la mise en service complète du Grand Paris Express. Les zones sont colorées en fonction de la réduction de temps apportée pour l'accès à au moins 50k emplois.*
+
+La seconde étape est de passer du potentiel ainsi quantifié aux flux effectifs. Pour cela, nous avons développé un modèle théorique [@meaps2023] qui est une alternative au modèle gravitaire. Il affecte des flux de mobilité vers des aménités ou des opportunités — c'est-à-dire des lieux d'intérêt pour ceux qui bougent — en fonction de distances ou de coûts généralisés, en permettant de prendre en compte la double concurrence des individus voisins pour les mêmes opportunités (lorsqu'elles ont une capacité finie) et, réciproquement, la concurrence des opportunités pour les individus (lorsque les opportunités doivent être remplies, e.g. des emplois). Associées à cette modélisation, nous avons développé des méthodes d'estimation qui permettent d'ajuster le modèle sur des données comportementales comme l'enquête mobilité des personnes [@meaps2024a]. L'approche empirique permet de joindre des sources de données disparates (par exemple d'un côté, des flux agrégés sur une année et pour l'ensemble des ménages, mais détaillés sur une matrice orgine destination, de l'autre des données d'enquêtes sur un échantillon de ménages identifiant leur comportement de mobilité suivant les motifs ou leurs caractéristiques).
 
 Ces modèles, qui mobilisent des sources de données disparates de façon cohérente, sont des outils efficaces pour traiter des questions de forme urbaine. Quelles sont les conséquences de la répartition spatiale des emplois et des logements, reliés par des réseaux de transport sur le bilan carbone mobilité d'un territoire ? Comment la densification des logements, le dimensionnement du réseau de transport ou les politiques publiques d'incitation au vélo peuvent modifier ce bilan ? Au delà du bilan carbone, quel est le coût de la mobilité et comment se combine-t-il au coût du logement et au tri spatial des catégories sociales pour analyser les tensions sociales d'un territoire ?
 
@@ -53,23 +67,21 @@ Le travail empirique réalisé à la Rochelle permet de quantifier ce contenu, e
 
 Pourquoi se limiter à la Rochelle ou Marseille ? Comment rendre plus solides les analyses empiriques proposées ? Comment développer les applications ? C'est le sens du projet proposé : le travail théorique et empirique peut être généralisé à de nombreux territoires, il a été appliqué et expérimenté à La Rochelle, Clermont-Ferrand et Aix-Marseille-Provence. La généralisation à l'ensemble des agglomérations françaises, voire européennes, est envisageable pour un coût unitaire bien inférieur, mais non nul, à l'investissement initial.
 
-## Le projet
+## Le projet  {#sec-recherche}
 
 L'ambition est donc de :
 
-1.  **produire des éléments les plus robustes possibles sur un ensemble de territoires** – les 50 premières agglomérations françaises dans un premier temps[^1] – pour alimenter le débat sur l'aménagement, dans ses dimensions environnementales mais aussi sociales. Ces éléments sont à l'échelle fine du carreau 200m\$\times\$200m, appuyés sur les données du recensement MOBPRO. Ce choix technique est dans la prolongation de l'analyse des flux de mobilités pour la Rochelle ou [Aix-Marseille-Provence](https://xtimbeau.github.io/marseille) – où l'analyse a été étendue du seul motif mobilité professionnelle à l'ensemble des motifs en utilisant l'EMC^2^. Les matrices de flux permettent de générer des cartes d'émissions de CO~2~ imputées aux résidents et sont un bon résumé de la structure des territoires. Le principe est celui de la diffusion en source ouverte d'un certain nombre d'informations, à affiner en fonction des objectifs (de prestations autour de ces concepts, par exemple des simulations à partir du modèle de scénarios, des analyses plus fines des comportements, l'analyse multi-motifs si EMC^2^) et des possibilités de réutilisation des données sources (par exemple, les analyses sociologiques fines demandent l'utilisation de Fidéli, mais limitent les rediffusions).
-1.  **approfondir le travail empirique de recherche avec les données issues de Fluxvision**. L'analyse a été menée jusqu'à maintenant en utilisant MOBPRO comme source de matrice origine destination. La modélisation permet d'intrapoler à une échelle plus fine (200m\$\times\$200m) que la résolution de MOBPRO (commune/arrondissement à commune/arrondissement) en incorporant d'autres données (les comportements de l'Enquête Mobilité par exemple). L'utilisation des données de Fluxvision et plus particulièrement les matrices origines destinations dérivées dans les travaux financés par Transdev sont une piste majeure. Il y est plus difficile d'identifier les motifs ou les catégories sociales des navetteurs, mais les données sont plus riches et sans doute plus robustes parce qu'elles en sont pas déclaratives, ne résument pas une année, reposent sur un échantillon massif, permettent d'approcher les multi-destinations, les schémas temporels de l'intra-semaine aux variations saisonnières, ou aux périodes particulières.\
+1.  **produire des éléments les plus robustes possibles sur un ensemble de territoires** – les 50 premières agglomérations françaises dans un premier temps[^1] – pour alimenter le débat sur l'aménagement, dans ses dimensions environnementales mais aussi sociales. Ces éléments sont à l'échelle fine du carreau 200m\times 200m, appuyés sur les données du recensement MOBPRO. Ce choix technique est dans la prolongation de l'analyse des flux de mobilités pour la Rochelle ou [Aix-Marseille-Provence](https://xtimbeau.github.io/marseille) – où l'analyse a été étendue du seul motif mobilité professionnelle à l'ensemble des motifs en utilisant l'EMC^2^. Les matrices de flux permettent de générer des cartes d'émissions de CO~2~ imputées aux résidents et sont un bon résumé de la structure des territoires. Le principe est celui de la diffusion en source ouverte d'un certain nombre d'informations, à affiner en fonction des objectifs (de prestations autour de ces concepts, par exemple des simulations à partir du modèle de scénarios, des analyses plus fines des comportements, l'analyse multi-motifs si EMC^2^) et des possibilités de réutilisation des données sources (par exemple, les analyses sociologiques fines demandent l'utilisation de Fidéli, mais limitent les rediffusions).
+
+2.  **approfondir le travail empirique de recherche avec les données issues de Fluxvision**. L'analyse a été menée jusqu'à maintenant en utilisant MOBPRO comme source de matrice origine destination. La modélisation permet d'intrapoler à une échelle plus fine (200m\times 200m) que la résolution de MOBPRO (commune/arrondissement à commune/arrondissement) en incorporant d'autres données (les comportements de l'Enquête Mobilité par exemple). L'utilisation des données de Fluxvision et plus particulièrement les matrices origines destinations dérivées dans les travaux financés par Transdev sont une piste majeure. Il y est plus difficile d'identifier les motifs ou les catégories sociales des navetteurs, mais les données sont plus riches et sans doute plus robustes parce qu'elles en sont pas déclaratives, ne résument pas une année, reposent sur un échantillon massif, permettent d'approcher les multi-destinations, les schémas temporels de l'intra-semaine aux variations saisonnières, ou aux périodes particulières.\
     Elles doivent aussi permettre d'évaluer les mobilités difficiles à mesurer comme les itinérants. De plus, les données de *la France Habitée* [@lévy] peuvent permettre de définir une opportunité *synthétique*, alternative à l'approche d'identification directe des opportunités suivies jusque là, qui permettra d'approcher l'attractivité révélée et peut être les aspects de mixité sociale (les lieux visités par des individus venant d'IRIS variés dans leur compositions sociales par exemple). Une phase de recherche importante est à envisagée parce que les données Fluxvision et dérivées ne distinguent pas les motifs. Elles font apparaître des phénomènes non analysés et peuvent mal mesurer ceux qui l'ont déjà été. Nous proposons une phase initiale de la recherche sur la métropole d'Aix-Marseille-Provence, pour laquelle nous disposons de nombreux éléments de comparaison ainsi que d'une EMC^2^. Une fois l'analyse et l'utilisation des données de Fluxvision et leurs transformations stabilisées, on peut entreprendre la généralisation aux 50 plus grandes aglomérations.
 
-2.  **analyser les formes urbaines à partir des données produites**. En disposant de cartes CO~2~ fines, agrégées en indicateurs à définir, on peut procéder à une classification des formes urbaines ou procéder par régression et corrélation multivariée avec d'autres variables localisées pour synthétiser l'information géographique sous jacente en une analyse pertinente. Il existe plusieurs exemples de tentatives de ce type, assez peu convaincantes ou opérationnelles au final ; la possibilité d'articuler distribution spatiale des opportunités et des logements ainsi que la capacité à prendre en compte les réseaux de transport devrait faire aboutir ce type de démarche. Cette analyse compléterait les cartes CO~2~ locales par une approche globale et synthétique.\
+3.  **analyser les formes urbaines à partir des données produites**. En disposant de cartes CO~2~ fines, agrégées en indicateurs à définir, on peut procéder à une classification des formes urbaines ou procéder par régression et corrélation multivariée avec d'autres variables localisées pour synthétiser l'information géographique sous jacente en une analyse pertinente. Il existe plusieurs exemples de tentatives de ce type, assez peu convaincantes ou opérationnelles au final ; la possibilité d'articuler distribution spatiale des opportunités et des logements ainsi que la capacité à prendre en compte les réseaux de transport devrait faire aboutir ce type de démarche. Cette analyse compléterait les cartes CO~2~ locales par une approche globale et synthétique.\
     Outre les aspects de mobilité et d'accessibilité, à l'image de ce qui a été fait à La Rochelle, en utilisant les informations de revenu au carreau 200m (données publiques) ou les informations issues de Fidéli (à la parcelle, mais avec des contraintes de diffusion), ou encore les informations de prix pour les transactions (DVF/DV3F, données quasi publiques), on analyserait la classification des formes urbaines dans les dimensions sociales (catégories de ménages par revenu, par structure familiale notamment) et économiques (coût complet de résidence incluant le coût du logement et de la mobilité).
-
-3.  **approfondir le travail empirique de recherche avec les données issues de Fluxvision**. L'analyse a été menée jusqu'à maintenant en utilisant MOBPRO comme source de matrice origine destination. La modélisation sert à l'intrapoler à une échelle plus fine (200m\$\times\$200m) que la résolution de MOBPRO (commune/arrondissement à commune/arrondissement) ainsi qu'à l’incorporation des données d'autres sources (les comportements de l'Enquête Mobilité). L'utilisation des données de Fluxvision et plus particulièrement les matrices origines destinations dérivées dans les travaux financés par Transdev sont une piste majeure. Il y est plus difficile d'identifier les motifs ou les catégories sociales des navetteurs, mais les données sont sans doute plus robustes et plus riches parce qu'elles en sont pas déclaratives pour une année, et permettent d'approcher les multi-destinations, les schémas temporels intra-semaine, saisonniers, ou aux périodes particulières.\
-    Elles doivent aussi permettre d'évaluer les mobilités difficiles à mesurer comme les itinérants. De plus, les données de *la France Habitée* [@lévy] peuvent permettre de définir une opportunité *synthétique*, alternative à l'approche d'identification directe des opportunités suivies jusque là, qui permettra d'approcher l'attractivité révélée et peut être les aspects de mixité sociale (les lieux visités par des individus venant d'IRIS variés dans leur compositions sociales par exemple). Ce travail à partir des données Fluvision débutera par l'aire urbaine d'Aix-Marseille-Provence pour laquelle de nombreuses analyses ont été réalisées. La disponibilité d'une EMC^2^ récente servira de base à des comparaisons riches d 'enseignement.
 
 4.  **dérouler des applications des modélisations et des transformations des données**. Dans notre démarche, la modélisation sert de cadre pour donner extraire de données riches une information pertinente. Pour en démontrer la pertinence, il faut pouvoir produire des applications. Outre l'analyse des territoires, susceptible par exemple d'influencer l'élaboration des schémas de cohérence territoriale (SCoT), une application pourrait être le *design* des réseaux de transport. Les modèles développés (MEAPS) permettent en effet de projeter ce qui se passerait si une ligne de transport en commun (bus, tram, train) était ajoutée. Sous l'hypothèse (de moyen terme) que les populations ne changent pas, il est possible en effet de partir des comportements observés pour estimer le changement modal qui pourrait être opérer et de produire une évaluation des projections de flux. La méthode tient compte finement des variations de temps de trajet pour chaque mode, des ruptures de charges et d'autres éléments (comme le multimodal). Elle est une alternative à des modèles de transport habituels (à 4 étapes ou LUTI) et, combiné au point 3., elle reposerait sur des données nouvelles. Une piste particulièrement intéressante compte tenu de la granularité spatiale et temporelle des observations Fluxvision est la possibilité de confronter les résultats de la modélisation aux réalisations dans une démarche de quasi expérience naturelle.
 
-[^1]: Les 50 premières agglomérations françaises vont de Paris à Troyes (La Rochelle est 49\^eme\^). Ces agglomérations incluent des agglomérations frontalières, avec des navettages importants vers des pays étrangers (Lille-Roubaix, Annecy, Strasbourg, Valenciennes, Metz, Bayonne entre autres) qui posent des problèmes spécifiques.
+[^1]: Les 50 premières agglomérations françaises vont de Paris à Troyes (La Rochelle est 49^eme^). Ces agglomérations incluent des agglomérations frontalières, avec des navettages importants vers des pays étrangers (Lille-Roubaix, Annecy, Strasbourg, Valenciennes, Metz, Bayonne entre autres) qui posent des problèmes spécifiques.
 
 ## Projets parallèles
 
@@ -83,7 +95,7 @@ Sur la base des calculs d'accessibilité, et des différents vintages de MOBPRO,
 
 En réponse à un Appel à Projet de Recherche lancé par le PUCA (BEL), nous avons proposé une analyse des difficultés de recrutement issues des données de l'enquête Besoin de Main d’Œuvre et de leur lien avec l'accessibilité à l'emploi. Pour chaque entreprise interrogée (plus de 2 millions chaque année) nous disposons de sa localisation et nous pouvons lui associer une mesure de sa distance à l'emploi, de la quantité d'emplois potentiels accessibles, de la quantité de personnes en recherche d'emploi, du degré de concurrence entre entreprises recherchant des emplois. Sur la base de cette association et de la variance géographique, nous nous proposons de produire une analyse causale entre difficulté de recrutement et structure spatiale des logements ou des résidents et des réseaux de transport.
 
-## Calendrier prospectif et livrables
+## Calendrier prospectif et livrables  {#sec-calendrier}
 
 ![](images/clipboard-1491914023.png)
 
@@ -97,51 +109,44 @@ Enfin, la collaboration avec la métropole AMP est possible afin de renforcer le
 
 Les autres applications demandent la complétion des étapes 1. et peut être 3. et serait donc conduite entre les mois 18 et 36. Les livrables seraient ici des documents de travail détaillant les méthodologies, les principales conclusions importantes et bien sûr l'alimentation en données du site de diffusion.
 
-## Dépenses
+## Budget du projet  {#sec-budget}
 
 Le projet est une chaire de recherche, hébergée à l'OFCE, dont la phase initiale de financement s'ouvre pour 3 ans.
 
-Le budget de la chaire est détaillé dans le tableau suivant. Il est principalement est composé du coût d'un chercheur à temps plein et d'un assistant de recherche à temps partiel pour 3 ans. Un chercheur additionnel représente, suivant le degré de séniorité un coût brut chargé entre 60k€ et 120k€ par an. Un assistant de recherche, parce qu'à temps partiel, coûte par an autour de 20k€.
+Le budget de la chaire est détaillé dans le tableau suivant. Il est principalement est composé du coût d'un chercheur à temps plein et d'un assistant de recherche à temps partiel pour 3 ans. Un chercheur additionnel représente, suivant le degré de séniorité un coût brut chargé entre 80k€ par an. Un assistant de recherche, parce qu'à temps partiel, coûte par an autour de 30k€.
 
-A cela s'ajoutent un budget réalisation du site web (50k€, pour les 3 ans), un budget informatique de calcul (10k€ par an), l'encadrement de la chaire et les frais de gestion (10%) hors taxes. Le coût moyen annuel est d'un peu moins de 120k€ (144k€ TTC).
+A cela s'ajoutent un budget réalisation du site web (50k€, pour les 3 ans), un budget informatique de calcul (10k€ par an), l'encadrement de la chaire (30k€), les frais de structure (5%) et les frais de gestion (15%) hors taxes. Le coût moyen annuel est d'un peu moins de 200k€ (192k€).
 
-La chaire bénéficie du régime fiscal des mécénats, autorisant les partenaires financeurs soumis à l'Impôt sur les Sociétés à une réduction d'impôt de 60% des sommes engagées, dans la limite de 2 millions d'euros (40% au delà) et plafonné à 20k€ ou 0,5% du chiffre d'affaire de l'entreprise.
+La chaire bénéficie du régime fiscal du mécénat d'entreprise, autorisant les partenaires financeurs soumis à l'Impôt sur les Sociétés à une réduction d'impôt de 60% des sommes engagées, dans la limite de 2 millions d'euros (40% au delà) et plafonné à 20k€ ou 0,5% du chiffre d'affaire de l'entreprise.
 
-```{r}
+```{r, include=FALSE}
 library(tidyverse)
-readxl::read_excel("budget mobilités et territoires.xlsx", sheet = "budget") |> 
-  select(1:5) |> 
-  slice(1:6) |> 
-  gt::gt()
+library(gt)
+
+data <- readxl::read_excel("budget mobilités et territoires.xlsx", sheet = "budget")
 ```
 
-| *en k€*                             | Année 1 | Année 2 | Année 3 |
-|-------------------------------------|---------|---------|---------|
-| Personnels                          |         |         |         |
-|    Chercheur                        | 60      | 60      | 60      |
-|    Assistant recherche              | 20      | 20      | 20      |
-| Informatique (infra)                |         |         |         |
-|    Site web                         | 50      |         |         |
-|    Calcul&stockage                  | 10      | 10      | 10      |
-| Frais de gestion (10%)              | 14      | 9       | 9       |
-| **Total**                           | **154** | **99**  | **99**  |
-| *Pour mémoire : coûts imputés OFCE* | 100     | 100     | 100     |
-| *en k€* | Année 1 | Année 2 | Année 3 | Total |
-|------------------|--------------|--------------|--------------|--------------|
-| Personnels |  |  |  |  |
-|    Chercheur | 65 | 65 | 65 | 195 |
-|    Assistant recherche | 50 | 50 | 50 | 150 |
-| Informatique (infra) |  |  |  |  |
-|    Site web | 50 |  |  | 50 |
-|    Calcul&stockage | 10 | 10 | 10 | 30 |
-| Coûts OFCE (locaux) (5%) | 8,75 | 6,5 | 6,5 | 21,75 |
-| Frais de gestion (Sciences Po, 20%) | 26,25 | 19,5 | 19,5 | 65,25 |
-| **Total** | **201,25** | **149,5** | **149,5** | **500,25** |
-| *Pour mémoire : coûts imputés OFCE* | 100 | 100 | 100 | 300 |
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#| tab-pos: "H"
+data |> 
+  select(1:5) |> 
+  slice(1:9) |>
+  mutate(across(-Dépenses, as.numeric)) |> 
+  gt() |> 
+  tab_options(table.font.size = 11) |> 
+  fmt_number(where(is.numeric), scale=1/1000, sep_mark = " ", dec_mark = ",", pattern = "{x}k€", decimals =0) |> 
+  tab_style(cell_text(indent = px(6)), locations = cells_body(columns = Dépenses, rows = !Dépenses |> str_detect("Total"))) |> 
+  tab_style(cell_text(weight = "bold"), locations = cells_body(rows = Dépenses |> str_detect("Total"))) |> 
+  cols_label(`total dépenses` = "Années 1 à 3") |> 
+  cols_width(
+    Dépenses ~ px(200),
+    everything() ~ px(80))
 
-## Propriété intellectuelle & gouvernance
+```
 
-Le financement de la chaire impose que les partenaires financeurs ne reçoivent aucune contrepartie — ce qui conduirait à requalifier les productions de la chaire en prestations.
+## Propriété intellectuelle & gouvernance {#sec-gouvernance}
+
+Le financement de la chaire impose que les partenaires financeurs ne reçoivent aucune contrepartie directe qui pourrait être associé à une prestation — ce qui conduirait à requalifier les productions de la chaire en prestations.
 
 Les partenaires sont réunis dans un comité de suivi scientifique auquel il est présenté régulièrement (3 fois par an, sous forme de séminaire) les travaux réalisés et le programme de travail. Les données produites seraient mises à disposition des partenaires, lors d'une phase de test, avant diffusion générale.
 
